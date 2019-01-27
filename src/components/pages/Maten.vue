@@ -49,10 +49,10 @@
 											class="form-control" data-original-title="Welk materiaal?"
 											v-model="maat.materiaal">
 												<option value="" disabled hidden>Kies een materiaal</option>
-												<optgroup label="Massiefhout">
+												<optgroup label="Massiefhout"  v-if="materialen.massief.length > 0">
 													<option v-bind:key="index" v-for="(materiaal, index) in materialen.massief">{{materiaal.naam}}</option>												
 												</optgroup>
-												<optgroup label="Plaatmateriaal">
+												<optgroup label="Plaatmateriaal" v-if="materialen.plaatmateriaal.length > 0">
 													<option v-bind:key="index" v-for="(materiaal, index) in materialen.plaatmateriaal">{{materiaal.naam}}</option>												
 												</optgroup>
 												<!-- <optgroup label="Overige materialen">
