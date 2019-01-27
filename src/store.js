@@ -12,6 +12,11 @@ export default new Vuex.Store({
 			sidebarOpen: false
 		},
 		userData: {},
-		werkvoorbereiding: {}
+		werkvoorbereiding: {},
+		dashboard: {
+			aantalWerkdagen: 0,
+			aantalUren: 0,
+			verkoopPrijsInclBtw: 0,
+		}
 	}
 });

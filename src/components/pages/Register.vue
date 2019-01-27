@@ -49,21 +49,48 @@
 				passwordCheck: ''
 			}
 		},
-		props: ["appData"],
 		methods: {
 			register(){
+				let that = this
 				if(this.password === this.passwordCheck){
-					this.appData.firebase.auth().createUserWithEmailAndPassword(this.email, this.password).catch((error) => {
-						console.log(error.code, error.message)
+					this.$store.state.appData.firebase.auth().createUserWithEmailAndPassword(this.email, this.password)
+					.then(() => {
+						that.$store.state.appData.firebase.auth().currentUser.sendEmailVerification()
+					})
+					.catch((error) => {
+						this.handleError(error);
 					});
-
-					this.name = ""
-					this.email = ""
-					this.password = ""
-					this.passwordCheck = ""
+					this.resetForm()
 				}else{
-					alert('Het controle paswoord komt niet overeen!')
+					this.handleError({code:'password dont match' });
 				}
+			},
+			handleError(error){
+				console.log(error.code, error.message)
+				// E-mailadres is al in gebruik
+				if(error.code === "auth/email-already-in-use"){
+					swal({
+						title: "Al een account?",
+						text: "Dit e-mailadres is al in gebruik... Waarschijnlijk heb je al een account. Probeer in te loggen.",
+						dangerMode: true,
+						icon: "error",
+					})
+				}
+				// wachtwoord komt niet overeen
+				if(error.code === "password dont match"){
+					swal({
+						title: "Controle wachtwoord",
+						text: "Het controle wachtwoord komt niet overeen met je eerste invoer. Zorg dat je het wachtwoordt goed typt.",
+						dangerMode: true,
+						icon: "error",
+					})
+				}
+			},
+			resetForm(){
+				this.name = ""
+				this.email = ""
+				this.password = ""
+				this.passwordCheck = ""
 			}
 		}
 	};

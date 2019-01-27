@@ -5,24 +5,11 @@
 		</div>
 		<div class="sidebar-wrapper">
 			<ul class="nav">
-				<li class="nav-item">
-					<a class="nav-link" href="./dashboard.html">
-						<i class="material-icons">dashboard</i>
-						<p>Dashboard</p>
-					</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link" href="./user.html">
-						<i class="material-icons">content_paste</i>
-						<p>Projecten</p>
-					</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link" href="./tables.html">
-						<i class="material-icons">person</i>
-						<p>Account</p>
-					</a>
-				</li>
+				<SidebarMenuItem v-if="allowDashboard" :itemProps="{page:7, name:'Dashboard', icon: 'dashboard'}"/>
+				<SidebarMenuItem v-if="!allowDashboard" :itemProps="{page:page, name:'Dashboard', icon: 'dashboard'}"/>
+				<SidebarMenuItem v-if="user" :itemProps="{page:16, name:'Projecten', icon: 'content_paste'}"/>
+				<SidebarMenuItem v-if="!user" :itemProps="{page:20, name:'Projecten', icon: 'content_paste'}"/>
+				<SidebarMenuItem :itemProps="{page:20, name:'Account', icon: 'person'}"/>
 				<hr>
 				<SidebarProjectMenuItem :itemProps="{page:1, name:'Gegevens'}"/>
 				<SidebarProjectMenuItem :itemProps="{page:2, name:'Componenten'}"/>
@@ -31,18 +18,8 @@
 				<SidebarProjectMenuItem :itemProps="{page:5, name:'Gereedschap'}"/>
 				<SidebarProjectMenuItem :itemProps="{page:6, name:'Planning'}"/>
 				<hr>
-				<li class="nav-item">
-					<a class="nav-link" href="./rtl.html">
-						<i class="material-icons">language</i>
-						<p>Importeren</p>
-					</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link" href="./rtl.html">
-						<i class="material-icons">language</i>
-						<p>Exporteren</p>
-					</a>
-				</li>
+				<SidebarMenuItem :itemProps="{page:9, name:'Importeren', icon: 'cloud_download'}"/>
+				<SidebarMenuItem :itemProps="{page:10, name:'Exporteren', icon: 'cloud_upload'}"/>
 			</ul>
 		</div>
 	</aside>
@@ -50,11 +27,42 @@
 
 <script>
 	import SidebarProjectMenuItem from "./SidebarProjectMenuItem"
+	import SidebarMenuItem from "./SidebarMenuItem"
 
 	export default {
 		name: "Sidebar",
+		computed:{
+			page(){
+				return this.$store.state.appData.page
+			},
+			user(){
+				return this.$store.state.appData.user
+			},
+			wvbActive(){
+				if(this.werkvoorbereiding){
+					if(Object.keys(this.werkvoorbereiding).length > 0){
+						return true
+					}
+				}
+				return false
+			},
+			werkvoorbereiding(){
+				return this.$store.state.werkvoorbereiding
+			},
+			allowDashboard(){
+				if(this.wvbActive){
+					if(this.werkvoorbereiding.stap > 6){
+						return true
+					}
+				}
+				else{
+					return false
+				}
+			}	
+		},
 		components: {
-			SidebarProjectMenuItem
+			SidebarProjectMenuItem,
+			SidebarMenuItem,
 		},
 	};
 </script>

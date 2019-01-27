@@ -61,18 +61,26 @@
 			}
 		},
 		computed: {
+			wvbActive(){
+				if(this.werkvoorbereiding){
+					if(Object.keys(this.werkvoorbereiding).length > 0){
+						return true
+					}
+				}
+				return false
+			},
 			werkvoorbereiding(){
 				return this.$store.state.werkvoorbereiding
 			}	
 		},
 		methods: {
 			updateGegevens(){
-				if(this.werkvoorbereiding.id){
+				if(this.wvbActive){
 					this.basisgegevens = this.werkvoorbereiding.basisgegevens
 				}
 			},
 			nextStep(){
-				if(this.werkvoorbereiding.id){
+				if(this.wvbActive){
 					
 				}else{
 					this.createNewWVB()
@@ -81,7 +89,7 @@
 			},
 			createNewWVB(){
 				let d = new Date()
-				let date = `${d.getDay()}-${d.getMonth()}-${d.getYear()} ${d.getHours()}.${d.getMinutes()}`
+				let date = `${d.getDate()}-${d.getMonth()+1}-${d.getFullYear()} ${d.getHours()}.${d.getMinutes()}`
 
 				this.newWVB.basisgegevens = this.basisgegevens
 				this.newWVB.id = `WVB_${uniqid()}`

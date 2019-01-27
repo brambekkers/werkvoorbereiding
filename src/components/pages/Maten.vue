@@ -1,7 +1,7 @@
 <template>
 	<div class="content">
 		<div class="container-fluid">
-			<form role="form">
+			<form role="form" @submit.prevent="nextStep()">
 				<div class="row justify-content-center">
 					<div class="col-xl-12">
 						<div class="card">
@@ -49,10 +49,10 @@
 											class="form-control" data-original-title="Welk materiaal?"
 											v-model="maat.materiaal">
 												<option value="" disabled hidden>Kies een materiaal</option>
-												<optgroup label="Massiefhout">
+												<optgroup label="Massiefhout"  v-if="materialen.massief.length > 0">
 													<option v-bind:key="index" v-for="(materiaal, index) in materialen.massief">{{materiaal.naam}}</option>												
 												</optgroup>
-												<optgroup label="Plaatmateriaal">
+												<optgroup label="Plaatmateriaal" v-if="materialen.plaatmateriaal.length > 0">
 													<option v-bind:key="index" v-for="(materiaal, index) in materialen.plaatmateriaal">{{materiaal.naam}}</option>												
 												</optgroup>
 												<!-- <optgroup label="Overige materialen">
@@ -144,6 +144,11 @@
 		},
 		methods: {
 			newMaat() {
+				if(!this.maten){
+					this.$set(this.$store.state.werkvoorbereiding, {
+						maten: []
+					})
+				}
 				this.$store.state.werkvoorbereiding.maten.push({
 					naam: "",
 					aantal: "", 
@@ -153,9 +158,11 @@
 					lengte: "", 
 					materiaal: "",
 				})
+				this.$forceUpdate();
 			},
 			removeMaten(i) {
 				this.$store.state.werkvoorbereiding.maten.splice(i, 1)
+				this.$forceUpdate();
 			},
 			previousStep() {
 				this.$store.state.appData.page--

@@ -138,7 +138,7 @@
 								<div class="row">
 									<div class="col-6"><button type="button" class="btn btn-bg-teal float-left"><i aria-hidden="true" class="far fa-clipboard mr-2"></i>
 											Overige materialen </button></div>
-									<div class="col-6"><button type="button" class="btn btn-fill float-right"><i aria-hidden="true" class="fas fa-edit mr-2"></i>
+									<div class="col-6"><button type="button" class="btn btn-fill float-right" @click.prevent="$store.state.appData.page = -2"><i aria-hidden="true" class="fas fa-edit mr-2"></i>
 											Materiaal opties </button></div>
 								</div>
 							</div>

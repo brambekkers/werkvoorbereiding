@@ -1,0 +1,142 @@
+<template>
+	<div class="col-md-6">
+		<div class="card card-chart">
+			<div class="card-header card-header-info">
+				<i class="material-icons fas fa-cog options" @click.prevent="$store.state.appData.page = -5"></i>
+				<Chart :height="150" :uren="tijdPerOnderwerp"/>
+			</div>
+			<div class="card-body">
+				<hr>
+				<div class="d-flex">
+					<p class="d-inline mr-auto">Insteltijd: </p>
+					<p class="d-inline ml-auto">{{insteltijd}} uur</p>
+				</div>
+				<div class="d-flex">
+					<p class="d-inline mr-auto">Bewerkingstijd: </p>
+					<p class="d-inline ml-auto">{{bewerkingstijd}} uur</p>
+				</div>
+				<div class="d-flex">
+					<p class="d-inline mr-auto">Ineffectieve tijd: </p>
+					<p class="d-inline ml-auto">{{ineffectieveTijd}} uur</p>
+				</div>
+				<hr class="mt-5">
+				<div class="d-flex">
+					<p class="d-inline mr-auto">Totaal aantal uren: </p>
+					<p class="d-inline ml-auto">{{totaletijdNetto}} uur</p>
+				</div>
+				<div class="d-flex">
+					<p class="d-inline mr-auto">Totaal aantal werkdagen: </p>
+					<p class="d-inline ml-auto">{{totaletijdNettoWerkdagen}} dagen</p>
+				</div>
+
+			</div>
+			<div class="card-footer">
+				<div class="stats">
+					<i class="material-icons">access_time</i> updated 4 minutes ago
+				</div>
+			</div>
+		</div>
+	</div>
+</template>
+
+<script>
+	// import Chart from "chart.js"
+	// import { Bar } from 'vue-chartjs'
+	import Chart from './Chart-worktime'
+
+	export default {
+		name: "DashboardWorktime",
+		components: {
+			Chart
+		},
+		computed: {
+			planning(){
+				if(this.$store.state.werkvoorbereiding.planning){
+					return this.$store.state.werkvoorbereiding.planning
+				}else{
+					return false
+				}
+			},
+			planningOpties(){
+				return this.$store.state.werkvoorbereiding.planningOpties
+			},
+			insteltijd(){
+				if(this.planning){
+					let tijd = 0
+					for (const plan of this.planning) {
+						for (const stap of plan.stappen) {
+							tijd += Number(stap.insteltijd)
+						}
+					}
+					return Number((tijd / 60).toFixed(1));
+				}else{
+					return 0
+				}
+			},
+			bewerkingstijd(){
+				if(this.planning){
+					let tijd = 0
+					for (const plan of this.planning) {
+						for (const stap of plan.stappen) {
+							tijd += Number(stap.bewerkingstijd) *  Number(stap.aantal)
+						}
+					}
+					return Number((tijd / 60).toFixed(1));
+				}else{
+					return 0
+				}
+			},
+			tijdPerOnderwerp(){
+				if(this.planning){
+					let category = ['Voorbereiding', 'Machinale', 'Werkplaats', 'Plaatsen', 'Administratie']
+					let timeArray = []
+					
+					for (const cat of category) {
+						let tijd = 0
+						for (const plan of this.planning) {
+							for (const stap of plan.stappen) {
+								if(cat === stap.stap){
+									tijd += Number(stap.insteltijd)
+									tijd += Number(stap.bewerkingstijd) *  Number(stap.aantal)
+								}	
+							}
+						}
+						timeArray.push( (tijd / 60).toFixed(1) )
+					}
+		
+					return timeArray
+				}else{
+					return 0
+				}
+			},
+			totaletijdBrutto(){
+				return this.insteltijd + this.bewerkingstijd
+			},
+			totaletijdNetto(){
+				let aantalUren = this.insteltijd + this.bewerkingstijd + this.ineffectieveTijd
+				this.$store.state.dashboard.aantalUren = aantalUren
+				return aantalUren
+			},
+			totaletijdNettoWerkdagen(){
+				let aantalWerkdagen = Number(((this.insteltijd + this.bewerkingstijd + this.ineffectieveTijd) / Number(this.planningOpties.urenWerkdag)).toFixed(1));
+				this.$store.state.dashboard.aantalWerkdagen = aantalWerkdagen
+				return aantalWerkdagen
+			},
+			ineffectieveTijd(){
+				return Number((this.totaletijdBrutto / 100 * Number(this.planningOpties.ineffectieveTijd)).toFixed(1));
+			}
+		}
+	};
+</script>
+
+
+<style scoped>
+	.stats{
+		width: 100%;
+	}
+	.options{
+		position: absolute;
+		left: 90%;
+		cursor: pointer;
+	}
+</style>

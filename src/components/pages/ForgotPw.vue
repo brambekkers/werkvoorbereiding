@@ -27,12 +27,8 @@
 </template>
 
 <script>
-	import firebase from "firebase";
-	import firebaseConfig from "../../assets/config/firebaseConfig.js";
-
 	export default {
 		name: "ForgotPw",
-		props: ["appData"],
 		data(){
 			return {
 				email: ''
@@ -40,7 +36,7 @@
 		},
 		methods: {
 			forgotPassword(){
-				this.appData.firebase.auth().sendPasswordResetEmail(this.email)
+				this.$store.state.appData.firebase.auth().sendPasswordResetEmail(this.email)
 
 				this.email = ''
 			}

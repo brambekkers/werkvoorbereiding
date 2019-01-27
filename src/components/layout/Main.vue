@@ -9,12 +9,22 @@
 	<Maten v-if="currentPage === 4"/>
 	<Gereedschap v-if="currentPage === 5"/>
 	<Planning v-if="currentPage === 6"/>
+	<Dashboard v-if="currentPage === 7"/>
+
+	<!-- Opties -->
+	<MateriaalOpties v-if="currentPage === -2"/>
+	<PlanningOpties v-if="currentPage === -5"/>
+
+	<!-- Import/Export -->
+	<Importeren v-if="currentPage === 9"/>
+	<Exporteren v-if="currentPage === 10"/>
 
 	<!-- Profile pages -->
 	<Login v-if="currentPage === 20 && !user"/>
 	<Profile v-if="currentPage === 20 && user"/>
-	<!-- <Register v-if="currentPage === 21"/> -->
-	<!-- <ForgotPw v-if="currentPage === 22"/> -->
+	<Register v-if="currentPage === 21"/>
+	<ForgotPw v-if="currentPage === 22"/>
+	<Projecten v-if="currentPage === 16"/>
 
     <Footer/>
   </main>
@@ -32,12 +42,21 @@ import Materialen from "../pages/Materialen.vue";
 import Maten from "../pages/Maten.vue";
 import Gereedschap from "../pages/Gereedschap.vue";
 import Planning from "../pages/Planning.vue";
+import Dashboard from "../pages/Dashboard.vue";
+
+// optie pages
+import MateriaalOpties from "../pages/MateriaalOpties.vue";
+import PlanningOpties from "../pages/PlanningOpties.vue";
+
+import Importeren from "../pages/Importeren.vue";
+import Exporteren from "../pages/Exporteren.vue";
 
 // Profile pages
 import Login from "../pages/Login.vue";
 import Register from "../pages/Register.vue";
 import ForgotPw from "../pages/ForgotPw.vue";
 import Profile from "../pages/Profile.vue";
+import Projecten from "../pages/Projecten.vue";
 
 
 export default {
@@ -58,16 +77,19 @@ export default {
 	Register,
 	ForgotPw,
 	Profile,
+	Projecten,
 	Gegevens,
 	Componenten,
 	Materialen,
 	Maten,
 	Gereedschap,
-	Planning
+	Planning,
+	Dashboard,
+	MateriaalOpties,
+	PlanningOpties,
+	Importeren,
+	Exporteren
   },
-  methods: {
-
-  }
 };
 </script>
 

@@ -2,8 +2,8 @@
 	<div class="form-group">
 		<div class="material-switch">
 			<input 
-				@click="test"
-				v-model="this.$store.state.werkvoorbereiding.gereedschap[this.category][this.toolKey]"
+				@click="switchTool()"
+				v-model="$store.state.werkvoorbereiding.gereedschap[category][toolKey]"
 				v-bind:id="toolKey" 
 				type="checkbox"> 
 			<label v-bind:for="toolKey" class="label-teal"></label>
@@ -24,7 +24,7 @@
 			}
 		},
 		methods: {
-			test(){
+			switchTool(){
 				this.$store.state.werkvoorbereiding.gereedschap[this.category][this.toolKey] = !this.gereedschap
 			}
 		},
