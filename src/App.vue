@@ -1,7 +1,7 @@
 <template>
 	<div id="app" class="wrapper">
-		<Sidebar/>
-		<Main/>
+		<Sidebar />
+		<Main />
 	</div>
 </template>
 
@@ -13,6 +13,7 @@
 	import $ from "jquery";
 	import popper from "popper.js";
 	import bootstrap from "bootstrap";
+	import swal from 'sweetalert';
 
 	import Sidebar from "./components/layout/Sidebar";
 	import Main from "./components/layout/Main";
@@ -28,7 +29,14 @@
 			},
 			werkvoorbereiding: {
 				handler(newValue) {
-					console.log("Werkvoorbereiding is aangepast")
+					this.setWvbTime();
+					this.WvbToFb();
+				},
+				deep: true
+			},
+			page: {
+				handler(newValue) {
+					this.wvbCurrentStep();
 				},
 				deep: true
 			}
@@ -36,6 +44,14 @@
 		components: {
 			Sidebar,
 			Main
+		},
+		computed: {
+			werkvoorbereiding() {
+				return this.$store.state.werkvoorbereiding
+			},
+			page() {
+				return this.$store.state.appData.page
+			}
 		},
 		methods: {
 			FbConnection() {
@@ -54,21 +70,20 @@
 					}
 				});
 			},
-			checkIfUserExist(){
+			checkIfUserExist() {
 				let userId = this.$store.state.appData.firebase.auth().currentUser.uid;
 				let userDatabase = this.$store.state.appData.firebase.database().ref(`users/${userId}`);
-				userDatabase.on('value', function(snapshot) {
-					if(snapshot.exists() === false){
+				userDatabase.on('value', function (snapshot) {
+					if (snapshot.exists() === false) {
 						this.setNewDataFb();
 					}
-				},this);
+				}, this);
 			},
-			setNewDataFb(){
+			setNewDataFb() {
 				let currentUser = this.$store.state.appData.firebase.auth().currentUser
 				let userId = currentUser.uid;
 				this.$store.state.appData.firebase.database().ref(`users/${userId}`).set({
 					profiel: {
-						aantalProjecten: "",
 						achtergrond: "",
 						achternaam: "",
 						email: currentUser.email,
@@ -83,7 +98,7 @@
 				});
 				console.log('new user made')
 			},
-			updateDataFB(){
+			updateDataFB() {
 				let userId = this.$store.state.appData.firebase.auth().currentUser.uid
 				this.$store.state.appData.firebase.database().ref(`users/${userId}`).set(this.userData);
 			},
@@ -92,10 +107,36 @@
 				let userDatabase = this.$store.state.appData.firebase.database().ref(`users/${userId}/`);
 
 				// User data of single user
-				userDatabase.on('value', function(snapshot) {
+				userDatabase.on('value', function (snapshot) {
 					this.$store.state.userData = snapshot.val()
-				},this);	
+				}, this);
 			},
+			setWvbTime() {
+				if (this.werkvoorbereiding) {
+					let d = new Date()
+					let date = `${d.getDate()}-${d.getMonth()+1}-${d.getFullYear()} ${d.getHours()}.${d.getMinutes()}`
+
+					this.$store.state.werkvoorbereiding.laatsteBewerking = date
+				}
+			},
+			wvbCurrentStep() {
+				if (this.werkvoorbereiding) {		
+					if(this.page > 1 && this.page <= 7){
+						if(this.page > this.werkvoorbereiding.stap){
+							this.$store.state.werkvoorbereiding.stap = this.page
+						}
+					}
+				}
+			},
+			WvbToFb() {
+				if (this.$store.state.appData.user && this.werkvoorbereiding) {
+					let userId = this.$store.state.appData.firebase.auth().currentUser.uid;
+					let userDatabase = this.$store.state.appData.firebase.database().ref(`users/${userId}/`);
+
+					this.$store.state.appData.firebase.database().ref(`users/${userId}/alleWVB/${this.werkvoorbereiding.id}`).set(this
+						.werkvoorbereiding);
+				}
+			}
 		},
 		created() {
 			this.FbConnection();
@@ -105,4 +146,12 @@
 </script>
 
 <style>
+	.main-panel>.content {
+		margin-top: 10px;
+		padding: 30px 15px;
+		min-height: calc(100vh - 165px);
+	}
+	.swal-text {
+		text-align: center;
+	}
 </style>

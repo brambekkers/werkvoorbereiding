@@ -1,7 +1,7 @@
 <template>
 	<div class="content">
 		<div class="container-fluid">
-			<form role="form">
+			<form role="form" @submit.prevent="nextStep()">
 				<div class="row justify-content-center">
 					<div class="col-xl-12">
 						<div class="card">
@@ -144,6 +144,11 @@
 		},
 		methods: {
 			newMaat() {
+				if(!this.maten){
+					this.$set(this.$store.state.werkvoorbereiding, {
+						maten: []
+					})
+				}
 				this.$store.state.werkvoorbereiding.maten.push({
 					naam: "",
 					aantal: "", 
@@ -153,9 +158,11 @@
 					lengte: "", 
 					materiaal: "",
 				})
+				this.$forceUpdate();
 			},
 			removeMaten(i) {
 				this.$store.state.werkvoorbereiding.maten.splice(i, 1)
+				this.$forceUpdate();
 			},
 			previousStep() {
 				this.$store.state.appData.page--

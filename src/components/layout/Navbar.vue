@@ -2,30 +2,47 @@
 	<nav class="navbar navbar-expand-lg navbar-transparent">
 		<div class="container-fluid">
 			<div class="navbar-wrapper">
-				<label class="navbar-brand">{{pageName()}}</label>
+				<a class="navbar-brand" href="#pablo">{{pageName()}}</a>
 			</div>
-			<div class="justify-content-end">
-				<a class="mx-3">
-					<i class="fas fa-cogs"></i>
-				</a>
-				<a class="mx-3">
-					<i class="fas fa-user" @click="$store.state.appData.page = 20"></i>
-				</a>
-
-				<a class="mx-3" v-if="user === null" @click="$store.state.appData.page = 20">
-					<i class="fas fa-lock-open"></i>
-					<label class="ml-2">Login</label>
-				</a>
-				<a class="mx-3" v-if="user != null" @click="logout()">
-					<i class="fas fa-lock"></i>
-					<label class="ml-2">Logout</label>
-				</a>
-				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggler" aria-controls="navbarToggler" @click="sidebarToggle()">
-					<span class="sr-only">Toggle navigation</span>
-					<span class="navbar-toggler-icon icon-bar"></span>
-					<span class="navbar-toggler-icon icon-bar"></span>
-					<span class="navbar-toggler-icon icon-bar"></span>
-				</button>
+			<button @click="sidebarToggle()" class="navbar-toggler" type="button" data-toggle="collapse" aria-controls="navigation-index"
+			 aria-expanded="false" aria-label="Toggle navigation">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="navbar-toggler-icon icon-bar"></span>
+				<span class="navbar-toggler-icon icon-bar"></span>
+				<span class="navbar-toggler-icon icon-bar"></span>
+			</button>
+			<div class="collapse navbar-collapse justify-content-end">
+				<ul class="navbar-nav">
+					<li class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
+						 aria-expanded="false">
+							<i class="fas fa-cog"></i>
+						</a>
+						<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+							<a class="dropdown-item" href="#">Statistieken</a>
+							<a class="dropdown-item" href="#">Admin</a>
+							<hr>
+							<a class="dropdown-item" href="#">Instellingen</a>
+						</div>
+					</li>
+					<li class="nav-item">
+						<a class="mx-3">
+							<i class="fas fa-user" @click="$store.state.appData.page = 20"></i>
+						</a>
+					</li>
+					<li class="nav-item">
+						<a class="mx-3" v-if="user === null" @click="$store.state.appData.page = 20">
+							<i class="fas fa-lock-open"></i>
+							<label class="ml-2">Login</label>
+						</a>
+					</li>
+					<li class="nav-item">
+						<a class="mx-3" v-if="user != null" @click="logout()">
+							<i class="fas fa-lock"></i>
+							<label class="ml-2">Logout</label>
+						</a>
+					</li>
+				</ul>
 			</div>
 		</div>
 	</nav>
@@ -37,13 +54,13 @@
 	export default {
 		name: "Navbar",
 		computed: {
-			user(){
+			user() {
 				return this.$store.state.appData.user
 			},
-			currentPage(){
+			currentPage() {
 				return this.$store.state.appData.page
 			},
-			sidebarOpen(){
+			sidebarOpen() {
 				return this.$store.state.appData.sidebarOpen
 			}
 		},
@@ -87,7 +104,7 @@
 					return "Planning";
 				}
 				if (this.currentPage === 7) {
-					return "Dashbord";
+					return "Dashboard";
 				}
 				if (this.currentPage === 9) {
 					return "Importeren";
@@ -114,16 +131,16 @@
 					return "Statistieken";
 				}
 			},
-			sidebarToggle(){
+			sidebarToggle() {
 				this.$store.state.appData.sidebarOpen = !this.$store.state.appData.sidebarOpen
 
-				if(this.sidebarOpen){
-					$( "html" ).addClass( "nav-open" );
-					$( ".navbar-toggler" ).addClass( "toggled" );
-					 
-				}else{
-					$( "html" ).removeClass( "nav-open" );
-					$( ".navbar-toggler" ).removeClass( "toggled" );
+				if (this.sidebarOpen) {
+					$("html").addClass("nav-open");
+					$(".navbar-toggler").addClass("toggled");
+
+				} else {
+					$("html").removeClass("nav-open");
+					$(".navbar-toggler").removeClass("toggled");
 				}
 			}
 		}
@@ -132,7 +149,11 @@
 
 
 <style scoped>
-	a, a > label {
+	a,
+	a>label {
 		cursor: pointer;
+	}
+	label{
+		margin-bottom: 0px !important;
 	}
 </style>

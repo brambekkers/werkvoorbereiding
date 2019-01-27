@@ -1,7 +1,7 @@
 <template>
 	<div class="content">
 		<div class="container-fluid">
-			<form role="form">
+			<form role="form" @submit.prevent="nextStep()">
 				<div class="row justify-content-center">
 					<div class="col-xl-12">
 						<div class="card">
@@ -217,6 +217,9 @@
 	export default {
 		name: "Planning",
 		computed: {
+			werkvoorbereiding() {
+				return this.$store.state.werkvoorbereiding
+			},
 			planning() {
 				return this.$store.state.werkvoorbereiding.planning
 			},
@@ -225,19 +228,23 @@
 			},
 			gereedschappen() {
 				let keys = Object.keys(this.$store.state.werkvoorbereiding.gereedschap.gereedschap);
-				var filtered = keys.filter(function(key) {
-					return this.$store.state.werkvoorbereiding.gereedschap.gereedschap[key]
-				},this);
+				if(keys){
+					let filtered = keys.filter(function(key) {
+						return this.$store.state.werkvoorbereiding.gereedschap.gereedschap[key]
+					},this);
 
-				return filtered
+					return filtered
+				}
 			},
 			machines() {
 				let keys = Object.keys(this.$store.state.werkvoorbereiding.gereedschap.machines);
-				var filtered = keys.filter(function(key) {
-					return this.$store.state.werkvoorbereiding.gereedschap.machines[key]
-				},this);
+				if(keys){
+					let filtered = keys.filter(function(key) {
+						return this.$store.state.werkvoorbereiding.gereedschap.machines[key]
+					},this);
 
-				return filtered
+					return filtered
+				}
 			},
 			onderdeelStappen(){
 				return Object.keys(planningGegevens)
@@ -249,12 +256,14 @@
 				return this.$store.state.werkvoorbereiding.planning[i].stappen
 			},
 			onderdelen(i) {
-				let onderdelen = this.$store.state.werkvoorbereiding.maten.filter((maten)=>{
-					if(maten.component === this.$store.state.werkvoorbereiding.planning[i].component){
-						return maten.naam
-					}
-				})
-				return onderdelen
+				if(this.$store.state.werkvoorbereiding.maten){
+					let onderdelen = this.$store.state.werkvoorbereiding.maten.filter((maten)=>{
+						if(maten.component === this.$store.state.werkvoorbereiding.planning[i].component){
+							return maten.naam
+						}
+					})
+					return onderdelen
+				}
 			},
 			onderdeelWerkzaamheid(i){
 				if(i){
@@ -267,13 +276,22 @@
 				}
 			},
 			newOnderdeel() {
+				if(!this.planning){
+					this.$store.state.werkvoorbereiding.planning = []
+				}
+				this.$forceUpdate();
+
 				this.$store.state.werkvoorbereiding.planning.push({
 					component: "",
 					onderdeel: "",
 					stappen: []
 				})
+				this.$forceUpdate();
 			},
 			newStap(i){
+				if(!this.stappen(i)){
+					this.$store.state.werkvoorbereiding.planning[i].stappen = []
+				}
 				this.$store.state.werkvoorbereiding.planning[i].stappen.push({
 					aantal: "",
 					bewerking: "",
@@ -283,12 +301,15 @@
 					stap: "",
 					werkzaamheid: ""
 				})
+				this.$forceUpdate();
 			},
 			removePlanning(i) {
 				this.$store.state.werkvoorbereiding.planning.splice(i, 1)
+				this.$forceUpdate();
 			},
 			removeStap(planning, i) {
 				this.$store.state.werkvoorbereiding.planning[planning].stappen.splice(i, 1)
+				this.$forceUpdate();
 			},
 			previousStep() {
 				this.$store.state.appData.page--
