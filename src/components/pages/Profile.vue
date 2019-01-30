@@ -1,16 +1,16 @@
 <template>
-	<div class="content py-auto">
+	<div class="content py-auto" v-if="userData">
 		<div class="container-fluid">
 			<div class="row">
 				<div class="col-md-8">
 					<div class="card mt-4">
-						<div class="card-header card-header-primary">
+						<div class="card-header card-header-success">
 							<h3 class="card-title">
 								<i class="fa fa-industry fa-lg pr-4"></i>Bewerk je profiel</h3>
 							<p class="card-category">Laat andere weten wie jij bent en wat je doet</p>
 						</div>
 						<div class="card-body">
-							<form>
+							<form v-if="profiel">
 								<div class="row">
 									<div class="col-md-5">
 										<div class="form-group"><label>Voornaam</label> <input type="text" placeholder="Voornaam" v-model="profiel.voornaam"
@@ -58,16 +58,19 @@
 				</div>
 				<div class="col-md-4">
 					<div class="card card-user mt-4">
-						<div class="card-header card-header-primary p-0">
-							<div class="card-image">
-								<a data-toggle="modal" data-target="#achtergrondFoto" class="pointer">
-									<img src="../../assets/img/hout.jpg">
+						<div class="card-header card-header-success p-0">
+							<div class="card-image" >
+								<a data-toggle="modal" data-target="#achtergrondFoto" class="pointer" v-if="profiel">
+									<img src="./../../assets/img/hout.jpg">
 								</a>
 							</div>
 						</div>
-						<div class="card-body">
-							<div class="author"><a data-toggle="modal" data-target="#profielFoto" class="pointer">
-									<img src="../../assets/img/default-avatar.png" class="avatar"></a>
+						<div class="card-body" v-if="profiel">
+							<div class="author">
+								<a data-toggle="modal" data-target="#profielFoto" class="pointer">
+									<img v-if="!profielFoto" src="./../../assets/img/default-avatar.png" class="avatar">
+									<img v-if="profielFoto" :src="profiel.foto" class="avatar">
+								</a>
 								<h5 class="title">Bram Bekkers </h5>
 								<p class="description"> {{ profiel.klas }} <span class="mx-2"> | </span> {{ profiel.niveau }} </p>
 							</div>
@@ -83,10 +86,10 @@
 			<div id="profielFoto" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" class="modal fade modal-mini modal-primary"
 			 style="display: none;">
 				<div class="modal-dialog">
-					<div class="modal-content">
+					<div class="modal-content" v-if="profiel">
 						<div class="modal-header justify-content-center"> Profielfoto link </div>
 						<div class="modal-body text-center">
-							<div class="form-group"><input type="text" placeholder="http://" class="form-control"></div>
+							<div class="form-group"><input type="text" placeholder="http://" class="form-control" v-model="profiel.foto"></div>
 						</div>
 					</div>
 				</div>
@@ -94,7 +97,7 @@
 			<div id="achtergrondFoto" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" class="modal fade modal-mini modal-primary"
 			 style="display: none;">
 				<div class="modal-dialog">
-					<div class="modal-content">
+					<div class="modal-content" v-if="profiel">
 						<div class="modal-header justify-content-center"> Achtergrondfoto profiel link </div>
 						<div class="modal-body text-center">
 							<div class="form-group"><input type="text" placeholder="http://" class="form-control"></div>
@@ -110,23 +113,54 @@
 <script>
 	export default {
 		name: "Profile",
+		watch: {
+			profiel:  {
+				handler(newValue) {
+					this.profileToFB();
+				},
+				deep: true
+			}
+		},
 		computed: {
 			userData(){
 				return this.$store.state.userData
 			},
+			userDataExist(){
+				if(this.userData){
+					if(Object.keys(this.userData).length > 0){
+						return true
+					}
+				}
+				return false
+			},
 			profiel(){
-				return this.$store.state.userData.profiel
+				if(this.userDataExist){
+					return this.$store.state.userData.profiel
+				}
+			},
+			profielFoto(){
+				if(this.profiel.foto.length > 5){
+					return true
+				}else{
+					return false
+				}
 			}
 		},
 		methods: {
 			projectAmount(){
-				if(this.userData){ 
+				if(this.userDataExist){ 
 					if(this.userData.alleWVB){ 
 						return Object.keys(this.userData.alleWVB).length 
 					} 
 					else{
 						return 0  
 					} 
+				}
+			},
+			profileToFB(){
+				if (this.$store.state.appData.user && this.profiel) {
+					let userId = this.$store.state.appData.firebase.auth().currentUser.uid;
+					this.$store.state.appData.firebase.database().ref(`users/${userId}/profiel`).set(this.profiel);
 				}
 			}
 		}

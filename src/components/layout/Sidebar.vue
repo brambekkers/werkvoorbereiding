@@ -5,8 +5,7 @@
 		</div>
 		<div class="sidebar-wrapper">
 			<ul class="nav">
-				<SidebarMenuItem v-if="allowDashboard" :itemProps="{page:7, name:'Dashboard', icon: 'dashboard'}"/>
-				<SidebarMenuItem v-if="!allowDashboard" :itemProps="{page:page, name:'Dashboard', icon: 'dashboard'}"/>
+				<SidebarMenuItem :itemProps="{page:7, name:'Dashboard', icon: 'dashboard'}"/>
 				<SidebarMenuItem v-if="user" :itemProps="{page:16, name:'Projecten', icon: 'content_paste'}"/>
 				<SidebarMenuItem v-if="!user" :itemProps="{page:20, name:'Projecten', icon: 'content_paste'}"/>
 				<SidebarMenuItem :itemProps="{page:20, name:'Account', icon: 'person'}"/>
@@ -51,7 +50,7 @@
 			},
 			allowDashboard(){
 				if(this.wvbActive){
-					if(this.werkvoorbereiding.stap > 6){
+					if(this.werkvoorbereiding.stap > 1){
 						return true
 					}
 				}

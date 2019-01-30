@@ -7,9 +7,12 @@
 				<DashboardParts />
 				<DashboardTool />
 			</div>
-			<div class="row">
+			<div class="row ">
 				<DashboardMaterialCost />
 				<DashboardWorktime />
+			</div>
+			<div class="row">
+				<DashboardPlanning />
 			</div>
 
 		</div>
@@ -23,6 +26,7 @@
 	import DashboardTool from './attributes/Dashboard-tool.vue';
 	import DashboardMaterialCost from './attributes/Dashboard-materialcost.vue';
 	import DashboardWorktime from './attributes/Dashboard-worktime.vue';
+	import DashboardPlanning from './attributes/Dashboard-planning.vue';
 
 	export default {
 		name: "Dashboard",
@@ -32,7 +36,8 @@
 			DashboardParts,
 			DashboardTool,
 			DashboardMaterialCost,
-			DashboardWorktime
+			DashboardWorktime,
+			DashboardPlanning
 		},
 		data(){
 			return{

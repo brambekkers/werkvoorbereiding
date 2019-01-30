@@ -179,6 +179,10 @@
 		},
 		methods: {
 			newMaterial(naam) {
+				if(!this.materialen[naam]){
+					this.$set(this.$store.state.werkvoorbereiding.materialen, naam, [])
+				}
+
 				this.$store.state.werkvoorbereiding.materialen[naam].push({
 					naam: "",
 					prijs: ""
@@ -192,6 +196,9 @@
 			},
 			nextStep() {
 				this.$store.state.appData.page++
+				if(this.$store.state.appData.page > this.$store.state.werkvoorbereiding.stap){
+					this.$store.state.werkvoorbereiding.stap = this.$store.state.appData.page
+				}
 			}
 		},
 		created() {

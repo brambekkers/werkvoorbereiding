@@ -3,7 +3,7 @@ export default {
 	id: "",
 	aangemaaktOp: "",
 	laatsteBewerking: "",
-	stap: 1,
+	stap: 2,
 	isActief: true,
 
 	// Project gegevens
@@ -23,9 +23,9 @@ export default {
 			Decopeerzaag: false,
 			Dominofrees: false,
 			Dremel: false,
-			Handcircelzaag: false,
+			Handcirkelzaag: false,
 			Klopboor: false,
-			Lamellenfrees: false,
+			Lamellofrees: false,
 			Multitool: false,
 			Schaafmachine: false,
 			Schuurmachine: false,
@@ -48,6 +48,7 @@ export default {
 			Schulpzaag: false,
 			Stationairfrees: false,
 			Vandiktebank: false,
+			Vandikteschuurmachine: false,
 			Vlakbank: false,
 			Wandzaag: false
 		}

@@ -2,7 +2,7 @@
 	<div class="col-md-6">
 		<div class="card card-chart">
 			<div class="card-header card-header-warning">
-				<i class="material-icons fas fa-cog options" @click.prevent="$store.state.appData.page = -2"></i>
+				<i class="material-icons fas fa-cog options" v-if="wvbActive" @click.prevent="$store.state.appData.page = -2"></i>
 				<Chart :height="150" :materialen="materiaalNamen" :kosten="materiaalKostenGebundeld"/>
 			</div>
 			<div class="card-body">
@@ -23,7 +23,7 @@
 					<p class="d-inline mr-auto">Loonkosten: </p>
 					<p class="d-inline ml-auto">€ {{loonKosten}}</p>
 				</div>
-				<hr>
+				<hr class="mt-2">
 				<div class="d-flex">
 					<p class="d-inline mr-auto">Totale kosten: </p>
 					<p class="d-inline ml-auto">€ {{totaleKosten}}</p>
@@ -69,6 +69,14 @@
 			}
 		},
 		computed: {
+			wvbActive(){
+				if(this.$store.state.werkvoorbereiding){
+					if(Object.keys(this.$store.state.werkvoorbereiding).length > 0){
+						return true
+					}
+				}
+				return false
+			},
 			planningOpties(){
 				return this.$store.state.werkvoorbereiding.planningOpties
 			},
@@ -84,19 +92,29 @@
 				}
 			},
 			materialenMassief(){
-				if(this.$store.state.werkvoorbereiding.materialen.massief){
-					return this.$store.state.werkvoorbereiding.materialen.massief
+				if(this.$store.state.werkvoorbereiding.materialen){
+					if(this.$store.state.werkvoorbereiding.materialen.massief != undefined){
+						return this.$store.state.werkvoorbereiding.materialen.massief
+					}
 				}
+				return []
+
 			},
 			materialenPlaat(){
-				if(this.$store.state.werkvoorbereiding.materialen.plaatmateriaal){
-					return this.$store.state.werkvoorbereiding.materialen.plaatmateriaal
+				if(this.$store.state.werkvoorbereiding.materialen){
+					if(this.$store.state.werkvoorbereiding.materialen.plaatmateriaal  != undefined){
+						return this.$store.state.werkvoorbereiding.materialen.plaatmateriaal
+					}
 				}
+				return []
 			},
 			materialenFineer(){
-				if(this.$store.state.werkvoorbereiding.materialen.fineer){
-					return this.$store.state.werkvoorbereiding.materialen.fineer
+				if(this.$store.state.werkvoorbereiding.materialen){
+					if(this.$store.state.werkvoorbereiding.materialen.fineer != undefined){
+						return this.$store.state.werkvoorbereiding.materialen.fineer
+					}
 				}
+				return []
 			},
 			materiaalNamen(){
 				let alleMaterialen = []
@@ -183,24 +201,44 @@
 				return Number(opslagpercentage.toFixed(2));
 			},
 			indirecteKosten(){
-				return Number(this.planningOpties.indirecteKosten)
+				if(this.planningOpties){
+					return Number(this.planningOpties.indirecteKosten)
+				}else{
+					return 0
+				}
 			},
 			loonKosten(){
-				return this.$store.state.dashboard.aantalUren * Number(this.planningOpties.uurtarief)
+				if(this.planningOpties){
+					return this.$store.state.dashboard.aantalUren * Number(this.planningOpties.uurtarief)
+				}else{
+					return 0
+				}
 			},
 			totaleKosten(){
-				return  Number((this.totaleMateriaalKosten + this.totaleOpslagPercentage + this.indirecteKosten + this.loonKosten).toFixed(2))
+				if(this.planningOpties){
+					return Number((this.totaleMateriaalKosten + this.totaleOpslagPercentage + this.indirecteKosten + this.loonKosten).toFixed(2));
+				}else{
+					return 0
+				}
 			},
 			winstopslag(){
-				return Number((this.totaleKosten / 100 * Number(this.planningOpties.winstOpslag)).toFixed(2))
+				if(this.planningOpties){
+					return Number((this.totaleKosten / 100 * Number(this.planningOpties.winstOpslag)).toFixed(2))
+				}else{
+					return 0
+				}
 			},
 			verkoopPrijsExclBtw(){
 				return this.totaleKosten + this.winstopslag
 			},
 			verkoopPrijsInclBtw(){
-				let verkoopPrijsInclBtw = Number((this.verkoopPrijsExclBtw + (this.verkoopPrijsExclBtw / 100 * Number(this.planningOpties.btwTarief))).toFixed(2))
-				this.$store.state.dashboard.verkoopPrijsInclBtw = verkoopPrijsInclBtw
-				return verkoopPrijsInclBtw
+				if(this.planningOpties){
+					let verkoopPrijsInclBtw = Number((this.verkoopPrijsExclBtw + (this.verkoopPrijsExclBtw / 100 * Number(this.planningOpties.btwTarief))).toFixed(2))
+					this.$store.state.dashboard.verkoopPrijsInclBtw = verkoopPrijsInclBtw
+					return verkoopPrijsInclBtw
+				}else{
+					return 0
+				}
 			},
 		}
 	};

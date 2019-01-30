@@ -49,11 +49,11 @@
 											class="form-control" data-original-title="Welk materiaal?"
 											v-model="maat.materiaal">
 												<option value="" disabled hidden>Kies een materiaal</option>
-												<optgroup label="Massiefhout"  v-if="materialen.massief.length > 0">
-													<option v-bind:key="index" v-for="(materiaal, index) in materialen.massief">{{materiaal.naam}}</option>												
+												<optgroup label="Massiefhout"  v-if="massief">
+													<option v-bind:key="index" v-for="(materiaal, index) in massief">{{materiaal.naam}}</option>												
 												</optgroup>
-												<optgroup label="Plaatmateriaal" v-if="materialen.plaatmateriaal.length > 0">
-													<option v-bind:key="index" v-for="(materiaal, index) in materialen.plaatmateriaal">{{materiaal.naam}}</option>												
+												<optgroup label="Plaatmateriaal" v-if="plaatmateriaal">
+													<option v-bind:key="index" v-for="(materiaal, index) in plaatmateriaal">{{materiaal.naam}}</option>												
 												</optgroup>
 												<!-- <optgroup label="Overige materialen">
 													<option></option>
@@ -104,7 +104,7 @@
 						</div>
 						<div class="row">
 							<div class="col-md-6">
-								<button type="button" class="btn btn-lg btn-block btn-danger btn-fill">
+								<button type="button" class="btn btn-lg btn-block btn-danger btn-fill" @click="previousStep()">
 									<div class="row">
 										<div class="col-2"><i aria-hidden="true" class="fa fa-chevron-left"></i></div>
 										<div class="col-10">Vorige stap</div>
@@ -140,14 +140,33 @@
 			},
 			materialen() {
 				return this.$store.state.werkvoorbereiding.materialen
-			}
+			},
+			massief(){
+				if(this.materialen.massief){
+					return this.materialen.massief
+				}else{
+					return false
+				}
+			},
+			plaatmateriaal(){
+				if(this.materialen.plaatmateriaal){
+					return this.materialen.plaatmateriaal
+				}else{
+					return false
+				}
+			},
+			fineer(){
+				if(this.materialen.fineer){
+					return this.materialen.fineer
+				}else{
+					return false
+				}
+			},
 		},
 		methods: {
 			newMaat() {
 				if(!this.maten){
-					this.$set(this.$store.state.werkvoorbereiding, {
-						maten: []
-					})
+					this.$set(this.$store.state.werkvoorbereiding, 'maten', [])
 				}
 				this.$store.state.werkvoorbereiding.maten.push({
 					naam: "",
@@ -158,7 +177,6 @@
 					lengte: "", 
 					materiaal: "",
 				})
-				this.$forceUpdate();
 			},
 			removeMaten(i) {
 				this.$store.state.werkvoorbereiding.maten.splice(i, 1)
@@ -169,6 +187,9 @@
 			},
 			nextStep() {
 				this.$store.state.appData.page++
+				if(this.$store.state.appData.page > this.$store.state.werkvoorbereiding.stap){
+					this.$store.state.werkvoorbereiding.stap = this.$store.state.appData.page
+				}
 			}
 		},
 		created() {

@@ -4,10 +4,10 @@
       <nav class="float-left">
         <ul>
           <li>
-            <a href="https://creative-tim.com/presentation">About</a>
+            <a @click="$store.state.appData.page = 40">About</a>
           </li>
           <li>
-            <a href="http://blog.creative-tim.com">Privacy</a>
+            <a @click="$store.state.appData.page = 41">Privacy</a>
           </li>
           <li>
             <a href="">Licenses</a>
@@ -26,4 +26,7 @@ export default {
 
 
 <style scoped>
+	a{
+		cursor: pointer;
+	}
 </style>

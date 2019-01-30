@@ -1,8 +1,8 @@
 export default {
 	Voorbereiding: {
-		Inmeten: ["Maten opnemen", "Maten opzoeken"],
-		Werktekeningen: ["Tekening maken", "CAM programmeren", "Uitslag maken"],
-		Inkoop: ["Materiaal inkopen", "Offertes opvragen"]
+		Ontwerp: ["Maten opnemen", "Maten opzoeken", "Ontwerpen"],
+		Tekenen: ["Tekening maken", "CAM programmeren", "Schetsen", "Uitslag maken"],
+		Werkvoobereiding: ["Materiaal inkopen", "Offertes opvragen", "Werkvoorbereiding maken"]
 	},
 	Machinale: {
 		"Algemene bewerkingen": [
@@ -14,7 +14,7 @@ export default {
 			"Zagen",
 			"Van dikte",
 			"Van breedte",
-			"Machinaal schuren"
+			"Machinaal schuren",
 		],
 		"Specialistische bewerkingen": [
 			"Draaien",
@@ -33,10 +33,21 @@ export default {
 			"Complex zaagwerk",
 			"Verjongen",
 			"Gelijk frezen"
+		],
+		'Alle bewerkingen': [
+			"Netto machineren",
+			"Bruto machineren"
 		]
+
 	},
 	Werkplaats: {
-		"Algemene bewerkingen": ["Freezen", "Schroeven", "Uitsteken", "Zagen"],
+		"Algemene bewerkingen": [
+			"Freezen", 
+			"Schroeven", 
+			"Steken", 
+			"Zagen", 
+			"Schaven"
+		],
 		Verbindingen: [
 			"Pen-gatverbinding",
 			"Tandverbinding",

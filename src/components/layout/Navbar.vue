@@ -19,9 +19,9 @@
 							<i class="fas fa-cog"></i>
 						</a>
 						<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-							<a class="dropdown-item" href="#">Statistieken</a>
-							<a class="dropdown-item" href="#">Admin</a>
-							<hr>
+							<a class="dropdown-item" v-if="user != null" @click="$store.state.appData.page = 30">Statistieken</a>
+							<a class="dropdown-item" v-if="user === null" @click="loginMsg">Statistieken</a>
+							<a class="dropdown-item" v-if="admin" @click="$store.state.appData.page = -99">Admin</a>
 							<a class="dropdown-item" href="#">Instellingen</a>
 						</div>
 					</li>
@@ -54,6 +54,9 @@
 	export default {
 		name: "Navbar",
 		computed: {
+			admin() {
+				return this.$store.state.appData.admin
+			},
 			user() {
 				return this.$store.state.appData.user
 			},
@@ -130,6 +133,12 @@
 				if (this.currentPage === 30) {
 					return "Statistieken";
 				}
+				if (this.currentPage === 40) {
+					return "Over";
+				}
+				if (this.currentPage === 41) {
+					return "Privacy";
+				}
 			},
 			sidebarToggle() {
 				this.$store.state.appData.sidebarOpen = !this.$store.state.appData.sidebarOpen
@@ -142,6 +151,9 @@
 					$("html").removeClass("nav-open");
 					$(".navbar-toggler").removeClass("toggled");
 				}
+			},
+			loginMsg() {
+				swal("Je moet eerst inloggen om je statistieken te zien!");
 			}
 		}
 	};
@@ -153,7 +165,19 @@
 	a>label {
 		cursor: pointer;
 	}
-	label{
+
+	label {
 		margin-bottom: 0px !important;
+	}
+
+	.dropdown-menu .dropdown-item:hover,
+	.dropdown-menu .dropdown-item:focus,
+	.dropdown-menu a:hover,
+	.dropdown-menu a:focus,
+	.dropdown-menu a:active {
+		-webkit-box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 10px -5px rgba(200, 200, 200, 0.4);
+		box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 10px -5px rgba(200, 200, 200, 0.4);
+		background-color: #999999;
+		color: #FFFFFF;
 	}
 </style>

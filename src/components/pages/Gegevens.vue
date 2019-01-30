@@ -2,7 +2,7 @@
 	<div class="content">
 		<div class="container-fluid">
 			<div class="row justify-content-center">
-				<div class="col-md-8 col-lg-6 col-xl-5 col-xxl-4 col-xxxl-3">
+				<div class="col-md-8 col-lg-6 col-xl-5">
 					<form role="form" @submit.prevent="nextStep()">
 						<div class="card">
 							<div class="card-header card-header-success">
@@ -94,6 +94,7 @@
 				this.newWVB.basisgegevens = this.basisgegevens
 				this.newWVB.id = `WVB_${uniqid()}`
 				this.newWVB.aangemaaktOp = date
+				this.newWVB.stap = 2
 
 
 				this.$store.state.werkvoorbereiding = this.newWVB

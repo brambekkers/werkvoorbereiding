@@ -1,14 +1,16 @@
 <template>
 	<div id="app" class="wrapper">
-		<Sidebar />
-		<Main />
+		<Sidebar data-html2canvas-ignore/>
+		<Main/>
 	</div>
 </template>
 
 <script>
 	import "./assets/css/material-dashboard.css";
 
-	import fb from "firebase";
+	import fb from "firebase/app";
+	import 'firebase/auth';
+	import 'firebase/database';
 	import firebaseConfig from "./assets/config/firebaseConfig.js";
 	import $ from "jquery";
 	import popper from "popper.js";
@@ -34,12 +36,6 @@
 				},
 				deep: true
 			},
-			page: {
-				handler(newValue) {
-					this.wvbCurrentStep();
-				},
-				deep: true
-			}
 		},
 		components: {
 			Sidebar,
@@ -62,11 +58,13 @@
 					if (user) {
 						this.$store.state.appData.user = user;
 						console.log("User logged in as:", user.displayName);
-						this.checkIfUserExist()
-						this.FbDatabaseListner()
+						this.checkIfUserExist();
+						this.FbDatabaseListner();
+						this.checkRole();
 					} else {
 						this.$store.state.appData.user = null;
-						console.log("User not logged in");
+						this.$store.state.userData = null;
+						this.$store.state.appData.admin = false
 					}
 				});
 			},
@@ -76,6 +74,17 @@
 				userDatabase.on('value', function (snapshot) {
 					if (snapshot.exists() === false) {
 						this.setNewDataFb();
+					}
+				}, this);
+			},
+			checkRole(){
+				let userId = this.$store.state.appData.firebase.auth().currentUser.uid;
+				let checkAdmin = this.$store.state.appData.firebase.database().ref(`roles/admin/${userId}`);
+				checkAdmin.on('value', function (snapshot) {
+					if (snapshot.val()) {
+						this.$store.state.appData.admin = true
+					}else{
+						this.$store.state.appData.admin = false
 					}
 				}, this);
 			},
@@ -119,15 +128,6 @@
 					this.$store.state.werkvoorbereiding.laatsteBewerking = date
 				}
 			},
-			wvbCurrentStep() {
-				if (this.werkvoorbereiding) {		
-					if(this.page > 1 && this.page <= 7){
-						if(this.page > this.werkvoorbereiding.stap){
-							this.$store.state.werkvoorbereiding.stap = this.page
-						}
-					}
-				}
-			},
 			WvbToFb() {
 				if (this.$store.state.appData.user && this.werkvoorbereiding) {
 					let userId = this.$store.state.appData.firebase.auth().currentUser.uid;
@@ -136,7 +136,7 @@
 					this.$store.state.appData.firebase.database().ref(`users/${userId}/alleWVB/${this.werkvoorbereiding.id}`).set(this
 						.werkvoorbereiding);
 				}
-			}
+			},
 		},
 		created() {
 			this.FbConnection();
@@ -153,5 +153,8 @@
 	}
 	.swal-text {
 		text-align: center;
+	}
+	.stats a{
+		color: #999999
 	}
 </style>

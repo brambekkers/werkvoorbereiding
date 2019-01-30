@@ -2,7 +2,7 @@
 	<div class="content">
 		<div class="container-fluid">
 			<div class="row justify-content-center">
-				<div class="col-md-6 col-lg-8 col-xl-6 col-xxl-4 col-xxxl-3">
+				<div class="col-md-8 col-lg-6 col-xl-5">
 					<div class="card">
 						<div class="card-header card-header-success">
 							<h3 class="card-title">

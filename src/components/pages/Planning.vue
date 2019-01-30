@@ -11,7 +11,7 @@
 								<p class="card-category">Wanneer ga je het maken?</p>
 							</div>
 							<div class="card-body">
-								<div v-bind:key="planningIndex" v-for="(planning, planningIndex) in planning">
+								<div v-bind:key="planningIndex" v-for="(planning, planningIndex) in planning" class="planning shadow-sm">
 									<div class="row">
 										<!-- Component -->
 										<div class="col-md-3 col-xl-2">
@@ -60,12 +60,11 @@
 											</div>
 										</div>
 									</div>
-									<div class="row" v-bind:key="index" v-for="(stap, index) in stappen(planningIndex)">
-										<div class="col-1"></div>
-										<div class="col-11">
-											<div class="row">
+									<div class="row stap shadow-sm ml-5 mr-2" v-bind:key="index" v-for="(stap, index) in stappen(planningIndex)">
+										<div class="col-12">
+											<div class="row px-0">
 												<!-- Stap -->
-												<div class="col-6 col-md-4 col-xl-2">
+												<div class="col-6 col-md-4 col-xl-2 pl-0">
 													<div class="input-group mb-2">
 														<div class="input-group-prepend">
 															<span id="basic-addon1" class="input-group-text">
@@ -121,13 +120,14 @@
 															</optgroup>
 															<optgroup label="Overig">
 																<option value="Overig">Overig</option>
+																<option value="Meerdere machines">Meerdere machines</option>
 																<option value="Handgereedschap">Handgereedschap</option>
 																<option value="Geen gereedschap">Geen gereedschap</option>
 															</optgroup>
 														</select></div>
 												</div>
 												<!-- Insteltijd -->
-												<div class="col-3 col-md-3 col-xl-1">
+												<div class="col-3 col-md-2 col-xl-1">
 													<div class="input-group mb-2">
 														<input type="number" placeholder="Insteltijd" data-toggle="tooltip"
 														data-placement="top" required="required" class="form-control" 
@@ -136,7 +136,7 @@
 													</div>
 												</div>
 												<!-- Bewerkingstijd -->
-												<div class="col-3 col-md-3 col-xl-1">
+												<div class="col-3 col-md-2 col-xl-1">
 													<div class="input-group mb-2">
 														<input type="number" placeholder="Bewerkingstijd" data-toggle="tooltip"
 														data-placement="top" required="required" class="form-control" 
@@ -161,17 +161,10 @@
 														</button>
 													</div>
 												</div>
-												<div class="col-12 d-block d-xl-none">
-													<hr>
-												</div>
 											</div>
 										</div>
 									</div>
-									<div class="col-12 d-block d-xl-none">
-										<hr>
-									</div>
 								</div>
-								<hr>
 								<div class="row">
 									<div class="col-md-6">
 										<button type="button" class="btn" @click="newOnderdeel()">
@@ -190,7 +183,7 @@
 						</div>
 						<div class="row">
 							<div class="col-md-6">
-								<button type="button" class="btn btn-lg btn-block btn-danger btn-fill">
+								<button type="button" class="btn btn-lg btn-block btn-danger btn-fill" @click="previousStep()">
 									<div class="row">
 										<div class="col-2"><i aria-hidden="true" class="fa fa-chevron-left"></i></div>
 										<div class="col-10">Vorige stap</div>
@@ -201,7 +194,8 @@
 									<div class="row">
 										<div class="col-12">Werkvoorbereiding afronden</div>
 									</div>
-								</button></div>
+								</button>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -277,9 +271,8 @@
 			},
 			newOnderdeel() {
 				if(!this.planning){
-					this.$store.state.werkvoorbereiding.planning = []
+					this.$set(this.$store.state.werkvoorbereiding, 'planning', [])
 				}
-				this.$forceUpdate();
 
 				this.$store.state.werkvoorbereiding.planning.push({
 					component: "",
@@ -290,7 +283,7 @@
 			},
 			newStap(i){
 				if(!this.stappen(i)){
-					this.$store.state.werkvoorbereiding.planning[i].stappen = []
+					this.$set(this.$store.state.werkvoorbereiding.planning[i], 'stappen', [])
 				}
 				this.$store.state.werkvoorbereiding.planning[i].stappen.push({
 					aantal: "",
@@ -316,6 +309,9 @@
 			},
 			nextStep() {
 				this.$store.state.appData.page++
+				if(this.$store.state.appData.page > this.$store.state.werkvoorbereiding.stap){
+					this.$store.state.werkvoorbereiding.stap = this.$store.state.appData.page
+				}
 			}
 		},
 		created() {
@@ -328,4 +324,15 @@
 
 
 <style scoped>
+	.planning {
+		background: #f7f7f7;
+		margin: 10px 0px;
+		padding-bottom: 0.2rem;
+		border-radius: 0.2rem;
+	}
+	.stap {
+		background: #ffffff;
+		margin: 10px 0px;
+		border-radius: 0.2rem;
+	}
 </style>

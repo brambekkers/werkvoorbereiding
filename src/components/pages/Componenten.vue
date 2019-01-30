@@ -78,6 +78,10 @@
 		},
 		methods: {
 			newComponent(){
+				if(!this.$store.state.werkvoorbereiding.componenten){
+					this.$set(this.$store.state.werkvoorbereiding, 'componenten', [])
+				}
+
 				this.$store.state.werkvoorbereiding.componenten.push({
 					naam: "", 
 					aantal: ""
@@ -91,6 +95,9 @@
 			},
 			nextStep(){
 				this.$store.state.appData.page++
+				if(this.$store.state.appData.page > this.$store.state.werkvoorbereiding.stap){
+					this.$store.state.werkvoorbereiding.stap = this.$store.state.appData.page
+				}
 			}
 		},
 

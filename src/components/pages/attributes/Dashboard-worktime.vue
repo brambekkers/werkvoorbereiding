@@ -2,7 +2,7 @@
 	<div class="col-md-6">
 		<div class="card card-chart">
 			<div class="card-header card-header-info">
-				<i class="material-icons fas fa-cog options" @click.prevent="$store.state.appData.page = -5"></i>
+				<i class="material-icons fas fa-cog options" v-if="wvbActive" @click.prevent="$store.state.appData.page = -5"></i>
 				<Chart :height="150" :uren="tijdPerOnderwerp"/>
 			</div>
 			<div class="card-body">
@@ -19,7 +19,8 @@
 					<p class="d-inline mr-auto">Ineffectieve tijd: </p>
 					<p class="d-inline ml-auto">{{ineffectieveTijd}} uur</p>
 				</div>
-				<hr class="mt-5">
+				<br><br>
+				<hr class="mt-0">
 				<div class="d-flex">
 					<p class="d-inline mr-auto">Totaal aantal uren: </p>
 					<p class="d-inline ml-auto">{{totaletijdNetto}} uur</p>
@@ -28,6 +29,7 @@
 					<p class="d-inline mr-auto">Totaal aantal werkdagen: </p>
 					<p class="d-inline ml-auto">{{totaletijdNettoWerkdagen}} dagen</p>
 				</div>
+				<br><br><br>
 
 			</div>
 			<div class="card-footer">
@@ -50,6 +52,14 @@
 			Chart
 		},
 		computed: {
+			wvbActive(){
+				if(this.$store.state.werkvoorbereiding){
+					if(Object.keys(this.$store.state.werkvoorbereiding).length > 0){
+						return true
+					}
+				}
+				return false
+			},
 			planning(){
 				if(this.$store.state.werkvoorbereiding.planning){
 					return this.$store.state.werkvoorbereiding.planning
@@ -113,17 +123,25 @@
 				return this.insteltijd + this.bewerkingstijd
 			},
 			totaletijdNetto(){
-				let aantalUren = this.insteltijd + this.bewerkingstijd + this.ineffectieveTijd
+				let aantalUren = Number((this.insteltijd + this.bewerkingstijd + this.ineffectieveTijd).toFixed(1))
 				this.$store.state.dashboard.aantalUren = aantalUren
 				return aantalUren
 			},
 			totaletijdNettoWerkdagen(){
-				let aantalWerkdagen = Number(((this.insteltijd + this.bewerkingstijd + this.ineffectieveTijd) / Number(this.planningOpties.urenWerkdag)).toFixed(1));
-				this.$store.state.dashboard.aantalWerkdagen = aantalWerkdagen
-				return aantalWerkdagen
+				if(this.planning){
+					let aantalWerkdagen = Number(((this.insteltijd + this.bewerkingstijd + this.ineffectieveTijd) / Number(this.planningOpties.urenWerkdag)).toFixed(1));
+					this.$store.state.dashboard.aantalWerkdagen = aantalWerkdagen
+					return aantalWerkdagen
+				}else{
+					return 0
+				}
 			},
 			ineffectieveTijd(){
-				return Number((this.totaletijdBrutto / 100 * Number(this.planningOpties.ineffectieveTijd)).toFixed(1));
+				if(this.planning){
+					return Number((this.totaletijdBrutto / 100 * Number(this.planningOpties.ineffectieveTijd)).toFixed(1));
+				}else{
+					return 0
+				}
 			}
 		}
 	};
