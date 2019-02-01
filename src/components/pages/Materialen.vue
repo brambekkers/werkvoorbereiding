@@ -31,10 +31,16 @@
 									</div>
 									<div class="col-10 col-md-3">
 										<div class="input-group mb-2">
-											<input type="number" placeholder="Prijs m3" data-toggle="tooltip"
-											 data-placement="top" title="" required="required" class="form-control" 
-											 data-original-title="Hoeveel kost deze houtsoort per m3? Bijv. 1800 euro"
-											 v-model="massief.prijs">
+											<money 	placeholder="Prijs m3" 
+													data-toggle="tooltip" 
+													data-placement="top" 
+													min="1" 
+													required="required" 
+													class="form-control" 
+													data-original-title="Hoeveel kost deze houtsoort per m3? Bijv. 1800 euro"
+											 		v-model="massief.prijs" 
+													v-bind="money">
+											</money>
 										</div>
 									</div>
 									<div class="col-2 col-md-2">
@@ -71,10 +77,16 @@
 									</div>
 									<div class="col-10 col-md-3">
 										<div class="input-group mb-2">
-											<input type="number" placeholder="Prijs m2" data-toggle="tooltip"
-											data-placement="top" title="" required="required" class="form-control" 
-											data-original-title="Hoeveel kost dit plaatmateriaal per m2?"
-											v-model="plaatmateriaal.prijs">
+											<money 	placeholder="Prijs m2" 
+													data-toggle="tooltip" 
+													data-placement="top" 
+													min="1" 
+													required="required" 
+													class="form-control" 
+													data-original-title="Hoeveel kost dit plaatmateriaal per m2?"
+											 		v-model="plaatmateriaal.prijs" 
+													v-bind="money">
+											</money>
 										</div>
 									</div>
 									<div class="col-2 col-md-2">
@@ -111,11 +123,18 @@
 										</div>
 									</div>
 									<div class="col-10 col-md-3">
-										<div class="input-group mb-2"><input type="number" placeholder="Prijs m2" 
-										data-toggle="tooltip" data-placement="top" required="required" class="form-control" 
-										data-original-title="Hoeveel euro kost dit fineer per m2?"
-										v-model="fineer.prijs">
-									</div>
+										<div class="input-group mb-2">
+											<money 	placeholder="Prijs m2" 
+													data-toggle="tooltip" 
+													data-placement="top" 
+													min="1" 
+													required="required" 
+													class="form-control" 
+													data-original-title="Hoeveel euro kost dit fineer per m2?"
+													v-model="fineer.prijs" 
+													v-bind="money">
+											</money>
+										</div>
 									</div>
 									<div class="col-2 col-md-2">
 										<div class="input-group mb-2">
@@ -136,10 +155,18 @@
 
 
 								<div class="row">
-									<div class="col-6"><button type="button" class="btn btn-bg-teal float-left"><i aria-hidden="true" class="far fa-clipboard mr-2"></i>
-											Overige materialen </button></div>
-									<div class="col-6"><button type="button" class="btn btn-fill float-right" @click.prevent="$store.state.appData.page = -2"><i aria-hidden="true" class="fas fa-edit mr-2"></i>
-											Materiaal opties </button></div>
+									<div class="col-6">
+										<button type="button" class="btn btn-bg-teal float-left" @click="$store.state.appData.page = -3">
+											<i aria-hidden="true" class="far fa-clipboard mr-2"></i>
+											Overige materialen 
+										</button>
+									</div>
+									<div class="col-6">
+										<button type="button" class="btn btn-fill float-right" @click.prevent="$store.state.appData.page = -2">
+											<i aria-hidden="true" class="fas fa-edit mr-2"></i>
+											Materiaal opties 
+										</button>
+									</div>
 								</div>
 							</div>
 						</div>
@@ -170,8 +197,23 @@
 
 <script>
 	import $ from "jquery";
+	import {Money} from 'v-money'
+
 	export default {
 		name: "Materialen",
+		components: {Money},
+		data(){
+			return{
+				money: {
+					decimal: '.',
+					thousands: ',',
+					prefix: '€ ',
+					suffix: '',
+					precision: 0,
+					masked: false
+				}
+			}
+		},
 		computed: {
 			materialen() {
 				return this.$store.state.werkvoorbereiding.materialen

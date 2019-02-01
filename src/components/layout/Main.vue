@@ -5,6 +5,7 @@
 		<!-- Project pages -->
 		<Gegevens v-if="currentPage === 1" />
 		<Componenten v-if="currentPage === 2" />
+		<OverigeMaterialen v-if="currentPage === -3" />
 		<Materialen v-if="currentPage === 3" />
 		<Maten v-if="currentPage === 4" />
 		<Gereedschap v-if="currentPage === 5" />
@@ -27,8 +28,9 @@
 		<Projecten v-if="currentPage === 16" />
 		<Statistieken v-if="currentPage === 30" />
 
-		<!-- <Over v-if="currentPage === 40" /> -->
+		<Over v-if="currentPage === 40" />
 		<Privacy v-if="currentPage === 41" />
+		<licence v-if="currentPage === 42" />
 		<Admin v-if="currentPage === -99" />
 
 		<Footer data-html2canvas-ignore/>
@@ -43,6 +45,7 @@
 	import Gegevens from "../pages/Gegevens.vue";
 	import Componenten from "../pages/Componenten.vue";
 	import Materialen from "../pages/Materialen.vue";
+	import OverigeMaterialen from "../pages/OverigeMaterialen.vue"
 	import Maten from "../pages/Maten.vue";
 	import Gereedschap from "../pages/Gereedschap.vue";
 	import Planning from "../pages/Planning.vue";
@@ -64,8 +67,10 @@
 	import Statistieken from "../pages/Statistieken.vue";
 
 	// Overige
+	import Over from "../pages/Over.vue";
 	import Privacy from "../pages/Privacy.vue";
 	import Admin from "../pages/Admin.vue";
+	import Licence from "../pages/Licence.vue"
 
 	import $ from "jquery"
 
@@ -90,6 +95,7 @@
 			Gegevens,
 			Componenten,
 			Materialen,
+			OverigeMaterialen,
 			Maten,
 			Gereedschap,
 			Planning,
@@ -100,7 +106,9 @@
 			Exporteren,
 			Statistieken,
 			Admin,
-			Privacy
+			Over,
+			Privacy,
+			Licence
 		},
 		methods: {
 			closeSidebar() {

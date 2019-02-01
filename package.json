@@ -17,6 +17,7 @@
     "popper.js": "^1.14.6",
     "sweetalert": "^2.1.2",
     "uniqid": "^5.0.3",
+    "v-money": "^0.8.1",
     "vue": "^2.5.21",
     "vue-chartjs": "^3.4.0",
     "vuex": "^3.1.0"

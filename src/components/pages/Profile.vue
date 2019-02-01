@@ -71,7 +71,7 @@
 									<img v-if="!profielFoto" src="./../../assets/img/default-avatar.png" class="avatar">
 									<img v-if="profielFoto" :src="profiel.foto" class="avatar">
 								</a>
-								<h5 class="title">Bram Bekkers </h5>
+								<h5 class="title">{{ profiel.voornaam }} {{ profiel.tussenvoegsel }}  {{ profiel.achternaam }}</h5>
 								<p class="description"> {{ profiel.klas }} <span class="mx-2"> | </span> {{ profiel.niveau }} </p>
 							</div>
 							<p class="description text-center">{{ profiel.over }}</p>

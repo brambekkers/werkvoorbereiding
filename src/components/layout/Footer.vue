@@ -4,13 +4,13 @@
       <nav class="float-left">
         <ul>
           <li>
-            <a @click="$store.state.appData.page = 40">About</a>
+            <a @click="$store.state.appData.page = 40">Over</a>
           </li>
           <li>
             <a @click="$store.state.appData.page = 41">Privacy</a>
           </li>
           <li>
-            <a href="">Licenses</a>
+            <a @click="$store.state.appData.page = 42">Licentie</a>
           </li>
         </ul>
       </nav>

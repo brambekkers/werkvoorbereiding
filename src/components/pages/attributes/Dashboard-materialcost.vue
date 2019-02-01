@@ -116,6 +116,22 @@
 				}
 				return []
 			},
+			materialenOverig(){
+				if(this.$store.state.werkvoorbereiding.overigematerialen){
+					return this.$store.state.werkvoorbereiding.overigematerialen
+				}else{
+					return false
+				}
+			},
+			OverigeMaterialenKosten(){
+				if(this.materialenOverig){
+					let prijs = 0
+					for (const materiaal of this.materialenOverig) {
+						prijs += Number(materiaal.prijs) * Number(materiaal.aantal)
+					}
+					return prijs
+				}
+			},
 			materiaalNamen(){
 				let alleMaterialen = []
 				for (const materiaal of this.materialenMassief) {
@@ -126,6 +142,9 @@
 				}
 				for (const materiaal of this.materialenFineer) {
 					alleMaterialen.push(materiaal.naam)
+				}
+				if(this.materialenOverig){
+					alleMaterialen.push('Overige materialen')
 				}
 				return alleMaterialen
 			},
@@ -177,7 +196,7 @@
 			},
 			materiaalKostenGebundeld(){
 				let alleMaterialen = []		
-				return alleMaterialen.concat(this.materiaalKostenMassief, this.materiaalKostenPlaat, this.materiaalKostenFineer)
+				return alleMaterialen.concat(this.materiaalKostenMassief, this.materiaalKostenPlaat, this.materiaalKostenFineer, this.OverigeMaterialenKosten)
 			},
 			totaleMateriaalKosten(){
 				if(this.materiaalKostenGebundeld){

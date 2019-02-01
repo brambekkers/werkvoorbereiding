@@ -55,7 +55,16 @@
 				if(this.password === this.passwordCheck){
 					this.$store.state.appData.firebase.auth().createUserWithEmailAndPassword(this.email, this.password)
 					.then(() => {
-						that.$store.state.appData.firebase.auth().currentUser.sendEmailVerification()
+						that.$store.state.appData.firebase.auth().currentUser.sendEmailVerification();
+
+						swal({
+							title: "Het is gelukt?",
+							text: "Het account is aangemaakt.",
+							dangerMode: false,
+							icon: "success",
+						})
+
+						that.$store.state.appData.page = 20;
 					})
 					.catch((error) => {
 						this.handleError(error);
@@ -67,11 +76,20 @@
 			},
 			handleError(error){
 				console.log(error.code, error.message)
+
 				// E-mailadres is al in gebruik
 				if(error.code === "auth/email-already-in-use"){
 					swal({
 						title: "Al een account?",
 						text: "Dit e-mailadres is al in gebruik... Waarschijnlijk heb je al een account. Probeer in te loggen.",
+						dangerMode: true,
+						icon: "error",
+					})
+				}
+				if(error.code === "auth/weak-password"){
+					swal({
+						title: "Slecht wachtwoord?",
+						text: "Dit wachtwoord is niet sterk genoeg. Maak een sterker wachtwoord en probeer het opnieuw.",
 						dangerMode: true,
 						icon: "error",
 					})
