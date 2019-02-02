@@ -158,7 +158,9 @@
 	.swal-text {
 		text-align: center;
 	}
+	
 	.stats a{
 		color: #999999
 	}
+	
 </style>

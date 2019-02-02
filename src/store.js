@@ -12,7 +12,12 @@ export default new Vuex.Store({
 			sidebarOpen: false,
 			admin: false,
 			waitScreen: false,
-			waitScreenText: ''
+			waitScreenText: '',
+			instellingen: {
+				kleur: 'groen',
+				modus: 'licht',
+				valuta: '€'
+			}
 		},
 		userData: {},
 		werkvoorbereiding: {},

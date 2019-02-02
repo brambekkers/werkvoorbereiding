@@ -4,11 +4,7 @@
 			<div class="row justify-content-center">
 				<div class="col-md-8 col-lg-6 col-xl-5">
 					<div class="card">
-						<div class="card-header card-header-success">
-							<h3 class="card-title">
-								<i class="fa fa-industry fa-lg pr-4"></i>Importeren</h3>
-							<p class="card-category">Een opgeslagen WVB gebruiken</p>
-						</div>
+						<CardHeader :text="{title: 'Importeren', subtitle: 'Een opgeslagen WVB gebruiken' }"/>
 						<div class="card-body">
 							<div class="row">
 								<div class="col-md-12">
@@ -32,8 +28,11 @@
 </template>
 
 <script>
+	import CardHeader from "./attributes/Card-header.vue";
+
 	export default {
 		name: "Importeren",
+		components: { CardHeader },
 		data(){
 			return{
 				wvbJson: null

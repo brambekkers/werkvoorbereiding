@@ -4,11 +4,7 @@
 			<div class="row">
 				<div class="col-md-8">
 					<div class="card mt-4">
-						<div class="card-header card-header-success">
-							<h3 class="card-title">
-								<i class="fa fa-industry fa-lg pr-4"></i>Bewerk je profiel</h3>
-							<p class="card-category">Laat andere weten wie jij bent en wat je doet</p>
-						</div>
+						<CardHeader :text="{title: 'Bewerk je profiel', subtitle: 'Laat andere weten wie jij bent en wat je doet' }"/>
 						<div class="card-body">
 							<form v-if="profiel">
 								<div class="row">
@@ -111,8 +107,11 @@
 </template>
 
 <script>
+	import CardHeader from "./attributes/Card-header.vue";
+
 	export default {
 		name: "Profile",
+		components: { CardHeader },
 		watch: {
 			profiel:  {
 				handler(newValue) {

@@ -5,11 +5,7 @@
 				<div class="row justify-content-center">
 					<div class="col-xl-12">
 						<div class="card">
-							<div class="card-header card-header-success">
-								<h3 class="card-title">
-									<i class="fa fa-industry fa-lg pr-4"></i>Maten</h3>
-								<p class="card-category">Hoe groot zijn je onderdelen</p>
-							</div>
+							<CardHeader :text="{title: 'Maten', subtitle: 'Hoe groot zijn je onderdelen' }"/>
 							<div class="card-body">
 								<div class="row" v-bind:key="index" v-for="(maat, index) in maten">
 									<div class="col-9 col-md-4 col-xl-3">
@@ -47,7 +43,7 @@
 										<div class="input-group mb-2">
 											<select data-toggle="tooltip" data-placement="top" required="required" 
 											class="form-control" data-original-title="Welk materiaal?"
-											v-model="maat.materiaal">
+											v-model="maat.instellingen">
 												<option value="" disabled hidden>Kies een materiaal</option>
 												<optgroup label="Massiefhout"  v-if="massief">
 													<option v-bind:key="index" v-for="(materiaal, index) in massief">{{materiaal.naam}}</option>												
@@ -129,8 +125,11 @@
 
 <script>
 	import $ from "jquery";
+	import CardHeader from "./attributes/Card-header.vue";
+
 	export default {
 		name: "Maten",
+		components: { CardHeader },
 		computed: {
 			maten() {
 				return this.$store.state.werkvoorbereiding.maten

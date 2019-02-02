@@ -4,11 +4,7 @@
 			<div class="row justify-content-center">
 				<div class="col-md-10 col-lg-8 col-xl-7 col-xxl-5 col-xxxl-4">
 					<div class="card">
-						<div class="card-header card-header-success">
-							<h3 class="card-title">
-								<i class="fa fa-industry fa-lg pr-4"></i>Gereedschap</h3>
-							<p class="card-category">Welke tools heb je tot je beschikking</p>
-						</div>
+						<CardHeader :text="{title: 'Gereedschap', subtitle: 'Welke tools heb je tot je beschikking' }"/>
 						<div class="card-body">
 							<div class="row">
 								<div class="col-md-6 border-right">
@@ -48,11 +44,12 @@
 
 <script>
 	import GereedschapItem from "./attributes/GereedschapItem"
+	import CardHeader from "./attributes/Card-header.vue";
 
 	export default {
 		name: "Gereedschap",
 		components: {
-			GereedschapItem
+			GereedschapItem, CardHeader
 		},
 		computed: {
 			gereedschap() {

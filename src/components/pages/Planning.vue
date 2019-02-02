@@ -5,11 +5,7 @@
 				<div class="row justify-content-center">
 					<div class="col-xl-12">
 						<div class="card">
-							<div class="card-header card-header-success">
-								<h3 class="card-title">
-									<i class="fa fa-industry fa-lg pr-4"></i>Planning</h3>
-								<p class="card-category">Wanneer ga je het maken?</p>
-							</div>
+							<CardHeader :text="{title: 'Planning', subtitle: 'Wanneer ga je het maken?' }"/>
 							<div class="card-body">
 								<draggable v-model="$store.state.werkvoorbereiding.planning">
 									<div v-bind:key="'Planning'+planningIndex" v-for="(planning, planningIndex) in planning" class="planning shadow-sm">
@@ -177,7 +173,7 @@
 										</button> 
 									</div>
 									<div class="col-md-6">
-										<button type="button" class="btn float-right">
+										<button type="button" class="btn float-right" @click="$store.state.appData.page = -5">
 											<i aria-hidden="true" class="fas fa-edit mr-3"></i> 
 											Planning en kosten instellingen
 										</button>
@@ -212,10 +208,11 @@
 	import $ from "jquery";
 	import draggable from 'vuedraggable'
 	import planningGegevens from "../../assets/config/planningGegevens.js"
+	import CardHeader from "./attributes/Card-header.vue";
 
 	export default {
 		name: "Planning",
-		components: {draggable},
+		components: {draggable, CardHeader},
 		computed: {
 			werkvoorbereiding() {
 				return this.$store.state.werkvoorbereiding

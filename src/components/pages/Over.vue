@@ -5,11 +5,7 @@
 				<div class="row justify-content-center">
 					<div class="col-xl-8">
 						<div class="card">
-							<div class="card-header card-header-success">
-								<h3 class="card-title">
-									<i class="fa fa-industry fa-lg pr-4"></i>Over</h3>
-								<p class="card-category">Wat, wie en hoe</p>
-							</div>
+							<CardHeader :text="{title: 'Over', subtitle: 'Wat, wie en hoe' }"/>
 							<div class="card-body">
 								<div class="row">
 									<div class="col-12">
@@ -73,8 +69,11 @@
 </template>
 
 <script>
+	import CardHeader from "./attributes/Card-header.vue";
+
 	export default {
 		name: "Over",
+		components: { CardHeader },
 		computed: {}
 	};
 </script>

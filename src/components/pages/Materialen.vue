@@ -5,14 +5,9 @@
 				<div class="row justify-content-center">
 					<div class="col-md-10 col-lg-8 col-xl-7 col-xxl-6 col-xxxl-4">
 						<div class="card">
-							<div class="card-header card-header-success">
-								<h3 class="card-title">
-									<i class="fa fa-industry fa-lg pr-4"></i>Materialen</h3>
-								<p class="card-category">Waar ga je het van maken</p>
-							</div>
+							<CardHeader :text="{title: 'Materialen', subtitle: 'Waar ga je het van maken' }"/>
+
 							<div class="card-body">
-
-
 								<!-- Massief hout -->
 								<h6 class="title mb-2"><strong>Massief hout</strong></h6>
 								<div class="row" v-bind:key="'massief'+index" v-for="(massief, index) in materialen.massief">
@@ -198,10 +193,11 @@
 <script>
 	import $ from "jquery";
 	import {Money} from 'v-money'
+	import CardHeader from "./attributes/Card-header.vue";
 
 	export default {
 		name: "Materialen",
-		components: {Money},
+		components: {Money, CardHeader},
 		data(){
 			return{
 				money: {

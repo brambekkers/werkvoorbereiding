@@ -4,11 +4,7 @@
 			<div class="row justify-content-center">
 				<div class="col-xl-7 col-xxl-6 col-xxxl-4">
 					<div class="card">
-						<div class="card-header card-header-success">
-							<h3 class="card-title">
-								<i class="fa fa-industry fa-lg pr-4"></i>Statistieken</h3>
-							<p class="card-category">Alle informatie over jouw account</p>
-						</div>
+						<CardHeader :text="{title: 'Statistieken', subtitle: 'Alle informatie over jouw account' }"/>
 						<hr class="my-0">
 						<div class="card-body">
 							<h6 class="title"><strong>Werkvoorbereiding</strong>
@@ -61,8 +57,10 @@
 </template>
 
 <script>
+	import CardHeader from "./attributes/Card-header.vue";
 	export default {
 		name: "Statistieken",
+		components: { CardHeader },
 		computed: {
 			userData(){
 				return this.$store.state.userData

@@ -5,11 +5,7 @@
 				<div class="col-md-8 col-lg-6 col-xl-5">
 					<form role="form" @submit.prevent="nextStep()">
 						<div class="card">
-							<div class="card-header card-header-success">
-								<h3 class="card-title">
-									<i class="fa fa-industry fa-lg pr-4"></i>Basisgegevens</h3>
-								<p class="card-category">De eerste stap...</p>
-							</div>
+							<CardHeader :text="{title: 'Basisgegevens', subtitle: 'De eerste stap...' }"/>
 							<div class="card-body">
 								<div class="input-group mb-2">
 									<div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-tag fa-fw"></i></span></div>
@@ -46,9 +42,11 @@
 	import $ from "jquery";
 	import WVB from "../../assets/config/emptyWVB.js"
 	import uniqid from 'uniqid';
+	import CardHeader from "./attributes/Card-header.vue";
 
 	export default {
 		name: "Gegevens",
+		components: { CardHeader },
 		data() {
 			return {
 				basisgegevens: {

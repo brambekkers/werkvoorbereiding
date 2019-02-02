@@ -43,7 +43,7 @@
 	}
 
 	.material-switch>input[type="checkbox"]:checked+label::before {
-		background: #62B866;
+		background: #43A047;
 		opacity: 0.5;
 	}
 

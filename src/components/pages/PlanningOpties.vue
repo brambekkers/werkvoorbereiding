@@ -5,11 +5,7 @@
 				<div class="row justify-content-center">
 					<div class="col-md-8 col-lg-6 col-xl-5">
 						<div class="card">
-							<div class="card-header card-header-success">
-								<h3 class="card-title">
-									<i class="fa fa-industry fa-lg pr-4"></i> Optie: planning en kosten</h3>
-								<p class="card-category">Extra informatie over tijd en geld</p>
-							</div>
+							<CardHeader :text="{title: 'Optie: planning en kosten', subtitle: 'Extra informatie over tijd en geld' }"/>
 							<div class="card-body">
 								<h6 class="title"><strong>Planning</strong></h6>
 								<div class="row mb-2">
@@ -94,8 +90,11 @@
 </template>
 
 <script>
+	import CardHeader from "./attributes/Card-header.vue";
+
 	export default {
 		name: "PlanningOpties",
+		components: { CardHeader },
 		computed: {
 			planningOpties() {
 				return this.$store.state.werkvoorbereiding.planningOpties

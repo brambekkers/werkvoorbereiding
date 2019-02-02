@@ -1,5 +1,5 @@
 <template>
-	<aside class="sidebar">
+	<aside class="sidebar" data-color="green">
 		<div class="logo">
 			<a href="/" class="simple-text logo-normal">WVB</a>
 		</div>

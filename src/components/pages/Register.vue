@@ -4,11 +4,7 @@
 			<div class="col-12 col-sm-10 col-md-8 col-lg-6 col-xl-4 mx-auto">
 				<form role="form" @submit.prevent="register()">
 					<div class="card">
-						<div class="card-header card-header-success">
-							<h3 class="card-title">
-								<i class="fa fa-industry fa-lg pr-4"></i>Registreer</h3>
-							<p class="card-category">Voor een gratis account</p>
-						</div>
+						<CardHeader :text="{title: 'Registreer', subtitle: 'Voor een gratis account' }"/>							
 						<div class="card-body">
 							<div class="row">
 								<div class="input-group mb-2">
@@ -39,8 +35,10 @@
 </template>
 
 <script>
+	import CardHeader from "./attributes/Card-header.vue";
 	export default {
 		name: "Register",
+		components: { CardHeader },
 		data(){
 			return{
 				name: '',

@@ -4,11 +4,7 @@
 			<div class="row justify-content-center" allewvb="">
 				<div class="col-md-12">
 					<div class="card">
-						<div class="card-header card-header-success">
-							<h3 class="card-title">
-								<i class="fa fa-industry fa-lg pr-4"></i>Projecten</h3>
-							<p class="card-category">Kies een project waarmee je verder wilt gaan.</p>
-						</div>
+						<CardHeader :text="{title: 'Projecten', subtitle: 'Kies een project waarmee je verder wilt gaan.' }"/>
 						<div class="row mt-3 mx-3 justify-content-center">
 							<div class="col-md-4 text-center"><button class="btn btn-fill btn-block" @click="newWvb()">Nieuw project</button></div>
 							<div class="col-4 text-center"></div>
@@ -29,7 +25,7 @@
 									</tr>
 								</thead>
 								<tbody>
-									<tr v-bind:key="index" v-for="(project, index) in projecten" @click="selectWvb(index)" :class="{ selected: (index === selectedWvb) }">
+									<tr v-bind:key="index" v-for="(project, index) in projecten" @click="selectWvb(index)" :class="selectedColor(index)">
 										<td>{{index+1}}</td>
 										<td>{{project.basisgegevens.project}}</td>
 										<td>{{aantalComponenten(index)}}</td>
@@ -48,8 +44,11 @@
 </template>
 
 <script>
+	import CardHeader from "./attributes/Card-header.vue";
+
 	export default {
 		name: "Projecten",
+		components: { CardHeader },
 		data() {
 			return {
 				selectedWvb: null,
@@ -70,7 +69,15 @@
 				if (this.werkvoorbereiding) {
 					return this.$store.state.werkvoorbereiding.id
 				}
-			}
+			},
+			instellingen() 	{ return this.$store.state.appData.instellingen },
+			userColor()		{ 
+				if(this.instellingen.kleur){
+					return this.$store.state.appData.instellingen.kleur
+				}else{
+					return 'groen'
+				}
+			},
 		},
 		methods: {
 			selectWvb(i) {
@@ -155,6 +162,11 @@
 				this.$store.state.werkvoorbereiding = null
 				this.selectedWvb = null
 				this.$store.state.appData.page = 1
+			},
+			selectedColor(index){
+				if(index === this.selectedWvb){ 
+					return this.userColor
+				} 
 			}
 		},
 		mounted() {
@@ -177,5 +189,48 @@
 
 	.selected {
 		background: linear-gradient(60deg, #66bb6a, #43a047);
+	}
+
+	.roze{
+		background-color: #e91e63;
+		background: linear-gradient(60deg, #d65a84, #e91e63);
+		webkit-box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 10px -5px rgba(233, 30, 99, 0.4);
+		box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 10px -5px rgba(233, 30, 99, 0.4);
+	}
+
+	.rood{
+		background: linear-gradient(60deg, #ef5350, #e53935);
+		webkit-box-shadow:  0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 10px -5px rgba(244, 67, 54, 0.4);
+		box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 10px -5px rgba(244, 67, 54, 0.4);
+	}
+
+	.geel{
+		background: linear-gradient(60deg, #ffa726, #fb8c00);
+		webkit-box-shadow:  0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 10px -5px rgba(255, 152, 0, 0.4);
+		box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 10px -5px rgba(255, 152, 0, 0.4);
+	}
+
+	.groen{
+		background: linear-gradient(60deg, #66bb6a, #43a047);
+		webkit-box-shadow:  0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 10px -5px rgba(76, 175, 80, 0.4);
+		box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 10px -5px rgba(76, 175, 80, 0.4);
+	}
+
+	.blauw{
+		background: linear-gradient(60deg, #26c6da, #00acc1);
+		webkit-box-shadow:  0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 10px -5px rgba(0, 188, 212, 0.4);
+		box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 10px -5px rgba(0, 188, 212, 0.4);
+	}
+
+	.paars{
+		background: linear-gradient(60deg, #ab47bc, #8e24aa);
+		webkit-box-shadow:  0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 10px -5px rgba(156, 39, 176, 0.4);
+		box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 10px -5px rgba(156, 39, 176, 0.4);
+	}
+
+	.grijs{
+		background: linear-gradient(60deg, #858585, #575757);
+		webkit-box-shadow:  0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 10px -5px rgba(163, 163, 163, 0.4);
+		box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 10px -5px rgba(163, 163, 163, 0.4);
 	}
 </style>

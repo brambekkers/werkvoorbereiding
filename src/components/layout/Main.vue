@@ -34,6 +34,7 @@
 			<Projecten v-if="currentPage === 16" />
 			<Statistieken v-if="currentPage === 30" />
 
+			<Instellingen v-if="currentPage === 50" />
 			<Over v-if="currentPage === 40" />
 			<Privacy v-if="currentPage === 41" />
 			<licence v-if="currentPage === 42" />
@@ -78,6 +79,7 @@
 	import Statistieken from "../pages/Statistieken.vue";
 
 	// Overige
+	import Instellingen from "../pages/Instellingen.vue";
 	import Over from "../pages/Over.vue";
 	import Privacy from "../pages/Privacy.vue";
 	import Admin from "../pages/Admin.vue";
@@ -117,6 +119,7 @@
 			Exporteren,
 			Statistieken,
 			Admin,
+			Instellingen,
 			Over,
 			Privacy,
 			Licence,

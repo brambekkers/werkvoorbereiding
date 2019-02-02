@@ -5,11 +5,7 @@
 				<div class="row justify-content-center">
 					<div class="col-md-8 col-lg-6 col-xl-5">
 						<div class="card">
-							<div class="card-header card-header-success">
-								<h3 class="card-title">
-									<i class="fa fa-industry fa-lg pr-4"></i>Optie: materialen</h3>
-								<p class="card-category">Extra informatie over de materialen</p>
-							</div>
+							<CardHeader :text="{title: 'Optie: materialen', subtitle: 'Extra informatie over de materialen' }"/>
 							<div class="card-body">
 								<h6 class="title"><strong>Massief hout</strong></h6>
 								<div class="row mb-2">
@@ -85,8 +81,11 @@
 </template>
 
 <script>
+	import CardHeader from "./attributes/Card-header.vue";
+
 	export default {
 		name: "MateriaalOpties",
+		components: { CardHeader },
 		computed: {
 			materiaalOpties() {
 				return this.$store.state.werkvoorbereiding.materiaalOpties

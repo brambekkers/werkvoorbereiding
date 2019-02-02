@@ -4,11 +4,7 @@
 			<div class="row justify-content-center">
 				<div class="col-md-8 col-lg-6 col-xl-5">
 					<div class="card">
-						<div class="card-header card-header-success">
-							<h3 class="card-title">
-								<i class="fa fa-industry fa-lg pr-4"></i>Exporteren</h3>
-							<p class="card-category">Je WVB extern opslaan</p>
-						</div>
+						<CardHeader :text="{title: 'Exporteren', subtitle: 'Je WVB extern opslaan' }"/>
 						<div class="card-body">
 							<div class="row mb-2">
 								<div class="col-md-12">
@@ -38,9 +34,11 @@
 	import * as FileSaver from 'file-saver';
 	import $ from 'jquery';
 	import html2canvas from 'html2canvas';
+	import CardHeader from "./attributes/Card-header.vue";
 
 	export default {
 		name: "Exporteren",
+		components: { CardHeader },
 		computed: {
 			wvbActive(){
 				if(this.$store.state.werkvoorbereiding){

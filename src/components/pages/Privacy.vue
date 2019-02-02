@@ -5,11 +5,7 @@
 				<div class="row justify-content-center">
 					<div class="col-xl-8">
 						<div class="card">
-							<div class="card-header card-header-success">
-								<h3 class="card-title">
-									<i class="fa fa-industry fa-lg pr-4"></i>Privacy</h3>
-								<p class="card-category">Hoe gaan wij om met de privacy</p>
-							</div>
+							<CardHeader :text="{title: 'Privacy', subtitle: 'Hoe gaan wij om met de privacy' }"/>
 							<div class="card-body">
 								<div class="row">
 									<div class="col-12">
@@ -99,8 +95,11 @@
 </template>
 
 <script>
+	import CardHeader from "./attributes/Card-header.vue";
+
 	export default {
 		name: "Privacy",
+		components: { CardHeader },
 	};
 </script>
 

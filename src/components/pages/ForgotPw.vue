@@ -4,11 +4,7 @@
 			<div class="col-12 col-sm-10 col-md-8 col-lg-6 col-xl-4 mx-auto">
 				<form role="form" @submit.prevent="forgotPassword">
 					<div class="card">
-						<div class="card-header card-header-warning">
-							<h3 class="card-title">
-								<i class="fa fa-industry fa-lg pr-4"></i>Wachtwoord</h3>
-							<p class="card-category">Als je het even niet meer weet</p>
-						</div>
+						<CardHeader :text="{title: 'Wachtwoord', subtitle: 'Als je het even niet meer weet' }"/>
 						<div class="card-body">
 							<div class="row">
 								<div class="input-group mb-2">
@@ -19,7 +15,7 @@
 						</div>
 
 					</div>
-					<button type="submit" class="btn btn-lg btn-block btn-warning">Wachtwoord opvragen</button>
+					<button type="submit" class="btn btn-lg btn-block btn-danger">Wachtwoord opvragen</button>
 				</form>
 			</div>
 		</div>
@@ -27,8 +23,11 @@
 </template>
 
 <script>
+	import CardHeader from "./attributes/Card-header.vue";
+
 	export default {
 		name: "ForgotPw",
+		components: { CardHeader },
 		data(){
 			return {
 				email: ''
