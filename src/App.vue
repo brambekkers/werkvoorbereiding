@@ -146,6 +146,10 @@
 </script>
 
 <style>
+	html{
+		overflow-x: hidden;
+	}
+	
 	.main-panel>.content {
 		margin-top: 10px;
 		padding: 30px 15px;

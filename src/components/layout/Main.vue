@@ -2,37 +2,45 @@
 	<main class="main-panel" @click="closeSidebar()">
 		<Navbar data-html2canvas-ignore/>
 
-		<!-- Project pages -->
-		<Gegevens v-if="currentPage === 1" />
-		<Componenten v-if="currentPage === 2" />
-		<OverigeMaterialen v-if="currentPage === -3" />
-		<Materialen v-if="currentPage === 3" />
-		<Maten v-if="currentPage === 4" />
-		<Gereedschap v-if="currentPage === 5" />
-		<Planning v-if="currentPage === 6" />
-		<Dashboard v-if="currentPage === 7" />
+		<transition 
+			name="bounce" 
+			mode="out-in" 
+			:duration="{ enter: 1000, leave: 1000 }" 
+			enter-active-class="bounceInLeft"
+  			leave-active-class="bounceOutRight">
+			<!-- Project pages -->
+			<Gegevens v-if="currentPage === 1"/>
+			<Componenten v-if="currentPage === 2"/>
+			<OverigeMaterialen v-if="currentPage === -3"/>
+			<Materialen v-if="currentPage === 3"/>
+			<Maten v-if="currentPage === 4" />
+			<Gereedschap v-if="currentPage === 5" />
+			<Planning v-if="currentPage === 6" />
+			<Dashboard v-if="currentPage === 7" />
 
-		<!-- Opties -->
-		<MateriaalOpties v-if="currentPage === -2" />
-		<PlanningOpties v-if="currentPage === -5" />
+			<!-- Opties -->
+			<MateriaalOpties v-if="currentPage === -2" />
+			<PlanningOpties v-if="currentPage === -5" />
 
-		<!-- Import/Export -->
-		<Importeren v-if="currentPage === 9" />
-		<Exporteren v-if="currentPage === 10" />
+			<!-- Import/Export -->
+			<Importeren v-if="currentPage === 9" />
+			<Exporteren v-if="currentPage === 10" />
 
-		<!-- Profile pages -->
-		<Login v-if="currentPage === 20 && !user" />
-		<Profile v-if="currentPage === 20 && user" />
-		<Register v-if="currentPage === 21" />
-		<ForgotPw v-if="currentPage === 22" />
-		<Projecten v-if="currentPage === 16" />
-		<Statistieken v-if="currentPage === 30" />
+			<!-- Profile pages -->
+			<Login v-if="currentPage === 20 && !user" />
+			<Profile v-if="currentPage === 20 && user" />
+			<Register v-if="currentPage === 21" />
+			<ForgotPw v-if="currentPage === 22" />
+			<Projecten v-if="currentPage === 16" />
+			<Statistieken v-if="currentPage === 30" />
 
-		<Over v-if="currentPage === 40" />
-		<Privacy v-if="currentPage === 41" />
-		<licence v-if="currentPage === 42" />
-		<Admin v-if="currentPage === -99" />
+			<Over v-if="currentPage === 40" />
+			<Privacy v-if="currentPage === 41" />
+			<licence v-if="currentPage === 42" />
+			<Admin v-if="currentPage === -99" />
+		</transition>
 
+		<WaitScreen data-html2canvas-ignore v-if="waitScreenBoolean" />
 		<Footer data-html2canvas-ignore/>
 	</main>
 </template>
@@ -71,18 +79,17 @@
 	import Privacy from "../pages/Privacy.vue";
 	import Admin from "../pages/Admin.vue";
 	import Licence from "../pages/Licence.vue"
+	import WaitScreen from "../pages/attributes/WaitScreen.vue"
 
 	import $ from "jquery"
+	import Animate from "vue2-animate/dist/vue2-animate.min.css"
 
 	export default {
 		name: "Main",
 		computed: {
-			currentPage() {
-				return this.$store.state.appData.page
-			},
-			user() {
-				return this.$store.state.appData.user
-			}
+			currentPage() 	{ return this.$store.state.appData.page },
+			user() 			{ return this.$store.state.appData.user },
+			waitScreenBoolean() 	{ return this.$store.state.appData.waitScreen }
 		},
 		components: {
 			Navbar,
@@ -108,7 +115,8 @@
 			Admin,
 			Over,
 			Privacy,
-			Licence
+			Licence,
+			WaitScreen
 		},
 		methods: {
 			closeSidebar() {

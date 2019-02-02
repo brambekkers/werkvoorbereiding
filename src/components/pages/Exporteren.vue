@@ -24,7 +24,7 @@
 										<i class="fas fa-print float-left"></i>
 										Printen (afbeelding) 
 									</button>
-									</div>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -69,20 +69,25 @@
 			opslaanAlsCanvas(){
 				if(this.wvbActive){
 					let _this = this
+					this.$store.state.appData.waitScreen = true
+					this.$store.state.appData.waitScreenText = "De resultaten worden omgezet naar een afbeelding. Even geduld..."
 					this.$store.state.appData.page = 7
 					$(".sidebar").hide();
 					$(".main-panel").css( "width", '100%');
 					setTimeout(()=>{
-						html2canvas(document.body).then((canvas)=>{
-							this.$store.state.appData.page = 10
-							canvas.toBlob(function(blob) {
-								// Generate file download
-								window.saveAs(blob, `Werkvoorbereiding_${_this.werkvoorbereiding.basisgegevens.naam}_${_this.werkvoorbereiding.basisgegevens.project}.png`);
-								$(".sidebar").show();
-								$(".main-panel").css( "width", 'calc(100% - 260px)');
-							});
+						html2canvas(document.body, {logging:false}).then((canvas)=>{
+
+								this.$store.state.appData.page = 10
+								this.$store.state.appData.waitScreen = false
+								canvas.toBlob((blob) => {
+									// Generate file download
+									window.saveAs(blob, `Werkvoorbereiding_${_this.werkvoorbereiding.basisgegevens.naam}_${_this.werkvoorbereiding.basisgegevens.project}.png`);
+									$(".sidebar").show();
+									$(".main-panel").css( "width", 'calc(100% - 260px)');
+								});
+		
 						},this);
-					},1000)
+					},5000)
 				}else{
 					this.noAccount()
 				}
@@ -101,5 +106,4 @@
 
 
 <style scoped>
-
 </style>

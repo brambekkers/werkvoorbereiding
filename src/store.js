@@ -10,7 +10,9 @@ export default new Vuex.Store({
 			page: 1,
 			firebase: null,
 			sidebarOpen: false,
-			admin: false
+			admin: false,
+			waitScreen: false,
+			waitScreenText: ''
 		},
 		userData: {},
 		werkvoorbereiding: {},

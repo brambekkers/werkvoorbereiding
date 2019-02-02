@@ -13,13 +13,13 @@
 			</button>
 			<div class="collapse navbar-collapse justify-content-end">
 				<ul class="navbar-nav">
-					<li class="nav-item dropdown">
+					<li class="nav-item dropdown" v-if="user">
 						<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
 						 aria-expanded="false">
 							<i class="fas fa-cog"></i>
 						</a>
 						<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-							<a class="dropdown-item" v-if="user != null" @click="$store.state.appData.page = 30">Statistieken</a>
+							<a class="dropdown-item" v-if="user" @click="$store.state.appData.page = 30">Statistieken</a>
 							<a class="dropdown-item" v-if="user === null" @click="loginMsg">Statistieken</a>
 							<a class="dropdown-item" v-if="admin" @click="$store.state.appData.page = -99">Admin</a>
 							<a class="dropdown-item" href="#">Instellingen</a>
@@ -27,7 +27,7 @@
 					</li>
 					<li class="nav-item">
 						<a class="mx-3">
-							<i class="fas fa-user" @click="$store.state.appData.page = 20"></i>
+							<i class="fas fa-user" @click="$store.state.appData.page = 20" v-if="user"></i>
 						</a>
 					</li>
 					<li class="nav-item">
@@ -37,7 +37,7 @@
 						</a>
 					</li>
 					<li class="nav-item">
-						<a class="mx-3" v-if="user != null" @click="logout()">
+						<a class="mx-3" v-if="user" @click="logout()">
 							<i class="fas fa-lock"></i>
 							<label class="ml-2">Logout</label>
 						</a>
@@ -54,18 +54,10 @@
 	export default {
 		name: "Navbar",
 		computed: {
-			admin() {
-				return this.$store.state.appData.admin
-			},
-			user() {
-				return this.$store.state.appData.user
-			},
-			currentPage() {
-				return this.$store.state.appData.page
-			},
-			sidebarOpen() {
-				return this.$store.state.appData.sidebarOpen
-			}
+			admin() { return this.$store.state.appData.admin },
+			user() { return this.$store.state.appData.user },
+			currentPage() { return this.$store.state.appData.page },
+			sidebarOpen() { return this.$store.state.appData.sidebarOpen }
 		},
 		methods: {
 			logout() {

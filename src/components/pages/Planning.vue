@@ -11,160 +11,164 @@
 								<p class="card-category">Wanneer ga je het maken?</p>
 							</div>
 							<div class="card-body">
-								<div v-bind:key="planningIndex" v-for="(planning, planningIndex) in planning" class="planning shadow-sm">
-									<div class="row">
-										<!-- Component -->
-										<div class="col-md-3 col-xl-2">
-											<div class="input-group mb-2">
-												<div class="input-group-prepend">
-													<span id="basic-addon1" class="input-group-text">
-														<i class="fas fa-list-ul"></i>
-													</span>
+								<draggable v-model="$store.state.werkvoorbereiding.planning">
+									<div v-bind:key="'Planning'+planningIndex" v-for="(planning, planningIndex) in planning" class="planning shadow-sm">
+										<div class="row">
+											<!-- Component -->
+											<div class="col-md-3 col-xl-2">
+												<div class="input-group mb-2">
+													<div class="input-group-prepend">
+														<span id="basic-addon1" class="input-group-text">
+															<i class="fas fa-list-ul grabbing"></i>
+														</span>
+													</div>
+													<select data-toggle="tooltip" data-placement="top" 
+													title="" required="required" class="form-control"
+													data-original-title="Voor welk component wil je een planning maken?"
+													v-model="planning.component">
+														<option value="" hidden disabled selected>Kies component</option>
+														<option value="Gehele project">Gehele project</option>
+														<option v-bind:key="index" v-for="(component, index) in componenten">{{component.naam}}</option>
+													</select>
 												</div>
-												<select data-toggle="tooltip" data-placement="top" 
-												title="" required="required" class="form-control"
-												data-original-title="Voor welk component wil je een planning maken?"
-												v-model="planning.component">
-													<option value="" hidden disabled selected>Kies component</option>
-													<option value="Gehele project">Gehele project</option>
-													<option v-bind:key="index" v-for="(component, index) in componenten">{{component.naam}}</option>
-												</select>
+											</div>
+											<!-- Onderdeel -->
+											<div class="col-md-3 col-xl-2">
+												<div class="input-group mb-2">
+													<select data-toggle="tooltip" data-placement="top" 
+													title="" required="required" class="form-control" 
+													data-original-title="Voor welk onderdeel?"
+													v-model="planning.onderdeel">
+														<option value="" hidden disabled selected v-if="!planning.component">Kies eerst een component</option>
+														<option value="" hidden disabled selected v-if="planning.component">Kies een onderdeel</option>
+														<option value="Alle onderdelen" v-if="planning.component">Alle onderdelen</option>
+														<option v-bind:key="index" v-for="(component, index) in onderdelen(planningIndex)">{{component.naam}}</option>
+													</select>
+												</div>
+											</div>
+											<div class="col-10 col-md-3 col-xl-2">
+												<div class="input-group mb-2">
+													<button type="button" class="btn btn-teal btn-sm ml-auto" @click="newStap(planningIndex)">
+														<i class="fa fa-plus mr-3"></i> Substap
+													</button>
+												</div>
+											</div>
+											<div class="col-2 col-md-3 col-xl-1">
+												<div class="input-group mb-2">
+													<button type="button" class="btn btn-danger btn-sm" @click="removePlanning(planningIndex)">
+														<i class="fa fa-trash"></i>
+													</button>
+												</div>
 											</div>
 										</div>
-										<!-- Onderdeel -->
-										<div class="col-md-3 col-xl-2">
-											<div class="input-group mb-2">
-												<select data-toggle="tooltip" data-placement="top" 
-												title="" required="required" class="form-control" 
-												data-original-title="Voor welk onderdeel?"
-												v-model="planning.onderdeel">
-													<option value="" hidden disabled selected v-if="!planning.component">Kies eerst een component</option>
-													<option value="" hidden disabled selected v-if="planning.component">Kies een onderdeel</option>
-													<option value="Alle onderdelen" v-if="planning.component">Alle onderdelen</option>
-													<option v-bind:key="index" v-for="(component, index) in onderdelen(planningIndex)">{{component.naam}}</option>
-												</select>
+										<draggable v-model="$store.state.werkvoorbereiding.planning[planningIndex].stappen">
+											<div class="row stap shadow-sm ml-5 mr-2" v-bind:key="index" v-for="(stap, index) in stappen(planningIndex)">
+												<div class="col-12">
+													<div class="row px-0">
+														<!-- Stap -->
+														<div class="col-6 col-md-4 col-xl-2 pl-0">
+															<div class="input-group mb-2">
+																<div class="input-group-prepend">
+																	<span id="basic-addon1" class="input-group-text">
+																		<i class="far fa-hand-point-right grabbing"></i>
+																	</span>
+																</div> 
+																<select data-toggle="tooltip" data-placement="top"  
+																required="required" class="form-control"
+																data-original-title="Welke stap ga je doen?"
+																v-model="stap.stap">
+																	<option value="" hidden selected disabled>Kies..</option>
+																	<option v-bind:key="index" v-for="(stap, index) in onderdeelStappen">{{stap}}</option>
+																</select>
+															</div>
+														</div>
+														<!-- Werkzaamheid -->
+														<div class="col-6 col-md-4 col-xl-2">
+															<div class="input-group mb-2">
+																<select data-toggle="tooltip" data-placement="top"
+																required="required" class="form-control" 
+																data-original-title="Voor welke werkzaamheid?"
+																v-model="stap.werkzaamheid">
+																	<option value="" hidden selected disabled>Kies..</option>
+																	<option v-bind:key="index" v-for="(werkzaamheid, index) in onderdeelWerkzaamheid(stap.stap)">{{werkzaamheid}}</option>
+																</select>
+															</div>
+														</div>
+														<!-- Bewerking -->
+														<div class="col-6 col-md-4 col-xl-2">
+															<div class="input-group mb-2">
+																<select data-toggle="tooltip" data-placement="top"
+																required="required" class="form-control" 
+																data-original-title="Welke bewerking ga je uitvoeren?"
+																v-model="stap.bewerking">
+																	<option value="" hidden selected disabled>Kies..</option>
+																	<option v-bind:key="index" v-for="(werkzaamheid, index) in onderdeelBewerking(stap.stap, stap.werkzaamheid)">{{werkzaamheid}}</option>
+																</select>
+															</div>
+														</div>
+														<!-- Gereedschap -->
+														<div class="col-6 col-md-3 col-xl-2">
+															<div class="input-group mb-2">
+																<select data-toggle="tooltip" data-placement="top"
+																required="required" class="form-control" 
+																data-original-title="Heb je een gereedschap nodig?"
+																v-model="stap.gereedschap">
+																	<option value="" hidden selected disabled>Selecteer gereedschap</option>
+																	<optgroup label="Gereedschap" v-if="gereedschappen.length > 0">
+																		<option :value="gereedschap" :key="index" v-for="(gereedschap, index) in gereedschappen">{{gereedschap}}</option>
+																	</optgroup>
+																	<optgroup label="Machines" v-if="machines.length > 0">
+																		<option :value="gereedschap" :key="index" v-for="(gereedschap, index) in machines">{{gereedschap}}</option>
+																	</optgroup>
+																	<optgroup label="Overig">
+																		<option value="Overig">Overig</option>
+																		<option value="Meerdere machines">Meerdere machines</option>
+																		<option value="Handgereedschap">Handgereedschap</option>
+																		<option value="Geen gereedschap">Geen gereedschap</option>
+																	</optgroup>
+																</select></div>
+														</div>
+														<!-- Insteltijd -->
+														<div class="col-3 col-md-2 col-xl-1">
+															<div class="input-group mb-2">
+																<input type="number" placeholder="Insteltijd" data-toggle="tooltip"
+																data-placement="top" required="required" class="form-control" 
+																data-original-title="Hoeveel minuten ben je bezig met instellen?"
+																v-model="stap.insteltijd">
+															</div>
+														</div>
+														<!-- Bewerkingstijd -->
+														<div class="col-3 col-md-2 col-xl-1">
+															<div class="input-group mb-2">
+																<input type="number" placeholder="Bewerkingstijd" data-toggle="tooltip"
+																data-placement="top" required="required" class="form-control" 
+																data-original-title="Hoeveel minuten ben je bezig met één bewerking?"
+																v-model="stap.bewerkingstijd">	
+															</div>
+														</div>
+														<!-- Aantal -->
+														<div class="col-3 col-md-2 col-xl-1">
+															<div class="input-group mb-2">
+																<input type="number" placeholder="Aantal" data-toggle="tooltip" 
+																data-placement="top" required="required" class="form-control" 
+																data-original-title="Hoe vaak ga je dezelfde handeling uitvoeren?"
+																v-model="stap.aantal">
+															</div>
+														</div>
+														<!-- Verwijderknop -->
+														<div class="col-3 col-md-1 col-xl-1">
+															<div class="input-group mb-2">
+																<button type="button" class="btn btn-danger btn-sm" @click="removeStap(planningIndex, index)">
+																	<i class="fa fa-trash"></i>
+																</button>
+															</div>
+														</div>
+													</div>
+												</div>
 											</div>
-										</div>
-										<div class="col-10 col-md-3 col-xl-2">
-											<div class="input-group mb-2">
-												<button type="button" class="btn btn-teal btn-sm ml-auto" @click="newStap(planningIndex)">
-													<i class="fa fa-plus mr-3"></i> Substap
-												</button>
-											</div>
-										</div>
-										<div class="col-2 col-md-3 col-xl-1">
-											<div class="input-group mb-2">
-												<button type="button" class="btn btn-danger btn-sm" @click="removePlanning(planningIndex)">
-													<i class="fa fa-trash"></i>
-												</button>
-											</div>
-										</div>
+										</draggable>
 									</div>
-									<div class="row stap shadow-sm ml-5 mr-2" v-bind:key="index" v-for="(stap, index) in stappen(planningIndex)">
-										<div class="col-12">
-											<div class="row px-0">
-												<!-- Stap -->
-												<div class="col-6 col-md-4 col-xl-2 pl-0">
-													<div class="input-group mb-2">
-														<div class="input-group-prepend">
-															<span id="basic-addon1" class="input-group-text">
-																<i class="far fa-hand-point-right"></i>
-															</span>
-														</div> 
-														<select data-toggle="tooltip" data-placement="top"  
-														required="required" class="form-control"
-														data-original-title="Welke stap ga je doen?"
-														v-model="stap.stap">
-															<option value="" hidden selected disabled>Kies..</option>
-															<option v-bind:key="index" v-for="(stap, index) in onderdeelStappen">{{stap}}</option>
-														</select>
-													</div>
-												</div>
-												<!-- Werkzaamheid -->
-												<div class="col-6 col-md-4 col-xl-2">
-													<div class="input-group mb-2">
-														<select data-toggle="tooltip" data-placement="top"
-														required="required" class="form-control" 
-														data-original-title="Voor welke werkzaamheid?"
-														v-model="stap.werkzaamheid">
-															<option value="" hidden selected disabled>Kies..</option>
-															<option v-bind:key="index" v-for="(werkzaamheid, index) in onderdeelWerkzaamheid(stap.stap)">{{werkzaamheid}}</option>
-														</select>
-													</div>
-												</div>
-												<!-- Bewerking -->
-												<div class="col-6 col-md-4 col-xl-2">
-													<div class="input-group mb-2">
-														<select data-toggle="tooltip" data-placement="top"
-														required="required" class="form-control" 
-														data-original-title="Welke bewerking ga je uitvoeren?"
-														v-model="stap.bewerking">
-															<option value="" hidden selected disabled>Kies..</option>
-															<option v-bind:key="index" v-for="(werkzaamheid, index) in onderdeelBewerking(stap.stap, stap.werkzaamheid)">{{werkzaamheid}}</option>
-														</select>
-													</div>
-												</div>
-												<!-- Gereedschap -->
-												<div class="col-6 col-md-3 col-xl-2">
-													<div class="input-group mb-2">
-														<select data-toggle="tooltip" data-placement="top"
-														required="required" class="form-control" 
-														data-original-title="Heb je een gereedschap nodig?"
-														v-model="stap.gereedschap">
-															<option value="" hidden selected disabled>Selecteer gereedschap</option>
-															<optgroup label="Gereedschap" v-if="gereedschappen.length > 0">
-																<option :value="gereedschap" :key="index" v-for="(gereedschap, index) in gereedschappen">{{gereedschap}}</option>
-															</optgroup>
-															<optgroup label="Machines" v-if="machines.length > 0">
-																<option :value="gereedschap" :key="index" v-for="(gereedschap, index) in machines">{{gereedschap}}</option>
-															</optgroup>
-															<optgroup label="Overig">
-																<option value="Overig">Overig</option>
-																<option value="Meerdere machines">Meerdere machines</option>
-																<option value="Handgereedschap">Handgereedschap</option>
-																<option value="Geen gereedschap">Geen gereedschap</option>
-															</optgroup>
-														</select></div>
-												</div>
-												<!-- Insteltijd -->
-												<div class="col-3 col-md-2 col-xl-1">
-													<div class="input-group mb-2">
-														<input type="number" placeholder="Insteltijd" data-toggle="tooltip"
-														data-placement="top" required="required" class="form-control" 
-														data-original-title="Hoeveel minuten ben je bezig met instellen?"
-														v-model="stap.insteltijd">
-													</div>
-												</div>
-												<!-- Bewerkingstijd -->
-												<div class="col-3 col-md-2 col-xl-1">
-													<div class="input-group mb-2">
-														<input type="number" placeholder="Bewerkingstijd" data-toggle="tooltip"
-														data-placement="top" required="required" class="form-control" 
-														data-original-title="Hoeveel minuten ben je bezig met één bewerking?"
-														v-model="stap.bewerkingstijd">	
-													</div>
-												</div>
-												<!-- Aantal -->
-												<div class="col-3 col-md-2 col-xl-1">
-													<div class="input-group mb-2">
-														<input type="number" placeholder="Aantal" data-toggle="tooltip" 
-														data-placement="top" required="required" class="form-control" 
-														data-original-title="Hoe vaak ga je dezelfde handeling uitvoeren?"
-														v-model="stap.aantal">
-													</div>
-												</div>
-												<!-- Verwijderknop -->
-												<div class="col-3 col-md-1 col-xl-1">
-													<div class="input-group mb-2">
-														<button type="button" class="btn btn-danger btn-sm" @click="removeStap(planningIndex, index)">
-															<i class="fa fa-trash"></i>
-														</button>
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
+								</draggable>
 								<div class="row">
 									<div class="col-md-6">
 										<button type="button" class="btn" @click="newOnderdeel()">
@@ -206,10 +210,12 @@
 
 <script>
 	import $ from "jquery";
+	import draggable from 'vuedraggable'
 	import planningGegevens from "../../assets/config/planningGegevens.js"
 
 	export default {
 		name: "Planning",
+		components: {draggable},
 		computed: {
 			werkvoorbereiding() {
 				return this.$store.state.werkvoorbereiding
@@ -335,4 +341,17 @@
 		margin: 10px 0px;
 		border-radius: 0.2rem;
 	}
+	.grabbing {
+		cursor: move; /* fallback if grab cursor is unsupported */
+		cursor: grab;
+		cursor: -moz-grab;
+		cursor: -webkit-grab;
+	}
+
+	/* (Optional) Apply a "closed-hand" cursor during drag operation. */
+	.grabbing:active {
+		cursor: grabbing;
+		cursor: -moz-grabbing;
+		cursor: -webkit-grabbing;
+}
 </style>
