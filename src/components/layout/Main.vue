@@ -1,5 +1,5 @@
 <template>
-	<main class="main-panel" @click="closeSidebar()">
+	<main class="main-panel">
 		<Navbar data-html2canvas-ignore/>
 
 		<transition 
@@ -39,7 +39,10 @@
 			<licence v-if="currentPage === 42" />
 			<Admin v-if="currentPage === -99" />
 		</transition>
-
+		
+		<transition name="fade"> 
+			<div class="exitSidebarDiv" v-if="sideBarOpen" @click="closeSidebar()" />
+		</transition>
 		<WaitScreen data-html2canvas-ignore v-if="waitScreenBoolean" />
 		<Footer data-html2canvas-ignore/>
 	</main>
@@ -88,6 +91,7 @@
 		name: "Main",
 		computed: {
 			currentPage() 	{ return this.$store.state.appData.page },
+			sideBarOpen() 	{ return this.$store.state.appData.sidebarOpen},
 			user() 			{ return this.$store.state.appData.user },
 			waitScreenBoolean() 	{ return this.$store.state.appData.waitScreen }
 		},
@@ -120,14 +124,10 @@
 		},
 		methods: {
 			closeSidebar() {
-				if (this.$store.state.appData.sidebarOpen) {
-					// console.log('klik')
-
-					// if(){
-					// 	$("html").removeClass("nav-open");
-					// 	$(".navbar-toggler").removeClass("toggled");
-					// }
-					
+				if (this.sideBarOpen) {
+					$("html").removeClass("nav-open");
+					$(".navbar-toggler").removeClass("toggled");
+					this.$store.state.appData.sidebarOpen = false
 				}
 
 			}
@@ -137,4 +137,12 @@
 
 
 <style scoped>
+	.exitSidebarDiv{
+		position: absolute;
+		z-index: 999;
+		top: 0;
+		width: 100%;
+		height: 100%;
+		background: rgba(0, 0, 0, 0.4)
+	}
 </style>
