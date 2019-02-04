@@ -31,8 +31,10 @@
 				if(this.$store.state.werkvoorbereiding.planning){
 					let array = []
 					for (const planning of this.$store.state.werkvoorbereiding.planning) {
-						for (const stap of planning.stappen) {
-							array.push(stap)
+						if(planning.stap){
+							for (const stap of planning.stappen) {
+								array.push(stap)
+							}
 						}
 					}
 					return array

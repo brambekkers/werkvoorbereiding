@@ -42,8 +42,6 @@
 </template>
 
 <script>
-	// import Chart from "chart.js"
-	// import { Bar } from 'vue-chartjs'
 	import Chart from './Chart-worktime'
 
 	export default {
@@ -70,54 +68,49 @@
 			planningOpties(){
 				return this.$store.state.werkvoorbereiding.planningOpties
 			},
-			insteltijd(){
+			planningStappenArray(){
+				let array = []
 				if(this.planning){
-					let tijd = 0
-					for (const plan of this.planning) {
-						for (const stap of plan.stappen) {
-							tijd += Number(stap.insteltijd)
-						}
-					}
-					return Number((tijd / 60).toFixed(1));
-				}else{
-					return 0
-				}
-			},
-			bewerkingstijd(){
-				if(this.planning){
-					let tijd = 0
-					for (const plan of this.planning) {
-						for (const stap of plan.stappen) {
-							tijd += Number(stap.bewerkingstijd) *  Number(stap.aantal)
-						}
-					}
-					return Number((tijd / 60).toFixed(1));
-				}else{
-					return 0
-				}
-			},
-			tijdPerOnderwerp(){
-				if(this.planning){
-					let category = ['Voorbereiding', 'Machinale', 'Werkplaats', 'Plaatsen', 'Administratie']
-					let timeArray = []
-					
-					for (const cat of category) {
-						let tijd = 0
-						for (const plan of this.planning) {
-							for (const stap of plan.stappen) {
-								if(cat === stap.stap){
-									tijd += Number(stap.insteltijd)
-									tijd += Number(stap.bewerkingstijd) *  Number(stap.aantal)
-								}	
+					for (const planning of this.planning) {
+						if(planning.stappen){
+							for (const stap of planning.stappen) {
+								array.push(stap)
 							}
 						}
-						timeArray.push( (tijd / 60).toFixed(1) )
 					}
-		
-					return timeArray
-				}else{
-					return 0
 				}
+				return array
+			},
+			insteltijd(){
+				let tijd = 0
+				for (const stap of this.planningStappenArray) {
+					tijd += Number(stap.insteltijd)
+				}
+				return Number((tijd / 60).toFixed(1));
+			},
+			bewerkingstijd(){
+				let tijd = 0
+				for (const stap of this.planningStappenArray) {
+					tijd += Number(stap.bewerkingstijd) *  Number(stap.aantal)
+				}
+				return Number((tijd / 60).toFixed(1));
+			},
+			tijdPerOnderwerp(){
+				let category = ['Voorbereiding', 'Machinale', 'Werkplaats', 'Plaatsen', 'Administratie']
+				let timeArray = []
+				
+				for (const cat of category) {
+					let tijd = 0
+					for (const stap of this.planningStappenArray) {
+						if(cat === stap.stap){
+							tijd += Number(stap.insteltijd)
+							tijd += Number(stap.bewerkingstijd) *  Number(stap.aantal)
+						}	
+					}
+					timeArray.push( (tijd / 60).toFixed(1) )
+				}
+	
+				return timeArray
 			},
 			totaletijdBrutto(){
 				return this.insteltijd + this.bewerkingstijd

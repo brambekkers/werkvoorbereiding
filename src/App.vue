@@ -62,9 +62,7 @@
 						this.FbDatabaseListner();
 						this.checkRole();
 					} else {
-						this.$store.state.appData.user = null;
-						this.$store.state.userData = null;
-						this.$store.state.appData.admin = false
+						this.resetAppLogout()
 					}
 				});
 			},
@@ -137,6 +135,13 @@
 						.werkvoorbereiding);
 				}
 			},
+			resetAppLogout(){
+				this.$store.state.appData.page = 1;
+				this.$store.state.appData.instellingen.kleur = 'groen';
+				this.$store.state.appData.user = null;
+				this.$store.state.userData = null;
+				this.$store.state.appData.admin = false
+			}
 		},
 		created() {
 			this.FbConnection();

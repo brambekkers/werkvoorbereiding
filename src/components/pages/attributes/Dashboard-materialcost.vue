@@ -77,15 +77,13 @@
 				}
 				return false
 			},
-			planningOpties(){
-				return this.$store.state.werkvoorbereiding.planningOpties
-			},
-			opslagpercentageMassief(){
-				return Number(this.$store.state.werkvoorbereiding.materiaalOpties.opslagpercentageMassief)
-			},
-			opslagpercentagePlaat(){
-				return Number(this.$store.state.werkvoorbereiding.materiaalOpties.opslagpercentagePlaat)
-			},
+			planningOpties()			{ return this.$store.state.werkvoorbereiding.planningOpties },
+			materiaalOpties()			{ return this.$store.state.werkvoorbereiding.materiaalOpties },
+			opslagpercentageMassief()	{ return Number(this.materiaalOpties.opslagpercentageMassief) },
+			opslagpercentagePlaat()		{ return Number(this.materiaalOpties.opslagpercentagePlaat) },
+			overlengteZijde()			{ return Number(this.materiaalOpties.overlengteZijdes) },
+			overlengteKops()			{ return Number(this.materiaalOpties.overlengteKops) },
+			overlengteLangs()			{ return Number(this.materiaalOpties.overlengteLangs) },
 			maten(){
 				if(this.$store.state.werkvoorbereiding.maten){
 					return this.$store.state.werkvoorbereiding.maten
@@ -130,6 +128,8 @@
 						prijs += Number(materiaal.prijs) * Number(materiaal.aantal)
 					}
 					return prijs
+				}else{
+					return 0
 				}
 			},
 			materiaalNamen(){
@@ -156,10 +156,14 @@
 						let prijsMassief = 0
 						for (const maat of this.maten) {
 							if(materiaal.naam === maat.materiaal){
-								prijsMassief += (Number(maat.lengte) * Number(maat.breedte) *  Number(maat.dikte) / 1000000000 ) * Number(materiaal.prijs) * Number(maat.aantal)
+								let lengte = Number(maat.lengte) + this.overlengteKops
+								let breedte = Number(maat.breedte) + this.overlengteLangs
+								let dikte = Number(maat.dikte)
+								let inhoud = lengte * breedte * dikte / 1000000000 
+								prijsMassief += inhoud * Number(materiaal.prijs) * Number(maat.aantal)
 							}
 						}
-						kosten.push(prijsMassief)
+						kosten.push(Number(prijsMassief.toFixed(2)))
 					}
 				}
 				return kosten
@@ -169,13 +173,16 @@
 				// Plaatmateriaal
 				if(this.maten && this.materialenPlaat){
 					for (const materiaal of this.materialenPlaat) {
-						let prijsMassief = 0
+						let prijsPlaat = 0
 						for (const maat of this.maten) {
 							if(materiaal.naam === maat.materiaal){
-								prijsMassief += (Number(maat.lengte) * Number(maat.breedte) / 1000000 ) * Number(materiaal.prijs) * Number(maat.aantal)
+								let lengte = Number(maat.lengte) + this.overlengteZijde
+								let breedte = Number(maat.breedte) + this.overlengteZijde
+								let oppervlakte = lengte * breedte / 1000000 
+								prijsPlaat += oppervlakte * Number(materiaal.prijs) * Number(maat.aantal)
 							}
 						}
-						kosten.push(prijsMassief)
+						kosten.push(Number(prijsPlaat.toFixed(2)))
 					}
 				}
 				return kosten
@@ -185,11 +192,16 @@
 				// Fineer
 				if(this.maten && this.materialenFineer){
 					for (const materiaal of this.materialenFineer) {
-						let prijsMassief = 0
+						let prijsFineer = 0
 						for (const maat of this.maten) {
-							// BEREKEN HIER HET FINEER
+							if(materiaal.naam === maat.materiaal){
+								let lengte = Number(maat.lengte) + this.overlengteZijde
+								let breedte = Number(maat.breedte) + this.overlengteZijde
+								let oppervlakte = lengte * breedte / 1000000 
+								prijsFineer += oppervlakte * Number(materiaal.prijs) * Number(maat.aantal)
+							}
 						}
-						kosten.push(prijsMassief)
+						kosten.push(prijsFineer)
 					}
 				}
 				return kosten
@@ -228,7 +240,7 @@
 			},
 			loonKosten(){
 				if(this.planningOpties){
-					return this.$store.state.dashboard.aantalUren * Number(this.planningOpties.uurtarief)
+					return Number((this.$store.state.dashboard.aantalUren * Number(this.planningOpties.uurtarief)).toFixed(2));
 				}else{
 					return 0
 				}

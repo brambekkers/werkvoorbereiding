@@ -8,6 +8,8 @@
 </template>
 
 <script>
+	import $ from "jquery"
+
 	export default {
 		name: "SidebarProjectMenuItem",
 		props: ["itemProps"],
@@ -20,12 +22,9 @@
 				}
 				return false
 			},
-			werkvoorbereiding(){
-				return this.$store.state.werkvoorbereiding
-			},
-			appData(){
-				return this.$store.state.appData
-			},
+			werkvoorbereiding()	{return this.$store.state.werkvoorbereiding},
+			sideBarOpen() 		{ return this.$store.state.appData.sidebarOpen},
+			appData()			{ return this.$store.state.appData},
 			canClick(){
 				if(this.wvbActive){
 					if(this.werkvoorbereiding.stap < 1 && this.itemProps.page === 1){
@@ -72,6 +71,14 @@
 			toPage(){
 				if(this.canClick){
 					this.$store.state.appData.page = this.itemProps.page
+					this.closeSidebar();
+				}
+			},
+			closeSidebar() {
+				if (this.sideBarOpen) {
+					$("html").removeClass("nav-open");
+					$(".navbar-toggler").removeClass("toggled");
+					this.$store.state.appData.sidebarOpen = false
 				}
 			}	
 		},

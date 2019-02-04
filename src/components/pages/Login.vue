@@ -46,7 +46,22 @@
 		methods: {
 			login(){
 				this.$store.state.appData.firebase.auth().signInWithEmailAndPassword(this.email, this.password).catch((error) => {
+					this.handleError(error);					
+				});
 
+				this.email = ""
+				this.password = ""
+			},
+			handleError(){
+					// Ongeldig e-mailadres
+					if(error.code === "auth/invalid-email"){
+						swal({
+							title: "Niet geldig",
+							text: "Dit is geen geldig email adres.",
+							dangerMode: true,
+							icon: "error",
+						})
+					}
 					// User niet aanwezig in database
 					if(error.code === "auth/user-not-found"){
 						swal({
@@ -65,12 +80,15 @@
 							icon: "error",
 						})
 					}
-
-					
-				});
-
-				this.email = ""
-				this.password = ""
+					// Accound is uitgeschakeld
+					else if(error.code === "auth/user-disabled"){
+						swal({
+							title: "Uitgeschakeld",
+							text: "Dit account is tijdelijk niet actief. Neem contact op met de beheerder voor verdere informatie.",
+							dangerMode: true,
+							icon: "error",
+						})
+					}
 			}
 		}
 	};

@@ -35,9 +35,37 @@
 		},
 		methods: {
 			forgotPassword(){
-				this.$store.state.appData.firebase.auth().sendPasswordResetEmail(this.email)
-
-				this.email = ''
+				this.$store.state.appData.firebase.auth().sendPasswordResetEmail(this.email).then(()=>{
+					swal({
+						title: "Reset e-mail",
+						text: `Er is een wachtwoord reset email verstuurd naar ${this.email}. Volg de instructies in de mail om eht wachtwoord te resetten.`,
+						dangerMode: false,
+						icon: "success",
+					})
+					this.email = ''
+				}).catch((error) => {
+					console.log(error)
+					this.handleError(error);
+				});
+				
+			},
+			handleError(error){
+				if(error.code === "auth/invalid-email"){
+					swal({
+						title: "niet geldig",
+						text: "Dit is geen geldig email adres.",
+						dangerMode: true,
+						icon: "error",
+					})
+				}
+				if(error.code === "auth/user-not-found"){
+					swal({
+						title: "Verkeerde email?",
+						text: "Dit e-mailadres is niet bij ons bekend.",
+						dangerMode: true,
+						icon: "error",
+					})
+				}
 			}
 		}
 	};

@@ -8,7 +8,7 @@
 							<CardHeader :text="{title: 'Maten', subtitle: 'Hoe groot zijn je onderdelen' }"/>
 							<div class="card-body">
 								<div class="row" v-bind:key="index" v-for="(maat, index) in maten">
-									<div class="col-9 col-md-4 col-xl-3">
+									<div class="col-8 col-md-4 col-xl-3">
 										<div class="input-group mb-2">
 											<div class="input-group-prepend">
 												<span id="basic-addon1" class="input-group-text">
@@ -21,7 +21,7 @@
 											v-model="maat.naam">
 										</div>
 									</div>
-									<div class="col-3 col-md-4 col-xl-1">
+									<div class="col-4 col-md-4 col-xl-1">
 										<div class="input-group mb-2">
 											<input type="number" placeholder="Aantal" data-toggle="tooltip" 
 											data-placement="top" required="required" class="form-control" 
@@ -29,35 +29,35 @@
 											v-model="maat.aantal">
 										</div>
 									</div>
-									<div class="col-md-4 col-xl-2">
+									<div class="col-6 col-md-4 col-xl-2">
 										<div class="input-group mb-2">
 											<select data-toggle="tooltip" data-placement="top" required="required" 
 											class="form-control" data-original-title="Welk component?"
 											v-model="maat.component">
-												<option value="" disabled hidden>Kies een component</option>
+												<option value="" selected disabled hidden>Kies een component</option>
 												<option v-bind:key="index" v-for="(component, index) in componenten">{{component.naam}}</option>
 											</select>
 										</div>
 									</div>
-									<div class="col-md-4 col-xl-2">
+									<div class="col-6 col-md-4 col-xl-2">
 										<div class="input-group mb-2">
 											<select data-toggle="tooltip" data-placement="top" required="required" 
 											class="form-control" data-original-title="Welk materiaal?"
-											v-model="maat.instellingen">
-												<option value="" disabled hidden>Kies een materiaal</option>
+											v-model="maat.materiaal">
+												<option value="" selected disabled hidden>Kies een materiaal</option>
 												<optgroup label="Massiefhout"  v-if="massief">
 													<option v-bind:key="index" v-for="(materiaal, index) in massief">{{materiaal.naam}}</option>												
 												</optgroup>
 												<optgroup label="Plaatmateriaal" v-if="plaatmateriaal">
 													<option v-bind:key="index" v-for="(materiaal, index) in plaatmateriaal">{{materiaal.naam}}</option>												
 												</optgroup>
-												<!-- <optgroup label="Overige materialen">
-													<option></option>
-												</optgroup> -->
+												<optgroup label="Fineer" v-if="fineer">
+													<option v-bind:key="index" v-for="(materiaal, index) in fineer">{{materiaal.naam}}</option>												
+												</optgroup>
 											</select>
 										</div>
 									</div>
-									<div class="col-3 col-md-2 col-xl-1">
+									<div class="col-4 col-md-2 col-xl-1">
 										<div class="input-group mb-2">
 											<input type="number" placeholder="Lengte" min="1" data-toggle="tooltip" 
 											data-placement="top" required="required" class="form-control" 
@@ -65,7 +65,7 @@
 											v-model="maat.lengte">
 										</div>
 									</div>
-									<div class="col-3 col-md-2 col-xl-1">
+									<div class="col-4 col-md-2 col-xl-1">
 										<div class="input-group mb-2">
 											<input type="number" placeholder="Breedte" min="1" data-toggle="tooltip" 
 											data-placement="top" required="required" class="form-control" 
@@ -73,7 +73,7 @@
 											v-model="maat.breedte">
 										</div>
 									</div>
-									<div class="col-3 col-md-2 col-xl-1">
+									<div class="col-4 col-md-2 col-xl-1">
 										<div class="input-group mb-2">
 											<input type="number" placeholder="Dikte" min="1" data-toggle="tooltip" 
 											data-placement="top" required="required" class="form-control" 
@@ -81,15 +81,15 @@
 											v-model="maat.dikte">
 										</div>
 									</div>
-									<div class="col-3 col-md-2 col-xl-1">
+									<div class="col-12 col-md-2 col-xl-1">
 										<div class="input-group mb-2">
-											<button type="button" class="btn btn-danger btn-sm" @click="removeMaten()">
+											<button type="button" class="btn btn-danger btn-sm btn-block" @click="removeMaten()">
 												<i class="fa fa-trash"></i>
 											</button>
 										</div>
 									</div>
 									<div class="col-12 d-block d-xl-none">
-										<hr>
+										<hr class="mt-0">
 									</div>
 								</div>
 								<hr> 
@@ -157,6 +157,20 @@
 			fineer(){
 				if(this.materialen.fineer){
 					return this.materialen.fineer
+				}else{
+					return false
+				}
+			},
+			fineer(){
+				if(this.materialen.fineer){
+					return this.materialen.fineer
+				}else{
+					return false
+				}
+			},
+			overigeMaterialen(){
+				if(this.$store.state.werkvoorbereiding.overigematerialen){
+					return this.$store.state.werkvoorbereiding.overigematerialen
 				}else{
 					return false
 				}

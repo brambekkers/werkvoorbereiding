@@ -24,7 +24,7 @@
 											v-model="massief.naam">
 										</div>
 									</div>
-									<div class="col-10 col-md-3">
+									<div class="col-8 col-md-3">
 										<div class="input-group mb-2">
 											<money 	placeholder="Prijs m3" 
 													data-toggle="tooltip" 
@@ -70,7 +70,7 @@
 											v-model="plaatmateriaal.naam">
 										</div>
 									</div>
-									<div class="col-10 col-md-3">
+									<div class="col-8 col-md-3">
 										<div class="input-group mb-2">
 											<money 	placeholder="Prijs m2" 
 													data-toggle="tooltip" 
@@ -117,7 +117,7 @@
 											 v-model="fineer.naam">
 										</div>
 									</div>
-									<div class="col-10 col-md-3">
+									<div class="col-8 col-md-3">
 										<div class="input-group mb-2">
 											<money 	placeholder="Prijs m2" 
 													data-toggle="tooltip" 
@@ -202,7 +202,7 @@
 			return{
 				money: {
 					decimal: '.',
-					thousands: ',',
+					thousands: '',
 					prefix: '€ ',
 					suffix: '',
 					precision: 0,

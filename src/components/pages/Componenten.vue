@@ -19,7 +19,7 @@
 												v-model="component.naam">
 										</div>
 									</div>
-									<div class="col-9 col-md-3">
+									<div class="col-8 col-md-3">
 										<div class="input-group mb-2">
 											<input type="number" placeholder="Aantal" data-toggle="tooltip" data-placement="top" min="1"
 											 title="" required="required" class="form-control" 

@@ -75,8 +75,10 @@
 			planningStappenArray(){
 				let array = []
 				for (const planning of this.planning) {
-					for (const stap of planning.stappen) {
-						array.push(stap)
+					if(planning.stappen){
+						for (const stap of planning.stappen) {
+							array.push(stap)
+						}
 					}
 				}
 				return array

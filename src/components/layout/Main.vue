@@ -132,7 +132,6 @@
 					$(".navbar-toggler").removeClass("toggled");
 					this.$store.state.appData.sidebarOpen = false
 				}
-
 			}
 		}
 	};
