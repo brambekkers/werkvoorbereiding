@@ -5,13 +5,14 @@
 				<div class="row justify-content-center">
 					<div class="col-xl-8">
 						<div class="card">
-							<CardHeader :text="{title: 'Privacy', subtitle: 'Hoe gaan wij om met de privacy' }"/>
+							<CardHeader :text="{title: 'Privacy', subtitle: 'Hoe gaan wij om met jouw privacy' }"/>
 							<div class="card-body">
 								<div class="row">
 									<div class="col-12">
 										<p class="mt-4">DeWerkvoorbereider is verantwoordelijk voor de verwerking van persoonsgegevens zoals weergegeven in deze
 											privacyverklaring. DeWerkvoorbereider probeert zo min mogelijk gegevens te verzamelen. DeWerkvoorbereider
-											kan gebruikt worden zonder account. Op deze manier wordt het aantal verzaamlende gegevens geminimaliseerd.</p>
+											kan gebruikt worden zonder account. Op deze manier wordt het aantal verzaamlende gegevens geminimaliseerd. 
+											Indien een gebruiker de resultaten overzichtelijk in een account wenst op te slaan verwerken wij de onstaande gegevens.</p>
 
 
 										<h4>Persoonsgegevens die wij verwerken</h4>

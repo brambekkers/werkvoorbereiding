@@ -13924,23 +13924,23 @@ h2.title {
 
 .tooltip.show {
   opacity: 1;
-  -webkit-transform: translate3d(0, 0px, 0);
+  /* -webkit-transform: translate3d(0, 0px, 0);
   -moz-transform: translate3d(0, 0px, 0);
   -o-transform: translate3d(0, 0px, 0);
   -ms-transform: translate3d(0, 0px, 0);
-  transform: translate3d(0, 0px, 0);
+  transform: translate3d(0, 0px, 0); */
 }
 
 .tooltip {
   opacity: 0;
-  transition: opacity, transform .2s ease;
+  /* transition: opacity, transform .2s ease;
   -webkit-transform: translate3d(0, 5px, 0);
   -moz-transform: translate3d(0, 5px, 0);
   -o-transform: translate3d(0, 5px, 0);
   -ms-transform: translate3d(0, 5px, 0);
-  transform: translate3d(0, 5px, 0);
+  transform: translate3d(0, 5px, 0); */
   font-size: 0.875rem;
-}
+} 
 
 .tooltip.bs-tooltip-top .arrow::before,
 .tooltip.bs-tooltip-auto[x-placement^="top"] .arrow::before,

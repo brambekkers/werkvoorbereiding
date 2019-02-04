@@ -29,6 +29,7 @@
 
 <script>
 	import CardHeader from "./attributes/Card-header.vue";
+	import Swal from 'sweetalert2'
 
 	export default {
 		name: "Importeren",
@@ -64,19 +65,25 @@
 				this.$store.state.werkvoorbereiding = obj
 			},
 			succesMessage(){
-				swal({
-					title: "Succesvol geïmporteerd ",
-					text: "De werkvoorbereiding is succesvol geïmporteerd. Je kunt nu verder gaan met bewerken of de data bekijken.",
-					dangerMode: false,
-					icon: "success",
+				const Toast = Swal.mixin({
+					toast: true,
+					position: 'top-end',
+					showConfirmButton: false,
+					timer: 3000
+				});
+
+				Toast.fire({
+					type: 'success',
+					title: 'Data succesvol geimporteerd'
 				})
 			},
 			errorMessage(){
-				swal({
+				Swal.fire({
 					title: "Niet gevonden",
 					text: "De werkvoorbereiding kon niet worden gevonden. Zorg dat je een geldig werkvoorbereidingsbestand selecteerd.",
-					dangerMode: true,
-					icon: "error",
+					confirmButtonColor: '#F33527',
+					confirmButtonText: 'Ik begrijp het!',
+					type: "error",
 				})
 			}
 

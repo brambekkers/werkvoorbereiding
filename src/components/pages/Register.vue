@@ -36,6 +36,8 @@
 
 <script>
 	import CardHeader from "./attributes/Card-header.vue";
+	import Swal from 'sweetalert2'
+
 	export default {
 		name: "Register",
 		components: { CardHeader },
@@ -55,11 +57,16 @@
 					.then(() => {
 						that.$store.state.appData.firebase.auth().currentUser.sendEmailVerification();
 
-						swal({
-							title: "Het is gelukt?",
-							text: "Het account is aangemaakt.",
-							dangerMode: false,
-							icon: "success",
+						const Toast = Swal.mixin({
+							toast: true,
+							position: 'top-end',
+							showConfirmButton: false,
+							timer: 3000
+						});
+
+						Toast.fire({
+							type: 'success',
+							title: 'Het account is succesvol aangemaakt.'
 						})
 
 						that.$store.state.appData.page = 20;
@@ -73,32 +80,33 @@
 				}
 			},
 			handleError(error){
-				console.log(error.code, error.message)
-
 				// E-mailadres is al in gebruik
 				if(error.code === "auth/email-already-in-use"){
-					swal({
+					Swal.fire({
 						title: "Al een account?",
 						text: "Dit e-mailadres is al in gebruik... Waarschijnlijk heb je al een account. Probeer in te loggen.",
-						dangerMode: true,
-						icon: "error",
+						confirmButtonColor: '#F33527',
+						confirmButtonText: 'Ik begrijp het!',
+						type: "error",
 					})
 				}
 				if(error.code === "auth/weak-password"){
-					swal({
+					Swal.fire({
 						title: "Slecht wachtwoord?",
 						text: "Dit wachtwoord is niet sterk genoeg. Maak een sterker wachtwoord en probeer het opnieuw.",
-						dangerMode: true,
-						icon: "error",
+						confirmButtonColor: '#F33527',
+						confirmButtonText: 'Ik begrijp het!',
+						type: "error",
 					})
 				}
 				// wachtwoord komt niet overeen
 				if(error.code === "password dont match"){
-					swal({
-						title: "Controle wachtwoord",
+					Swal.fire({
+						title: "Controleer wachtwoord",
 						text: "Het controle wachtwoord komt niet overeen met je eerste invoer. Zorg dat je het wachtwoordt goed typt.",
-						dangerMode: true,
-						icon: "error",
+						confirmButtonColor: '#F33527',
+						confirmButtonText: 'Ik begrijp het!',
+						type: "error",
 					})
 				}
 			},

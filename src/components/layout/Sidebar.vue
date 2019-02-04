@@ -60,11 +60,12 @@
 				}
 			},
 			makeWVBWarning(){
-				swal({
+				Swal.fire({
 					title: "Geen werkvoorbereiding?",
 					text: "Maak eerst een nieuwe werkvoorbereiding. Pas dan kun je naar het dashboard gaan om het overzicht te bekijken.",
-					dangerMode: true,
-					icon: "error",
+					confirmButtonColor: '#F33527',
+					confirmButtonText: 'Ik begrijp het!',
+					type: "error",
 				})
 			}	
 		},

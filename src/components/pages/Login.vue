@@ -33,6 +33,7 @@
 
 <script>
 	import CardHeader from "./attributes/Card-header.vue";
+	import Swal from 'sweetalert2'
 
 	export default {
 		name: "Login",
@@ -45,48 +46,64 @@
 		},
 		methods: {
 			login(){
-				this.$store.state.appData.firebase.auth().signInWithEmailAndPassword(this.email, this.password).catch((error) => {
+				this.$store.state.appData.firebase.auth().signInWithEmailAndPassword(this.email, this.password).then((test)=>{
+					const Toast = Swal.mixin({
+						toast: true,
+						position: 'top-end',
+						showConfirmButton: false,
+						timer: 3000
+					});
+
+					Toast.fire({
+						type: 'success',
+						title: 'Succesvol aangemeld'
+					})
+				}).catch((error) => {
 					this.handleError(error);					
 				});
 
 				this.email = ""
 				this.password = ""
 			},
-			handleError(){
-					// Ongeldig e-mailadres
+			handleError(error){
+				// Ongeldig e-mailadres
 					if(error.code === "auth/invalid-email"){
-						swal({
+						Swal.fire({
 							title: "Niet geldig",
 							text: "Dit is geen geldig email adres.",
-							dangerMode: true,
-							icon: "error",
+							confirmButtonColor: '#F33527',
+							confirmButtonText: 'Ik begrijp het!',
+							type: "error",
 						})
 					}
 					// User niet aanwezig in database
 					if(error.code === "auth/user-not-found"){
-						swal({
+						Swal.fire({
 							title: "Niet gevonden",
 							text: "Dit e-mailadres is niet bij ons bekend... Probeer het met een ander e-mailadres nog een keer.",
-							dangerMode: true,
-							icon: "error",
+							confirmButtonColor: '#F33527',
+							confirmButtonText: 'Ik begrijp het!',
+							type: "error",
 						})
 					}
 					// Verkeerd wachtwoord
 					else if(error.code === "auth/wrong-password"){
-						swal({
+						Swal.fire({
 							title: "Verkeerd wachtwoord",
 							text: "Helaas is dit niet jouw juiste wachtwoord. Probeer het gerust nog een keer.",
-							dangerMode: true,
-							icon: "error",
+							confirmButtonColor: '#F33527',
+							confirmButtonText: 'Ik begrijp het!',
+							type: "error",
 						})
 					}
 					// Accound is uitgeschakeld
 					else if(error.code === "auth/user-disabled"){
-						swal({
+						Swal.fire({
 							title: "Uitgeschakeld",
 							text: "Dit account is tijdelijk niet actief. Neem contact op met de beheerder voor verdere informatie.",
-							dangerMode: true,
-							icon: "error",
+							confirmButtonColor: '#F33527',
+							confirmButtonText: 'Ik begrijp het!',
+							type: "error",
 						})
 					}
 			}

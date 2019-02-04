@@ -24,6 +24,7 @@
 
 <script>
 	import CardHeader from "./attributes/Card-header.vue";
+	import Swal from 'sweetalert2'
 
 	export default {
 		name: "ForgotPw",
@@ -36,34 +37,36 @@
 		methods: {
 			forgotPassword(){
 				this.$store.state.appData.firebase.auth().sendPasswordResetEmail(this.email).then(()=>{
-					swal({
+					Swal.fire({
 						title: "Reset e-mail",
 						text: `Er is een wachtwoord reset email verstuurd naar ${this.email}. Volg de instructies in de mail om eht wachtwoord te resetten.`,
-						dangerMode: false,
-						icon: "success",
+						confirmButtonColor: '#F33527',
+						confirmButtonText: 'Ik begrijp het!',
+						type: "error",
 					})
 					this.email = ''
 				}).catch((error) => {
-					console.log(error)
 					this.handleError(error);
 				});
 				
 			},
 			handleError(error){
 				if(error.code === "auth/invalid-email"){
-					swal({
+					Swal.fire({
 						title: "niet geldig",
 						text: "Dit is geen geldig email adres.",
-						dangerMode: true,
-						icon: "error",
+						confirmButtonColor: '#F33527',
+						confirmButtonText: 'Ik begrijp het!',
+						type: "error",
 					})
 				}
 				if(error.code === "auth/user-not-found"){
-					swal({
+					Swal.fire({
 						title: "Verkeerde email?",
 						text: "Dit e-mailadres is niet bij ons bekend.",
-						dangerMode: true,
-						icon: "error",
+						confirmButtonColor: '#F33527',
+						confirmButtonText: 'Ik begrijp het!',
+						type: "error",
 					})
 				}
 			}

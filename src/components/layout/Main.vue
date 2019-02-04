@@ -1,7 +1,6 @@
 <template>
 	<main class="main-panel">
 		<Navbar data-html2canvas-ignore/>
-
 		<transition 
 			name="bounce" 
 			mode="out-in" 

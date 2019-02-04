@@ -15,7 +15,7 @@
     "html2canvas": "^1.0.0-alpha.12",
     "jquery": "^3.3.1",
     "popper.js": "^1.14.6",
-    "sweetalert": "^2.1.2",
+    "sweetalert2": "^8.0.5",
     "uniqid": "^5.0.3",
     "v-money": "^0.8.1",
     "vue": "^2.5.21",

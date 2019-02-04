@@ -14,7 +14,7 @@
 												<span class="input-group-text"><i class="fa fa-tag fa-fw"></i></span>
 											</div>
 											<input type="text" placeholder="Materiaal naam" data-toggle="tooltip" data-placement="top" title="" required="required"
-											 class="form-control" data-original-title="Wat is de naam van het component?" 
+											 class="form-control" data-original-title="Wat is de naam van dit onderdeel?" 
 											 v-model="materiaal.naam">
 										</div>
 									</div>
@@ -119,7 +119,7 @@
 
 		created() {
 			$(function () {
-				$('[data-toggle="tooltip"]').tooltip()
+				$('[data-toggle="tooltip"]').tooltip({'delay': { show: 500, hide: 0 }})
 			})
 		}
 	};

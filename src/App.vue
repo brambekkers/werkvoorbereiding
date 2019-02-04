@@ -2,6 +2,7 @@
 	<div id="app" class="wrapper">
 		<Sidebar data-html2canvas-ignore/>
 		<Main/>
+		<Help/>
 	</div>
 </template>
 
@@ -15,10 +16,12 @@
 	import $ from "jquery";
 	import popper from "popper.js";
 	import bootstrap from "bootstrap";
-	import swal from 'sweetalert';
+	import Swal from 'sweetalert2'
 
 	import Sidebar from "./components/layout/Sidebar";
 	import Main from "./components/layout/Main";
+	import Help from "./components/pages/attributes/Help.vue";
+
 
 	export default {
 		name: "app",
@@ -39,7 +42,8 @@
 		},
 		components: {
 			Sidebar,
-			Main
+			Main,
+			Help
 		},
 		computed: {
 			werkvoorbereiding() {

@@ -50,6 +50,7 @@
 
 <script>
 	import $ from "jquery";
+	import Swal from 'sweetalert2'
 
 	export default {
 		name: "Navbar",
@@ -148,7 +149,7 @@
 				}
 			},
 			loginMsg() {
-				swal("Je moet eerst inloggen om je statistieken te zien!");
+				Swal.fire("Je moet eerst inloggen om je statistieken te zien!");
 			}
 		}
 	};

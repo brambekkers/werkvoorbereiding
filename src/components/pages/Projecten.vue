@@ -45,6 +45,7 @@
 
 <script>
 	import CardHeader from "./attributes/Card-header.vue";
+	import Swal from 'sweetalert2'
 
 	export default {
 		name: "Projecten",
@@ -127,17 +128,19 @@
 			},
 			deleteWvb() {
 				if(this.werkvoorbereiding){
-					swal({
+					Swal.fire({
 						title: "Weet je het zeker?",
 						text: "Wanneer je deze werkvoorbereiding verwijderd kun je het niet meer terughalen!",
-						icon: "warning",
-						buttons: true,
-						dangerMode: true,
+						confirmButtonColor: '#F33527',
+						confirmButtonText: 'Ik weet het zeker!',
+						showCancelButton: true,
+						type: "warning",
 					})
-					.then((willDelete) => {
-						if (willDelete) {
-							swal("Poof! Je werkvoorbereiding is verwijderd!", {
-								icon: "success",
+					.then((result) => {
+						if (result.value) {
+							Swal.fire({
+								text: "Poof! Je werkvoorbereiding is verwijderd!", 
+								type: "success",
 							});
 							let fb = this.$store.state.appData.firebase
 							let userId = fb.auth().currentUser.uid;
@@ -148,13 +151,14 @@
 							this.$store.state.werkvoorbereiding = null
 
 							this.selectedWvb = null
-						} else {
-							swal("Je werkvoorbereiding is niet verwijderd!");
 						}
 					});
 
 				}else{
-					swal("Er is geen werkvoorbereiding geselecteerd!");
+					Swal.fire({
+						text: "Er is geen werkvoorbereiding geselecteerd!", 
+						type: "warning",
+					});
 				}
 				
 			},

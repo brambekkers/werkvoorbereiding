@@ -35,6 +35,7 @@
 	import $ from 'jquery';
 	import html2canvas from 'html2canvas';
 	import CardHeader from "./attributes/Card-header.vue";
+	import Swal from 'sweetalert2'
 
 	export default {
 		name: "Exporteren",
@@ -91,11 +92,12 @@
 				}
 			},
 			noAccount(){
-				swal({
+				Swal.fire({
 					title: "Geen werkvoorbereiding",
 					text: "Er is geen werkvoorbereiding in gebruik. Selecteer een werkvoorbereiding of maak een nieuwe aan.",
-					dangerMode: true,
-					icon: "error",
+					confirmButtonColor: '#F33527',
+					confirmButtonText: 'Ik begrijp het!',
+					type: "error",
 				})
 			}
 		},

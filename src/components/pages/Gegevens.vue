@@ -100,7 +100,7 @@
 		},
 		created() {
 			$(function () {
-				$('[data-toggle="tooltip"]').tooltip()
+				$('[data-toggle="tooltip"]').tooltip({'delay': { show: 500, hide: 0 }})
 			})
 			this.updateGegevens()
 		}
