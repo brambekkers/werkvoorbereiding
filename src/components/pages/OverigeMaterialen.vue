@@ -85,7 +85,7 @@
 				money: {
 					decimal: '.',
 					thousands: ',',
-					prefix: '€ ',
+					prefix: `${this.$store.state.appData.instellingen.valuta} `,
 					suffix: '',
 					precision: 2,
 					masked: false

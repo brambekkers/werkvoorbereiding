@@ -43,7 +43,7 @@
 									</div>
 									<div class="col-md-4 input-group">
 										<input type="number" required="required" class="form-control form-control-sm" v-model="planningOpties.uurtarief">
-										<div class="input-group-append">€</div>
+										<div class="input-group-append">{{$store.state.appData.instellingen.valuta}}</div>
 									</div>
 								</div>
 								<div class="row mb-2">
@@ -52,7 +52,7 @@
 									</div>
 									<div class="col-md-4 input-group">
 										<input type="number" required="required" class="form-control form-control-sm" v-model="planningOpties.indirecteKosten">
-										<div class="input-group-append">€</div>
+										<div class="input-group-append">{{$store.state.appData.instellingen.valuta}}</div>
 									</div>
 								</div>
 								<div class="row mb-2">

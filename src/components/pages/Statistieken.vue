@@ -86,7 +86,7 @@
 				}
 			},
 			currentUser(){
-				let currentUser = this.$store.state.appData.firebase.auth().currentUser
+				let currentUser = this.$store.state.firebase.fb.auth().currentUser
 				return currentUser
 			}
 

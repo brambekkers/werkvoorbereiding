@@ -78,9 +78,7 @@
 				}
 			},
 			nextStep(){
-				if(this.wvbActive){
-					
-				}else{
+				if(!this.wvbActive){
 					this.createNewWVB()
 				}
 				this.$store.state.appData.page++

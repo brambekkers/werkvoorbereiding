@@ -7,7 +7,7 @@
 				</div>
 				<p class="card-category">Verkoopprijs</p>
 				<h4 class="card-title">{{verkoopprijs}}
-					<small>euro</small>
+					<small>{{valuta}}</small>
 				</h4>
 			</div>
 			<div class="card-footer">
@@ -24,6 +24,7 @@
 	export default {
 		name: "DashboardPrice",
 		computed: {
+			valuta()					{ return this.$store.state.appData.instellingen.valuta},
 			verkoopprijs(){
 				return this.$store.state.dashboard.verkoopPrijsInclBtw
 			},

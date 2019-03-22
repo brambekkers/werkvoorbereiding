@@ -203,17 +203,15 @@
 				money: {
 					decimal: '.',
 					thousands: '',
-					prefix: '€ ',
+					prefix: `${this.$store.state.appData.instellingen.valuta} `,
 					suffix: '',
 					precision: 0,
 					masked: false
 				}
 			}
 		},
-		computed: {
-			materialen() {
-				return this.$store.state.werkvoorbereiding.materialen
-			}
+		computed: {		
+			materialen() { return this.$store.state.werkvoorbereiding.materialen}
 		},
 		methods: {
 			newMaterial(naam) {

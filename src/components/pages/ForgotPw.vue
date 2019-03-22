@@ -36,7 +36,7 @@
 		},
 		methods: {
 			forgotPassword(){
-				this.$store.state.appData.firebase.auth().sendPasswordResetEmail(this.email).then(()=>{
+				this.$store.state.firebase.fb.auth().sendPasswordResetEmail(this.email).then(()=>{
 					Swal.fire({
 						title: "Reset e-mail",
 						text: `Er is een wachtwoord reset email verstuurd naar ${this.email}. Volg de instructies in de mail om eht wachtwoord te resetten.`,

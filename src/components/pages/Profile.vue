@@ -158,8 +158,7 @@
 			},
 			profileToFB(){
 				if (this.$store.state.appData.user && this.profiel) {
-					let userId = this.$store.state.appData.firebase.auth().currentUser.uid;
-					this.$store.state.appData.firebase.database().ref(`users/${userId}/profiel`).set(this.profiel);
+					this.$store.state.firebase.profileToFB(this.profiel);
 				}
 			}
 		}

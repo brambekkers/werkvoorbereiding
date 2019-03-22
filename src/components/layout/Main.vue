@@ -1,6 +1,7 @@
 <template>
 	<main class="main-panel">
-		<Navbar data-html2canvas-ignore/>
+		<Navbar data-html2canvas-ignore v-if="currentPage > 0"/>
+				
 		<transition 
 			name="bounce" 
 			mode="out-in" 
@@ -122,7 +123,7 @@
 			Over,
 			Privacy,
 			Licence,
-			WaitScreen
+			WaitScreen,
 		},
 		methods: {
 			closeSidebar() {

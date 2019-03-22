@@ -9,33 +9,33 @@
 				<hr>
 				<div class="d-flex">
 					<p class="d-inline mr-auto">Materiaalkosten: </p>
-					<p class="d-inline ml-auto">€ {{totaleMateriaalKosten}}</p>
+					<p class="d-inline ml-auto">{{valuta}} {{totaleMateriaalKosten}}</p>
 				</div>
 				<div class="d-flex">
 					<p class="d-inline mr-auto">Opslagpercentage: </p>
-					<p class="d-inline ml-auto">€ {{totaleOpslagPercentage}}</p>
+					<p class="d-inline ml-auto">{{valuta}} {{totaleOpslagPercentage}}</p>
 				</div>
 				<div class="d-flex">
 					<p class="d-inline mr-auto">Indirecte kosten: </p>
-					<p class="d-inline ml-auto">€ {{indirecteKosten}}</p>
+					<p class="d-inline ml-auto">{{valuta}} {{indirecteKosten}}</p>
 				</div>
 				<div class="d-flex">
 					<p class="d-inline mr-auto">Loonkosten: </p>
-					<p class="d-inline ml-auto">€ {{loonKosten}}</p>
+					<p class="d-inline ml-auto">{{valuta}} {{loonKosten}}</p>
 				</div>
 				<hr class="mt-2">
 				<div class="d-flex">
 					<p class="d-inline mr-auto">Totale kosten: </p>
-					<p class="d-inline ml-auto">€ {{totaleKosten}}</p>
+					<p class="d-inline ml-auto">{{valuta}} {{totaleKosten}}</p>
 				</div>
 				<div class="d-flex">
 					<p class="d-inline mr-auto">Winstopslag: </p>
-					<p class="d-inline ml-auto">€ {{winstopslag}}</p>
+					<p class="d-inline ml-auto">{{valuta}} {{winstopslag}}</p>
 				</div>
 				<hr>
 				<div class="d-flex">
 					<p class="d-inline mr-auto">Verkoopprijs incl BTW: </p>
-					<p class="d-inline ml-auto">€ {{verkoopPrijsInclBtw}}</p>
+					<p class="d-inline ml-auto">{{valuta}} {{verkoopPrijsInclBtw}}</p>
 				</div>
 
 			</div>
@@ -84,6 +84,7 @@
 			overlengteZijde()			{ return Number(this.materiaalOpties.overlengteZijdes) },
 			overlengteKops()			{ return Number(this.materiaalOpties.overlengteKops) },
 			overlengteLangs()			{ return Number(this.materiaalOpties.overlengteLangs) },
+			valuta()					{ return this.$store.state.appData.instellingen.valuta},
 			maten(){
 				if(this.$store.state.werkvoorbereiding.maten){
 					return this.$store.state.werkvoorbereiding.maten

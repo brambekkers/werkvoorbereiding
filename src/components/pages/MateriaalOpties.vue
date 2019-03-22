@@ -112,6 +112,7 @@
 
 <script>
 	import CardHeader from "./attributes/Card-header.vue";
+	import $ from "jquery";
 
 	export default {
 		name: "MateriaalOpties",

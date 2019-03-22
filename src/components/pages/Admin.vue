@@ -46,7 +46,7 @@
 		},
 		methods: {
 			getUsers() {
-				let userDatabase = this.$store.state.appData.firebase.database().ref(`users`);
+				let userDatabase = this.$store.state.firebase.fb.database().ref(`users`);
 
 				userDatabase.once('value', (snapshot) => {
 					this.users = snapshot.val()

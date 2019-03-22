@@ -62,7 +62,7 @@
 		},
 		methods: {
 			logout() {
-				this.$store.state.appData.firebase.auth().signOut().then(function () {
+				this.$store.state.firebase.fb.auth().signOut().then(function () {
 					console.log('User Logout')
 				}).catch(function (error) {
 					console.error(error)

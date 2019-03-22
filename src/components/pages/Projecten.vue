@@ -87,6 +87,7 @@
 			},
 			lastWvbSelect() {
 				if (this.wvbId) {
+					// Selecteer de active wvb
 					for (let i = 0; i < this.projecten.length; i++) {
 						if (this.projecten[i].id === this.wvbId) {
 							this.selectedWvb = i
@@ -94,10 +95,25 @@
 					}
 				} else {
 					if (this.selectedWvb === null && this.projecten.length) {
-						let i = this.projecten.length - 1
-						this.selectWvb(i)
+						// Selecteer de laatst bewerkte wvb
+						let j = 0
+						let latestDate = 0
+						for (let i = 0; i < this.projecten.length; i++) {
+							let date = this.stringToDate(this.projecten[i].laatsteBewerking)
+							if(date >= latestDate){
+								j = i
+								latestDate = date
+							}
+						}
+						this.selectWvb(j)
 					}
 				}
+			},
+			stringToDate(string){
+				let str1 = string.replace(/-/g, " ");
+				let str2 = str1.replace(".", " ");
+				let res = str2.split(" ").map(Number);
+				return new Date(res[2], res[1]-1, res[0], res[3], res[4])
 			},
 			aantalComponenten(i) {
 				if (this.projecten[i].componenten) {
@@ -142,7 +158,7 @@
 								text: "Poof! Je werkvoorbereiding is verwijderd!", 
 								type: "success",
 							});
-							let fb = this.$store.state.appData.firebase
+							let fb = this.$store.state.firebase.fb
 							let userId = fb.auth().currentUser.uid;
 							let userDatabase = fb.database().ref(`users/${userId}/`);
 

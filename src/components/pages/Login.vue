@@ -46,7 +46,7 @@
 		},
 		methods: {
 			login(){
-				this.$store.state.appData.firebase.auth().signInWithEmailAndPassword(this.email, this.password).then((test)=>{
+				this.$store.state.firebase.fb.auth().signInWithEmailAndPassword(this.email, this.password).then((test)=>{
 					const Toast = Swal.mixin({
 						toast: true,
 						position: 'top-end',
@@ -56,7 +56,7 @@
 
 					Toast.fire({
 						type: 'success',
-						title: 'Succesvol aangemeld'
+						title: 'Succesvol ingelogd'
 					})
 				}).catch((error) => {
 					this.handleError(error);					

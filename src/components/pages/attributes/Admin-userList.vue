@@ -1,24 +1,21 @@
 <template>
-	<div class="accordion">
+	<div class="accordion" id="accordionAdmin">
 		<!-- Search -->
 		<form class="form-inline justify-content-end">
 			<input class="form-control mr-sm-8 w-25" type="search" placeholder="Zoeken" aria-label="Search">
 			<button class="btn btn-success my-2 my-sm-0" type="submit">Zoeken</button>
 		</form>
 		<!-- Accordion -->
-		<div class="card cardlist" v-bind:key="key" v-for="(user, key ,index) in users">
-			<div class="card-header" data-toggle="collapse" :data-target="`#accordion${index}`" aria-expanded="true"
-			 :aria-controls="`accordion${index}`">
+		<div class="card cardlist" v-bind:key="userKeys[(page * amount)+index]" v-for="(user, index) in paginatedData">
+			<div class="card-header" data-toggle="collapse" :data-target="`#accordion${index}`">
 				<div class="row text-center">
-					<div class="col-md-1"><strong>{{index + 1}}</strong></div>
+					<div class="col-md-1"><strong>{{(page * amount)+index + 1}}</strong></div>
+					<div class="col-md-3">
+						<p class="mb-0 idkey">{{userKeys[(page * amount)+index]}}</p>
+					</div>
 					<div class="col-md-3">
 						<p class="mb-0" v-if="haveProfile(user.profiel)">{{user.profiel.voornaam}} {{user.profiel.tussenvoegsel}}
 							{{user.profiel.achternaam}}</p>
-						<p class="mb-0" v-if="!haveProfile(user.profiel)"> - </p>
-						<p class="mb-0 idkey">{{key}}</p>
-					</div>
-					<div class="col-md-3">
-						<p class="mb-0" v-if="haveProfile(user.profiel)">{{user.profiel.email}}</p>
 					</div>
 					<div class="col-md-2">
 						<div class="p-1 h-100 rounded" :class="{ 'bglichtrood': !haveProfile(user.profiel), 'bglichtgroen': haveProfile(user.profiel)}">
@@ -36,7 +33,7 @@
 				</div>
 			</div>
 
-			<div :id="`accordion${index}`" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+			<div :id="`accordion${index}`" class="collapse" data-parent="#accordionAdmin">
 				<div class="card-body">
 					<div class="row">
 						<div class="col-md-8" v-if="haveProfile(user.profiel)">
@@ -74,19 +71,29 @@
 			</div>
 		</div>
 		<nav aria-label="Page navigation example">
-			<ul class="pagination justify-content-center mt-2">
-				<li class="page-item">
-					<a class="page-link" tabindex="-1" :aria-disabled="page === 1" @click="prevPage">Previous</a>
-				</li>
-				<li class="page-item"><a class="page-link" href="#">1</a></li>
-				<li class="page-item"><a class="page-link" href="#">2</a></li>
-				<li class="page-item"><a class="page-link" href="#">3</a></li>
-				<li class="page-item">
-					<a class="page-link" @click.prevent="nextPage()">Next</a>
-				</li>
-			</ul>
-			{{page}}
-		</nav>
+			<div id="pageAmountContainer" class="input-group mb-3 float-left w-25">
+				<div class="input-group-prepend">
+					<label class="input-group-text" for="pageAmount">Users per pagina</label>
+				</div>
+				<select v-model="amount" class="custom-select" id="pageAmount">
+					<option value="10">10</option>
+					<option value="20">20</option>
+					<option value="50">50</option>
+					<option value="100">100</option>
+					<option :value="userArray.length">Alles</option>
+				</select>
+			</div>
+
+	<ul class="pagination justify-content-center mt-2">
+		<li class="page-item">
+			<a class="page-link" @click="prevPage">Previous</a>
+		</li>
+		<li class="page-item"><a class="page-link" href="#">{{page+1}}</a></li>
+		<li class="page-item">
+			<a class="page-link" @click.prevent="nextPage()">Next</a>
+		</li>
+	</ul>
+	</nav>
 	</div>
 </template>
 
@@ -105,6 +112,9 @@
 		computed: {
 			userArray() {
 				return Object.values(this.users)
+			},
+			userKeys() {
+				return Object.keys(this.users)
 			},
 			paginatedData() {
 				let start = this.page * this.amount
@@ -138,17 +148,17 @@
 
 			// PAGE
 			nextPage() {
-				if ((this.page * this.amount) < this.userArray.length) {
+				if ((this.page * this.amount) <= this.userArray.length - this.amount) {
 					this.page++
 				}
 			},
 			prevPage() {
-				if (this.page > 1) {
+				if (this.page > 0) {
 					this.page--
 				}
 			}
 		},
-		mounted(){
+		mounted() {
 			$('.collapse').on('show.bs.collapse', function () {
 				$('.collapse.in').collapse('hide');
 			});
@@ -194,11 +204,19 @@
 		cursor: pointer;
 	}
 
-	.bglichtgroen{
+	.bglichtgroen {
 		background: rgba(202, 243, 202, 0.5)
 	}
 
-	.bglichtrood{
+	.bglichtrood {
 		background: rgba(248, 212, 209, 0.5)
+	}
+
+	.card-body {
+		background: #fff;
+	}
+
+	#pageAmountContainer{
+		position: absolute;
 	}
 </style>

@@ -7,7 +7,7 @@ export default new Vuex.Store({
 	state: {
 		appData: {
 			user: null,
-			page: 1,
+			page: 0,
 			firebase: null,
 			sidebarOpen: false,
 			admin: false,
