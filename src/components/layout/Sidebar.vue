@@ -6,7 +6,7 @@
 		<div class="sidebar-wrapper">
 			<ul class="nav">
 				<SidebarMenuItem v-if="allowDashboard" :itemProps="{page:7, name:'Dashboard', icon: 'dashboard'}"/>
-				<SidebarMenuItem v-if="!allowDashboard" :itemProps="{page:page, name:'Dashboard', icon: 'dashboard'}"/>
+				<SidebarMenuItem v-if="!allowDashboard" :itemProps="{page:page, name:'Dashboard', icon: 'dashboard'}" @click="makeWVBWarning"/>
 				<SidebarMenuItem v-if="user" :itemProps="{page:16, name:'Projecten', icon: 'content_paste'}"/>
 				<SidebarMenuItem v-if="!user" :itemProps="{page:20, name:'Projecten', icon: 'content_paste'}"/>
 				<SidebarMenuItem :itemProps="{page:20, name:'Account', icon: 'person'}"/>
@@ -20,6 +20,8 @@
 				<hr>
 				<SidebarMenuItem :itemProps="{page:9, name:'Importeren', icon: 'cloud_download'}"/>
 				<SidebarMenuItem :itemProps="{page:10, name:'Exporteren', icon: 'cloud_upload'}"/>
+				<hr v-if="electron">
+				<SidebarExitItem v-if="electron" :itemProps="{name:'Afsluiten', icon: 'exit_to_app'}"/>
 			</ul>
 		</div>
 	</aside>
@@ -27,11 +29,17 @@
 
 <script>
 	import SidebarProjectMenuItem from "./SidebarProjectMenuItem"
+	import SidebarExitItem from "./SidebarExitItem"
 	import SidebarMenuItem from "./SidebarMenuItem"
+	import isElectron from 'is-electron';
+	import Swal from 'sweetalert2'
 
 	export default {
 		name: "Sidebar",
 		computed:{
+			electron(){
+				return isElectron()
+			},
 			page(){
 				return this.$store.state.appData.page
 			},
@@ -50,15 +58,14 @@
 				return this.$store.state.werkvoorbereiding
 			},
 			allowDashboard(){
-				if(this.wvbActive){
-					if(this.werkvoorbereiding.stap > 1){
-						return true
-					}
+				if(this.wvbActive && this.werkvoorbereiding.stap > 1){
+					return true
 				}
-				else{
-					return false
-				}
-			},
+				return false
+
+			},	
+		},
+		methods: {
 			makeWVBWarning(){
 				Swal.fire({
 					title: "Geen werkvoorbereiding?",
@@ -67,11 +74,12 @@
 					confirmButtonText: 'Ik begrijp het!',
 					type: "error",
 				})
-			}	
+			}
 		},
 		components: {
 			SidebarProjectMenuItem,
 			SidebarMenuItem,
+			SidebarExitItem
 		},
 	};
 </script>

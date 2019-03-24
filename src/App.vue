@@ -15,15 +15,15 @@
 			:duration="{ enter: 1000, leave: 1000 }" 
 			enter-active-class="bounceInLeft"
   			leave-active-class="bounceOutLeft">
-			<Sidebar data-html2canvas-ignore v-if="page > 0"/>
+			<Sidebar data-html2canvas-ignore v-if="page != 0"/>
 		</transition>
-		<Main v-if="page > 0"/>
-		<!-- <Help v-if="page > 0"/> -->
+		<Main v-if="page != 0"/>
+		<!-- <Help data-html2canvas-ignore v-if="page != 0"/> -->
 	</div>
 </template>
 
 <script>
-	import Animate from "vue2-animate/dist/vue2-animate.min.css"
+	import "vue2-animate/dist/vue2-animate.min.css"
 	import "./assets/css/material-dashboard.css";
 
 	import Firebase from "./Firebase";
@@ -31,6 +31,7 @@
 	import $ from "jquery";
 	import popper from "popper.js";
 	import bootstrap from "bootstrap";
+	
 	import Swal from 'sweetalert2'
 
 	import Sidebar from "./components/layout/Sidebar";

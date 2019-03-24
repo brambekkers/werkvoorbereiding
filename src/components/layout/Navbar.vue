@@ -21,7 +21,7 @@
 						<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
 							<a class="dropdown-item" v-if="user" @click="$store.state.appData.page = 30">Statistieken</a>
 							<a class="dropdown-item" v-if="user === null" @click="loginMsg">Statistieken</a>
-							<a class="dropdown-item" v-if="admin" @click="$store.state.appData.page = -99">Admin</a>
+							<a class="dropdown-item" v-if="admin" @click="$store.state.appData.page = 99">Admin</a>
 							<a class="dropdown-item" @click="$store.state.appData.page = 50">Instellingen</a>
 						</div>
 					</li>

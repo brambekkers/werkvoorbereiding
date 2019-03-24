@@ -9,26 +9,30 @@
 		<div class="card cardlist" v-bind:key="userKeys[(page * amount)+index]" v-for="(user, index) in paginatedData">
 			<div class="card-header" data-toggle="collapse" :data-target="`#accordion${index}`">
 				<div class="row text-center">
-					<div class="col-md-1"><strong>{{(page * amount)+index + 1}}</strong></div>
+					<div class="col-md-1"><strong>{{((page - 1) * amount)+index + 1}}</strong></div>
 					<div class="col-md-3">
 						<p class="mb-0 idkey">{{userKeys[(page * amount)+index]}}</p>
 					</div>
 					<div class="col-md-3">
-						<p class="mb-0" v-if="haveProfile(user.profiel)">{{user.profiel.voornaam}} {{user.profiel.tussenvoegsel}}
+						<p class="mb-0" v-if="haveProfile(user.profiel)">{{user.profiel.voornaam}}
+							{{user.profiel.tussenvoegsel}}
 							{{user.profiel.achternaam}}</p>
 					</div>
 					<div class="col-md-2">
-						<div class="p-1 h-100 rounded" :class="{ 'bglichtrood': !haveProfile(user.profiel), 'bglichtgroen': haveProfile(user.profiel)}">
+						<div class="p-1 h-100 rounded"
+							:class="{ 'bglichtrood': !haveProfile(user.profiel), 'bglichtgroen': haveProfile(user.profiel)}">
 							Profiel
 						</div>
 					</div>
 					<div class="col-md-2">
-						<div class="p-1 h-100 rounded" :class="{ 'bglichtrood': haveWVB(user.alleWVB) < 1, 'bglichtgroen': haveWVB(user.alleWVB) > 0}">
+						<div class="p-1 h-100 rounded"
+							:class="{ 'bglichtrood': haveWVB(user.alleWVB) < 1, 'bglichtgroen': haveWVB(user.alleWVB) > 0}">
 							Projecten <strong>{{haveWVB(user.alleWVB)}}</strong>
 						</div>
 					</div>
 					<div class="col-md-auto">
-						<button type="button" class="btn btn-danger btn-block btn-sm h-100 my-0" @click="deleteUser(key)">X</button>
+						<button type="button" class="btn btn-danger btn-block btn-sm h-100 my-0"
+							@click="deleteUser(key)">X</button>
 					</div>
 				</div>
 			</div>
@@ -40,12 +44,14 @@
 							<div class="row">
 								<div class="col-md-2 card-user">
 									<h6>Foto:</h6>
-									<img v-if="!user.profiel.foto" src="./../../../assets/img/default-avatar.png" class="avatar img-fluid rounded-circle">
+									<img v-if="!user.profiel.foto" src="./../../../assets/img/default-avatar.png"
+										class="avatar img-fluid rounded-circle">
 									<img v-if="user.profiel.foto" :src="user.profiel.foto" class="avatar img-fluid">
 								</div>
 								<div class="col-md-4">
 									<h6>Profiel informatie</h6>
-									<p>Naam: {{user.profiel.voornaam}} {{user.profiel.tussenvoegsel}} {{user.profiel.achternaam}}</p>
+									<p>Naam: {{user.profiel.voornaam}} {{user.profiel.tussenvoegsel}}
+										{{user.profiel.achternaam}}</p>
 									<p>Klas: {{user.profiel.klas}} </p>
 									<p>Niveau: {{user.profiel.niveau}} </p>
 								</div>
@@ -60,7 +66,8 @@
 								<div class="col" v-if="haveWVB(user.alleWVB) > 0">
 									<h6>Projecten</h6>
 									<div class="border">
-										<a class="dropdown-item projectItem" v-bind:key="key" v-for="(wvb, key, index) in user.alleWVB" @click="copyWvb(wvb)">{{index+1}}
+										<a class="dropdown-item projectItem" v-bind:key="key"
+											v-for="(wvb, key, index) in user.alleWVB" @click="copyWvb(wvb)">{{index+1}}
 											- {{wvb.basisgegevens.project}}</a>
 									</div>
 								</div>
@@ -84,16 +91,10 @@
 				</select>
 			</div>
 
-	<ul class="pagination justify-content-center mt-2">
-		<li class="page-item">
-			<a class="page-link" @click="prevPage">Previous</a>
-		</li>
-		<li class="page-item"><a class="page-link" href="#">{{page+1}}</a></li>
-		<li class="page-item">
-			<a class="page-link" @click.prevent="nextPage()">Next</a>
-		</li>
-	</ul>
-	</nav>
+			<ul class="pagination justify-content-center mt-2">
+				<b-pagination v-model="page" :total-rows="userAmount" :per-page="amount"/>
+			</ul>
+		</nav>
 	</div>
 </template>
 
@@ -105,7 +106,7 @@
 		props: ['users'],
 		data() {
 			return {
-				page: 0,
+				page: 1,
 				amount: 10,
 			}
 		},
@@ -116,10 +117,12 @@
 			userKeys() {
 				return Object.keys(this.users)
 			},
+			userAmount(){
+				return Object.keys(this.users).length
+			},
 			paginatedData() {
-				let start = this.page * this.amount
+				let start = (this.page-1) * this.amount
 				let end = start + this.amount;
-
 				return this.userArray.slice(start, end);
 			}
 		},
@@ -145,18 +148,6 @@
 			copyWvb(wvb) {
 				this.$store.state.userData.alleWVB[wvb.basisgegevens.id] = wvb
 			},
-
-			// PAGE
-			nextPage() {
-				if ((this.page * this.amount) <= this.userArray.length - this.amount) {
-					this.page++
-				}
-			},
-			prevPage() {
-				if (this.page > 0) {
-					this.page--
-				}
-			}
 		},
 		mounted() {
 			$('.collapse').on('show.bs.collapse', function () {
@@ -216,7 +207,7 @@
 		background: #fff;
 	}
 
-	#pageAmountContainer{
+	#pageAmountContainer {
 		position: absolute;
 	}
 </style>

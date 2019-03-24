@@ -38,7 +38,7 @@
 			<Over v-if="currentPage === 40" />
 			<Privacy v-if="currentPage === 41" />
 			<licence v-if="currentPage === 42" />
-			<Admin v-if="currentPage === -99" />
+			<Admin v-if="currentPage === 99" />
 		</transition>
 		
 		<transition name="fade"> 
