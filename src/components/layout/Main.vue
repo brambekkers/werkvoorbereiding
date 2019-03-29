@@ -17,6 +17,7 @@
 			<Gereedschap v-if="currentPage === 5" />
 			<Planning v-if="currentPage === 6" />
 			<Dashboard v-if="currentPage === 7" />
+			<NaCalculatie v-if="currentPage === 8" />
 
 			<!-- Opties -->
 			<MateriaalOpties v-if="currentPage === -2" />
@@ -62,6 +63,7 @@
 	import Gereedschap from "../pages/Gereedschap.vue";
 	import Planning from "../pages/Planning.vue";
 	import Dashboard from "../pages/Dashboard.vue";
+	import NaCalculatie from "../pages/Nacalculatie.vue";
 
 	// optie pages
 	import MateriaalOpties from "../pages/MateriaalOpties.vue";
@@ -113,6 +115,7 @@
 			Gereedschap,
 			Planning,
 			Dashboard,
+			NaCalculatie,
 			MateriaalOpties,
 			PlanningOpties,
 			Importeren,

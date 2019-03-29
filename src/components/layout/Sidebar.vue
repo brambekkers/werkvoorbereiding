@@ -17,6 +17,7 @@
 				<SidebarProjectMenuItem :itemProps="{page:4, name:'Maten'}"/>
 				<SidebarProjectMenuItem :itemProps="{page:5, name:'Gereedschap'}"/>
 				<SidebarProjectMenuItem :itemProps="{page:6, name:'Planning'}"/>
+				<SidebarProjectMenuItem :itemProps="{page:8, name:'Nacalculatie'}" v-if="werkvoorbereiding.stap >= 7"/>
 				<hr>
 				<SidebarMenuItem :itemProps="{page:9, name:'Importeren', icon: 'cloud_download'}"/>
 				<SidebarMenuItem :itemProps="{page:10, name:'Exporteren', icon: 'cloud_upload'}"/>

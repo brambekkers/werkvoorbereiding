@@ -30,7 +30,7 @@
 					if(this.werkvoorbereiding.stap < 1 && this.itemProps.page === 1){
 						return true
 					}
-					if(this.werkvoorbereiding.stap >= this.itemProps.page){
+					if(this.werkvoorbereiding.stap >= this.itemProps.page || this.itemProps.page === 8){
 						return true
 					}
 					if(this.werkvoorbereiding.stap < this.itemProps.page){
@@ -46,7 +46,7 @@
 			},
 			icon(){
 				if(this.wvbActive){
-					if(this.werkvoorbereiding.stap < 1 && this.itemProps.page === 1){
+					if(this.werkvoorbereiding.stap < 1 && this.itemProps.page === 1 || this.itemProps.page === 8){
 						return "far fa-circle"
 					}
 					if(this.werkvoorbereiding.stap > this.itemProps.page){
@@ -57,6 +57,9 @@
 					}
 					if(this.werkvoorbereiding.stap < this.itemProps.page){
 						return "far fa-times-circle"
+					}
+					if(this.itemProps.page === 8){
+						return "fas fa-tasks"
 					}
 				}else{
 					if(this.itemProps.page === 1){
