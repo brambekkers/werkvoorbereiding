@@ -1,41 +1,53 @@
 <template>
 	<li class="nav-item">
-		<a class="nav-link" @click.prevent="changePage">
+		<a
+			class="nav-link"
+			@click.prevent="changePage"
+		>
 			<i class="material-icons">{{itemProps.icon}}</i>
-			<p>{{itemProps.name}}</p>
+			<p>{{ linkName }}</p>
 		</a>
 	</li>
 </template>
 
 <script>
-	import $ from "jquery"
+import $ from "jquery";
 
-	export default {
-		name: "SidebarMenuItem",
-		props: ["itemProps"],
-		computed: {
-			appData()		{ return this.$store.state.appData },
-			sideBarOpen() 	{ return this.$store.state.appData.sidebarOpen},
+export default {
+	name: "SidebarMenuItem",
+	props: ["itemProps"],
+	computed: {
+		appData() {
+			return this.$store.state.appData;
 		},
-		methods: {
-			changePage(){
-				this.$store.state.appData.page = this.itemProps.page
-				this.closeSidebar();
-			},
-			closeSidebar() {
-				if (this.sideBarOpen) {
-					$("html").removeClass("nav-open");
-					$(".navbar-toggler").removeClass("toggled");
-					this.$store.state.appData.sidebarOpen = false
-				}
-			}	
+		sidebar() {
+			return this.$store.getters.sidebar;
 		},
-	};
+		linkName() {
+			return this.itemProps.name
+				? this.itemProps.name
+				: this.itemProps.page;
+		}
+	},
+	methods: {
+		changePage() {
+			this.$router.push(`/${this.itemProps.page}`);
+			this.closeSidebar();
+		},
+		closeSidebar() {
+			if (this.sidebar) {
+				$("html").removeClass("nav-open");
+				$(".navbar-toggler").removeClass("toggled");
+				this.$store.commit("sidebar", false);
+			}
+		}
+	}
+};
 </script>
 
 
 <style scoped>
-	a {
-		cursor: pointer;
-	}
+a {
+	cursor: pointer;
+}
 </style>

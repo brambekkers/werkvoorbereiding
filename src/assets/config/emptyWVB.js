@@ -1,26 +1,24 @@
 export default {
 	// Algemene gegevens
-	id: "",
-	aangemaaktOp: "",
-	laatsteBewerking: "",
+	id: '',
+	aangemaaktOp: '',
+	laatsteBewerking: '',
 	stap: 2,
 	isActief: true,
 
 	// Project gegevens
 	basisgegevens: {
-		docent: "",
-		klas: "",
-		naam: "",
-		project: ""
+		docent: '',
+		klas: '',
+		naam: '',
+		project: ''
 	},
-	componenten: [
-		{naam: "", aantal: ""}
-	],
+	componenten: [{ naam: '', aantal: '' }],
 	gereedschap: {
 		gereedschap: {
 			Accutol: false,
 			Bovenfrees: false,
-			Decopeerzaag: false,
+			Decoupeerzaag: false,
 			Dominofrees: false,
 			Dremel: false,
 			Handcirkelzaag: false,
@@ -53,15 +51,17 @@ export default {
 			Wandzaag: false
 		}
 	},
-	maten: [{
-		naam: "",
-		aantal: "", 
-		breedte: "", 
-		component: "", 
-		dikte: "", 
-		lengte: "", 
-		materiaal: "",
-	}],
+	maten: [
+		{
+			naam: '',
+			aantal: '',
+			breedte: '',
+			component: '',
+			dikte: '',
+			lengte: '',
+			materiaal: ''
+		}
+	],
 	materiaalOpties: {
 		maximaleDikteDuims: 23,
 		opslagpercentageMassief: 50,
@@ -71,40 +71,52 @@ export default {
 		overlengteZijdes: 6
 	},
 	materialen: {
-		fineer: [{
-			// kosten: 0,
-			naam: "",
-			prijs: ""
-		}],
-		massief: [{
-			// kosten: 0,
-			naam: "",
-			prijs: ""
-		}],
-		plaatmateriaal: [{
-			// kosten: 0,
-			naam: "",
-			prijs: ""
-		}]
+		fineer: [
+			{
+				// kosten: 0,
+				naam: '',
+				prijs: ''
+			}
+		],
+		massief: [
+			{
+				// kosten: 0,
+				naam: '',
+				prijs: ''
+			}
+		],
+		plaatmateriaal: [
+			{
+				// kosten: 0,
+				naam: '',
+				prijs: ''
+			}
+		]
 	},
-	overigematerialen: [{
-		aantal: "",
-		naam: "",
-		prijs: ""
-	}],
-	planning: [{
-		component: "",
-		onderdeel: "",
-		stappen: [{
-			aantal: "",
-			bewerking: "",
-			bewerkingstijd: "",
-			gereedschap: "",
-			insteltijd: "",
-			stap: "",
-			werkzaamheid: ""
-		}]
-	}],
+	overigematerialen: [
+		{
+			aantal: '',
+			naam: '',
+			prijs: ''
+		}
+	],
+	planning: [
+		{
+			component: '',
+			onderdeel: '',
+			stappen: [
+				{
+					aantal: '',
+					bewerking: '',
+					bewerkingstijd: '',
+					gereedschap: '',
+					insteltijd: '',
+					stap: '',
+					werkzaamheid: ''
+				}
+			]
+		}
+	],
 	planningOpties: {
 		btwTarief: 21,
 		dagenWeek: 5,
@@ -113,5 +125,5 @@ export default {
 		urenWerkdag: 8,
 		uurtarief: 10,
 		winstOpslag: 5
-	},
-}
+	}
+};

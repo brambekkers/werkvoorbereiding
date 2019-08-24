@@ -1,96 +1,85 @@
 <template>
 	<li class="nav-item pl-4">
-		<a class="nav-link" :class="{ pointer: canClick }" @click.prevent="toPage()">
-			<i v-bind:class="icon"></i> 
-			<p>{{itemProps.name}}</p>
+		<a
+			class="nav-link"
+			:class="{ pointer: canClick }"
+			@click.prevent="toPage()"
+		>
+			<i v-bind:class="icon"></i>
+			<p>{{itemProps.page}}</p>
 		</a>
 	</li>
 </template>
 
 <script>
-	import $ from "jquery"
+import $ from "jquery";
 
-	export default {
-		name: "SidebarProjectMenuItem",
-		props: ["itemProps"],
-		computed: {
-			wvbActive(){
-				if(this.werkvoorbereiding){
-					if(Object.keys(this.werkvoorbereiding).length > 0){
-						return true
-					}
-				}
-				return false
-			},
-			werkvoorbereiding()	{return this.$store.state.werkvoorbereiding},
-			sideBarOpen() 		{ return this.$store.state.appData.sidebarOpen},
-			appData()			{ return this.$store.state.appData},
-			canClick(){
-				if(this.wvbActive){
-					if(this.werkvoorbereiding.stap < 1 && this.itemProps.page === 1){
-						return true
-					}
-					if(this.werkvoorbereiding.stap >= this.itemProps.page || this.itemProps.page === 8){
-						return true
-					}
-					if(this.werkvoorbereiding.stap < this.itemProps.page){
-						return false
-					}
-				}else{
-					if(this.itemProps.page === 1){
-						return true
-					}else{
-						return false
-					}
-				}
-			},
-			icon(){
-				if(this.wvbActive){
-					if(this.werkvoorbereiding.stap < 1 && this.itemProps.page === 1 || this.itemProps.page === 8){
-						return "far fa-circle"
-					}
-					if(this.werkvoorbereiding.stap > this.itemProps.page){
-						return "far fa-check-circle"
-					}
-					if(this.werkvoorbereiding.stap === this.itemProps.page){
-						return "far fa-circle"
-					}
-					if(this.werkvoorbereiding.stap < this.itemProps.page){
-						return "far fa-times-circle"
-					}
-					if(this.itemProps.page === 8){
-						return "fas fa-tasks"
-					}
-				}else{
-					if(this.itemProps.page === 1){
-						return "far fa-circle"
-					}else{
-						return "far fa-times-circle"
-					}
-				}
+export default {
+	name: "SidebarProjectMenuItem",
+	props: ["itemProps"],
+	computed: {
+		werkvoorbereiding() {
+			return this.$store.getters.werkvoorbereiding;
+		},
+		sidebar() {
+			return this.$store.getters.sidebar;
+		},
+		appData() {
+			return this.$store.state.appData;
+		},
+		canClick() {
+			if (this.werkvoorbereiding) {
+				return this.werkvoorbereiding.stap > this.pageToNum()
+					? true
+					: false;
+			}
+			if (this.pageToNum() === 1) return true;
+			return false;
+		},
+		icon() {
+			if (this.werkvoorbereiding) {
+				if (this.werkvoorbereiding.stap > this.pageToNum())
+					return "far fa-check-circle";
+				if (this.werkvoorbereiding.stap === this.pageToNum())
+					return "far fa-circle";
+				if (this.werkvoorbereiding.stap < this.pageToNum())
+					return "far fa-times-circle";
+			}
+
+			if (this.pageToNum() === 1) return "far fa-circle";
+			return "far fa-times-circle";
+		}
+	},
+	methods: {
+		toPage() {
+			if (this.canClick) {
+				this.$router.push(`/${this.itemProps.page}`);
+				this.closeSidebar();
 			}
 		},
-		methods: {
-			toPage(){
-				if(this.canClick){
-					this.$store.state.appData.page = this.itemProps.page
-					this.closeSidebar();
-				}
-			},
-			closeSidebar() {
-				if (this.sideBarOpen) {
-					$("html").removeClass("nav-open");
-					$(".navbar-toggler").removeClass("toggled");
-					this.$store.state.appData.sidebarOpen = false
-				}
-			}	
+		closeSidebar() {
+			if (this.sidebar) {
+				$("html").removeClass("nav-open");
+				$(".navbar-toggler").removeClass("toggled");
+				this.$store.commit("sidebar", false);
+			}
 		},
-	};
+		pageToNum() {
+			if (this.itemProps.page === "gegevens") return 1;
+			if (this.itemProps.page === "componenten") return 2;
+			if (this.itemProps.page === "materialen") return 3;
+			if (this.itemProps.page === "maten") return 4;
+			if (this.itemProps.page === "gereedschap") return 5;
+			if (this.itemProps.page === "planning") return 6;
+			if (this.itemProps.page === "nacalculatie") return 7;
+		}
+	}
+};
 </script>
 
 
 <style scoped>
-	.pointer {
-		cursor: pointer;
-	}
+.pointer {
+	cursor: pointer;
+}
 </style>

@@ -1,88 +1,90 @@
 <template>
-	<aside class="sidebar" data-color="green">
+	<aside
+		class="sidebar"
+		data-color="green"
+	>
 		<div class="logo">
-			<a href="/" class="simple-text logo-normal">WVB</a>
+			<a
+				href="/"
+				class="simple-text logo-normal"
+			>WVB</a>
 		</div>
 		<div class="sidebar-wrapper">
 			<ul class="nav">
-				<SidebarMenuItem v-if="allowDashboard" :itemProps="{page:7, name:'Dashboard', icon: 'dashboard'}"/>
-				<SidebarMenuItem v-if="!allowDashboard" :itemProps="{page:page, name:'Dashboard', icon: 'dashboard'}" @click="makeWVBWarning"/>
-				<SidebarMenuItem v-if="user" :itemProps="{page:16, name:'Projecten', icon: 'content_paste'}"/>
-				<SidebarMenuItem v-if="!user" :itemProps="{page:20, name:'Projecten', icon: 'content_paste'}"/>
-				<SidebarMenuItem :itemProps="{page:20, name:'Account', icon: 'person'}"/>
+				<SidebarMenuItem :itemProps="{page:'dashboard', icon: 'dashboard'}" />
+				<SidebarMenuItem :itemProps="{page: user ? 'projecten' : 'login', name: 'projecten', icon: 'content_paste'}" />
+				<SidebarMenuItem :itemProps="{page: user ? 'account' : 'login', name: 'account', icon: 'person'}" />
 				<hr>
-				<SidebarProjectMenuItem :itemProps="{page:1, name:'Gegevens'}"/>
-				<SidebarProjectMenuItem :itemProps="{page:2, name:'Componenten'}"/>
-				<SidebarProjectMenuItem :itemProps="{page:3, name:'Materialen'}"/>
-				<SidebarProjectMenuItem :itemProps="{page:4, name:'Maten'}"/>
-				<SidebarProjectMenuItem :itemProps="{page:5, name:'Gereedschap'}"/>
-				<SidebarProjectMenuItem :itemProps="{page:6, name:'Planning'}"/>
-				<SidebarProjectMenuItem :itemProps="{page:8, name:'Nacalculatie'}" v-if="werkvoorbereiding.stap >= 7"/>
+				<SidebarProjectMenuItem :itemProps="{page:'gegevens'}" />
+				<SidebarProjectMenuItem :itemProps="{page:'componenten'}" />
+				<SidebarProjectMenuItem :itemProps="{page:'materialen'}" />
+				<SidebarProjectMenuItem :itemProps="{page:'maten'}" />
+				<SidebarProjectMenuItem :itemProps="{page:'gereedschap'}" />
+				<SidebarProjectMenuItem :itemProps="{page:'planning'}" />
+				<SidebarProjectMenuItem :itemProps="{page:'nacalculatie'}" />
 				<hr>
-				<SidebarMenuItem :itemProps="{page:9, name:'Importeren', icon: 'cloud_download'}"/>
-				<SidebarMenuItem :itemProps="{page:10, name:'Exporteren', icon: 'cloud_upload'}"/>
+				<SidebarMenuItem :itemProps="{page:'importeren', icon: 'cloud_download'}" />
+				<SidebarMenuItem :itemProps="{page:'exporteren', icon: 'cloud_upload'}" />
 				<hr v-if="electron">
-				<SidebarExitItem v-if="electron" :itemProps="{name:'Afsluiten', icon: 'exit_to_app'}"/>
+				<SidebarExitItem
+					v-if="electron"
+					:itemProps="{name:'afsluiten', icon: 'exit_to_app'}"
+				/>
 			</ul>
 		</div>
 	</aside>
 </template>
 
 <script>
-	import SidebarProjectMenuItem from "./SidebarProjectMenuItem"
-	import SidebarExitItem from "./SidebarExitItem"
-	import SidebarMenuItem from "./SidebarMenuItem"
-	import isElectron from 'is-electron';
-	import Swal from 'sweetalert2'
+import SidebarProjectMenuItem from "./SidebarProjectMenuItem";
+import SidebarExitItem from "./SidebarExitItem";
+import SidebarMenuItem from "./SidebarMenuItem";
+import isElectron from "is-electron";
+import Swal from "sweetalert2";
 
-	export default {
-		name: "Sidebar",
-		computed:{
-			electron(){
-				return isElectron()
-			},
-			page(){
-				return this.$store.state.appData.page
-			},
-			user(){
-				return this.$store.state.appData.user
-			},
-			wvbActive(){
-				if(this.werkvoorbereiding){
-					if(Object.keys(this.werkvoorbereiding).length > 0){
-						return true
-					}
-				}
-				return false
-			},
-			werkvoorbereiding(){
-				return this.$store.state.werkvoorbereiding
-			},
-			allowDashboard(){
-				if(this.wvbActive && this.werkvoorbereiding.stap > 1){
-					return true
-				}
-				return false
+export default {
+	name: "Sidebar",
+	computed: {
+		electron() {
+			return isElectron();
+		},
+		user() {
+			return this.$store.getters.user;
+		},
+		werkvoorbereidingen() {
+			return this.$store.getters.werkvoorbereiding;
+		}
 
-			},	
-		},
-		methods: {
-			makeWVBWarning(){
-				Swal.fire({
-					title: "Geen werkvoorbereiding?",
-					text: "Maak eerst een nieuwe werkvoorbereiding. Pas dan kun je naar het dashboard gaan om het overzicht te bekijken.",
-					confirmButtonColor: '#F33527',
-					confirmButtonText: 'Ik begrijp het!',
-					type: "error",
-				})
-			}
-		},
-		components: {
-			SidebarProjectMenuItem,
-			SidebarMenuItem,
-			SidebarExitItem
-		},
-	};
+		// wvbActive() {
+		// 	if (this.werkvoorbereiding) {
+		// 		if (Object.keys(this.werkvoorbereiding).length > 0) {
+		// 			return true;
+		// 		}
+		// 	}
+		// 	return false;
+		// },
+		// werkvoorbereiding() {
+		// 	return this.$store.state.werkvoorbereiding;
+		// }
+	},
+	methods: {
+		makeWVBWarning() {
+			Swal.fire({
+				title: "Geen werkvoorbereiding?",
+				text:
+					"Maak eerst een nieuwe werkvoorbereiding. Pas dan kun je naar het dashboard gaan om het overzicht te bekijken.",
+				confirmButtonColor: "#F33527",
+				confirmButtonText: "Ik begrijp het!",
+				type: "error"
+			});
+		}
+	},
+	components: {
+		SidebarProjectMenuItem,
+		SidebarMenuItem,
+		SidebarExitItem
+	}
+};
 </script>
 
 

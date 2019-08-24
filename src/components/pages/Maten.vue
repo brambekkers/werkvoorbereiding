@@ -165,13 +165,6 @@
 					return false
 				}
 			},
-			fineer(){
-				if(this.materialen.fineer){
-					return this.materialen.fineer
-				}else{
-					return false
-				}
-			},
 			overigeMaterialen(){
 				if(this.$store.state.werkvoorbereiding.overigematerialen){
 					return this.$store.state.werkvoorbereiding.overigematerialen
