@@ -29,7 +29,7 @@ export default {
 		},
 		canClick() {
 			if (this.werkvoorbereiding) {
-				return this.werkvoorbereiding.stap > this.pageToNum()
+				return this.werkvoorbereiding.stap >= this.pageToNum()
 					? true
 					: false;
 			}

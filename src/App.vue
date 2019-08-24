@@ -37,12 +37,12 @@ import "./assets/css/material-dashboard.css";
 import fb from "firebase/app";
 import "firebase/auth";
 import "firebase/database";
-// import firebaseConfig from "./assets/config/firebaseConfig.js";
 
+// To Do: checken hoe ik deze maar één keer hoef te importeren
+// Nu krijg ik error als ik ze niet per componenent importeer
 import $ from "jquery";
 import popper from "popper.js";
 import bootstrap from "bootstrap";
-
 import Swal from "sweetalert2";
 
 import Sidebar from "./components/layout/Sidebar";

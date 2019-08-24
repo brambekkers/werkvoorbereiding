@@ -1,90 +1,187 @@
 <template>
 	<div class="content">
 		<div class="container-fluid">
-			<form role="form" @submit.prevent="nextStep()">
+			<form
+				role="form"
+				@submit.prevent="nextStep()"
+			>
 				<div class="row justify-content-center">
 					<div class="col-xl-12">
 						<div class="card">
-							<CardHeader :text="{title: 'Maten', subtitle: 'Hoe groot zijn je onderdelen' }"/>
+							<CardHeader :text="{title: 'Maten', subtitle: 'Hoe groot zijn je onderdelen' }" />
 							<div class="card-body">
-	                            <draggable v-model="$store.state.werkvoorbereiding.maten">
-									<div class="row" v-bind:key="index" v-for="(maat, index) in maten">
+								<draggable v-model="maten">
+									<div
+										class="row"
+										v-bind:key="index"
+										v-for="(maat, index) in maten"
+									>
 										<div class="col-8 col-md-4 col-xl-3">
 											<div class="input-group mb-2">
 												<div class="input-group-prepend">
-													<span id="basic-addon1" class="input-group-text">
+													<span
+														id="basic-addon1"
+														class="input-group-text"
+													>
 														<i class="fab fa-slack-hash"></i>
 													</span>
 												</div>
-												<input type="text" placeholder="Naam onderdeel" data-toggle="tooltip" 
-												data-placement="top" required="required" class="form-control" 
-												data-original-title="Welk onderdeel ga je bematen?"
-												v-model="maat.naam">
+												<input
+													type="text"
+													placeholder="Naam onderdeel"
+													data-toggle="tooltip"
+													data-placement="top"
+													required="required"
+													class="form-control"
+													data-original-title="Welk onderdeel ga je bematen?"
+													v-model="maat.naam"
+												>
 											</div>
 										</div>
 										<div class="col-4 col-md-4 col-xl-1">
 											<div class="input-group mb-2">
-												<input type="number" placeholder="Aantal" data-toggle="tooltip" 
-												data-placement="top" required="required" class="form-control" 
-												data-original-title="Hoeveel stuks heb je van dit onderdeel?"
-												v-model="maat.aantal">
+												<input
+													type="number"
+													placeholder="Aantal"
+													data-toggle="tooltip"
+													data-placement="top"
+													required="required"
+													class="form-control"
+													data-original-title="Hoeveel stuks heb je van dit onderdeel?"
+													v-model="maat.aantal"
+												>
 											</div>
 										</div>
 										<div class="col-6 col-md-4 col-xl-2">
 											<div class="input-group mb-2">
-												<select data-toggle="tooltip" data-placement="top" required="required" 
-												class="form-control" data-original-title="Welk component?"
-												v-model="maat.component">
-													<option value="" selected disabled hidden>Kies een component</option>
-													<option v-bind:key="index" v-for="(component, index) in componenten">{{component.naam}}</option>
+												<select
+													data-toggle="tooltip"
+													data-placement="top"
+													required="required"
+													class="form-control"
+													data-original-title="Welk component?"
+													v-model="maat.component"
+												>
+													<option
+														value=""
+														selected
+														disabled
+														hidden
+													>Kies een component</option>
+													<option
+														v-bind:key="index"
+														v-for="(component, index) in getComponenten"
+													>{{component.naam}}</option>
 												</select>
 											</div>
 										</div>
 										<div class="col-6 col-md-4 col-xl-2">
 											<div class="input-group mb-2">
-												<select data-toggle="tooltip" data-placement="top" required="required" 
-												class="form-control" data-original-title="Welk materiaal?"
-												v-model="maat.materiaal">
-													<option value="" selected disabled hidden>Kies een materiaal</option>
-													<optgroup label="Massiefhout"  v-if="massief">
-														<option v-bind:key="index" v-for="(materiaal, index) in massief">{{materiaal.naam}}</option>												
+												<select
+													data-toggle="tooltip"
+													data-placement="top"
+													required="required"
+													class="form-control"
+													data-original-title="Welk materiaal?"
+													v-model="maat.materiaal"
+												>
+													<option
+														value=""
+														selected
+														disabled
+														hidden
+													>Kies een materiaal</option>
+													<optgroup
+														label="Massiefhout"
+														v-if="massief && massief.length"
+													>
+														<option
+															v-bind:key="index"
+															v-for="(materiaal, index) in massief"
+														>{{materiaal.naam}}</option>
 													</optgroup>
-													<optgroup label="Plaatmateriaal" v-if="plaatmateriaal">
-														<option v-bind:key="index" v-for="(materiaal, index) in plaatmateriaal">{{materiaal.naam}}</option>												
+													<optgroup
+														label="Plaatmateriaal"
+														v-if="plaatmateriaal && plaatmateriaal.length"
+													>
+														<option
+															v-bind:key="index"
+															v-for="(materiaal, index) in plaatmateriaal"
+														>{{materiaal.naam}}</option>
 													</optgroup>
-													<optgroup label="Fineer" v-if="fineer">
-														<option v-bind:key="index" v-for="(materiaal, index) in fineer">{{materiaal.naam}}</option>												
+													<optgroup
+														label="Fineer"
+														v-if="fineer && fineer.length"
+													>
+														<option
+															v-bind:key="index"
+															v-for="(materiaal, index) in fineer"
+														>{{materiaal.naam}}</option>
+													</optgroup>
+													<optgroup
+														label="Overige materialen"
+														v-if="getOverigeMaterialen && getOverigeMaterialen.length"
+													>
+														<option
+															v-bind:key="index"
+															v-for="(materiaal, index) in getOverigeMaterialen"
+														>{{materiaal.naam}}</option>
 													</optgroup>
 												</select>
 											</div>
 										</div>
 										<div class="col-4 col-md-2 col-xl-1">
 											<div class="input-group mb-2">
-												<input type="number" placeholder="Lengte" min="1" data-toggle="tooltip" 
-												data-placement="top" required="required" class="form-control" 
-												data-original-title="Wat is de lengte in mm?"
-												v-model="maat.lengte">
+												<input
+													type="number"
+													placeholder="Lengte"
+													min="1"
+													data-toggle="tooltip"
+													data-placement="top"
+													required="required"
+													class="form-control"
+													data-original-title="Wat is de lengte in mm?"
+													v-model="maat.lengte"
+												>
 											</div>
 										</div>
 										<div class="col-4 col-md-2 col-xl-1">
 											<div class="input-group mb-2">
-												<input type="number" placeholder="Breedte" min="1" data-toggle="tooltip" 
-												data-placement="top" required="required" class="form-control" 
-												data-original-title="Wat is de breedte in mm?"
-												v-model="maat.breedte">
+												<input
+													type="number"
+													placeholder="Breedte"
+													min="1"
+													data-toggle="tooltip"
+													data-placement="top"
+													required="required"
+													class="form-control"
+													data-original-title="Wat is de breedte in mm?"
+													v-model="maat.breedte"
+												>
 											</div>
 										</div>
 										<div class="col-4 col-md-2 col-xl-1">
 											<div class="input-group mb-2">
-												<input type="number" placeholder="Dikte" min="1" data-toggle="tooltip" 
-												data-placement="top" required="required" class="form-control" 
-												data-original-title="Wat is de dikte in mm?"
-												v-model="maat.dikte">
+												<input
+													type="number"
+													placeholder="Dikte"
+													min="1"
+													data-toggle="tooltip"
+													data-placement="top"
+													required="required"
+													class="form-control"
+													data-original-title="Wat is de dikte in mm?"
+													v-model="maat.dikte"
+												>
 											</div>
 										</div>
 										<div class="col-12 col-md-2 col-xl-1">
 											<div class="input-group mb-2">
-												<button type="button" class="btn btn-danger btn-sm btn-block" @click="removeMaten(index)">
+												<button
+													type="button"
+													class="btn btn-danger btn-sm btn-block"
+													@click="removeMaten(index)"
+												>
 													<i class="fa fa-trash"></i>
 												</button>
 											</div>
@@ -94,26 +191,43 @@
 										</div>
 									</div>
 								</draggable>
-								<hr> 
-								<button type="button" class="btn" @click="newMaat()">
+								<hr>
+								<button
+									type="button"
+									class="btn"
+									@click="newMaat()"
+								>
 									<i class="fa fa-plus mr-3"></i>Nieuw onderdeel
 								</button>
 							</div>
 						</div>
 						<div class="row">
 							<div class="col-md-6">
-								<button type="button" class="btn btn-lg btn-block btn-danger btn-fill" @click="previousStep()">
+								<button
+									type="button"
+									class="btn btn-lg btn-block btn-danger btn-fill"
+									@click="previousStep()"
+								>
 									<div class="row">
-										<div class="col-2"><i aria-hidden="true" class="fa fa-chevron-left"></i></div>
+										<div class="col-2"><i
+												aria-hidden="true"
+												class="fa fa-chevron-left"
+											></i></div>
 										<div class="col-10">Vorige stap</div>
 									</div>
 								</button>
 							</div>
 							<div class="col-md-6">
-								<button type="submit" class="btn btn-lg btn-block btn-bg-teal">
+								<button
+									type="submit"
+									class="btn btn-lg btn-block btn-bg-teal"
+								>
 									<div class="row">
 										<div class="col-10">Volgende stap</div>
-										<div class="col-2"><i aria-hidden="true" class="fa fa-chevron-right"></i></div>
+										<div class="col-2"><i
+												aria-hidden="true"
+												class="fa fa-chevron-right"
+											></i></div>
 									</div>
 								</button>
 							</div>
@@ -126,104 +240,137 @@
 </template>
 
 <script>
-	import $ from "jquery";
-	import CardHeader from "./attributes/Card-header.vue";
-    import draggable from 'vuedraggable'
+import $ from "jquery";
+import CardHeader from "./attributes/Card-header.vue";
+import draggable from "vuedraggable";
 
-
-	export default {
-		name: "Maten",
-		components: { CardHeader, draggable },
-		computed: {
-			maten() {
-				return this.$store.state.werkvoorbereiding.maten
-			},
-			componenten() {
-				return this.$store.state.werkvoorbereiding.componenten
-			},
-			materialen() {
-				return this.$store.state.werkvoorbereiding.materialen
-			},
-			massief(){
-				if(this.materialen.massief){
-					return this.materialen.massief
-				}else{
-					return false
-				}
-			},
-			plaatmateriaal(){
-				if(this.materialen.plaatmateriaal){
-					return this.materialen.plaatmateriaal
-				}else{
-					return false
-				}
-			},
-			fineer(){
-				if(this.materialen.fineer){
-					return this.materialen.fineer
-				}else{
-					return false
-				}
-			},
-			overigeMaterialen(){
-				if(this.$store.state.werkvoorbereiding.overigematerialen){
-					return this.$store.state.werkvoorbereiding.overigematerialen
-				}else{
-					return false
-				}
-			},
-		},
-		methods: {
-			newMaat() {
-				if(!this.maten){
-					this.$set(this.$store.state.werkvoorbereiding, 'maten', [])
-				}
-				this.$store.state.werkvoorbereiding.maten.push({
+export default {
+	name: "Maten",
+	data() {
+		return {
+			maten: [
+				{
 					naam: "",
-					aantal: "", 
-					breedte: "", 
-					component: "", 
-					dikte: "", 
-					lengte: "", 
-					materiaal: "",
-				})
-			},
-			removeMaten(i) {
-				this.$store.state.werkvoorbereiding.maten.splice(i, 1)
-				this.$forceUpdate();
-			},
-			previousStep() {
-				this.$store.state.appData.page--
-			},
-			nextStep() {
-				this.$store.state.appData.page++
-				if(this.$store.state.appData.page > this.$store.state.werkvoorbereiding.stap){
-					this.$store.state.werkvoorbereiding.stap = this.$store.state.appData.page
+					aantal: "",
+					breedte: "",
+					component: "",
+					dikte: "",
+					lengte: "",
+					materiaal: ""
 				}
+			]
+		};
+	},
+	components: { CardHeader, draggable },
+	computed: {
+		werkvoorbereiding() {
+			return this.$store.getters.werkvoorbereiding;
+		},
+		getMaten() {
+			return this.$store.getters.werkvoorbereidingsObject("maten");
+		},
+		getComponenten() {
+			return this.$store.getters.werkvoorbereidingsObject("componenten");
+		},
+		getMaterialen() {
+			return this.$store.getters.werkvoorbereidingsObject("materialen");
+		},
+		getOverigeMaterialen() {
+			return this.$store.getters.werkvoorbereidingsObject(
+				"overigeMaterialen"
+			);
+		},
+		massief() {
+			if (this.getMaterialen) {
+				return this.getMaterialen.massief || false;
+			}
+			return false;
+		},
+		plaatmateriaal() {
+			if (this.getMaterialen) {
+				return this.getMaterialen.plaatmateriaal || false;
+			}
+			return false;
+		},
+		fineer() {
+			if (this.getMaterialen) {
+				return this.getMaterialen.fineer || false;
+			}
+			return false;
+		}
+	},
+	watch: {
+		maten: {
+			handler(newValue) {
+				this.setData();
+			},
+			deep: true
+		}
+	},
+	methods: {
+		updateGegevens() {
+			if (this.getMaten) {
+				this.maten = this.getMaten;
 			}
 		},
-		created() {
-			$(function () {
-				$('[data-toggle="tooltip"]').tooltip({'delay': { show: 500, hide: 0 }})
-			})
+		newMaat() {
+			this.maten.push({
+				naam: "",
+				aantal: "",
+				breedte: "",
+				component: "",
+				dikte: "",
+				lengte: "",
+				materiaal: ""
+			});
+		},
+		removeMaten(i) {
+			this.maten.splice(i, 1);
+		},
+		previousStep() {
+			this.$router.go(-1);
+		},
+		nextStep() {
+			this.setData();
+			this.$store.commit("verhoogStap");
+			this.$router.push("/gereedschap");
+		},
+		setData() {
+			this.$store.commit("werkvoorbereiding", {
+				...this.werkvoorbereiding,
+				maten: this.maten
+			});
+			this.$store.dispatch("dataToFirebase", {
+				path: `alleWVB/${this.werkvoorbereiding.id}/maten`,
+				data: this.maten
+			});
 		}
-	};
+	},
+	created() {
+		$(function() {
+			$('[data-toggle="tooltip"]').tooltip({
+				delay: { show: 500, hide: 0 }
+			});
+		});
+		this.updateGegevens();
+	}
+};
 </script>
 
 
 <style scoped>
-    .grabbing {
-        cursor: move;
-        /* fallback if grab cursor is unsupported */
-        cursor: grab;
-        cursor: -moz-grab;
-        cursor: -webkit-grab;
-    }
+.grabbing {
+	cursor: move;
+	/* fallback if grab cursor is unsupported */
+	cursor: grab;
+	cursor: -moz-grab;
+	cursor: -webkit-grab;
+}
 
-    /* (Optional) Apply a "closed-hand" cursor during drag operation. */
-    .grabbing:active {
-        cursor: grabbing;
-        cursor: -moz-grabbing;
-        cursor: -webkit-grabbing;
-    }
+/* (Optional) Apply a "closed-hand" cursor during drag operation. */
+.grabbing:active {
+	cursor: grabbing;
+	cursor: -moz-grabbing;
+	cursor: -webkit-grabbing;
+}
 </style>

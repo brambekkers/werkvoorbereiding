@@ -47,6 +47,9 @@ export default new Vuex.Store({
 		werkvoorbereiding (state, werkvoorbereiding) {
 			state.werkvoorbereiding = werkvoorbereiding;
 		},
+		verhoogStap(state){
+			state.werkvoorbereiding.stap++
+		}, 
 		instellingen (state, instellingen) {
 			state.appData.instellingen = instellingen;
 		},
@@ -85,6 +88,9 @@ export default new Vuex.Store({
 		},
 		werkvoorbereiding(state){
 			return state.werkvoorbereiding;
+		},
+		werkvoorbereidingsObject: (state, getters) => (subObject) => {
+			if(getters.werkvoorbereiding) return getters.werkvoorbereiding[subObject]
 		},
 		instellingen(state){
 			return state.appData.instellingen
@@ -129,7 +135,6 @@ export default new Vuex.Store({
 			});
 		},
 		newUserFirebase({getters}, userId) {
-			console.log(userId)
 			const userRef = getters.fb.database().ref(`users/${userId}/profiel`)
 			const currentUser = getters.user
 

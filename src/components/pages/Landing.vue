@@ -1,6 +1,5 @@
 <template>
 	<div class="background-img">
-		<!-- <Navbar /> -->
 		<div class="container">
 			<div class="rellax-text-container">
 				<h1 class="h1-seo">WVB</h1>
@@ -14,17 +13,12 @@
 				></i>
 			</div>
 		</div>
-		<!-- <Footer /> -->
 	</div>
 </template>
 
 <script>
-import Navbar from "./../layout/Navbar.vue";
-import Footer from "./../layout/Footer.vue";
-
 export default {
 	name: "Landing",
-	components: { Navbar, Footer },
 	methods: {
 		hideLandingPage() {
 			this.$store.commit("landingPage", false);
