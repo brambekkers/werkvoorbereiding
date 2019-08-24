@@ -1,6 +1,6 @@
 <template>
 	<div class="background-img">
-		<Navbar />
+		<!-- <Navbar /> -->
 		<div class="container">
 			<div class="rellax-text-container">
 				<h1 class="h1-seo">WVB</h1>
@@ -14,7 +14,7 @@
 				></i>
 			</div>
 		</div>
-		<Footer />
+		<!-- <Footer /> -->
 	</div>
 </template>
 
@@ -36,6 +36,8 @@ export default {
 
 <style scoped>
 .background-img {
+	position: absolute;
+	z-index: 1000;
 	height: 100vh;
 	width: 100vw;
 	min-height: 100vh;

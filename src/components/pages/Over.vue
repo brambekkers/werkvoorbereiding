@@ -1,17 +1,20 @@
 <template>
 	<div class="content">
 		<div class="container-fluid">
-			<form role="form" @submit.prevent="nextStep()">
+			<form
+				role="form"
+				@submit.prevent="nextStep()"
+			>
 				<div class="row justify-content-center">
 					<div class="col-xl-8">
 						<div class="card">
-							<CardHeader :text="{title: 'Over', subtitle: 'Wat, wie en hoe' }"/>
+							<CardHeader :text="{title: 'Over', subtitle: 'Wat, wie en hoe' }" />
 							<div class="card-body">
 								<div class="row">
 									<div class="col-12">
-										<h4>deWerkvoorbereider</h4>
-										<p>De deWerkvoorbereider.nl is een online rekenprogramma ten behoeve van de werkvoorbereiding.</p>
-
+										<h4>De werkvoorbereider</h4>
+										<p>De werkvoorbereider.nl is een online rekenprogramma ten behoeve van de werkvoorbereiding. Met deze tool kun je gemakkelijk de tijd en kosten bereken voor het maken van een product. Je krijgt grafisch een mooi inzicht in de kosten en tijd per onderwerp. Dit alles is gemakkelijk te exporteren en te printen.</p>
+										<p>Het programma is zo opgezet dat het de gebruiker leert om in stappen na te denken over de werkvoorbereiding. Het idee achter het programma is om inzicht en kennis te vergaren over het opzetten van een prijsberekening en planning.</p>
 										<table class="table table-borderless">
 											<thead>
 												<tr>
@@ -42,11 +45,11 @@
 											<tbody>
 												<tr>
 													<th>Versie: </th>
-													<td>2.0.1</td>
+													<td>2.2.1</td>
 												</tr>
 												<tr>
 													<th>Laatst bijgewerkt: </th>
-													<td>30-01-2019</td>
+													<td>30-08-2019</td>
 												</tr>
 												<tr>
 													<th>Gebouwd met: </th>
@@ -69,13 +72,13 @@
 </template>
 
 <script>
-	import CardHeader from "./attributes/Card-header.vue";
+import CardHeader from "./attributes/Card-header.vue";
 
-	export default {
-		name: "Over",
-		components: { CardHeader },
-		computed: {}
-	};
+export default {
+	name: "Over",
+	components: { CardHeader },
+	computed: {}
+};
 </script>
 
 
