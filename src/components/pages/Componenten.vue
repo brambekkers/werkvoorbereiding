@@ -107,6 +107,7 @@
 </template>
 
 <script>
+import newWvb from "@/assets/config/newWvb.js";
 import $ from "jquery";
 import CardHeader from "./attributes/Card-header.vue";
 
@@ -115,7 +116,7 @@ export default {
 	components: { CardHeader },
 	data() {
 		return {
-			componenten: [{ naam: "", aantal: "" }]
+			componenten: newWvb.componenten
 		};
 	},
 	computed: {

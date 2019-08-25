@@ -103,6 +103,7 @@
 
 <script>
 import $ from "jquery";
+import newWvb from "@/assets/config/newWvb.js";
 import { Money } from "v-money";
 import CardHeader from "./attributes/Card-header.vue";
 
@@ -111,17 +112,11 @@ export default {
 	components: { Money, CardHeader },
 	data() {
 		return {
-			overigeMaterialen: [
-				{
-					aantal: "",
-					naam: "",
-					prijs: ""
-				}
-			],
+			overigeMaterialen: newWvb.overigeMaterialen,
 			money: {
 				decimal: ".",
 				thousands: ",",
-				prefix: `${this.$store.state.appData.instellingen.valuta} `,
+				prefix: `€ `,
 				suffix: "",
 				precision: 2,
 				masked: false
@@ -136,6 +131,9 @@ export default {
 			return this.$store.getters.werkvoorbereidingsObject(
 				"overigeMaterialen"
 			);
+		},
+		valuta() {
+			return this.$store.getters.valuta;
 		}
 	},
 	watch: {
@@ -148,9 +146,9 @@ export default {
 	},
 	methods: {
 		updateGegevens() {
-			if (this.getOverigeMaterialen) {
+			if (this.getOverigeMaterialen)
 				this.overigeMaterialen = this.getOverigeMaterialen;
-			}
+			if (this.valuta) this.money.prefix = `${this.valuta} `;
 		},
 		newMateriaal() {
 			this.overigeMaterialen.push({

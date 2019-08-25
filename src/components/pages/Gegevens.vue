@@ -79,7 +79,7 @@
 
 <script>
 import $ from "jquery";
-import uniqid from "uniqid";
+import newWvb from "@/assets/config/newWvb.js";
 import CardHeader from "./attributes/Card-header.vue";
 
 export default {
@@ -87,12 +87,7 @@ export default {
 	components: { CardHeader },
 	data() {
 		return {
-			basisgegevens: {
-				docent: "",
-				klas: "",
-				naam: "",
-				project: ""
-			}
+			basisgegevens: newWvb.basisgegevens
 		};
 	},
 	computed: {
@@ -112,25 +107,9 @@ export default {
 			}
 		},
 		nextStep() {
-			if (!this.werkvoorbereiding) {
-				this.createNewWVB();
-			}
 			this.setData();
+			this.$store.commit("verhoogStap");
 			this.$router.push("/componenten");
-		},
-		newDate() {
-			const d = new Date();
-			return `${d.getDate()}-${d.getMonth() +
-				1}-${d.getFullYear()} ${d.getHours()}.${d.getMinutes()}`;
-		},
-		createNewWVB() {
-			const newWvb = {
-				basisgegevens: this.basisgegevens,
-				id: `WVB_${uniqid()}`,
-				aangemaaktOp: this.newDate(),
-				stap: 2
-			};
-			this.$store.commit("werkvoorbereiding", newWvb);
 		},
 		setData() {
 			this.$store.commit("werkvoorbereiding", {

@@ -11,8 +11,10 @@
 									<h5 class="title text-center"><strong>Electrisch gereedschap</strong></h5>
 									<hr class="mt-0">
 									<GereedschapItem
-										v-bind:key="key"
-										v-for="(value, key) in gereedschap"
+										v-for="(value, key) in gereedschap.gereedschap"
+										:key="key"
+										@toggleTool="toggleTool"
+										:value.sync="value"
 										:toolKey="key"
 										:category="'gereedschap'"
 									/>
@@ -21,8 +23,10 @@
 									<h5 class="title text-center"><strong>Machines</strong></h5>
 									<hr class="mt-0">
 									<GereedschapItem
-										v-bind:key="key"
-										v-for="(value, key) in machines"
+										v-for="(value, key) in gereedschap.machines"
+										:key="key"
+										@toggleTool="toggleTool"
+										:value.sync="value"
 										:toolKey="key"
 										:category="'machines'"
 									/>
@@ -66,36 +70,69 @@
 </template>
 
 <script>
+import newWvb from "@/assets/config/newWvb.js";
 import GereedschapItem from "./attributes/GereedschapItem";
 import CardHeader from "./attributes/Card-header.vue";
 
 export default {
 	name: "Gereedschap",
+	data() {
+		return {
+			gereedschap: newWvb.gereedschap
+		};
+	},
 	components: {
 		GereedschapItem,
 		CardHeader
 	},
+	watch: {
+		gereedschap: {
+			handler() {
+				this.setData();
+			},
+			deep: true
+		}
+	},
 	computed: {
-		gereedschap() {
-			return this.$store.state.werkvoorbereiding.gereedschap.gereedschap;
+		werkvoorbereiding() {
+			return this.$store.getters.werkvoorbereiding;
 		},
-		machines() {
-			return this.$store.state.werkvoorbereiding.gereedschap.machines;
+		getGereedschap() {
+			return this.$store.getters.werkvoorbereidingsObject("gereedschap");
 		}
 	},
 	methods: {
+		updateGegevens() {
+			console.log(this.getGereedschap ? true : false);
+			if (this.getGereedschap) {
+				this.gereedschap = this.getGereedschap;
+			}
+		},
+		toggleTool(toolData) {
+			this.gereedschap[toolData.category][toolData.toolKey] = !this
+				.gereedschap[toolData.category][toolData.toolKey];
+		},
 		previousStep() {
-			this.$store.state.appData.page--;
+			this.$router.push("/maten");
 		},
 		nextStep() {
-			this.$store.state.appData.page++;
-			if (
-				this.$store.state.appData.page >
-				this.$store.state.werkvoorbereiding.stap
-			) {
-				this.$store.state.werkvoorbereiding.stap = this.$store.state.appData.page;
-			}
+			this.setData();
+			this.$store.commit("verhoogStap");
+			this.$router.push("/planning");
+		},
+		setData() {
+			this.$store.commit("werkvoorbereiding", {
+				...this.werkvoorbereiding,
+				gereedschap: this.gereedschap
+			});
+			this.$store.dispatch("dataToFirebase", {
+				path: `alleWVB/${this.werkvoorbereiding.id}/gereedschap`,
+				data: this.gereedschap
+			});
 		}
+	},
+	created() {
+		this.updateGegevens();
 	}
 };
 </script>

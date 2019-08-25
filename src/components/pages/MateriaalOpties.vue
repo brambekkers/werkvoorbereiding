@@ -136,6 +136,7 @@
 
 <script>
 import CardHeader from "./attributes/Card-header.vue";
+import newWvb from "@/assets/config/newWvb.js";
 import $ from "jquery";
 
 export default {
@@ -143,14 +144,7 @@ export default {
 	components: { CardHeader },
 	data() {
 		return {
-			materiaalOpties: {
-				maximaleDikteDuims: 23,
-				opslagpercentageMassief: 50,
-				opslagpercentagePlaat: 25,
-				overlengteKops: 10,
-				overlengteLangs: 10,
-				overlengteZijdes: 6
-			}
+			materiaalOpties: newWvb.materiaalOpties
 		};
 	},
 	watch: {

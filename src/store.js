@@ -1,5 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import uniqid from "uniqid";
+
 
 Vue.use(Vuex)
 
@@ -45,7 +47,14 @@ export default new Vuex.Store({
 			state.appData.sidebar = boolean
 		},
 		werkvoorbereiding (state, werkvoorbereiding) {
-			state.werkvoorbereiding = werkvoorbereiding;
+			if(!state.werkvoorbereiding){
+				state.werkvoorbereiding = {
+					id: `WVB_${uniqid()}`,
+					aangemaaktOp: this.getters.newDate,
+					stap: 1
+				};
+			}
+			state.werkvoorbereiding = {...state.werkvoorbereiding, ...werkvoorbereiding};
 		},
 		verhoogStap(state){
 			state.werkvoorbereiding.stap++
@@ -94,6 +103,14 @@ export default new Vuex.Store({
 		},
 		instellingen(state){
 			return state.appData.instellingen
+		},
+		valuta(state, getters){
+			return getters.instellingen.valuta
+		},
+		newDate() {
+			const d = new Date();
+			return `${d.getDate()}-${d.getMonth() +
+				1}-${d.getFullYear()} ${d.getHours()}.${d.getMinutes()}`;
 		}
 	},
 	actions: {

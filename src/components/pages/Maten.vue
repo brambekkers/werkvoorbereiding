@@ -12,11 +12,11 @@
 							<div class="card-body">
 								<draggable v-model="maten">
 									<div
-										class="row"
+										class="row maten"
 										v-bind:key="index"
 										v-for="(maat, index) in maten"
 									>
-										<div class="col-8 col-md-4 col-xl-3">
+										<div class="col-8 col-md-4 col-xl-3 pl-0">
 											<div class="input-group mb-2">
 												<div class="input-group-prepend">
 													<span
@@ -42,6 +42,7 @@
 											<div class="input-group mb-2">
 												<input
 													type="number"
+													min="1"
 													placeholder="Aantal"
 													data-toggle="tooltip"
 													data-placement="top"
@@ -241,6 +242,7 @@
 
 <script>
 import $ from "jquery";
+import newWvb from "@/assets/config/newWvb.js";
 import CardHeader from "./attributes/Card-header.vue";
 import draggable from "vuedraggable";
 
@@ -248,17 +250,7 @@ export default {
 	name: "Maten",
 	data() {
 		return {
-			maten: [
-				{
-					naam: "",
-					aantal: "",
-					breedte: "",
-					component: "",
-					dikte: "",
-					lengte: "",
-					materiaal: ""
-				}
-			]
+			maten: newWvb.maten
 		};
 	},
 	components: { CardHeader, draggable },
@@ -358,7 +350,29 @@ export default {
 </script>
 
 
-<style scoped>
+<style scoped lang="scss">
+.card-body {
+	.maten {
+		padding-top: 0.4rem;
+		margin: 0 10px;
+		border-radius: 0.2rem;
+
+		i {
+			cursor: move; /* fallback if grab cursor is unsupported */
+			cursor: -webkit-grab;
+			cursor: grab;
+		}
+
+		i:active {
+			cursor: -webkit-grabbing;
+			cursor: grabbing;
+		}
+	}
+	.maten:nth-child(odd) {
+		background: linear-gradient(60deg, #f7f7f7, #ececec);
+	}
+}
+
 .grabbing {
 	cursor: move;
 	/* fallback if grab cursor is unsupported */

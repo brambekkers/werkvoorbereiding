@@ -93,7 +93,7 @@ export default {
 			}
 		]
 	},
-	overigematerialen: [
+	overigeMaterialen: [
 		{
 			aantal: '',
 			naam: '',

@@ -291,6 +291,7 @@
 <script>
 import $ from "jquery";
 import { Money } from "v-money";
+import newWvb from "@/assets/config/newWvb.js";
 import CardHeader from "./attributes/Card-header.vue";
 
 export default {
@@ -298,30 +299,11 @@ export default {
 	components: { Money, CardHeader },
 	data() {
 		return {
-			materialen: {
-				fineer: [
-					{
-						naam: "",
-						prijs: ""
-					}
-				],
-				massief: [
-					{
-						naam: "",
-						prijs: ""
-					}
-				],
-				plaatmateriaal: [
-					{
-						naam: "",
-						prijs: ""
-					}
-				]
-			},
+			materialen: newWvb.materialen,
 			money: {
 				decimal: ".",
 				thousands: "",
-				prefix: `${this.instellingen.valuta} `,
+				prefix: `€ `,
 				suffix: "",
 				precision: 0,
 				masked: false
@@ -330,7 +312,7 @@ export default {
 	},
 	watch: {
 		materialen: {
-			handler(newValue) {
+			handler() {
 				this.setData();
 			},
 			deep: true
@@ -343,15 +325,14 @@ export default {
 		getMaterialen() {
 			return this.$store.getters.werkvoorbereidingsObject("materialen");
 		},
-		instellingen() {
-			return this.$store.getters.instellingen;
+		valuta() {
+			return this.$store.getters.valuta;
 		}
 	},
 	methods: {
 		updateGegevens() {
-			if (this.getMaterialen) {
-				this.materialen = this.getMaterialen;
-			}
+			if (this.getMaterialen) this.materialen = this.getMaterialen;
+			if (this.valuta) this.money.prefix = `${this.valuta} `;
 		},
 		newMaterial(naam) {
 			if (!this.materialen[naam]) this.$set(this.materialen, naam, []);
