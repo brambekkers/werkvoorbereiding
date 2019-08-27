@@ -125,5 +125,10 @@ export default {
 		urenWerkdag: 8,
 		uurtarief: 10,
 		winstOpslag: 5
-	}
+	},
+	nacalculatie: [{
+                    naam: "",
+                    date: null,
+                    min: null,
+                }]
 };

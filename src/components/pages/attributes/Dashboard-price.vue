@@ -6,8 +6,9 @@
 					<i class="fas fa-euro-sign"></i>
 				</div>
 				<p class="card-category">Verkoopprijs</p>
-				<h4 class="card-title">{{verkoopprijs}}
+				<h4 class="card-title">
 					<small>{{valuta}}</small>
+					{{verkoopprijs}}
 				</h4>
 			</div>
 			<div class="card-footer">
@@ -21,24 +22,27 @@
 </template>
 
 <script>
-	export default {
-		name: "DashboardPrice",
-		computed: {
-			valuta()					{ return this.$store.state.appData.instellingen.valuta},
-			verkoopprijs(){
-				return this.$store.state.dashboard.verkoopPrijsInclBtw
-			},
-			laatsteWijziging(){
-				if(this.$store.state.werkvoorbereiding.laatsteBewerking){
-					let string = this.$store.state.werkvoorbereiding.laatsteBewerking.split(" ");
-					return this.$store.state.werkvoorbereiding.laatsteBewerking
-				}else{
-					return false
-				}
-
-			}
+export default {
+	name: "DashboardPrice",
+	computed: {
+		valuta() {
+			return this.$store.getters.valuta;
+		},
+		werkvoorbereiding() {
+			return this.$store.getters.werkvoorbereiding;
+		},
+		dashboard() {
+			return this.$store.getters.dashboard;
+		},
+		verkoopprijs() {
+			return this.dashboard.verkoopPrijsInclBtw;
+		},
+		laatsteWijziging() {
+			if (this.werkvoorbereiding)
+				return this.werkvoorbereiding.laatsteBewerking.split(" ")[0];
 		}
-	};
+	}
+};
 </script>
 
 

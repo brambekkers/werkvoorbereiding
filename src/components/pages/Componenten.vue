@@ -87,7 +87,7 @@
 							<div class="col-md-6">
 								<button
 									type="submit"
-									class="btn btn-lg btn-block btn-bg-teal"
+									class="btn btn-lg btn-block"
 								>
 									<div class="row">
 										<div class="col-10">Volgende stap</div>
@@ -155,7 +155,7 @@ export default {
 		},
 		nextStep() {
 			this.setData();
-			this.$store.commit("verhoogStap");
+			this.$store.commit("verhoogStap", 3);
 			this.$router.push("/materialen");
 		},
 		setData() {

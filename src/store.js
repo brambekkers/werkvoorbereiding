@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import uniqid from "uniqid";
+import newWvb from "@/assets/config/newWvb.js";
 
 
 Vue.use(Vuex)
@@ -51,16 +52,37 @@ export default new Vuex.Store({
 				state.werkvoorbereiding = {
 					id: `WVB_${uniqid()}`,
 					aangemaaktOp: this.getters.newDate,
-					stap: 1
+					stap: 1,
+					materiaalOpties: newWvb.materiaalOpties,
+					planningOpties: newWvb.planningOpties,
 				};
 			}
 			state.werkvoorbereiding = {...state.werkvoorbereiding, ...werkvoorbereiding};
+			this.commit('laatsteBewerking')
 		},
-		verhoogStap(state){
-			state.werkvoorbereiding.stap++
+		laatsteBewerking(state){
+			const d = new Date();
+			const newDate = `${d.getDate()}-${d.getMonth() +
+				1}-${d.getFullYear()} ${d.getHours()}.${d.getMinutes()}`;
+				
+			state.werkvoorbereiding.laatsteBewerking = newDate
+		},
+		verhoogStap(state, nextStap){
+			if(state.werkvoorbereiding.stap < nextStap){
+				state.werkvoorbereiding.stap = nextStap
+
+				this.dispatch("dataToFirebase", {
+					path: `alleWVB/${state.werkvoorbereiding.id}/stap`,
+					data: nextStap
+				});
+			}
+			
 		}, 
 		instellingen (state, instellingen) {
 			state.appData.instellingen = instellingen;
+		},
+		setDashboard (state, {path, value}) {
+			state.dashboard[path] = value;
 		},
 		resetInstellingen(state){
 			state.appData.instellingen = {
@@ -106,6 +128,9 @@ export default new Vuex.Store({
 		},
 		valuta(state, getters){
 			return getters.instellingen.valuta
+		},
+		dashboard(state){
+			return state.dashboard
 		},
 		newDate() {
 			const d = new Date();

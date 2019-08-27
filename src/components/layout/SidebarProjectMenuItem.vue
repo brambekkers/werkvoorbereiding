@@ -24,9 +24,6 @@ export default {
 		sidebar() {
 			return this.$store.getters.sidebar;
 		},
-		appData() {
-			return this.$store.state.appData;
-		},
 		canClick() {
 			if (this.werkvoorbereiding) {
 				return this.werkvoorbereiding.stap >= this.pageToNum()

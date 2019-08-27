@@ -54,18 +54,6 @@ export default {
 		werkvoorbereidingen() {
 			return this.$store.getters.werkvoorbereiding;
 		}
-
-		// wvbActive() {
-		// 	if (this.werkvoorbereiding) {
-		// 		if (Object.keys(this.werkvoorbereiding).length > 0) {
-		// 			return true;
-		// 		}
-		// 	}
-		// 	return false;
-		// },
-		// werkvoorbereiding() {
-		// 	return this.$store.state.werkvoorbereiding;
-		// }
 	},
 	methods: {
 		makeWVBWarning() {

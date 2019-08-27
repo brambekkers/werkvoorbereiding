@@ -19,32 +19,31 @@
 </template>
 
 <script>
-	export default {
-		name: "DashboardParts",
-		data() {
-			return {}
+export default {
+	name: "DashboardParts",
+	data() {
+		return {};
+	},
+	computed: {
+		getMaten() {
+			return this.$store.getters.werkvoorbereidingsObject("maten");
 		},
-		computed: {
-			onderdelen(){
-				if(this.$store.state.werkvoorbereiding.maten){
-					let count = 0
-					for (const maat of this.$store.state.werkvoorbereiding.maten) {
-						count += Number(maat.aantal)
-					}
-					return count
-				}else{
-					return 0
-				}
-			},
-			uniekeOnderdelenn(){
-				if(this.$store.state.werkvoorbereiding.maten){
-					return this.$store.state.werkvoorbereiding.maten.length
-				}else{
-					return 0
-				}
+		onderdelen() {
+			if (this.getMaten && this.getMaten.length) {
+				return this.getMaten
+					.map(m => m.aantal)
+					.reduce((a, b) => {
+						return Number(a) + Number(b);
+					});
 			}
+			return 0;
+		},
+		uniekeOnderdelenn() {
+			if (this.getMaten) return this.getMaten.length;
+			return 0;
 		}
-	};
+	}
+};
 </script>
 
 

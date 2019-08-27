@@ -2,8 +2,17 @@
 	<div class="col-md-6">
 		<div class="card card-chart">
 			<div class="card-header card-header-info">
-				<i class="material-icons fas fa-cog options" v-if="wvbActive" @click.prevent="$store.state.appData.page = -5"></i>
-				<Chart :height="150" :uren="tijdPerOnderwerp"/>
+				<router-link
+					tag="i"
+					class="material-icons fas fa-cog options"
+					to="/planningOpties"
+				></router-link>
+				<Chart
+					v-if="getPlanning"
+					:height="150"
+					:uren="tijdPerOnderwerp"
+				/>
+				<p v-if="!getPlanning">Voer op de <strong>'plannings'</strong> pagina de gegevens in van je project. Pas dan kunnen we de tijd (en daarmee kosten) berekenen. </p>
 			</div>
 			<div class="card-body">
 				<hr>
@@ -42,112 +51,149 @@
 </template>
 
 <script>
-	import Chart from './Chart-worktime'
+import Chart from "./Chart-worktime";
 
-	export default {
-		name: "DashboardWorktime",
-		components: {
-			Chart
+export default {
+	name: "DashboardWorktime",
+	components: {
+		Chart
+	},
+	computed: {
+		getPlanning() {
+			return this.$store.getters.werkvoorbereidingsObject("planning");
 		},
-		computed: {
-			wvbActive(){
-				if(this.$store.state.werkvoorbereiding){
-					if(Object.keys(this.$store.state.werkvoorbereiding).length > 0){
-						return true
-					}
-				}
-				return false
-			},
-			planning(){
-				if(this.$store.state.werkvoorbereiding.planning){
-					return this.$store.state.werkvoorbereiding.planning
-				}else{
-					return false
-				}
-			},
-			planningOpties(){
-				return this.$store.state.werkvoorbereiding.planningOpties
-			},
-			planningStappenArray(){
-				let array = []
-				if(this.planning){
-					for (const planning of this.planning) {
-						if(planning.stappen){
-							for (const stap of planning.stappen) {
-								array.push(stap)
-							}
+		getPlanningOpties() {
+			return this.$store.getters.werkvoorbereidingsObject(
+				"planningOpties"
+			);
+		},
+		planningStappenArray() {
+			let array = [];
+			if (this.getPlanning) {
+				for (const planning of this.getPlanning) {
+					if (planning.stappen) {
+						for (const stap of planning.stappen) {
+							array.push(stap);
 						}
 					}
 				}
-				return array
-			},
-			insteltijd(){
-				let tijd = 0
+			}
+			return array;
+		},
+		insteltijd() {
+			const min = this.planningStappenArray.reduce(
+				(a, b) => a + Number(b.insteltijd),
+				0
+			);
+			return Number((min / 60).toFixed(1));
+		},
+		bewerkingstijd() {
+			const min = this.planningStappenArray.reduce(
+				(a, b) => a + Number(b.bewerkingstijd) * Number(b.aantal),
+				0
+			);
+			return Number((min / 60).toFixed(1));
+		},
+		tijdPerOnderwerp() {
+			let category = [
+				"Voorbereiding",
+				"Machinale",
+				"Werkplaats",
+				"Plaatsen",
+				"Administratie"
+			];
+			let timeArray = [];
+
+			for (const cat of category) {
+				let tijd = 0;
 				for (const stap of this.planningStappenArray) {
-					tijd += Number(stap.insteltijd)
-				}
-				return Number((tijd / 60).toFixed(1));
-			},
-			bewerkingstijd(){
-				let tijd = 0
-				for (const stap of this.planningStappenArray) {
-					tijd += Number(stap.bewerkingstijd) *  Number(stap.aantal)
-				}
-				return Number((tijd / 60).toFixed(1));
-			},
-			tijdPerOnderwerp(){
-				let category = ['Voorbereiding', 'Machinale', 'Werkplaats', 'Plaatsen', 'Administratie']
-				let timeArray = []
-				
-				for (const cat of category) {
-					let tijd = 0
-					for (const stap of this.planningStappenArray) {
-						if(cat === stap.stap){
-							tijd += Number(stap.insteltijd)
-							tijd += Number(stap.bewerkingstijd) *  Number(stap.aantal)
-						}	
+					if (cat === stap.stap) {
+						tijd += Number(stap.insteltijd);
+						tijd +=
+							Number(stap.bewerkingstijd) * Number(stap.aantal);
 					}
-					timeArray.push( (tijd / 60).toFixed(1) )
 				}
-	
-				return timeArray
-			},
-			totaletijdBrutto(){
-				return this.insteltijd + this.bewerkingstijd
-			},
-			totaletijdNetto(){
-				let aantalUren = Number((this.insteltijd + this.bewerkingstijd + this.ineffectieveTijd).toFixed(1))
-				this.$store.state.dashboard.aantalUren = aantalUren
-				return aantalUren
-			},
-			totaletijdNettoWerkdagen(){
-				if(this.planning){
-					let aantalWerkdagen = Number(((this.insteltijd + this.bewerkingstijd + this.ineffectieveTijd) / Number(this.planningOpties.urenWerkdag)).toFixed(1));
-					this.$store.state.dashboard.aantalWerkdagen = aantalWerkdagen
-					return aantalWerkdagen
-				}else{
-					return 0
-				}
-			},
-			ineffectieveTijd(){
-				if(this.planning){
-					return Number((this.totaletijdBrutto / 100 * Number(this.planningOpties.ineffectieveTijd)).toFixed(1));
-				}else{
-					return 0
-				}
+				timeArray.push((tijd / 60).toFixed(1));
+			}
+
+			return timeArray;
+		},
+		totaletijdBrutto() {
+			return this.insteltijd + this.bewerkingstijd;
+		},
+		totaletijdNetto() {
+			let aantalUren = Number(
+				(
+					this.insteltijd +
+					this.bewerkingstijd +
+					this.ineffectieveTijd
+				).toFixed(1)
+			);
+			this.$store.commit("setDashboard", {
+				path: "aantalUren",
+				value: aantalUren
+			});
+			return aantalUren;
+		},
+		totaletijdNettoWerkdagen() {
+			if (this.getPlanning) {
+				let aantalWerkdagen = Number(
+					(
+						(this.insteltijd +
+							this.bewerkingstijd +
+							this.ineffectieveTijd) /
+						Number(this.getPlanningOpties.urenWerkdag)
+					).toFixed(1)
+				);
+				this.$store.commit("setDashboard", {
+					path: "aantalWerkdagen",
+					value: aantalWerkdagen
+				});
+				return aantalWerkdagen;
+			} else {
+				return 0;
+			}
+		},
+		ineffectieveTijd() {
+			if (this.getPlanning) {
+				return Number(
+					(
+						(this.totaletijdBrutto / 100) *
+						Number(this.getPlanningOpties.ineffectieveTijd)
+					).toFixed(1)
+				);
+			} else {
+				return 0;
 			}
 		}
-	};
+	}
+};
 </script>
 
 
-<style scoped>
-	.stats{
-		width: 100%;
+<style scoped lang="scss">
+.card-header {
+	min-height: 55px;
+	display: flex;
+	align-items: center;
+
+	p {
+		margin-bottom: 0;
+		width: 90%;
 	}
-	.options{
-		position: absolute;
-		left: 90%;
-		cursor: pointer;
+
+	i {
+		align-self: start;
 	}
+}
+
+.stats {
+	width: 100%;
+}
+
+.options {
+	position: absolute;
+	left: 93%;
+	cursor: pointer;
+}
 </style>

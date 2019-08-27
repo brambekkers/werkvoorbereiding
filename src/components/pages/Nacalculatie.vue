@@ -90,6 +90,8 @@
     import $ from "jquery";
     import CardHeader from "./attributes/Card-header.vue";
     import draggable from 'vuedraggable'
+    import newWvb from "@/assets/config/newWvb.js";
+
 
     export default {
         name: "NaCalculatie",
@@ -97,9 +99,24 @@
             CardHeader,
             draggable
         },
+        data() {
+            return {
+                nacalculatie: newWvb.nacalculatie
+            };
+        },
+        watch: {
+            nacalculatie: {
+                handler(newValue) {
+                    this.setData();
+                },
+                deep: true
+            }
+        },
         computed: {
-            nacalculatie() {
-                return this.$store.state.werkvoorbereiding.nacalculatie
+            getNacalculatie() {
+                return this.$store.getters.werkvoorbereidingsObject(
+                    "nacalculatie"
+                );
             },
             registrationAmount() {
                 if (this.nacalculatie) {
@@ -119,30 +136,39 @@
             }
         },
         methods: {
-            newRegistration() {
-                if (!this.nacalculatie) {
-                    this.$set(this.$store.state.werkvoorbereiding, 'nacalculatie', [])
+            updateGegevens() {
+                if (this.getNacalculatie) {
+                    this.nacalculatie = this.getNacalculatie;
                 }
-                this.$store.state.werkvoorbereiding.nacalculatie.push({
+            },
+            newRegistration() {
+                this.nacalculatie.push({
                     naam: "",
                     date: null,
                     min: null,
                 })
             },
             removeRegistration(i) {
-                this.$store.state.werkvoorbereiding.nacalculatie.splice(i, 1)
-                this.$forceUpdate();
+                this.nacalculatie.splice(i, 1)
             },
+            setData() {
+			this.$store.commit("werkvoorbereiding", {
+				...this.werkvoorbereiding,
+				nacalculatie: this.nacalculatie
+			});
+			this.$store.dispatch("dataToFirebase", {
+				path: `alleWVB/${this.werkvoorbereiding.id}/nacalculatie`,
+				data: this.nacalculatie
+			});
+		}
         },
         created() {
-            $(function () {
+            $(function() {
                 $('[data-toggle="tooltip"]').tooltip({
-                    'delay': {
-                        show: 500,
-                        hide: 0
-                    }
-                })
-            })
+                    delay: { show: 500, hide: 0 }
+                });
+            });
+            this.updateGegevens();
         }
     };
 </script>

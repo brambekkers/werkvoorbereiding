@@ -17,9 +17,6 @@ export default {
 	name: "SidebarMenuItem",
 	props: ["itemProps"],
 	computed: {
-		appData() {
-			return this.$store.state.appData;
-		},
 		sidebar() {
 			return this.$store.getters.sidebar;
 		},

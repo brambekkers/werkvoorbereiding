@@ -19,52 +19,43 @@
 </template>
 
 <script>
-	export default {
-		name: "DashboardTool",
-		data() {
-			return {}
+export default {
+	name: "DashboardTool",
+	computed: {
+		getPlanning() {
+			return this.$store.getters.werkvoorbereidingsObject("planning");
 		},
-		computed: {
-			planning(){
-				return this.$store.state.werkvoorbereiding.planning
-			},
-			countTools(){
-				if(this.planning){
-					let count = {}
-
-					for (const planning of this.planning) {
-						if(planning.stappen){
-							for (const stap of planning.stappen) {
-								if(count[stap.gereedschap] === undefined){
-									count[stap.gereedschap] = 1
-								}else{
-									count[stap.gereedschap]++
-								}
+		countTools() {
+			if (this.getPlanning) {
+				let count = {};
+				for (const planning of this.getPlanning) {
+					if (planning.stappen) {
+						for (const stap of planning.stappen) {
+							if (count[stap.gereedschap] === undefined) {
+								count[stap.gereedschap] = 1;
+							} else {
+								count[stap.gereedschap]++;
 							}
 						}
 					}
-
-					return count
 				}
-			},
-			aantalTools(){
-				if(this.planning){
-					return Object.keys(this.countTools).length
-				}
-				else{
-					return 0
-				}
-				
-			},
-			mostUsedTool(){
-				if(this.planning){
-					return Object.keys(this.countTools).reduce((a, b) => this.countTools[a] > this.countTools[b] ? a : b);
-				}else{
-					return 'niets'
-				}
+				return count;
 			}
+		},
+		aantalTools() {
+			if (this.getPlanning) return Object.keys(this.countTools).length;
+			return 0;
+		},
+		mostUsedTool() {
+			if (this.getPlanning) {
+				return Object.keys(this.countTools).reduce((a, b) =>
+					this.countTools[a] > this.countTools[b] ? a : b
+				);
+			}
+			return "Nog niets";
 		}
-	};
+	}
+};
 </script>
 
 

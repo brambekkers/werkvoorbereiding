@@ -51,7 +51,7 @@
 							</button></div>
 						<div class="col-md-6">
 							<button
-								class="btn btn-lg btn-block btn-bg-teal"
+								class="btn btn-lg btn-block"
 								@click="nextStep()"
 							>
 								<div class="row">
@@ -103,7 +103,6 @@ export default {
 	},
 	methods: {
 		updateGegevens() {
-			console.log(this.getGereedschap ? true : false);
 			if (this.getGereedschap) {
 				this.gereedschap = this.getGereedschap;
 			}
@@ -117,7 +116,7 @@ export default {
 		},
 		nextStep() {
 			this.setData();
-			this.$store.commit("verhoogStap");
+			this.$store.commit("verhoogStap", 6);
 			this.$router.push("/planning");
 		},
 		setData() {

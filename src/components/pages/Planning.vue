@@ -92,7 +92,7 @@
 												<div class="input-group">
 													<button
 														type="button"
-														class="btn btn-teal btn-sm btn-block ml-auto"
+														class="btn btn-sm btn-block ml-auto"
 														@click="newStap(planningIndex)"
 													>
 														<i class="fa fa-plus mr-3"></i> Substap
@@ -303,31 +303,27 @@
 										</draggable>
 									</div>
 								</draggable>
-								<div class="row">
-									<div class="col-md-6 col-lg-4 col-xl-3">
-										<button
-											type="button"
-											class="btn btn-block"
-											@click="newOnderdeel()"
-										>
-											<i class="fa fa-plus mr-3"></i>
-											Nieuw onderdeel
-										</button>
-									</div>
-									<div class="col-lg-4 col-xl-6"></div>
-									<div class="col-md-6 col-lg-4 col-xl-3">
-										<button
-											type="button"
-											class="btn float-right btn-block"
-											@click="$store.state.appData.page = -5"
-										>
-											<i
-												aria-hidden="true"
-												class="fas fa-edit mr-3"
-											></i>
-											Planning en kosten instellingen
-										</button>
-									</div>
+								<div class="d-flex justify-content-between">
+									<button
+										type="button"
+										class="btn"
+										@click="newOnderdeel()"
+									>
+										<i class="fa fa-plus mr-3"></i>
+										Nieuw onderdeel
+									</button>
+									<router-link
+										to="/planningOpties"
+										tag="button"
+										type="button"
+										class="btn"
+									>
+										<i
+											aria-hidden="true"
+											class="fas fa-edit mr-3"
+										></i>
+										Planning en kosten instellingen
+									</router-link>
 								</div>
 							</div>
 						</div>
@@ -349,7 +345,7 @@
 							<div class="col-md-6">
 								<button
 									type="submit"
-									class="btn btn-lg btn-block btn-bg-teal"
+									class="btn btn-lg btn-block"
 								>
 									<div class="row">
 										<div class="col-12">Werkvoorbereiding afronden</div>
@@ -381,6 +377,14 @@ export default {
 		return {
 			planning: newWvb.planning
 		};
+	},
+	watch: {
+		planning: {
+			handler() {
+				this.setData();
+			},
+			deep: true
+		}
 	},
 	computed: {
 		werkvoorbereiding() {
@@ -427,13 +431,9 @@ export default {
 			if (this.getPlanning) this.planning = this.getPlanning;
 		},
 		onderdelen(i) {
-			if (this.getMaten) {
+			if (this.getMaten && this.getPlanning) {
 				let onderdelen = this.getMaten.filter(maten => {
-					if (
-						maten.component ===
-						this.$store.state.werkvoorbereiding.planning[i]
-							.component
-					) {
+					if (maten.component === this.getPlanning[i].component) {
 						return maten.naam;
 					}
 				});
@@ -459,7 +459,7 @@ export default {
 			this.$forceUpdate();
 		},
 		newStap(i) {
-			if (!this.stappen(i)) {
+			if (!this.planning[i]) {
 				this.$set(this.planning[i], "stappen", []);
 			}
 			this.planning[i].stappen.push({
@@ -484,8 +484,18 @@ export default {
 		},
 		nextStep() {
 			this.setData();
-			this.$store.commit("verhoogStap");
+			this.$store.commit("verhoogStap", 7);
 			this.$router.push("/dashboard");
+		},
+		setData() {
+			this.$store.commit("werkvoorbereiding", {
+				...this.werkvoorbereiding,
+				planning: this.planning
+			});
+			this.$store.dispatch("dataToFirebase", {
+				path: `alleWVB/${this.werkvoorbereiding.id}/planning`,
+				data: this.planning
+			});
 		}
 	},
 	created() {

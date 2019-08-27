@@ -84,7 +84,7 @@ export default {
 	},
 	methods: {
 		authStateChange() {
-			this.$store.state.fb.auth().onAuthStateChanged(user => {
+			this.$store.getters.fb.auth().onAuthStateChanged(user => {
 				this.$store.commit("user", user ? user : null);
 				if (user) this.$store.dispatch("FbDatabaseListner", user.uid);
 			});

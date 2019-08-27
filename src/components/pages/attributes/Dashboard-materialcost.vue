@@ -2,8 +2,18 @@
 	<div class="col-md-6">
 		<div class="card card-chart">
 			<div class="card-header card-header-warning">
-				<i class="material-icons fas fa-cog options" v-if="wvbActive" @click.prevent="$store.state.appData.page = -2"></i>
-				<Chart :height="150" :materialen="materiaalNamen" :kosten="materiaalKostenGebundeld"/>
+				<router-link
+					tag="i"
+					class="material-icons fas fa-cog options"
+					to="/materiaalOpties"
+				></router-link>
+				<Chart
+					v-if="getMaten"
+					:height="150"
+					:materialen="materiaalNamen"
+					:kosten="materiaalKostenGebundeld"
+				/>
+				<p v-if="!getMaten">Voer op de <strong>'maten'</strong> pagina de gegevens in van je project. Pas dan kunnen we de materiaalkosten berekenen. </p>
 			</div>
 			<div class="card-body">
 				<hr>
@@ -45,9 +55,9 @@
 						<i class="material-icons">access_time</i> updated 4 minutes ago
 					</div>
 					<div class="col-6 text-right">
-						
+
 					</div>
-					
+
 				</div>
 			</div>
 		</div>
@@ -55,235 +65,293 @@
 </template>
 
 <script>
-	// import Chart from "chart.js"
-	// import { Bar } from 'vue-chartjs'
-	import Chart from './Chart-materialcost'
+// import Chart from "chart.js"
+// import { Bar } from 'vue-chartjs'
+import Chart from "./Chart-materialcost";
 
-	export default {
-		name: "DashboardMaterialCost",
-		components:{
-			Chart
+export default {
+	name: "DashboardMaterialCost",
+	components: {
+		Chart
+	},
+	computed: {
+		werkvoorbereiding() {
+			return this.$store.getters.werkvoorbereiding;
 		},
-		data(){
-			return{
+		dashboard() {
+			return this.$store.getters.dashboard;
+		},
+		getMaterialen() {
+			return this.$store.getters.werkvoorbereidingsObject("materialen");
+		},
+		getOverigeMaterialen() {
+			return this.$store.getters.werkvoorbereidingsObject(
+				"overigeMaterialen"
+			);
+		},
+		getMaten() {
+			return this.$store.getters.werkvoorbereidingsObject("maten");
+		},
+		getPlanningOpties() {
+			return this.$store.getters.werkvoorbereidingsObject(
+				"planningOpties"
+			);
+		},
+		getMateriaalOpties() {
+			return this.$store.getters.werkvoorbereidingsObject(
+				"materiaalOpties"
+			);
+		},
+		opslagpercentageMassief() {
+			if (this.getMateriaalOpties)
+				return Number(this.getMateriaalOpties.opslagpercentageMassief);
+		},
+		opslagpercentagePlaat() {
+			if (this.getMateriaalOpties)
+				return Number(this.getMateriaalOpties.opslagpercentagePlaat);
+		},
+		overlengteZijde() {
+			if (this.getMateriaalOpties)
+				return Number(this.getMateriaalOpties.overlengteZijdes);
+		},
+		overlengteKops() {
+			if (this.getMateriaalOpties)
+				return Number(this.getMateriaalOpties.overlengteKops);
+		},
+		overlengteLangs() {
+			if (this.getMateriaalOpties)
+				return Number(this.getMateriaalOpties.overlengteLangs);
+		},
+		valuta() {
+			return this.$store.getters.valuta;
+		},
+		materialenMassief() {
+			return this.getMaterialen.massief ? this.getMaterialen.massief : [];
+		},
+		materialenPlaat() {
+			return this.getMaterialen.plaatmateriaal
+				? this.getMaterialen.plaatmateriaal
+				: [];
+		},
+		materialenFineer() {
+			return this.getMaterialen.fineer ? this.getMaterialen.fineer : [];
+		},
+		materialenOverig() {
+			return this.getOverigeMaterialen ? this.getOverigeMaterialen : [];
+		},
+		OverigeMaterialenKosten() {
+			if (this.materialenOverig) {
+				let prijs = 0;
+				for (const materiaal of this.materialenOverig) {
+					prijs += Number(materiaal.prijs) * Number(materiaal.aantal);
+				}
+				return prijs;
+			} else {
+				return 0;
 			}
 		},
-		computed: {
-			wvbActive(){
-				if(this.$store.state.werkvoorbereiding){
-					if(Object.keys(this.$store.state.werkvoorbereiding).length > 0){
-						return true
-					}
-				}
-				return false
-			},
-			planningOpties()			{ return this.$store.state.werkvoorbereiding.planningOpties },
-			materiaalOpties()			{ return this.$store.state.werkvoorbereiding.materiaalOpties },
-			opslagpercentageMassief()	{ return Number(this.materiaalOpties.opslagpercentageMassief) },
-			opslagpercentagePlaat()		{ return Number(this.materiaalOpties.opslagpercentagePlaat) },
-			overlengteZijde()			{ return Number(this.materiaalOpties.overlengteZijdes) },
-			overlengteKops()			{ return Number(this.materiaalOpties.overlengteKops) },
-			overlengteLangs()			{ return Number(this.materiaalOpties.overlengteLangs) },
-			valuta()					{ return this.$store.state.appData.instellingen.valuta},
-			maten(){
-				if(this.$store.state.werkvoorbereiding.maten){
-					return this.$store.state.werkvoorbereiding.maten
-				}
-			},
-			materialenMassief(){
-				if(this.$store.state.werkvoorbereiding.materialen){
-					if(this.$store.state.werkvoorbereiding.materialen.massief != undefined){
-						return this.$store.state.werkvoorbereiding.materialen.massief
-					}
-				}
-				return []
-
-			},
-			materialenPlaat(){
-				if(this.$store.state.werkvoorbereiding.materialen){
-					if(this.$store.state.werkvoorbereiding.materialen.plaatmateriaal  != undefined){
-						return this.$store.state.werkvoorbereiding.materialen.plaatmateriaal
-					}
-				}
-				return []
-			},
-			materialenFineer(){
-				if(this.$store.state.werkvoorbereiding.materialen){
-					if(this.$store.state.werkvoorbereiding.materialen.fineer != undefined){
-						return this.$store.state.werkvoorbereiding.materialen.fineer
-					}
-				}
-				return []
-			},
-			materialenOverig(){
-				if(this.$store.state.werkvoorbereiding.overigematerialen){
-					return this.$store.state.werkvoorbereiding.overigematerialen
-				}else{
-					return false
-				}
-			},
-			OverigeMaterialenKosten(){
-				if(this.materialenOverig){
-					let prijs = 0
-					for (const materiaal of this.materialenOverig) {
-						prijs += Number(materiaal.prijs) * Number(materiaal.aantal)
-					}
-					return prijs
-				}else{
-					return 0
-				}
-			},
-			materiaalNamen(){
-				let alleMaterialen = []
+		materiaalNamen() {
+			return [
+				...this.materialenMassief.map(m => m.naam),
+				...this.materialenPlaat.map(m => m.naam),
+				...this.materialenFineer.map(m => m.naam),
+				...new Set(this.materialenOverig.map(m => "Overige materialen"))
+			];
+		},
+		materiaalKostenMassief() {
+			let kosten = [];
+			// Massief
+			if (this.getMaten && this.materialenMassief) {
 				for (const materiaal of this.materialenMassief) {
-					alleMaterialen.push(materiaal.naam)
+					let prijsMassief = 0;
+					for (const maat of this.getMaten) {
+						if (materiaal.naam === maat.materiaal) {
+							let lengte =
+								Number(maat.lengte) + this.overlengteKops;
+							let breedte =
+								Number(maat.breedte) + this.overlengteLangs;
+							let dikte = Number(maat.dikte);
+							let inhoud =
+								(lengte * breedte * dikte) / 1000000000;
+							prijsMassief +=
+								inhoud *
+								Number(materiaal.prijs) *
+								Number(maat.aantal);
+						}
+					}
+					kosten.push(Number(prijsMassief.toFixed(2)));
 				}
+			}
+			return kosten;
+		},
+		materiaalKostenPlaat() {
+			let kosten = [];
+			// Plaatmateriaal
+			if (this.getMaten && this.materialenPlaat) {
 				for (const materiaal of this.materialenPlaat) {
-					alleMaterialen.push(materiaal.naam)
+					let prijsPlaat = 0;
+					for (const maat of this.getMaten) {
+						if (materiaal.naam === maat.materiaal) {
+							let lengte =
+								Number(maat.lengte) + this.overlengteZijde;
+							let breedte =
+								Number(maat.breedte) + this.overlengteZijde;
+							let oppervlakte = (lengte * breedte) / 1000000;
+							prijsPlaat +=
+								oppervlakte *
+								Number(materiaal.prijs) *
+								Number(maat.aantal);
+						}
+					}
+					kosten.push(Number(prijsPlaat.toFixed(2)));
 				}
+			}
+			return kosten;
+		},
+		materiaalKostenFineer() {
+			let kosten = [];
+			// Fineer
+			if (this.getMaten && this.materialenFineer) {
 				for (const materiaal of this.materialenFineer) {
-					alleMaterialen.push(materiaal.naam)
-				}
-				if(this.materialenOverig){
-					alleMaterialen.push('Overige materialen')
-				}
-				return alleMaterialen
-			},
-			materiaalKostenMassief(){
-				let kosten = []
-				// Massief
-				if(this.maten && this.materialenMassief){
-					for (const materiaal of this.materialenMassief) {
-						let prijsMassief = 0
-						for (const maat of this.maten) {
-							if(materiaal.naam === maat.materiaal){
-								let lengte = Number(maat.lengte) + this.overlengteKops
-								let breedte = Number(maat.breedte) + this.overlengteLangs
-								let dikte = Number(maat.dikte)
-								let inhoud = lengte * breedte * dikte / 1000000000 
-								prijsMassief += inhoud * Number(materiaal.prijs) * Number(maat.aantal)
-							}
+					let prijsFineer = 0;
+					for (const maat of this.getMaten) {
+						if (materiaal.naam === maat.materiaal) {
+							let lengte =
+								Number(maat.lengte) + this.overlengteZijde;
+							let breedte =
+								Number(maat.breedte) + this.overlengteZijde;
+							let oppervlakte = (lengte * breedte) / 1000000;
+							prijsFineer +=
+								oppervlakte *
+								Number(materiaal.prijs) *
+								Number(maat.aantal);
 						}
-						kosten.push(Number(prijsMassief.toFixed(2)))
 					}
+					kosten.push(prijsFineer);
 				}
-				return kosten
-			},
-			materiaalKostenPlaat(){
-				let kosten = []
-				// Plaatmateriaal
-				if(this.maten && this.materialenPlaat){
-					for (const materiaal of this.materialenPlaat) {
-						let prijsPlaat = 0
-						for (const maat of this.maten) {
-							if(materiaal.naam === maat.materiaal){
-								let lengte = Number(maat.lengte) + this.overlengteZijde
-								let breedte = Number(maat.breedte) + this.overlengteZijde
-								let oppervlakte = lengte * breedte / 1000000 
-								prijsPlaat += oppervlakte * Number(materiaal.prijs) * Number(maat.aantal)
-							}
-						}
-						kosten.push(Number(prijsPlaat.toFixed(2)))
-					}
-				}
-				return kosten
-			},
-			materiaalKostenFineer(){
-				let kosten = []
-				// Fineer
-				if(this.maten && this.materialenFineer){
-					for (const materiaal of this.materialenFineer) {
-						let prijsFineer = 0
-						for (const maat of this.maten) {
-							if(materiaal.naam === maat.materiaal){
-								let lengte = Number(maat.lengte) + this.overlengteZijde
-								let breedte = Number(maat.breedte) + this.overlengteZijde
-								let oppervlakte = lengte * breedte / 1000000 
-								prijsFineer += oppervlakte * Number(materiaal.prijs) * Number(maat.aantal)
-							}
-						}
-						kosten.push(prijsFineer)
-					}
-				}
-				return kosten
-			},
-			materiaalKostenGebundeld(){
-				let alleMaterialen = []		
-				return alleMaterialen.concat(this.materiaalKostenMassief, this.materiaalKostenPlaat, this.materiaalKostenFineer, this.OverigeMaterialenKosten)
-			},
-			totaleMateriaalKosten(){
-				if(this.materiaalKostenGebundeld){
-					return Number(this.materiaalKostenGebundeld.reduce((a, b) => a + b, 0).toFixed(2));
-				}else{
-					return 0
-				}
-			},
-			totaleOpslagPercentage(){
-				let opslagpercentage = 0
-
-				// Massief
-				for (const kosten of this.materiaalKostenMassief) {
-					opslagpercentage += kosten/100*this.opslagpercentageMassief
-				}
-				// plaat
-				for (const kosten of this.materiaalKostenPlaat) {
-					opslagpercentage += kosten/100*this.opslagpercentagePlaat
-				}
-
-				return Number(opslagpercentage.toFixed(2));
-			},
-			indirecteKosten(){
-				if(this.planningOpties){
-					return Number(this.planningOpties.indirecteKosten)
-				}else{
-					return 0
-				}
-			},
-			loonKosten(){
-				if(this.planningOpties){
-					return Number((this.$store.state.dashboard.aantalUren * Number(this.planningOpties.uurtarief)).toFixed(2));
-				}else{
-					return 0
-				}
-			},
-			totaleKosten(){
-				if(this.planningOpties){
-					return Number((this.totaleMateriaalKosten + this.totaleOpslagPercentage + this.indirecteKosten + this.loonKosten).toFixed(2));
-				}else{
-					return 0
-				}
-			},
-			winstopslag(){
-				if(this.planningOpties){
-					return Number((this.totaleKosten / 100 * Number(this.planningOpties.winstOpslag)).toFixed(2))
-				}else{
-					return 0
-				}
-			},
-			verkoopPrijsExclBtw(){
-				return this.totaleKosten + this.winstopslag
-			},
-			verkoopPrijsInclBtw(){
-				if(this.planningOpties){
-					let verkoopPrijsInclBtw = Number((this.verkoopPrijsExclBtw + (this.verkoopPrijsExclBtw / 100 * Number(this.planningOpties.btwTarief))).toFixed(2))
-					this.$store.state.dashboard.verkoopPrijsInclBtw = verkoopPrijsInclBtw
-					return verkoopPrijsInclBtw
-				}else{
-					return 0
-				}
-			},
+			}
+			return kosten;
+		},
+		materiaalKostenGebundeld() {
+			let alleMaterialen = [];
+			return alleMaterialen.concat(
+				this.materiaalKostenMassief,
+				this.materiaalKostenPlaat,
+				this.materiaalKostenFineer,
+				this.OverigeMaterialenKosten
+			);
+		},
+		totaleMateriaalKosten() {
+			if (this.materiaalKostenGebundeld) {
+				return Number(
+					this.materiaalKostenGebundeld
+						.reduce((a, b) => a + b, 0)
+						.toFixed(2)
+				);
+			} else {
+				return 0;
+			}
+		},
+		totaleOpslagPercentage() {
+			// Massief
+			const m = this.materiaalKostenMassief.reduce(
+				(a, b) => a + (b / 100) * this.opslagpercentageMassief,
+				0
+			);
+			// Plaat
+			const p = this.materiaalKostenPlaat.reduce(
+				(a, b) => a + (b / 100) * this.opslagpercentagePlaat,
+				0
+			);
+			return Number((m + p).toFixed(2));
+		},
+		indirecteKosten() {
+			if (this.getPlanningOpties)
+				return Number(this.getPlanningOpties.indirecteKosten);
+			return 0;
+		},
+		loonKosten() {
+			if (this.getPlanningOpties) {
+				return Number(
+					(
+						this.dashboard.aantalUren *
+						Number(this.getPlanningOpties.uurtarief)
+					).toFixed(2)
+				);
+			}
+			return 0;
+		},
+		totaleKosten() {
+			if (this.getPlanningOpties) {
+				return Number(
+					(
+						this.totaleMateriaalKosten +
+						this.totaleOpslagPercentage +
+						this.indirecteKosten +
+						this.loonKosten
+					).toFixed(2)
+				);
+			}
+			return 0;
+		},
+		winstopslag() {
+			if (this.getPlanningOpties) {
+				return Number(
+					(
+						(this.totaleKosten / 100) *
+						Number(this.getPlanningOpties.winstOpslag)
+					).toFixed(2)
+				);
+			}
+			return 0;
+		},
+		verkoopPrijsExclBtw() {
+			return this.totaleKosten + this.winstopslag;
+		},
+		verkoopPrijsInclBtw() {
+			if (this.getPlanningOpties) {
+				let verkoopPrijsInclBtw = Number(
+					(
+						this.verkoopPrijsExclBtw +
+						(this.verkoopPrijsExclBtw / 100) *
+							Number(this.getPlanningOpties.btwTarief)
+					).toFixed(2)
+				);
+				this.$store.commit("setDashboard", {
+					path: "verkoopPrijsInclBtw",
+					value: verkoopPrijsInclBtw
+				});
+				return verkoopPrijsInclBtw;
+			}
+			return 0;
 		}
-	};
+	}
+};
 </script>
 
 
-<style scoped>
-	.stats{
-		width: 100%;
+<style scoped lang="scss">
+.card-header {
+	min-height: 55px;
+	display: flex;
+	align-items: center;
+
+	p {
+		margin-bottom: 0;
+		width: 90%;
 	}
-	.options{
-		position: absolute;
-		left: 90%;
-		cursor: pointer;
+
+	i {
+		align-self: start;
 	}
+}
+
+.stats {
+	width: 100%;
+}
+.options {
+	position: absolute;
+	left: 93%;
+	cursor: pointer;
+}
 </style>

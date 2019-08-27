@@ -6,7 +6,7 @@
 					<i class="far fa-clock"></i>
 				</div>
 				<p class="card-category">Werkdagen</p>
-				<h4 class="card-title">{{aantalWerkdagen}}
+				<h4 class="card-title">{{dashboard.aantalWerkdagen}}
 					<small>dagen</small>
 				</h4>
 			</div>
@@ -21,37 +21,35 @@
 </template>
 
 <script>
-	export default {
-		name: "DashboardWorkdays",
-		computed: {
-			aantalWerkdagen(){
-				return this.$store.state.dashboard.aantalWerkdagen
-			},
-			planningStappenArray(){
-				if(this.$store.state.werkvoorbereiding.planning){
-					let array = []
-					for (const planning of this.$store.state.werkvoorbereiding.planning) {
-						if(planning.stap){
-							for (const stap of planning.stappen) {
-								array.push(stap)
-							}
-						}
+export default {
+	name: "DashboardWorkdays",
+	computed: {
+		dashboard() {
+			return this.$store.getters.dashboard;
+		},
+		werkvoorbereiding() {
+			return this.$store.getters.werkvoorbereiding;
+		},
+		planningStappenArray() {
+			let array = [];
+			for (const planning of this.werkvoorbereiding.planning) {
+				if (planning.stap) {
+					for (const stap of planning.stappen) {
+						array.push(stap);
 					}
-					return array
-				}else{
-					return false
-				}
-
-			},
-			aantalPlanningen(){
-				if(this.$store.state.werkvoorbereiding.planning){
-					return this.planningStappenArray.length
-				}else{
-					return 0
 				}
 			}
+			return array;
+		},
+		aantalPlanningen() {
+			if (this.werkvoorbereiding.planning) {
+				return this.planningStappenArray.length;
+			} else {
+				return 0;
+			}
 		}
-	};
+	}
+};
 </script>
 
 

@@ -220,34 +220,30 @@
 								</button>
 								<hr>
 
-								<div class="row">
-									<div class="col-6">
-										<router-link
-											tag="button"
-											class="btn btn-bg-teal float-left"
-											to="overigeMaterialen"
-										>
-											<i
-												aria-hidden="true"
-												class="far fa-clipboard mr-2"
-											></i>
-											Overige materialen
-										</router-link>
-									</div>
-									<div class="col-6">
-										<router-link
-											tag="button"
-											class="btn btn-fill float-right"
-											to="materiaalOpties"
-										>
+								<div class="d-flex justify-content-between">
+									<router-link
+										tag="button"
+										class="btn"
+										to="/overigeMaterialen"
+									>
+										<i
+											aria-hidden="true"
+											class="far fa-clipboard mr-2"
+										></i>
+										Overige materialen
+									</router-link>
+									<router-link
+										tag="button"
+										class="btn"
+										to="/materiaalOpties"
+									>
 
-											<i
-												aria-hidden="true"
-												class="fas fa-edit mr-2"
-											></i>
-											Materiaal opties
-										</router-link>
-									</div>
+										<i
+											aria-hidden="true"
+											class="fas fa-edit mr-2"
+										></i>
+										Materiaal opties
+									</router-link>
 								</div>
 							</div>
 						</div>
@@ -270,7 +266,7 @@
 							<div class="col-md-6">
 								<button
 									type="submit"
-									class="btn btn-lg btn-block btn-bg-teal"
+									class="btn btn-lg btn-block"
 								>
 									<div class="row">
 										<div class="col-10">Volgende stap</div>
@@ -350,7 +346,7 @@ export default {
 		},
 		nextStep() {
 			this.setData();
-			this.$store.commit("verhoogStap");
+			this.$store.commit("verhoogStap", 4);
 			this.$router.push("/maten");
 		},
 		setData() {

@@ -108,7 +108,7 @@ export default {
 		},
 		nextStep() {
 			this.setData();
-			this.$store.commit("verhoogStap");
+			this.$store.commit("verhoogStap", 2);
 			this.$router.push("/componenten");
 		},
 		setData() {

@@ -7,75 +7,49 @@
 						<CardHeader :text="{title: 'Statistieken', subtitle: 'Alle informatie over jouw account' }" />
 						<hr class="my-0">
 						<div class="card-body">
-							<h6 class="title"><strong>Werkvoorbereiding</strong>
+							<h6 class="title col-form-label"><strong>Werkvoorbereiding</strong>
 								<hr class="my-0">
 							</h6>
 							<div class="row mb-4">
-								<div class="col-6">
-									<p class="col-form-label">Aantal projecten</p>
+								<!-- aantal projecten -->
+								<div class="col-12 d-flex justify-content-between">
+									<p>Aantal projecten</p>
+									<p class="font-weight-bold">{{amountWvb}}</p>
 								</div>
-								<div class="col-6">
-									<input
-										type="text"
-										readonly="readonly"
-										class="form-control-plaintext form-control-sm text-right"
-										v-model="amountWvb"
-									>
+								<!-- huidige project -->
+								<div class="col-12 d-flex justify-content-between">
+									<p>Huidig project</p>
+									<p class="font-weight-bold">{{huidigeProjectNaam}}</p>
 								</div>
-								<div class="col-6">
-									<p class="col-form-label">Huidig project</p>
-								</div>
-								<div class="col-6">
-									<input
-										type="text"
-										readonly="readonly"
-										class="form-control-plaintext form-control-sm text-right"
-										v-model="huidigeProjectNaam"
-									>
+								<!-- huidige project id -->
+								<div class="col-12 d-flex justify-content-between">
+									<p>Huidig project ID</p>
+									<p class="font-weight-bold">{{huidigeProjectId}}</p>
 								</div>
 							</div>
-							<h6 class="title col-form-label"><strong>Profiel</strong>
-								<hr class="my-0">
-							</h6>
-							<div class="row mb-4">
-								<div class="col-6">
-									<p class="col-form-label">ID</p>
-								</div>
-								<div class="col-6">
-									<input
-										type="text"
-										readonly="readonly"
-										class="form-control-plaintext form-control-sm text-right"
-										v-if="currentUser"
-										v-model="currentUser.uid"
-									>
-								</div>
-								<div class="col-6">
-									<p class="col-form-label">Lid sinds</p>
-								</div>
-								<div class="col-6">
-									<input
-										type="text"
-										readonly="readonly"
-										class="form-control-plaintext form-control-sm text-right"
-										v-if="currentUser"
-										v-model="currentUser.metadata.creationTime"
-									>
-								</div>
-								<div class="col-6">
-									<p class="col-form-label">Laatst aangemeld</p>
-								</div>
-								<div class="col-6">
-									<input
-										type="text"
-										readonly="readonly"
-										class="form-control-plaintext form-control-sm text-right"
-										v-if="currentUser"
-										v-model="currentUser.metadata.lastSignInTime"
-									>
+
+							<div v-if="currentUser">
+								<h6 class="title col-form-label"><strong>Profiel</strong>
+									<hr class="my-0">
+								</h6>
+								<div class="row mb-4">
+									<!-- firebase id -->
+									<div class="col-12 d-flex justify-content-between">
+										<p>ID</p>
+										<p class="font-weight-bold">{{currentUser.uid}}</p>
+									</div>
+									<!-- Lid sinds -->
+									<div class="col-12 d-flex justify-content-between">
+										<p>Lid sinds</p>
+										<p class="font-weight-bold">{{currentUser.metadata.creationTime}}</p>
+									</div>
+									<!-- Lid sinds -->
+									<div class="col-12 d-flex justify-content-between">
+										<p>Laatste keer aangemeld</p>
+										<p class="font-weight-bold">{{currentUser.metadata.lastSignInTime}}</p>
+									</div>
 								</div>
 							</div>
-							<div class="row mb-0"></div>
 						</div>
 					</div>
 				</div>
@@ -99,6 +73,11 @@ export default {
 		huidigeProjectNaam() {
 			if (this.werkvoorbereiding) {
 				return this.werkvoorbereiding.basisgegevens.project;
+			}
+		},
+		huidigeProjectId() {
+			if (this.werkvoorbereiding) {
+				return this.werkvoorbereiding.id;
 			}
 		},
 		alleWerkvoorbereidingen() {

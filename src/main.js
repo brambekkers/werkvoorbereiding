@@ -6,6 +6,9 @@ import router from './router';
 
 import BootstrapVue from 'bootstrap-vue'
 
+const SocialSharing = require('vue-social-sharing');
+
+Vue.use(SocialSharing);
 Vue.use(BootstrapVue)
 
 Vue.config.productionTip = true

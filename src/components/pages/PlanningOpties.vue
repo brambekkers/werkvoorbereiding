@@ -115,7 +115,7 @@
 								<button
 									type="button"
 									class="btn btn-lg btn-block btn-danger btn-fill"
-									@click.prevent="$store.state.appData.page = 3"
+									@click.prevent="previous()"
 								>
 									terug
 								</button>
@@ -140,10 +140,46 @@ export default {
 			planningOpties: newWvb.planningOpties
 		};
 	},
-	computed: {
-		planningOpties() {
-			return this.$store.state.werkvoorbereiding.planningOpties;
+	watch: {
+		planningOpties: {
+			handler() {
+				this.setData();
+			},
+			deep: true
 		}
+	},
+	computed: {
+		werkvoorbereiding() {
+			return this.$store.getters.werkvoorbereiding;
+		},
+		getPlanningOpties() {
+			return this.$store.getters.werkvoorbereidingsObject(
+				"planningOpties"
+			);
+		}
+	},
+	methods: {
+		updateGegevens() {
+			if (this.getPlanningOpties)
+				this.planningOpties = this.getPlanningOpties;
+		},
+		setData() {
+			this.$store.commit("werkvoorbereiding", {
+				...this.werkvoorbereiding,
+				planningOpties: this.planningOpties
+			});
+			this.$store.dispatch("dataToFirebase", {
+				path: `alleWVB/${this.werkvoorbereiding.id}/planningOpties`,
+				data: this.planningOpties
+			});
+		},
+		previous() {
+			this.setData();
+			this.$router.go(-1);
+		}
+	},
+	created() {
+		this.updateGegevens();
 	}
 };
 </script>
