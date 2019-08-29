@@ -1,9 +1,9 @@
 <template>
-	<div class="background-img">
+	<div id="backgroundLanding">
 		<div class="container">
 			<div class="rellax-text-container">
 				<h1 class="h1-seo">WVB</h1>
-				<div class="pro">Pro</div>
+				<p class="pro">Pro</p>
 			</div>
 			<h3 class="h3-description">De werkvoorbereiding die werkt voor jou!</h3>
 			<div class="icon">
@@ -28,8 +28,8 @@ export default {
 </script>
 
 
-<style scoped>
-.background-img {
+<style scoped lang="scss">
+#backgroundLanding {
 	position: absolute;
 	z-index: 1000;
 	height: 100vh;
@@ -38,14 +38,15 @@ export default {
 	background: url("./../../assets/img/landing1.jpg");
 	background-repeat: no-repeat;
 	background-size: cover;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
 }
 
 .rellax-text-container {
-	position: relative;
-	margin: 0 auto;
-	margin-top: 15vh;
-	max-width: 80vw;
-	text-align: center;
+	display: flex;
+	justify-content: center;
 }
 
 .h1-seo {
@@ -69,7 +70,6 @@ export default {
 	padding-right: 2vh;
 	padding-left: 2vh;
 	text-shadow: 0 2px 8px rgba(0, 0, 0, 0.71);
-	margin-top: 0;
 }
 
 .icon {
@@ -78,34 +78,33 @@ export default {
 	font-size: 6vh;
 	color: #fff;
 	text-align: center;
-}
 
-.icon i {
-	border-radius: 50%;
-	padding: 1.5vh;
-	width: 10vh;
-	height: 10vh;
-	border: #fff solid 5px;
-	text-shadow: 0 2px 8px rgba(0, 0, 0, 0.71);
-	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.71);
-}
+	i {
+		border-radius: 50%;
+		padding: 1.5vh;
+		width: 10vh;
+		height: 10vh;
+		border: #fff solid 5px;
+		text-shadow: 0 2px 8px rgba(0, 0, 0, 0.71);
+		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.71);
 
-.icon i:hover {
-	cursor: pointer;
-	-webkit-animation-name: bounce;
-	animation-name: bounce;
-	-webkit-transform-origin: center bottom;
-	transform-origin: center bottom;
-	-webkit-animation-duration: 1s;
-	animation-duration: 1s;
-	-webkit-animation-fill-mode: both;
-	animation-fill-mode: both;
+		&:hover {
+			cursor: pointer;
+			-webkit-animation-name: bounce;
+			animation-name: bounce;
+			-webkit-transform-origin: center bottom;
+			transform-origin: center bottom;
+			-webkit-animation-duration: 1s;
+			animation-duration: 1s;
+			-webkit-animation-fill-mode: both;
+			animation-fill-mode: both;
+		}
+	}
 }
 
 .pro {
-	position: absolute;
-	display: inline-block;
 	background: #132026;
+	height: 35px;
 	color: #fff;
 	border-radius: 4px;
 	font-size: 20px;

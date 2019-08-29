@@ -125,8 +125,8 @@ export default {
 				gereedschap: this.gereedschap
 			});
 			this.$store.dispatch("dataToFirebase", {
-				path: `alleWVB/${this.werkvoorbereiding.id}/gereedschap`,
-				data: this.gereedschap
+				path: `alleWVB/${this.werkvoorbereiding.id}`,
+				data: this.werkvoorbereiding
 			});
 		}
 	},

@@ -67,8 +67,8 @@
 					</li>
 					<li class="nav-item">
 						<router-link
+							to="/account"
 							class="mx-3"
-							to="/profiel"
 							v-if="user"
 						>
 							<i class="fas fa-user"></i>
@@ -88,7 +88,7 @@
 						<a
 							class="mx-3"
 							v-if="user"
-							@click="$store.dispatch('logout')"
+							@click="logout"
 						>
 							<i class="fas fa-lock"></i>
 							<label class="ml-2">Logout</label>
@@ -101,9 +101,6 @@
 </template>
 
 <script>
-import $ from "jquery";
-import Swal from "sweetalert2";
-
 export default {
 	name: "Navbar",
 	computed: {
@@ -121,19 +118,33 @@ export default {
 		}
 	},
 	methods: {
+		async logout() {
+			const logout = await this.$store.dispatch("logout");
+			if (logout) {
+				this.$store.commit("werkvoorbereiding", null);
+				window.Swal.mixin({
+					type: "success",
+					title: "Succesvol uitgelogt",
+					toast: true,
+					position: "top-end",
+					showConfirmButton: false,
+					timer: 3000
+				}).fire();
+			}
+		},
 		sidebarToggle() {
 			this.$store.commit("sidebar", !this.sidebar);
 
 			if (this.sidebar) {
-				$("html").addClass("nav-open");
-				$(".navbar-toggler").addClass("toggled");
+				window.$("html").addClass("nav-open");
+				window.$(".navbar-toggler").addClass("toggled");
 			} else {
-				$("html").removeClass("nav-open");
-				$(".navbar-toggler").removeClass("toggled");
+				window.$("html").removeClass("nav-open");
+				window.$(".navbar-toggler").removeClass("toggled");
 			}
 		},
 		loginMsg() {
-			Swal.fire("Je moet eerst inloggen om je statistieken te zien!");
+			window.Swal.fire("Je moet eerst inloggen om je statistieken te zien!");
 		}
 	}
 };

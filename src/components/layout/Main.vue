@@ -33,11 +33,8 @@
 <script>
 import Navbar from "./Navbar";
 import Footer from "./Footer";
-
 import WaitScreen from "../pages/attributes/WaitScreen.vue";
-
-import $ from "jquery";
-import Animate from "vue2-animate/dist/vue2-animate.min.css";
+// import Animate from "vue2-animate/dist/vue2-animate.min.css";
 
 export default {
 	name: "Main",
@@ -66,8 +63,8 @@ export default {
 	methods: {
 		closeSidebar() {
 			if (this.sidebar) {
-				$("html").removeClass("nav-open");
-				$(".navbar-toggler").removeClass("toggled");
+				window.$("html").removeClass("nav-open");
+				window.$(".navbar-toggler").removeClass("toggled");
 				this.$store.commit("sidebar", false);
 			}
 		}

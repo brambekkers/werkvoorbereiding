@@ -105,8 +105,8 @@ export default {
 		instellingen: {
 			handler(newValue) {
 				this.$store.dispatch("dataToFirebase", {
-					path: `instellingen`,
-					data: this.instellingen
+					path: `alleWVB/${this.werkvoorbereiding.id}`,
+					data: this.werkvoorbereiding
 				});
 			},
 			deep: true

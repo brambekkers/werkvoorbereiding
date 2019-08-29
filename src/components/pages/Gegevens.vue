@@ -78,7 +78,6 @@
 </template>
 
 <script>
-import $ from "jquery";
 import newWvb from "@/assets/config/newWvb.js";
 import CardHeader from "./attributes/Card-header.vue";
 
@@ -122,11 +121,9 @@ export default {
 			});
 		}
 	},
-	created() {
-		$(function() {
-			$('[data-toggle="tooltip"]').tooltip({
-				delay: { show: 500, hide: 0 }
-			});
+	mounted() {
+		window.$('[data-toggle="tooltip"]').tooltip({
+			delay: { show: 500, hide: 0 }
 		});
 		this.updateGegevens();
 	}

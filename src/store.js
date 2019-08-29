@@ -16,7 +16,6 @@ export default new Vuex.Store({
 			landingPage: true,
 			sidebar: false,
 			waitScreen: false,
-			waitScreenText: '',
 			instellingen: {
 				kleur: 'groen',
 				modus: 'licht',
@@ -34,9 +33,13 @@ export default new Vuex.Store({
 	mutations: {
 		initializeFbApp(state, fb){
 			state.fb = fb;
+			this.dispatch('authStateChange')
 		},
 		user(state, user) {
 			state.user = user;
+		},
+		admin(state, boolean) {
+			state.admin = boolean;
 		},
 		userData(state, userData){
 			state.userData = userData;
@@ -57,6 +60,7 @@ export default new Vuex.Store({
 					planningOpties: newWvb.planningOpties,
 				};
 			}
+			if(werkvoorbereiding === null) state.werkvoorbereiding = null
 			state.werkvoorbereiding = {...state.werkvoorbereiding, ...werkvoorbereiding};
 			this.commit('laatsteBewerking')
 		},
@@ -76,7 +80,6 @@ export default new Vuex.Store({
 					data: nextStap
 				});
 			}
-			
 		}, 
 		instellingen (state, instellingen) {
 			state.appData.instellingen = instellingen;
@@ -90,6 +93,10 @@ export default new Vuex.Store({
 				modus: 'licht',
 				valuta: '€'
 			}
+			state.admin = false
+		},
+		setWaitScreen(state, boolean){
+			state.appData.waitScreen = boolean
 		}
 	},
 	getters: {
@@ -139,6 +146,15 @@ export default new Vuex.Store({
 		}
 	},
 	actions: {
+		authStateChange({getters, commit, dispatch}) {
+			getters.fb.auth().onAuthStateChanged(user => {
+				commit("user", user ? user : null);
+				if (user) {
+					dispatch("FbDatabaseListner", user.uid);
+					dispatch("checkRole", user.uid);
+				}
+			});
+		},
 		FbDatabaseListner({getters, commit, dispatch}, userId) {
 			const userDatabaseRef = getters.fb.database().ref(`users/${userId}/`);
 			userDatabaseRef.on('value', snapshot => {
@@ -148,6 +164,12 @@ export default new Vuex.Store({
 				dispatch("setFirstWvb")
 			});
 		},
+		checkRole({getters, commit}, userId){
+			const checkAdminRef = getters.fb.database().ref(`roles/admin/${userId}`);
+			checkAdminRef.on('value',  snapshot => {
+				if (snapshot.val()) commit("admin", true);
+			});
+		},
 		setFirstWvb({commit, getters}){
 			const userData = getters.userData
 			if(userData.alleWVB){
@@ -155,7 +177,7 @@ export default new Vuex.Store({
 			}
 		},
 		login({getters}, {email, password}){
-			return new Promise(async (resolve, reject) => { 
+			return new Promise(async (resolve) => { 
 				try {
 					const login = await getters.fb.auth().signInWithEmailAndPassword(email, password)
 					resolve(login) 
@@ -165,7 +187,7 @@ export default new Vuex.Store({
 			});
 		},
 		register({getters, dispatch}, {email, password}){
-			return new Promise(async (resolve, reject) => { 
+			return new Promise(async (resolve) => { 
 				try {
 					const register = await getters.fb.auth().createUserWithEmailAndPassword(email, password)
 					register.user.sendEmailVerification();
@@ -192,14 +214,16 @@ export default new Vuex.Store({
 				tussenvoegsel: "",
 				voornaam: "",
 			});
-			console.log('new user made')
 		},
 		logout({getters, commit}) {
-			getters.fb.auth().signOut().then(() => {
-				commit("resetInstellingen");
-				console.log("User Logout");
-			}).catch((error) => {
-				console.error(error);
+			return new Promise(async (resolve, reject) => { 
+				try {
+					await getters.fb.auth().signOut()
+					commit("resetInstellingen");
+					resolve(true)
+				} catch (error){
+					reject(error)
+				} 
 			});
 		},
 		dataToFirebase({getters}, {path, data}){

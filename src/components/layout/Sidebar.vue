@@ -4,10 +4,10 @@
 		data-color="green"
 	>
 		<div class="logo">
-			<a
-				href="/"
+			<router-link
+				to="/"
 				class="simple-text logo-normal"
-			>WVB</a>
+			>WVB</router-link>
 		</div>
 		<div class="sidebar-wrapper">
 			<ul class="nav">
@@ -21,7 +21,10 @@
 				<SidebarProjectMenuItem :itemProps="{page:'maten'}" />
 				<SidebarProjectMenuItem :itemProps="{page:'gereedschap'}" />
 				<SidebarProjectMenuItem :itemProps="{page:'planning'}" />
-				<SidebarProjectMenuItem :itemProps="{page:'nacalculatie'}" />
+				<SidebarProjectMenuItem
+					:itemProps="{page:'nacalculatie'}"
+					v-if="stap >= 7"
+				/>
 				<hr>
 				<SidebarMenuItem :itemProps="{page:'importeren', icon: 'cloud_download'}" />
 				<SidebarMenuItem :itemProps="{page:'exporteren', icon: 'cloud_upload'}" />
@@ -40,7 +43,6 @@ import SidebarProjectMenuItem from "./SidebarProjectMenuItem";
 import SidebarExitItem from "./SidebarExitItem";
 import SidebarMenuItem from "./SidebarMenuItem";
 import isElectron from "is-electron";
-import Swal from "sweetalert2";
 
 export default {
 	name: "Sidebar",
@@ -53,11 +55,15 @@ export default {
 		},
 		werkvoorbereidingen() {
 			return this.$store.getters.werkvoorbereiding;
+		},
+		stap() {
+			if (this.werkvoorbereiding) return this.werkvoorbereidingen.stap;
+			return 0
 		}
 	},
 	methods: {
 		makeWVBWarning() {
-			Swal.fire({
+			window.Swal.fire({
 				title: "Geen werkvoorbereiding?",
 				text:
 					"Maak eerst een nieuwe werkvoorbereiding. Pas dan kun je naar het dashboard gaan om het overzicht te bekijken.",

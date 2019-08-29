@@ -169,8 +169,8 @@ export default {
 				planningOpties: this.planningOpties
 			});
 			this.$store.dispatch("dataToFirebase", {
-				path: `alleWVB/${this.werkvoorbereiding.id}/planningOpties`,
-				data: this.planningOpties
+				path: `alleWVB/${this.werkvoorbereiding.id}`,
+				data: this.werkvoorbereiding
 			});
 		},
 		previous() {

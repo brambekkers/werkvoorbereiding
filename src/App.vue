@@ -25,25 +25,21 @@
 				v-if="!landingPage"
 			/>
 		</transition>
-		<Main />
-		<!-- <Help data-html2canvas-ignore v-if="page != 0"/> -->
+		<Main v-if="!landingPage" />
+		<Help
+			data-html2canvas-ignore
+			v-if="!landingPage"
+		/>
 	</div>
 </template>
 
 <script>
-import "vue2-animate/dist/vue2-animate.min.css";
-import "./assets/css/material-dashboard.css";
-
 import fb from "firebase/app";
 import "firebase/auth";
 import "firebase/database";
 
-// To Do: checken hoe ik deze maar één keer hoef te importeren
-// Nu krijg ik error als ik ze niet per componenent importeer
-import $ from "jquery";
-import popper from "popper.js";
-import bootstrap from "bootstrap";
-import Swal from "sweetalert2";
+import "vue2-animate/dist/vue2-animate.min.css";
+import "./assets/css/material-dashboard.css";
 
 import Sidebar from "./components/layout/Sidebar";
 import Main from "./components/layout/Main";
@@ -64,14 +60,6 @@ export default {
 			}
 		};
 	},
-	watch: {
-		werkvoorbereiding: {
-			handler(newValue) {
-				// this.firebase.WvbToFb(this.werkvoorbereiding);
-			},
-			deep: true
-		}
-	},
 	components: {
 		Sidebar,
 		Main,
@@ -80,15 +68,6 @@ export default {
 	},
 	created() {
 		this.$store.commit("initializeFbApp", fb.initializeApp(this.fbConfig));
-		this.authStateChange();
-	},
-	methods: {
-		authStateChange() {
-			this.$store.getters.fb.auth().onAuthStateChanged(user => {
-				this.$store.commit("user", user ? user : null);
-				if (user) this.$store.dispatch("FbDatabaseListner", user.uid);
-			});
-		}
 	},
 	computed: {
 		werkvoorbereiding() {

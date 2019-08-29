@@ -143,6 +143,7 @@ export default {
 				}
 				return array;
 			}
+			return false
 		}
 	},
 	methods: {

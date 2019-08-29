@@ -74,7 +74,6 @@
 
 <script>
 import CardHeader from "./attributes/Card-header.vue";
-import Swal from "sweetalert2";
 
 export default {
 	name: "Register",
@@ -95,8 +94,6 @@ export default {
 					email: this.email,
 					password: this.password
 				});
-				console.log(register);
-
 				if (register.code) return this.handleError(register);
 
 				this.successMsg();
@@ -109,22 +106,19 @@ export default {
 			}
 		},
 		successMsg() {
-			const Toast = Swal.mixin({
+			window.Swal.mixin({
+				type: "success",
+				title: "Het account is succesvol aangemaakt.",
 				toast: true,
 				position: "top-end",
 				showConfirmButton: false,
 				timer: 3000
-			});
-
-			Toast.fire({
-				type: "success",
-				title: "Het account is succesvol aangemaakt."
-			});
+			}).fire();
 		},
 		handleError(error) {
 			// E-mailadres is al in gebruik
 			if (error.code === "auth/email-already-in-use") {
-				Swal.fire({
+				window.Swal.fire({
 					title: "Al een account?",
 					text:
 						"Dit e-mailadres is al in gebruik... Waarschijnlijk heb je al een account. Probeer in te loggen.",
@@ -134,7 +128,7 @@ export default {
 				});
 			}
 			if (error.code === "auth/weak-password") {
-				Swal.fire({
+				window.Swal.fire({
 					title: "Slecht wachtwoord?",
 					text:
 						"Dit wachtwoord is niet sterk genoeg. Maak een sterker wachtwoord en probeer het opnieuw.",
@@ -145,7 +139,7 @@ export default {
 			}
 			// wachtwoord komt niet overeen
 			if (error.code === "password dont match") {
-				Swal.fire({
+				window.Swal.fire({
 					title: "Controleer wachtwoord",
 					text:
 						"Het controle wachtwoord komt niet overeen met je eerste invoer. Zorg dat je het wachtwoordt goed typt.",

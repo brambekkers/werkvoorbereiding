@@ -1,12 +1,13 @@
 import Vue from 'vue'
 import App from './App.vue'
-
 import store from './store'
 import router from './router';
-
 import BootstrapVue from 'bootstrap-vue'
+import bootstrap from "bootstrap";
 
 const SocialSharing = require('vue-social-sharing');
+window.$ = require('jquery')
+window.Swal = require('sweetalert2')
 
 Vue.use(SocialSharing);
 Vue.use(BootstrapVue)

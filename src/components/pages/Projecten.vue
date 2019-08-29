@@ -62,7 +62,6 @@
 
 <script>
 import CardHeader from "./attributes/Card-header.vue";
-import Swal from "sweetalert2";
 
 export default {
 	name: "Projecten",
@@ -70,17 +69,12 @@ export default {
 	computed: {
 		projecten() {
 			return this.$store.getters.alleWerkvoorbereidingen;
-			if (this.$store.state.userData.alleWVB) {
-				return Object.values(this.$store.state.userData.alleWVB);
-			} else {
-				return false;
-			}
 		},
 		werkvoorbereiding() {
 			return this.$store.getters.werkvoorbereiding;
 		},
 		wvbId() {
-			if (this.werkvoorbereiding) return this.werkvoorbereiding.id;
+			return this.werkvoorbereiding ? this.werkvoorbereiding.id : false;
 		},
 		instellingen() {
 			return this.$store.state.appData.instellingen;
@@ -122,9 +116,7 @@ export default {
 			if (this.projecten[i].planning) {
 				for (const plan of this.projecten[i].planning) {
 					if (plan.stappen) {
-						for (const iterator of plan.stappen) {
-							count++;
-						}
+						count += plan.stappen.length;
 					}
 				}
 			}
@@ -132,7 +124,7 @@ export default {
 		},
 		deleteWvb() {
 			if (this.werkvoorbereiding) {
-				Swal.fire({
+				window.Swal.fire({
 					title: "Weet je het zeker?",
 					text:
 						"Wanneer je deze werkvoorbereiding verwijderd kun je het niet meer terughalen!",
@@ -142,7 +134,7 @@ export default {
 					type: "warning"
 				}).then(result => {
 					if (result.value) {
-						Swal.fire({
+						window.Swal.fire({
 							text: "Poof! Je werkvoorbereiding is verwijderd!",
 							type: "success"
 						});
@@ -154,7 +146,7 @@ export default {
 					}
 				});
 			} else {
-				Swal.fire({
+				window.Swal.fire({
 					text: "Er is geen werkvoorbereiding geselecteerd!",
 					type: "warning"
 				});
@@ -192,7 +184,7 @@ export default {
 .roze {
 	background-color: #e91e63;
 	background: linear-gradient(60deg, #d65a84, #e91e63);
-	webkit-box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14),
+	-webkit-box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14),
 		0 7px 10px -5px rgba(233, 30, 99, 0.4);
 	box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14),
 		0 7px 10px -5px rgba(233, 30, 99, 0.4);
@@ -200,7 +192,7 @@ export default {
 
 .rood {
 	background: linear-gradient(60deg, #ef5350, #e53935);
-	webkit-box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14),
+	-webkit-box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14),
 		0 7px 10px -5px rgba(244, 67, 54, 0.4);
 	box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14),
 		0 7px 10px -5px rgba(244, 67, 54, 0.4);
@@ -208,7 +200,7 @@ export default {
 
 .geel {
 	background: linear-gradient(60deg, #ffa726, #fb8c00);
-	webkit-box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14),
+	-webkit-box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14),
 		0 7px 10px -5px rgba(255, 152, 0, 0.4);
 	box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14),
 		0 7px 10px -5px rgba(255, 152, 0, 0.4);
@@ -216,7 +208,7 @@ export default {
 
 .groen {
 	background: linear-gradient(60deg, #66bb6a, #43a047);
-	webkit-box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14),
+	-webkit-box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14),
 		0 7px 10px -5px rgba(76, 175, 80, 0.4);
 	box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14),
 		0 7px 10px -5px rgba(76, 175, 80, 0.4);
@@ -224,7 +216,7 @@ export default {
 
 .blauw {
 	background: linear-gradient(60deg, #26c6da, #00acc1);
-	webkit-box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14),
+	-webkit-box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14),
 		0 7px 10px -5px rgba(0, 188, 212, 0.4);
 	box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14),
 		0 7px 10px -5px rgba(0, 188, 212, 0.4);
@@ -232,7 +224,7 @@ export default {
 
 .paars {
 	background: linear-gradient(60deg, #ab47bc, #8e24aa);
-	webkit-box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14),
+	-webkit-box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14),
 		0 7px 10px -5px rgba(156, 39, 176, 0.4);
 	box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14),
 		0 7px 10px -5px rgba(156, 39, 176, 0.4);
@@ -240,7 +232,7 @@ export default {
 
 .grijs {
 	background: linear-gradient(60deg, #858585, #575757);
-	webkit-box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14),
+	-webkit-box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14),
 		0 7px 10px -5px rgba(163, 163, 163, 0.4);
 	box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14),
 		0 7px 10px -5px rgba(163, 163, 163, 0.4);

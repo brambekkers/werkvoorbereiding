@@ -241,7 +241,6 @@
 </template>
 
 <script>
-import $ from "jquery";
 import newWvb from "@/assets/config/newWvb.js";
 import CardHeader from "./attributes/Card-header.vue";
 import draggable from "vuedraggable";
@@ -293,7 +292,7 @@ export default {
 	},
 	watch: {
 		maten: {
-			handler(newValue) {
+			handler() {
 				this.setData();
 			},
 			deep: true
@@ -333,16 +332,14 @@ export default {
 				maten: this.maten
 			});
 			this.$store.dispatch("dataToFirebase", {
-				path: `alleWVB/${this.werkvoorbereiding.id}/maten`,
-				data: this.maten
+				path: `alleWVB/${this.werkvoorbereiding.id}`,
+				data: this.werkvoorbereiding
 			});
 		}
 	},
-	created() {
-		$(function() {
-			$('[data-toggle="tooltip"]').tooltip({
-				delay: { show: 500, hide: 0 }
-			});
+	mounted() {
+		window.$('[data-toggle="tooltip"]').tooltip({
+			delay: { show: 500, hide: 0 }
 		});
 		this.updateGegevens();
 	}

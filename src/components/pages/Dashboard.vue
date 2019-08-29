@@ -4,6 +4,9 @@
 			class="container-fluid"
 			v-if="werkvoorbereiding"
 		>
+			<div id="filter">
+				<button class="btn btn-filter btn-sm"><i class="fas fa-filter mr-2"></i>Filter</button>
+			</div>
 			<div class="row">
 				<DashboardPrice />
 				<DashboardWorkdays />
@@ -66,6 +69,19 @@ export default {
 
 
 <style scoped lang="scss">
+#filter {
+	display: flex;
+	justify-content: flex-end;
+
+	.btn-filter {
+		color: #a9afbb;
+		background: white;
+		border-radius: 6px;
+		border: 0;
+		box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.14);
+	}
+}
+
 .noWvb {
 	height: 75vh;
 	display: flex;

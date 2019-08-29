@@ -285,7 +285,6 @@
 </template>
 
 <script>
-import $ from "jquery";
 import { Money } from "v-money";
 import newWvb from "@/assets/config/newWvb.js";
 import CardHeader from "./attributes/Card-header.vue";
@@ -355,16 +354,14 @@ export default {
 				materialen: this.materialen
 			});
 			this.$store.dispatch("dataToFirebase", {
-				path: `alleWVB/${this.werkvoorbereiding.id}/materialen`,
-				data: this.materialen
+				path: `alleWVB/${this.werkvoorbereiding.id}`,
+				data: this.werkvoorbereiding
 			});
 		}
 	},
-	created() {
-		$(function() {
-			$('[data-toggle="tooltip"]').tooltip({
-				delay: { show: 500, hide: 0 }
-			});
+	mounted() {
+		window.$('[data-toggle="tooltip"]').tooltip({
+			delay: { show: 500, hide: 0 }
 		});
 		this.updateGegevens();
 	}

@@ -103,24 +103,29 @@ export default {
 			);
 		},
 		opslagpercentageMassief() {
-			if (this.getMateriaalOpties)
-				return Number(this.getMateriaalOpties.opslagpercentageMassief);
+			return this.getMateriaalOpties
+				? Number(this.getMateriaalOpties.opslagpercentageMassief)
+				: 0;
 		},
 		opslagpercentagePlaat() {
-			if (this.getMateriaalOpties)
-				return Number(this.getMateriaalOpties.opslagpercentagePlaat);
+			return this.getMateriaalOpties
+				? Number(this.getMateriaalOpties.opslagpercentagePlaat)
+				: 0;
 		},
 		overlengteZijde() {
-			if (this.getMateriaalOpties)
-				return Number(this.getMateriaalOpties.overlengteZijdes);
+			return this.getMateriaalOpties
+				? Number(this.getMateriaalOpties.overlengteZijdes)
+				: 0;
 		},
 		overlengteKops() {
-			if (this.getMateriaalOpties)
-				return Number(this.getMateriaalOpties.overlengteKops);
+			return this.getMateriaalOpties
+				? Number(this.getMateriaalOpties.overlengteKops)
+				: 0;
 		},
 		overlengteLangs() {
-			if (this.getMateriaalOpties)
-				return Number(this.getMateriaalOpties.overlengteLangs);
+			return this.getMateriaalOpties
+				? Number(this.getMateriaalOpties.overlengteLangs)
+				: 0;
 		},
 		valuta() {
 			return this.$store.getters.valuta;
@@ -155,7 +160,9 @@ export default {
 				...this.materialenMassief.map(m => m.naam),
 				...this.materialenPlaat.map(m => m.naam),
 				...this.materialenFineer.map(m => m.naam),
-				...new Set(this.materialenOverig.map(m => "Overige materialen"))
+				...new Set(
+					this.materialenOverig.map(() => "Overige materialen")
+				)
 			];
 		},
 		materiaalKostenMassief() {

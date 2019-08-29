@@ -77,8 +77,8 @@
 												placeholder="Op deze plek kun je iets over jezelf vertellen."
 												v-model="profiel.over"
 												class="form-control"
-											>
-											 </textarea></div>
+											/>
+											</div>
 									</div>
 								</div>
 							</form>
@@ -196,7 +196,7 @@ export default {
 	components: { CardHeader },
 	watch: {
 		profiel: {
-			handler(newValue) {
+			handler() {
 				this.$store.dispatch("dataToFirebase", {
 					path: `profiel`,
 					data: this.profiel

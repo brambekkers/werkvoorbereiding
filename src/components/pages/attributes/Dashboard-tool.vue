@@ -39,15 +39,16 @@ export default {
 						}
 					}
 				}
-				return count;
+				return Object.keys(count).length ? count : false;
 			}
+			return false;
 		},
 		aantalTools() {
 			if (this.getPlanning) return Object.keys(this.countTools).length;
 			return 0;
 		},
 		mostUsedTool() {
-			if (this.getPlanning) {
+			if (this.countTools) {
 				return Object.keys(this.countTools).reduce((a, b) =>
 					this.countTools[a] > this.countTools[b] ? a : b
 				);

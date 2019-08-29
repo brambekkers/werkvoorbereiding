@@ -56,7 +56,6 @@
 
 <script>
 import CardHeader from "./attributes/Card-header.vue";
-import Swal from "sweetalert2";
 
 export default {
 	name: "Login",
@@ -75,7 +74,7 @@ export default {
 			});
 			if (!login.user) return this.handleError(login);
 
-			Swal.mixin({
+			window.Swal.mixin({
 				type: "success",
 				title: "Succesvol ingelogd",
 				toast: true,
@@ -92,7 +91,7 @@ export default {
 		handleError(error) {
 			// Ongeldig e-mailadres
 			if (error.code === "auth/invalid-email") {
-				Swal.fire({
+				window.Swal.fire({
 					title: "Niet geldig",
 					text: "Dit is geen geldig email adres.",
 					confirmButtonColor: "#F33527",
@@ -102,7 +101,7 @@ export default {
 			}
 			// User niet aanwezig in database
 			if (error.code === "auth/user-not-found") {
-				Swal.fire({
+				window.Swal.fire({
 					title: "Niet gevonden",
 					text:
 						"Dit e-mailadres is niet bij ons bekend... Probeer het met een ander e-mailadres nog een keer.",
@@ -113,7 +112,7 @@ export default {
 			}
 			// Verkeerd wachtwoord
 			else if (error.code === "auth/wrong-password") {
-				Swal.fire({
+				window.Swal.fire({
 					title: "Verkeerd wachtwoord",
 					text:
 						"Helaas is dit niet jouw juiste wachtwoord. Probeer het gerust nog een keer.",
@@ -124,7 +123,7 @@ export default {
 			}
 			// Accound is uitgeschakeld
 			else if (error.code === "auth/user-disabled") {
-				Swal.fire({
+				window.Swal.fire({
 					title: "Uitgeschakeld",
 					text:
 						"Dit account is tijdelijk niet actief. Neem contact op met de beheerder voor verdere informatie.",

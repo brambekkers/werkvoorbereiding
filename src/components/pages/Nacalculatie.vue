@@ -87,7 +87,6 @@
 </template>
 
 <script>
-    import $ from "jquery";
     import CardHeader from "./attributes/Card-header.vue";
     import draggable from 'vuedraggable'
     import newWvb from "@/assets/config/newWvb.js";
@@ -106,7 +105,7 @@
         },
         watch: {
             nacalculatie: {
-                handler(newValue) {
+                handler() {
                     this.setData();
                 },
                 deep: true
@@ -152,21 +151,19 @@
                 this.nacalculatie.splice(i, 1)
             },
             setData() {
-			this.$store.commit("werkvoorbereiding", {
-				...this.werkvoorbereiding,
-				nacalculatie: this.nacalculatie
-			});
-			this.$store.dispatch("dataToFirebase", {
-				path: `alleWVB/${this.werkvoorbereiding.id}/nacalculatie`,
-				data: this.nacalculatie
-			});
-		}
-        },
-        created() {
-            $(function() {
-                $('[data-toggle="tooltip"]').tooltip({
-                    delay: { show: 500, hide: 0 }
+                this.$store.commit("werkvoorbereiding", {
+                    ...this.werkvoorbereiding,
+                    nacalculatie: this.nacalculatie
                 });
+                this.$store.dispatch("dataToFirebase", {
+                    path: `alleWVB/${this.werkvoorbereiding.id}`,
+                    data: this.werkvoorbereiding
+                })
+            }
+        },
+        mounted() {
+            window.$('[data-toggle="tooltip"]').tooltip({
+                delay: { show: 500, hide: 0 }
             });
             this.updateGegevens();
         }

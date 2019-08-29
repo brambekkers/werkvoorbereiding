@@ -11,8 +11,6 @@
 </template>
 
 <script>
-import $ from "jquery";
-
 export default {
 	name: "SidebarMenuItem",
 	props: ["itemProps"],
@@ -33,8 +31,8 @@ export default {
 		},
 		closeSidebar() {
 			if (this.sidebar) {
-				$("html").removeClass("nav-open");
-				$(".navbar-toggler").removeClass("toggled");
+				window.$("html").removeClass("nav-open");
+				window.$(".navbar-toggler").removeClass("toggled");
 				this.$store.commit("sidebar", false);
 			}
 		}

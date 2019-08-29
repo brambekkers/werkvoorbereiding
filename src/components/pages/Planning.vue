@@ -361,7 +361,6 @@
 </template>
 
 <script>
-import $ from "jquery";
 import newWvb from "@/assets/config/newWvb.js";
 import draggable from "vuedraggable";
 import planningGegevens from "../../assets/config/planningGegevens.js";
@@ -411,6 +410,7 @@ export default {
 					);
 				}
 			}
+			return []
 		},
 		machines() {
 			if (this.getGereedschap) {
@@ -421,6 +421,7 @@ export default {
 					);
 				}
 			}
+			return []
 		},
 		onderdeelStappen() {
 			return Object.keys(planningGegevens);
@@ -493,16 +494,14 @@ export default {
 				planning: this.planning
 			});
 			this.$store.dispatch("dataToFirebase", {
-				path: `alleWVB/${this.werkvoorbereiding.id}/planning`,
-				data: this.planning
+				path: `alleWVB/${this.werkvoorbereiding.id}`,
+				data: this.werkvoorbereiding
 			});
 		}
 	},
-	created() {
-		$(function() {
-			$('[data-toggle="tooltip"]').tooltip({
-				delay: { show: 500, hide: 0 }
-			});
+	mounted() {
+		window.$('[data-toggle="tooltip"]').tooltip({
+			delay: { show: 500, hide: 0 }
 		});
 		this.updateGegevens();
 	}
