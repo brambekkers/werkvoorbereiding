@@ -1,7 +1,7 @@
 <template>
 	<footer class="footer">
 		<div class="container-fluid">
-			<nav class="float-left">
+			<nav class="float-left" :class="{ 'text-light': darkMode }">
 				<ul>
 					<li>
 						<router-link to="/over">Over</router-link>
@@ -12,8 +12,7 @@
 					<li>
 						<router-link to="/licentie">Licentie</router-link>
 					</li>
-					<li>
-					</li>
+					<li></li>
 				</ul>
 			</nav>
 		</div>
@@ -22,10 +21,14 @@
 
 <script>
 export default {
-	name: "Footer"
+	name: 'Footer',
+	computed: {
+		darkMode() {
+			return this.$store.getters.instellingen.modus === 'licht' ? false : true;
+		}
+	}
 };
 </script>
-
 
 <style scoped>
 a {

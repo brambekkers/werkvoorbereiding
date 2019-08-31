@@ -1,5 +1,5 @@
 <template>
-	<div class="fixed-plugin" v-if="isVisible">
+	<div class="fixed-plugin" v-if="texts.length">
 		<i class="far fa-question-circle" @click="showHelp()"></i>
 	</div>
 </template>
@@ -11,46 +11,68 @@ export default {
 		routeName() {
 			return this.$route.name.toLowerCase().replace(/\s+/g, '');
 		},
-		isVisible() {
-			const helpPages = ['gegevens', 'componenten', 'materialen', 'maten', 'gereedschap', 'planning', 'nacalculatie'];
-			return helpPages.filter(pageName => pageName === this.routeName).length > 0 ? true : false;
+		hexColor() {
+			return this.$store.getters.hexColor;
 		},
 		texts() {
 			if (this.routeName === 'gegevens') {
-				return {
-					numbers: ['1', '2', '3'],
-					pages: [
-						{
-							title: 'Welkom bij de werkvoorbereiding!',
-							html:
-								'We gaan samen stap voor stap jouw project bestuderen om tot een goede werkvoorbereiding te komen. Denk goed na over je project en vul zo veel mogelijk in! Hoe meer data hoe beter resultaat. <br/><br/> Mocht je er niet uitkomen, <strong> geen probleem </strong> per stap kun je altijd op het ? drukken voor meer informatie.'
-						},
-						{
-							title: 'Gegevens',
-							text:
-								'Op de gegevens pagina vul je de gegevens is van het project. Dit doe je zodat je later gemakkelijk je project kan terugvinden'
-						},
-						{
-							title: 'Niet op school?',
-							text: 'Mocht je geen klas of docent hebben kun je deze velden leeg laten of voor iets anders gebruiken.'
-						}
-					]
-				};
+				return [
+					{
+						title: 'Welkom bij de werkvoorbereiding!',
+						html:
+							'We gaan samen stap voor stap jouw project bestuderen om tot een goede werkvoorbereiding te komen. Denk goed na over je project en vul zo veel mogelijk in! Hoe meer data, hoe beter het resultaat. <br/><br/> Mocht je er niet uitkomen, <strong> geen probleem</strong>, per stap kun je altijd op het ? drukken voor meer informatie.'
+					},
+					{
+						title: 'Gegevens',
+						text:
+							'Op de gegevens pagina vul je de gegevens is van het project. Dit doe je zodat je later gemakkelijk je project kan terugvinden.'
+					},
+					{
+						title: 'Zit je niet op school?',
+						text: 'Mocht je geen klas of docent hebben kun je deze velden leeg laten of voor iets anders gebruiken.'
+					}
+				];
 			}
+			if (this.routeName === 'componenten') {
+				return [
+					{
+						title: 'Wat zijn componenten?',
+						html:
+							'Om ervoor te zorgen dat we het project goed kunnen bekijken vragen we je het project in kleinere subgroepjes te verdelen. Componenten zijn logische behapbare groepen van onderdelen.'
+					},
+					{
+						title: 'Een voorbeeld',
+						text:
+							'Bij een kast kun je bijv denken aan de componenten: romp, lade en onderstel. Deze componenten bestaan vaak uit meerdere onderdelen en materialen.'
+					},
+					{
+						title: 'Meerdere componenten',
+						text: 'Mocht je nou meerdere componeten hebben (bijv meerdere lades) dan vul je een groter aantal in. '
+					}
+				];
+			}
+			return [];
 		}
 	},
 	methods: {
 		showHelp() {
 			window.Swal.mixin({
-				progressSteps: this.texts.numbers,
-				confirmButtonText: 'Volgende &rarr;'
-			}).queue(this.texts.pages);
+				progressSteps: [...Array(this.texts.length).keys()].map(n => n + 1),
+				confirmButtonText: 'Volgende &rarr;',
+				confirmButtonColor: this.hexColor
+			}).queue(this.texts);
+
+			window.$('.swal2-active-progress-step').css('background-color', this.hexColor);
+			window
+				.$('.swal2-progress-step-line')
+				.css('background-color', this.hexColor)
+				.css('opacity', 0.3);
 		}
 	}
 };
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 i {
 	font-size: 2rem;
 	color: #ffffff;

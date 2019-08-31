@@ -2,62 +2,49 @@
 	<div class="col-md-6">
 		<div class="card card-chart">
 			<div class="card-header card-header-warning">
-				<router-link
-					tag="i"
-					class="material-icons fas fa-cog options"
-					to="/materiaalOpties"
-				></router-link>
-				<Chart
-					v-if="getMaten"
-					:height="150"
-					:materialen="materiaalNamen"
-					:kosten="materiaalKostenGebundeld"
-				/>
-				<p v-if="!getMaten">Voer op de <strong>'maten'</strong> pagina de gegevens in van je project. Pas dan kunnen we de materiaalkosten berekenen. </p>
+				<router-link tag="i" class="material-icons fas fa-cog options" to="/materiaalOpties"></router-link>
+				<Chart v-if="getMaten" :height="150" :materialen="materiaalNamen" :kosten="materiaalKostenGebundeld" />
+				<p v-if="!getMaten">
+					Voer op de <strong>'maten'</strong> pagina de gegevens in van je project. Pas dan kunnen we de materiaalkosten berekenen.
+				</p>
 			</div>
 			<div class="card-body">
-				<hr>
+				<hr />
 				<div class="d-flex">
-					<p class="d-inline mr-auto">Materiaalkosten: </p>
-					<p class="d-inline ml-auto">{{valuta}} {{totaleMateriaalKosten}}</p>
+					<p class="d-inline mr-auto">Materiaalkosten:</p>
+					<p class="d-inline ml-auto">{{ valuta }} {{ totaleMateriaalKosten }}</p>
 				</div>
 				<div class="d-flex">
-					<p class="d-inline mr-auto">Opslagpercentage: </p>
-					<p class="d-inline ml-auto">{{valuta}} {{totaleOpslagPercentage}}</p>
+					<p class="d-inline mr-auto">Opslagpercentage:</p>
+					<p class="d-inline ml-auto">{{ valuta }} {{ totaleOpslagPercentage }}</p>
 				</div>
 				<div class="d-flex">
-					<p class="d-inline mr-auto">Indirecte kosten: </p>
-					<p class="d-inline ml-auto">{{valuta}} {{indirecteKosten}}</p>
+					<p class="d-inline mr-auto">Indirecte kosten:</p>
+					<p class="d-inline ml-auto">{{ valuta }} {{ indirecteKosten }}</p>
 				</div>
 				<div class="d-flex">
-					<p class="d-inline mr-auto">Loonkosten: </p>
-					<p class="d-inline ml-auto">{{valuta}} {{loonKosten}}</p>
+					<p class="d-inline mr-auto">Loonkosten:</p>
+					<p class="d-inline ml-auto">{{ valuta }} {{ loonKosten }}</p>
 				</div>
-				<hr class="mt-2">
+				<hr class="mt-2" />
 				<div class="d-flex">
-					<p class="d-inline mr-auto">Totale kosten: </p>
-					<p class="d-inline ml-auto">{{valuta}} {{totaleKosten}}</p>
+					<p class="d-inline mr-auto">Totale kosten:</p>
+					<p class="d-inline ml-auto">{{ valuta }} {{ totaleKosten }}</p>
 				</div>
 				<div class="d-flex">
-					<p class="d-inline mr-auto">Winstopslag: </p>
-					<p class="d-inline ml-auto">{{valuta}} {{winstopslag}}</p>
+					<p class="d-inline mr-auto">Winstopslag:</p>
+					<p class="d-inline ml-auto">{{ valuta }} {{ winstopslag }}</p>
 				</div>
-				<hr>
+				<hr />
 				<div class="d-flex">
-					<p class="d-inline mr-auto">Verkoopprijs incl BTW: </p>
-					<p class="d-inline ml-auto">{{valuta}} {{verkoopPrijsInclBtw}}</p>
+					<p class="d-inline mr-auto">Verkoopprijs incl BTW:</p>
+					<p class="d-inline ml-auto">{{ valuta }} {{ verkoopPrijsInclBtw }}</p>
 				</div>
-
 			</div>
 			<div class="card-footer">
 				<div class="stats">
-					<div class="col-6">
-						<i class="material-icons">access_time</i> updated 4 minutes ago
-					</div>
-					<div class="col-6 text-right">
-
-					</div>
-
+					<div class="col-6"><i class="material-icons">access_time</i> updated 4 minutes ago</div>
+					<div class="col-6 text-right"></div>
 				</div>
 			</div>
 		</div>
@@ -67,10 +54,10 @@
 <script>
 // import Chart from "chart.js"
 // import { Bar } from 'vue-chartjs'
-import Chart from "./Chart-materialcost";
+import Chart from './Chart-materialcost';
 
 export default {
-	name: "DashboardMaterialCost",
+	name: 'DashboardMaterialCost',
 	components: {
 		Chart
 	},
@@ -82,50 +69,34 @@ export default {
 			return this.$store.getters.dashboard;
 		},
 		getMaterialen() {
-			return this.$store.getters.werkvoorbereidingsObject("materialen");
+			return this.$store.getters.werkvoorbereidingsObject('materialen');
 		},
 		getOverigeMaterialen() {
-			return this.$store.getters.werkvoorbereidingsObject(
-				"overigeMaterialen"
-			);
+			return this.$store.getters.werkvoorbereidingsObject('overigeMaterialen');
 		},
 		getMaten() {
-			return this.$store.getters.werkvoorbereidingsObject("maten");
+			return this.$store.getters.werkvoorbereidingsObject('maten');
 		},
 		getPlanningOpties() {
-			return this.$store.getters.werkvoorbereidingsObject(
-				"planningOpties"
-			);
+			return this.$store.getters.werkvoorbereidingsObject('planningOpties');
 		},
 		getMateriaalOpties() {
-			return this.$store.getters.werkvoorbereidingsObject(
-				"materiaalOpties"
-			);
+			return this.$store.getters.werkvoorbereidingsObject('materiaalOpties');
 		},
 		opslagpercentageMassief() {
-			return this.getMateriaalOpties
-				? Number(this.getMateriaalOpties.opslagpercentageMassief)
-				: 0;
+			return this.getMateriaalOpties ? Number(this.getMateriaalOpties.opslagpercentageMassief) : 0;
 		},
 		opslagpercentagePlaat() {
-			return this.getMateriaalOpties
-				? Number(this.getMateriaalOpties.opslagpercentagePlaat)
-				: 0;
+			return this.getMateriaalOpties ? Number(this.getMateriaalOpties.opslagpercentagePlaat) : 0;
 		},
 		overlengteZijde() {
-			return this.getMateriaalOpties
-				? Number(this.getMateriaalOpties.overlengteZijdes)
-				: 0;
+			return this.getMateriaalOpties ? Number(this.getMateriaalOpties.overlengteZijdes) : 0;
 		},
 		overlengteKops() {
-			return this.getMateriaalOpties
-				? Number(this.getMateriaalOpties.overlengteKops)
-				: 0;
+			return this.getMateriaalOpties ? Number(this.getMateriaalOpties.overlengteKops) : 0;
 		},
 		overlengteLangs() {
-			return this.getMateriaalOpties
-				? Number(this.getMateriaalOpties.overlengteLangs)
-				: 0;
+			return this.getMateriaalOpties ? Number(this.getMateriaalOpties.overlengteLangs) : 0;
 		},
 		valuta() {
 			return this.$store.getters.valuta;
@@ -134,9 +105,7 @@ export default {
 			return this.getMaterialen.massief ? this.getMaterialen.massief : [];
 		},
 		materialenPlaat() {
-			return this.getMaterialen.plaatmateriaal
-				? this.getMaterialen.plaatmateriaal
-				: [];
+			return this.getMaterialen.plaatmateriaal ? this.getMaterialen.plaatmateriaal : [];
 		},
 		materialenFineer() {
 			return this.getMaterialen.fineer ? this.getMaterialen.fineer : [];
@@ -160,9 +129,7 @@ export default {
 				...this.materialenMassief.map(m => m.naam),
 				...this.materialenPlaat.map(m => m.naam),
 				...this.materialenFineer.map(m => m.naam),
-				...new Set(
-					this.materialenOverig.map(() => "Overige materialen")
-				)
+				...new Set(this.materialenOverig.map(() => 'Overige materialen'))
 			];
 		},
 		materiaalKostenMassief() {
@@ -173,17 +140,11 @@ export default {
 					let prijsMassief = 0;
 					for (const maat of this.getMaten) {
 						if (materiaal.naam === maat.materiaal) {
-							let lengte =
-								Number(maat.lengte) + this.overlengteKops;
-							let breedte =
-								Number(maat.breedte) + this.overlengteLangs;
+							let lengte = Number(maat.lengte) + this.overlengteKops;
+							let breedte = Number(maat.breedte) + this.overlengteLangs;
 							let dikte = Number(maat.dikte);
-							let inhoud =
-								(lengte * breedte * dikte) / 1000000000;
-							prijsMassief +=
-								inhoud *
-								Number(materiaal.prijs) *
-								Number(maat.aantal);
+							let inhoud = (lengte * breedte * dikte) / 1000000000;
+							prijsMassief += inhoud * Number(materiaal.prijs) * Number(maat.aantal);
 						}
 					}
 					kosten.push(Number(prijsMassief.toFixed(2)));
@@ -199,15 +160,10 @@ export default {
 					let prijsPlaat = 0;
 					for (const maat of this.getMaten) {
 						if (materiaal.naam === maat.materiaal) {
-							let lengte =
-								Number(maat.lengte) + this.overlengteZijde;
-							let breedte =
-								Number(maat.breedte) + this.overlengteZijde;
+							let lengte = Number(maat.lengte) + this.overlengteZijde;
+							let breedte = Number(maat.breedte) + this.overlengteZijde;
 							let oppervlakte = (lengte * breedte) / 1000000;
-							prijsPlaat +=
-								oppervlakte *
-								Number(materiaal.prijs) *
-								Number(maat.aantal);
+							prijsPlaat += oppervlakte * Number(materiaal.prijs) * Number(maat.aantal);
 						}
 					}
 					kosten.push(Number(prijsPlaat.toFixed(2)));
@@ -223,15 +179,10 @@ export default {
 					let prijsFineer = 0;
 					for (const maat of this.getMaten) {
 						if (materiaal.naam === maat.materiaal) {
-							let lengte =
-								Number(maat.lengte) + this.overlengteZijde;
-							let breedte =
-								Number(maat.breedte) + this.overlengteZijde;
+							let lengte = Number(maat.lengte) + this.overlengteZijde;
+							let breedte = Number(maat.breedte) + this.overlengteZijde;
 							let oppervlakte = (lengte * breedte) / 1000000;
-							prijsFineer +=
-								oppervlakte *
-								Number(materiaal.prijs) *
-								Number(maat.aantal);
+							prijsFineer += oppervlakte * Number(materiaal.prijs) * Number(maat.aantal);
 						}
 					}
 					kosten.push(prijsFineer);
@@ -250,65 +201,37 @@ export default {
 		},
 		totaleMateriaalKosten() {
 			if (this.materiaalKostenGebundeld) {
-				return Number(
-					this.materiaalKostenGebundeld
-						.reduce((a, b) => a + b, 0)
-						.toFixed(2)
-				);
+				return Number(this.materiaalKostenGebundeld.reduce((a, b) => a + b, 0).toFixed(2));
 			} else {
 				return 0;
 			}
 		},
 		totaleOpslagPercentage() {
 			// Massief
-			const m = this.materiaalKostenMassief.reduce(
-				(a, b) => a + (b / 100) * this.opslagpercentageMassief,
-				0
-			);
+			const m = this.materiaalKostenMassief.reduce((a, b) => a + (b / 100) * this.opslagpercentageMassief, 0);
 			// Plaat
-			const p = this.materiaalKostenPlaat.reduce(
-				(a, b) => a + (b / 100) * this.opslagpercentagePlaat,
-				0
-			);
+			const p = this.materiaalKostenPlaat.reduce((a, b) => a + (b / 100) * this.opslagpercentagePlaat, 0);
 			return Number((m + p).toFixed(2));
 		},
 		indirecteKosten() {
-			if (this.getPlanningOpties)
-				return Number(this.getPlanningOpties.indirecteKosten);
+			if (this.getPlanningOpties) return Number(this.getPlanningOpties.indirecteKosten);
 			return 0;
 		},
 		loonKosten() {
 			if (this.getPlanningOpties) {
-				return Number(
-					(
-						this.dashboard.aantalUren *
-						Number(this.getPlanningOpties.uurtarief)
-					).toFixed(2)
-				);
+				return Number((this.dashboard.aantalUren * Number(this.getPlanningOpties.uurtarief)).toFixed(2));
 			}
 			return 0;
 		},
 		totaleKosten() {
 			if (this.getPlanningOpties) {
-				return Number(
-					(
-						this.totaleMateriaalKosten +
-						this.totaleOpslagPercentage +
-						this.indirecteKosten +
-						this.loonKosten
-					).toFixed(2)
-				);
+				return Number((this.totaleMateriaalKosten + this.totaleOpslagPercentage + this.indirecteKosten + this.loonKosten).toFixed(2));
 			}
 			return 0;
 		},
 		winstopslag() {
 			if (this.getPlanningOpties) {
-				return Number(
-					(
-						(this.totaleKosten / 100) *
-						Number(this.getPlanningOpties.winstOpslag)
-					).toFixed(2)
-				);
+				return Number(((this.totaleKosten / 100) * Number(this.getPlanningOpties.winstOpslag)).toFixed(2));
 			}
 			return 0;
 		},
@@ -318,14 +241,10 @@ export default {
 		verkoopPrijsInclBtw() {
 			if (this.getPlanningOpties) {
 				let verkoopPrijsInclBtw = Number(
-					(
-						this.verkoopPrijsExclBtw +
-						(this.verkoopPrijsExclBtw / 100) *
-							Number(this.getPlanningOpties.btwTarief)
-					).toFixed(2)
+					(this.verkoopPrijsExclBtw + (this.verkoopPrijsExclBtw / 100) * Number(this.getPlanningOpties.btwTarief)).toFixed(2)
 				);
-				this.$store.commit("setDashboard", {
-					path: "verkoopPrijsInclBtw",
+				this.$store.commit('setDashboard', {
+					path: 'verkoopPrijsInclBtw',
 					value: verkoopPrijsInclBtw
 				});
 				return verkoopPrijsInclBtw;
@@ -336,8 +255,11 @@ export default {
 };
 </script>
 
-
 <style scoped lang="scss">
+.card {
+	height: calc(100% - 60px);
+}
+
 .card-header {
 	min-height: 55px;
 	display: flex;

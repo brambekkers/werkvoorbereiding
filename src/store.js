@@ -1,10 +1,9 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
-import uniqid from "uniqid";
-import newWvb from "@/assets/config/newWvb.js";
+import Vue from 'vue';
+import Vuex from 'vuex';
+import uniqid from 'uniqid';
+import newWvb from '@/assets/config/newWvb.js';
 
-
-Vue.use(Vuex)
+Vue.use(Vuex);
 
 export default new Vuex.Store({
 	state: {
@@ -28,12 +27,21 @@ export default new Vuex.Store({
 			aantalWerkdagen: 0,
 			aantalUren: 0,
 			verkoopPrijsInclBtw: 0,
+			filter: {
+				verkoopprijs: true,
+				aantalWerkdagen: true,
+				aantalOnderdelen: true,
+				favGereedschap: true,
+				materiaalKosten: true,
+				planningTijd: true,
+				agenda: true
+			}
 		}
 	},
 	mutations: {
-		initializeFbApp(state, fb){
+		initializeFbApp(state, fb) {
 			state.fb = fb;
-			this.dispatch('authStateChange')
+			this.dispatch('authStateChange');
 		},
 		user(state, user) {
 			state.user = user;
@@ -41,62 +49,61 @@ export default new Vuex.Store({
 		admin(state, boolean) {
 			state.admin = boolean;
 		},
-		userData(state, userData){
+		userData(state, userData) {
 			state.userData = userData;
 		},
-		landingPage(state, boolean){
-			state.appData.landingPage = boolean
+		landingPage(state, boolean) {
+			state.appData.landingPage = boolean;
 		},
-		sidebar(state, boolean){
-			state.appData.sidebar = boolean
+		sidebar(state, boolean) {
+			state.appData.sidebar = boolean;
 		},
-		werkvoorbereiding (state, werkvoorbereiding) {
-			if(!state.werkvoorbereiding){
+		werkvoorbereiding(state, werkvoorbereiding) {
+			if (!state.werkvoorbereiding) {
 				state.werkvoorbereiding = {
 					id: `WVB_${uniqid()}`,
 					aangemaaktOp: this.getters.newDate,
 					stap: 1,
 					materiaalOpties: newWvb.materiaalOpties,
-					planningOpties: newWvb.planningOpties,
+					planningOpties: newWvb.planningOpties
 				};
 			}
-			if(werkvoorbereiding === null) state.werkvoorbereiding = null
-			state.werkvoorbereiding = {...state.werkvoorbereiding, ...werkvoorbereiding};
-			this.commit('laatsteBewerking')
+			if (werkvoorbereiding === null) state.werkvoorbereiding = null;
+			state.werkvoorbereiding = { ...state.werkvoorbereiding, ...werkvoorbereiding };
+			this.commit('laatsteBewerking');
 		},
-		laatsteBewerking(state){
+		laatsteBewerking(state) {
 			const d = new Date();
-			const newDate = `${d.getDate()}-${d.getMonth() +
-				1}-${d.getFullYear()} ${d.getHours()}.${d.getMinutes()}`;
-				
-			state.werkvoorbereiding.laatsteBewerking = newDate
-		},
-		verhoogStap(state, nextStap){
-			if(state.werkvoorbereiding.stap < nextStap){
-				state.werkvoorbereiding.stap = nextStap
+			const newDate = `${d.getDate()}-${d.getMonth() + 1}-${d.getFullYear()} ${d.getHours()}.${d.getMinutes()}`;
 
-				this.dispatch("dataToFirebase", {
+			state.werkvoorbereiding.laatsteBewerking = newDate;
+		},
+		verhoogStap(state, nextStap) {
+			if (state.werkvoorbereiding.stap < nextStap) {
+				state.werkvoorbereiding.stap = nextStap;
+
+				this.dispatch('dataToFirebase', {
 					path: `alleWVB/${state.werkvoorbereiding.id}/stap`,
 					data: nextStap
 				});
 			}
-		}, 
-		instellingen (state, instellingen) {
+		},
+		instellingen(state, instellingen) {
 			state.appData.instellingen = instellingen;
 		},
-		setDashboard (state, {path, value}) {
+		setDashboard(state, { path, value }) {
 			state.dashboard[path] = value;
 		},
-		resetInstellingen(state){
+		resetInstellingen(state) {
 			state.appData.instellingen = {
 				kleur: 'groen',
 				modus: 'licht',
 				valuta: '€'
-			}
-			state.admin = false
+			};
+			state.admin = false;
 		},
-		setWaitScreen(state, boolean){
-			state.appData.waitScreen = boolean
+		setWaitScreen(state, boolean) {
+			state.appData.waitScreen = boolean;
 		}
 	},
 	getters: {
@@ -110,7 +117,7 @@ export default new Vuex.Store({
 			return state.userData;
 		},
 		profiel(state, getters) {
-			if(getters.userData) return getters.userData.profiel
+			if (getters.userData) return getters.userData.profiel;
 		},
 		admin(state) {
 			return state.admin;
@@ -122,126 +129,134 @@ export default new Vuex.Store({
 			return state.appData.sidebar;
 		},
 		alleWerkvoorbereidingen(state, getters) {
-			if(getters.userData) return getters.userData.alleWVB
+			if (getters.userData) return getters.userData.alleWVB;
 		},
-		werkvoorbereiding(state){
+		werkvoorbereiding(state) {
 			return state.werkvoorbereiding;
 		},
-		werkvoorbereidingsObject: (state, getters) => (subObject) => {
-			if(getters.werkvoorbereiding) return getters.werkvoorbereiding[subObject]
+		werkvoorbereidingsObject: (state, getters) => subObject => {
+			if (getters.werkvoorbereiding) return getters.werkvoorbereiding[subObject];
 		},
-		instellingen(state){
-			return state.appData.instellingen
+		instellingen(state) {
+			return state.appData.instellingen;
 		},
-		valuta(state, getters){
-			return getters.instellingen.valuta
+		valuta(state, getters) {
+			return getters.instellingen.valuta;
 		},
-		dashboard(state){
-			return state.dashboard
+		dashboard(state) {
+			return state.dashboard;
 		},
 		newDate() {
 			const d = new Date();
-			return `${d.getDate()}-${d.getMonth() +
-				1}-${d.getFullYear()} ${d.getHours()}.${d.getMinutes()}`;
+			return `${d.getDate()}-${d.getMonth() + 1}-${d.getFullYear()} ${d.getHours()}.${d.getMinutes()}`;
+		},
+		hexColor(state, getters) {
+			if (getters.instellingen.kleur === 'roze') return '#e91e63';
+			if (getters.instellingen.kleur === 'rood') return '#e53935';
+			if (getters.instellingen.kleur === 'geel') return '#ffa726';
+			if (getters.instellingen.kleur === 'groen') return '#43a047';
+			if (getters.instellingen.kleur === 'blauw') return '#00acc1';
+			if (getters.instellingen.kleur === 'paars') return '#8e24aa';
+			if (getters.instellingen.kleur === 'grijs') return '#575757';
 		}
 	},
 	actions: {
-		authStateChange({getters, commit, dispatch}) {
+		authStateChange({ getters, commit, dispatch }) {
 			getters.fb.auth().onAuthStateChanged(user => {
-				commit("user", user ? user : null);
+				commit('user', user ? user : null);
 				if (user) {
-					dispatch("FbDatabaseListner", user.uid);
-					dispatch("checkRole", user.uid);
+					dispatch('FbDatabaseListner', user.uid);
+					dispatch('checkRole', user.uid);
 				}
 			});
 		},
-		FbDatabaseListner({getters, commit, dispatch}, userId) {
+		FbDatabaseListner({ getters, commit, dispatch }, userId) {
 			const userDatabaseRef = getters.fb.database().ref(`users/${userId}/`);
 			userDatabaseRef.on('value', snapshot => {
-				const userData = snapshot.val()
-				commit("userData", userData);
-				dispatch("userSettings");
-				dispatch("setFirstWvb")
+				const userData = snapshot.val();
+				commit('userData', userData);
+				dispatch('userSettings');
+				dispatch('setFirstWvb');
 			});
 		},
-		checkRole({getters, commit}, userId){
+		checkRole({ getters, commit }, userId) {
 			const checkAdminRef = getters.fb.database().ref(`roles/admin/${userId}`);
-			checkAdminRef.on('value',  snapshot => {
-				if (snapshot.val()) commit("admin", true);
+			checkAdminRef.on('value', snapshot => {
+				if (snapshot.val()) commit('admin', true);
 			});
 		},
-		setFirstWvb({commit, getters}){
-			const userData = getters.userData
-			if(userData.alleWVB){
-				if(!getters.werkvoorbereiding) commit("werkvoorbereiding", userData.alleWVB[Object.keys(userData.alleWVB)[0]]);
+		setFirstWvb({ commit, getters }) {
+			const userData = getters.userData;
+			if (userData.alleWVB) {
+				if (!getters.werkvoorbereiding) commit('werkvoorbereiding', userData.alleWVB[Object.keys(userData.alleWVB)[0]]);
 			}
 		},
-		login({getters}, {email, password}){
-			return new Promise(async (resolve) => { 
+		login({ getters }, { email, password }) {
+			return new Promise(async resolve => {
 				try {
-					const login = await getters.fb.auth().signInWithEmailAndPassword(email, password)
-					resolve(login) 
-				} catch(error) {
-					resolve(error)
+					const login = await getters.fb.auth().signInWithEmailAndPassword(email, password);
+					resolve(login);
+				} catch (error) {
+					resolve(error);
 				}
 			});
 		},
-		register({getters, dispatch}, {email, password}){
-			return new Promise(async (resolve) => { 
+		register({ getters, dispatch }, { email, password }) {
+			return new Promise(async resolve => {
 				try {
-					const register = await getters.fb.auth().createUserWithEmailAndPassword(email, password)
+					const register = await getters.fb.auth().createUserWithEmailAndPassword(email, password);
 					register.user.sendEmailVerification();
-					dispatch("newUserFirebase", register.user.uid);
-					resolve(register) 
-				} catch(error) {
-					resolve(error)
+					dispatch('newUserFirebase', register.user.uid);
+					resolve(register);
+				} catch (error) {
+					resolve(error);
 				}
 			});
 		},
-		newUserFirebase({getters}, userId) {
-			const userRef = getters.fb.database().ref(`users/${userId}/profiel`)
-			const currentUser = getters.user
+		newUserFirebase({ getters }, userId) {
+			const userRef = getters.fb.database().ref(`users/${userId}/profiel`);
+			const currentUser = getters.user;
 
 			userRef.set({
-				achtergrond: "",
-				achternaam: "",
+				achtergrond: '',
+				achternaam: '',
 				email: currentUser.email,
-				foto: "",
+				foto: '',
 				id: userId,
-				klas: "",
-				niveau: "",
-				over: "",
-				tussenvoegsel: "",
-				voornaam: "",
+				klas: '',
+				niveau: '',
+				over: '',
+				tussenvoegsel: '',
+				voornaam: ''
 			});
 		},
-		logout({getters, commit}) {
-			return new Promise(async (resolve, reject) => { 
+		logout({ getters, commit }) {
+			return new Promise(async (resolve, reject) => {
 				try {
-					await getters.fb.auth().signOut()
-					commit("resetInstellingen");
-					resolve(true)
-				} catch (error){
-					reject(error)
-				} 
+					await getters.fb.auth().signOut();
+					commit('resetInstellingen');
+					resolve(true);
+				} catch (error) {
+					reject(error);
+				}
 			});
 		},
-		dataToFirebase({getters}, {path, data}){
-			if(getters.user){
-				const userId = getters.user.uid
-				const ref = getters.fb.database().ref(`users/${userId}/${path}`)
+		dataToFirebase({ getters }, { path, data }) {
+			if (getters.user) {
+				const userId = getters.user.uid;
+				const ref = getters.fb.database().ref(`users/${userId}/${path}`);
 				ref.set(data);
 			}
 		},
-		deleteDataFirebase({getters}, path){
-			if(getters.user){
-				const userId = getters.user.uid
-				const ref = getters.fb.database().ref(`users/${userId}/${path}`)
+		deleteDataFirebase({ getters }, path) {
+			if (getters.user) {
+				const userId = getters.user.uid;
+				const ref = getters.fb.database().ref(`users/${userId}/${path}`);
 				ref.remove();
 			}
 		},
-		userSettings({getters, commit}){
-			if(getters.userData.instellingen) commit("instellingen", getters.userData.instellingen); 
+		userSettings({ getters, commit }) {
+			if (getters.userData.profiel.instellingen) commit('instellingen', getters.userData.profiel.instellingen);
 		}
 	}
 });
