@@ -62,11 +62,11 @@ export default {
 				confirmButtonColor: this.hexColor
 			}).queue(this.texts);
 
-			window.$('.swal2-active-progress-step').css('background-color', this.hexColor);
-			window
-				.$('.swal2-progress-step-line')
-				.css('background-color', this.hexColor)
-				.css('opacity', 0.3);
+			// window.$('.swal2-active-progress-step').css('background-color', this.hexColor);
+			// window
+			// 	.$('.swal2-progress-step-line')
+			// 	.css('background-color', this.hexColor)
+			// 	.css('opacity', 0.3);
 		}
 	}
 };

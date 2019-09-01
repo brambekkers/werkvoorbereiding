@@ -41,23 +41,12 @@ export default {
 		user() {
 			return this.$store.getters.user;
 		},
-		werkvoorbereidingen() {
+		werkvoorbereiding() {
 			return this.$store.getters.werkvoorbereiding;
 		},
 		stap() {
-			if (this.werkvoorbereiding) return this.werkvoorbereidingen.stap;
+			if (this.werkvoorbereiding) return this.werkvoorbereiding.stap;
 			return 0;
-		}
-	},
-	methods: {
-		makeWVBWarning() {
-			window.Swal.fire({
-				title: 'Geen werkvoorbereiding?',
-				text: 'Maak eerst een nieuwe werkvoorbereiding. Pas dan kun je naar het dashboard gaan om het overzicht te bekijken.',
-				confirmButtonColor: '#F33527',
-				confirmButtonText: 'Ik begrijp het!',
-				type: 'error'
-			});
 		}
 	},
 	components: {

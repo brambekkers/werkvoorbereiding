@@ -94,9 +94,15 @@ export default {
 
 .darkmode {
 	background: #303030 !important;
+
+	hr {
+		background: #e7e7e7;
+	}
+
 	.navbar {
 		i,
-		a {
+		a,
+		.icon-bar {
 			color: white !important;
 		}
 
@@ -106,10 +112,19 @@ export default {
 				background: #3f444b !important;
 			}
 		}
+
+		.navbar-toggler .icon-bar {
+			background-color: white !important;
+		}
 	}
 
 	.sidebar {
 		background: #212121 !important;
+
+		&::before,
+		.off-canvas-sidebar nav .navbar-collapse::before {
+			background: #212121 !important;
+		}
 
 		i,
 		p,
@@ -127,8 +142,13 @@ export default {
 		a,
 		input,
 		select,
-		h6 {
+		h6, h5,
+		h4 {
 			color: white !important;
+		}
+
+		.stap {
+			background: rgba(0, 0, 0, 0.2);
 		}
 	}
 }

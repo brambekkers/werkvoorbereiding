@@ -299,7 +299,7 @@ export default {
 		}
 	}
 	.maten:nth-child(odd) {
-		background: linear-gradient(60deg, rgba(0, 0, 0, 0.05), rgba(0, 0, 0, 0.2));
+		background: rgba(0, 0, 0, 0.1);
 	}
 }
 

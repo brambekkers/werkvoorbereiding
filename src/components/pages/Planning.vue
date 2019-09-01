@@ -511,7 +511,7 @@ export default {
 
 <style scoped>
 .planning {
-	background: linear-gradient(60deg, #f7f7f7, #ececec);
+	background: rgba(0, 0, 0, 0.05);
 	margin: 10px 0px;
 	padding: 0 1rem;
 	padding-top: 0.5rem;
@@ -521,7 +521,7 @@ export default {
 }
 
 .stap {
-	background: #ffffff;
+	background: rgba(255, 255, 255, 1);
 	padding: 0 1rem;
 	margin: 10px 0px;
 	padding-top: 0.3rem;
