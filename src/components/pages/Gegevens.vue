@@ -3,15 +3,14 @@
 		<div class="container-fluid">
 			<div class="row justify-content-center">
 				<div class="col-md-8 col-lg-6 col-xl-5">
-					<form
-						role="form"
-						@submit.prevent="nextStep()"
-					>
+					<form role="form" @submit.prevent="nextStep()">
 						<div class="card">
-							<CardHeader :text="{title: 'Basisgegevens', subtitle: 'De eerste stap...' }" />
+							<CardHeader :text="{ title: 'Basisgegevens', subtitle: 'De eerste stap...' }" />
 							<div class="card-body">
 								<div class="input-group mb-2">
-									<div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-tag fa-fw"></i></span></div>
+									<div class="input-group-prepend">
+										<span class="input-group-text"><i class="fa fa-tag fa-fw"></i></span>
+									</div>
 									<input
 										type="text"
 										placeholder="Project"
@@ -21,11 +20,13 @@
 										class="form-control"
 										data-original-title="Wat is de naam van je project?"
 										v-model="basisgegevens.project"
-									>
+									/>
 								</div>
-								<hr>
+								<hr />
 								<div class="input-group mb-2">
-									<div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-user fa-fw"></i></span></div>
+									<div class="input-group-prepend">
+										<span class="input-group-text"><i class="fa fa-user fa-fw"></i></span>
+									</div>
 									<input
 										type="text"
 										placeholder="Voor en achternaam"
@@ -35,10 +36,12 @@
 										class="form-control"
 										data-original-title="Vul hier jouw eigen naam in"
 										v-model="basisgegevens.naam"
-									>
+									/>
 								</div>
 								<div class="input-group mb-2">
-									<div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-graduation-cap fa-fw"></i></span></div>
+									<div class="input-group-prepend">
+										<span class="input-group-text"><i class="fa fa-graduation-cap fa-fw"></i></span>
+									</div>
 									<input
 										type="text"
 										placeholder="Klas"
@@ -48,10 +51,12 @@
 										class="form-control"
 										data-original-title="In welke klas zit je?"
 										v-model="basisgegevens.klas"
-									>
+									/>
 								</div>
 								<div class="input-group mb-2">
-									<div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-university fa-fw"></i></span></div>
+									<div class="input-group-prepend">
+										<span class="input-group-text"><i class="fa fa-university fa-fw"></i></span>
+									</div>
 									<input
 										type="text"
 										placeholder="Docent"
@@ -61,15 +66,11 @@
 										class="form-control"
 										data-original-title="Van wie krijg je les?"
 										v-model="basisgegevens.docent"
-									>
+									/>
 								</div>
 							</div>
 						</div>
-						<button
-							tag="button"
-							type="submit"
-							class="btn btn-lg btn-block"
-						>Start de werkvoorbereiding</button>
+						<button tag="button" type="submit" class="btn btn-lg btn-block">Start de werkvoorbereiding</button>
 					</form>
 				</div>
 			</div>
@@ -78,47 +79,55 @@
 </template>
 
 <script>
-import newWvb from "@/assets/config/newWvb.js";
-import CardHeader from "./attributes/Card-header.vue";
+import newWvb from '@/assets/config/newWvb.js';
+import CardHeader from './attributes/Card-header.vue';
 
 export default {
-	name: "Gegevens",
+	name: 'Gegevens',
 	components: { CardHeader },
 	data() {
 		return {
 			basisgegevens: newWvb.basisgegevens
 		};
 	},
+	watch: {
+		basisgegevens: {
+			handler() {
+				this.setData();
+			},
+			deep: true
+		},
+		werkvoorbereiding: {
+			handler() {
+				this.updateGegevens();
+			},
+			deep: true
+		}
+	},
 	computed: {
 		werkvoorbereiding() {
 			return this.$store.getters.werkvoorbereiding;
 		},
 		getBasisgegevens() {
-			return this.$store.getters.werkvoorbereidingsObject(
-				"basisgegevens"
-			);
+			return this.$store.getters.werkvoorbereidingsObject('basisgegevens');
 		}
 	},
 	methods: {
 		updateGegevens() {
-			if (this.getBasisgegevens) {
-				this.basisgegevens = this.getBasisgegevens;
-			}
+			if (this.getBasisgegevens) this.basisgegevens = this.getBasisgegevens;
+			else this.basisgegevens = newWvb.basisgegevens;
 		},
 		nextStep() {
 			this.setData();
-			this.$store.commit("verhoogStap", 2);
-			this.$router.push("/componenten");
+			this.$store.commit('verhoogStap', 2);
+			this.$router.push('/componenten');
 		},
 		setData() {
-			this.$store.commit("werkvoorbereiding", {
+			this.$store.commit('werkvoorbereiding', {
 				...this.werkvoorbereiding,
 				basisgegevens: this.basisgegevens
 			});
-			this.$store.dispatch("dataToFirebase", {
-				path: `alleWVB/${this.werkvoorbereiding.id}`,
-				data: this.werkvoorbereiding
-			});
+			this.$store.dispatch('wvbToFirebase');
 		}
 	},
 	mounted() {
@@ -130,6 +139,4 @@ export default {
 };
 </script>
 
-
-<style scoped>
-</style>
+<style scoped></style>

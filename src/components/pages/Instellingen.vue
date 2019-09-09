@@ -40,7 +40,7 @@
 										<p class="col-form-label">Valuta</p>
 									</div>
 									<div class="col-md-4 input-group">
-										<select class="form-control" v-model="instellingen.valuta">
+										<select class="form-control valutaSelect" v-model="instellingen.valuta">
 											<option value="€">Euro €</option>
 											<option value="$">Dollar $</option>
 											<option value="£">Pound £</option>

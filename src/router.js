@@ -41,7 +41,6 @@ export default new Router({
 	routes: [
 		// Pages
 		{ path: '*', name: 'Gegevens ', component: Gegevens },
-		// project pages
 		{
 			path: '/Gegevens',
 			name: 'Gegevens ',

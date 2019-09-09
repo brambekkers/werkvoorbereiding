@@ -1,20 +1,13 @@
 <template>
 	<div class="content">
 		<div class="container-fluid">
-			<form
-				role="form"
-				@submit.prevent="nextStep()"
-			>
+			<form role="form" @submit.prevent="nextStep()">
 				<div class="row justify-content-center">
 					<div class="col-md-10 col-lg-8 col-xl-7 col-xxl-6 col-xxxl-4 ">
 						<div class="card">
-							<CardHeader :text="{title: 'Componenten', subtitle: 'Deel je werk op in stukken' }" />
+							<CardHeader :text="{ title: 'Componenten', subtitle: 'Deel je werk op in stukken' }" />
 							<div class="card-body">
-								<div
-									class="row"
-									v-bind:key="index"
-									v-for="(component, index) in componenten"
-								>
+								<div class="row" v-bind:key="index" v-for="(component, index) in componenten">
 									<div class="col-md-7">
 										<div class="input-group mb-2">
 											<div class="input-group-prepend">
@@ -30,7 +23,7 @@
 												class="form-control"
 												data-original-title="Wat is de naam van het component?"
 												v-model="component.naam"
-											>
+											/>
 										</div>
 									</div>
 									<div class="col-8 col-md-3">
@@ -46,55 +39,38 @@
 												class="form-control"
 												data-original-title="Hoe vaak komt dit component voor in het project?"
 												v-model="component.aantal"
-											>
+											/>
 										</div>
 									</div>
 									<div class="col-2 col-md-2">
-										<div class="input-group mb-2"><button
-												type="button"
-												class="btn btn-sm btn-danger"
-												@click="removeComponent(index)"
-											><i class="fa fa-trash"></i></button></div>
+										<div class="input-group mb-2">
+											<button type="button" class="btn btn-sm btn-danger" @click="removeComponent(index)">
+												<i class="fa fa-trash"></i>
+											</button>
+										</div>
 									</div>
 									<div class="col-12 d-block d-md-none">
-										<hr>
+										<hr />
 									</div>
 								</div>
-								<hr>
-								<button
-									type="button"
-									class="btn"
-									@click="newComponent()"
-								><i class="fa fa-plus mr-3"></i>Nieuw component </button>
+								<hr />
+								<button type="button" class="btn" @click="newComponent()"><i class="fa fa-plus mr-3"></i>Nieuw component</button>
 							</div>
 						</div>
 						<div class="row">
 							<div class="col-md-6">
-								<button
-									type="button"
-									class="btn btn-lg btn-block btn-danger btn-fill"
-									@click="previousStep()"
-								>
+								<button type="button" class="btn btn-lg btn-block btn-danger btn-fill" @click="previousStep()">
 									<div class="row">
-										<div class="col-2"><i
-												aria-hidden="true"
-												class="fa fa-chevron-left"
-											></i></div>
+										<div class="col-2"><i aria-hidden="true" class="fa fa-chevron-left"></i></div>
 										<div class="col-10">Vorige stap</div>
 									</div>
 								</button>
 							</div>
 							<div class="col-md-6">
-								<button
-									type="submit"
-									class="btn btn-lg btn-block"
-								>
+								<button type="submit" class="btn btn-lg btn-block">
 									<div class="row">
 										<div class="col-10">Volgende stap</div>
-										<div class="col-2"><i
-												aria-hidden="true"
-												class="fa fa-chevron-right"
-											></i></div>
+										<div class="col-2"><i aria-hidden="true" class="fa fa-chevron-right"></i></div>
 									</div>
 								</button>
 							</div>
@@ -107,12 +83,12 @@
 </template>
 
 <script>
-import newWvb from "@/assets/config/newWvb.js";
+import newWvb from '@/assets/config/newWvb.js';
 
-import CardHeader from "./attributes/Card-header.vue";
+import CardHeader from './attributes/Card-header.vue';
 
 export default {
-	name: "Componenten",
+	name: 'Componenten',
 	components: { CardHeader },
 	data() {
 		return {
@@ -124,7 +100,7 @@ export default {
 			return this.$store.getters.werkvoorbereiding;
 		},
 		getComponenten() {
-			return this.$store.getters.werkvoorbereidingsObject("componenten");
+			return this.$store.getters.werkvoorbereidingsObject('componenten');
 		}
 	},
 	watch: {
@@ -133,40 +109,42 @@ export default {
 				this.setData();
 			},
 			deep: true
+		},
+		werkvoorbereiding: {
+			handler() {
+				this.updateGegevens();
+			},
+			deep: true
 		}
 	},
 	methods: {
 		updateGegevens() {
-			if (this.getComponenten) {
-				this.componenten = this.getComponenten;
-			}
+			if (this.getComponenten) this.componenten = this.getComponenten;
+			else this.componenten = newWvb.componenten;
 		},
 		newComponent() {
 			this.componenten.push({
-				naam: "",
-				aantal: ""
+				naam: '',
+				aantal: ''
 			});
 		},
 		removeComponent(i) {
 			this.componenten.splice(i, 1);
 		},
 		previousStep() {
-			this.$router.push("/gegevens");
+			this.$router.push('/gegevens');
 		},
 		nextStep() {
 			this.setData();
-			this.$store.commit("verhoogStap", 3);
-			this.$router.push("/materialen");
+			this.$store.commit('verhoogStap', 3);
+			this.$router.push('/materialen');
 		},
 		setData() {
-			this.$store.commit("werkvoorbereiding", {
+			this.$store.commit('werkvoorbereiding', {
 				...this.werkvoorbereiding,
 				componenten: this.componenten
 			});
-			this.$store.dispatch("dataToFirebase", {
-				path: `alleWVB/${this.werkvoorbereiding.id}`,
-				data: this.werkvoorbereiding
-			});
+			this.$store.dispatch('wvbToFirebase');
 		}
 	},
 	mounted() {
@@ -178,6 +156,4 @@ export default {
 };
 </script>
 
-
-<style scoped>
-</style>
+<style scoped></style>

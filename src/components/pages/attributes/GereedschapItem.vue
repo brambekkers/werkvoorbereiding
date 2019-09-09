@@ -1,22 +1,23 @@
 <template>
 	<div class="form-group">
 		<div class="material-switch">
-			<input @input="$emit('toggleTool', toolProps)" v-model="value" :id="toolKey" type="checkbox"/>
-			<label v-bind:for="toolKey" :style="{ 'background-color': hexColor}"></label>
+			<input v-model="getGereedschap[category][toolKey]" :id="toolKey" type="checkbox" />
+			<label v-bind:for="toolKey" :style="{ 'background-color': hexColor }"></label>
 		</div>
 		<label>{{ toolKey }}</label>
 	</div>
 </template>
 
 <script>
-import GereedschapItem from '../attributes/GereedschapItem';
-
 export default {
 	name: 'GereedschapItem',
-	props: ['value', 'toolKey', 'category'],
+	props: ['toolKey', 'category'],
 	computed: {
 		toolProps() {
 			return { category: this.category, toolKey: this.toolKey };
+		},
+		getGereedschap() {
+			return this.$store.getters.werkvoorbereidingsObject('gereedschap');
 		},
 		hexColor() {
 			return this.$store.getters.hexColor;

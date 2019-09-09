@@ -109,6 +109,12 @@
                     this.setData();
                 },
                 deep: true
+            },
+            werkvoorbereiding: {
+                handler() {
+                    this.updateGegevens();
+                },
+                deep: true
             }
         },
         computed: {
@@ -136,9 +142,8 @@
         },
         methods: {
             updateGegevens() {
-                if (this.getNacalculatie) {
-                    this.nacalculatie = this.getNacalculatie;
-                }
+                if (this.getNacalculatie) this.nacalculatie = this.getNacalculatie;
+                else this.nacalculatie = newWvb.nacalculatie;
             },
             newRegistration() {
                 this.nacalculatie.push({
@@ -155,10 +160,8 @@
                     ...this.werkvoorbereiding,
                     nacalculatie: this.nacalculatie
                 });
-                this.$store.dispatch("dataToFirebase", {
-                    path: `alleWVB/${this.werkvoorbereiding.id}`,
-                    data: this.werkvoorbereiding
-                })
+                this.$store.dispatch('wvbToFirebase');
+
             }
         },
         mounted() {

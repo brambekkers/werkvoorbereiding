@@ -5,7 +5,7 @@
 				<div class="row justify-content-center">
 					<div class="col-md-8 col-lg-6 col-xl-5">
 						<div class="card">
-							<CardHeader :text="{title: 'Optie: planning en kosten', subtitle: 'Extra informatie over tijd en geld' }" />
+							<CardHeader :text="{ title: 'Optie: planning en kosten', subtitle: 'Extra informatie over tijd en geld' }" />
 							<div class="card-body">
 								<h6 class="title"><strong>Planning</strong></h6>
 								<div class="row mb-2">
@@ -18,7 +18,7 @@
 											required="required"
 											class="form-control form-control-sm"
 											v-model="planningOpties.dagenWeek"
-										>
+										/>
 										<div class="input-group-append">p.w</div>
 									</div>
 								</div>
@@ -32,7 +32,7 @@
 											required="required"
 											class="form-control form-control-sm"
 											v-model="planningOpties.urenWerkdag"
-										>
+										/>
 										<div class="input-group-append">uur</div>
 									</div>
 								</div>
@@ -46,11 +46,11 @@
 											required="required"
 											class="form-control form-control-sm"
 											v-model="planningOpties.ineffectieveTijd"
-										>
+										/>
 										<div class="input-group-append">%</div>
 									</div>
 								</div>
-								<hr>
+								<hr />
 								<h6 class="title"><strong>Kosten</strong></h6>
 								<div class="row mb-2">
 									<div class="col-md-8">
@@ -62,8 +62,8 @@
 											required="required"
 											class="form-control form-control-sm"
 											v-model="planningOpties.uurtarief"
-										>
-										<div class="input-group-append">{{$store.state.appData.instellingen.valuta}}</div>
+										/>
+										<div class="input-group-append">{{ $store.state.appData.instellingen.valuta }}</div>
 									</div>
 								</div>
 								<div class="row mb-2">
@@ -76,8 +76,8 @@
 											required="required"
 											class="form-control form-control-sm"
 											v-model="planningOpties.indirecteKosten"
-										>
-										<div class="input-group-append">{{$store.state.appData.instellingen.valuta}}</div>
+										/>
+										<div class="input-group-append">{{ $store.state.appData.instellingen.valuta }}</div>
 									</div>
 								</div>
 								<div class="row mb-2">
@@ -90,7 +90,7 @@
 											required="required"
 											class="form-control form-control-sm"
 											v-model="planningOpties.winstOpslag"
-										>
+										/>
 										<div class="input-group-append">%</div>
 									</div>
 								</div>
@@ -104,7 +104,7 @@
 											required="required"
 											class="form-control form-control-sm"
 											v-model="planningOpties.btwTarief"
-										>
+										/>
 										<div class="input-group-append">%</div>
 									</div>
 								</div>
@@ -112,11 +112,7 @@
 						</div>
 						<div class="row">
 							<div class="col-md-12">
-								<button
-									type="button"
-									class="btn btn-lg btn-block btn-danger btn-fill"
-									@click.prevent="previous()"
-								>
+								<button type="button" class="btn btn-lg btn-block btn-danger btn-fill" @click.prevent="previous()">
 									terug
 								</button>
 							</div>
@@ -129,11 +125,11 @@
 </template>
 
 <script>
-import CardHeader from "./attributes/Card-header.vue";
-import newWvb from "@/assets/config/newWvb.js";
+import CardHeader from './attributes/Card-header.vue';
+import newWvb from '@/assets/config/newWvb.js';
 
 export default {
-	name: "PlanningOpties",
+	name: 'PlanningOpties',
 	components: { CardHeader },
 	data() {
 		return {
@@ -146,6 +142,12 @@ export default {
 				this.setData();
 			},
 			deep: true
+		},
+		werkvoorbereiding: {
+			handler() {
+				this.updateGegevens();
+			},
+			deep: true
 		}
 	},
 	computed: {
@@ -153,25 +155,20 @@ export default {
 			return this.$store.getters.werkvoorbereiding;
 		},
 		getPlanningOpties() {
-			return this.$store.getters.werkvoorbereidingsObject(
-				"planningOpties"
-			);
+			return this.$store.getters.werkvoorbereidingsObject('planningOpties');
 		}
 	},
 	methods: {
 		updateGegevens() {
-			if (this.getPlanningOpties)
-				this.planningOpties = this.getPlanningOpties;
+			if (this.getPlanningOpties) this.planningOpties = this.getPlanningOpties;
+			else this.planningOpties = newWvb.planningOpties;
 		},
 		setData() {
-			this.$store.commit("werkvoorbereiding", {
+			this.$store.commit('werkvoorbereiding', {
 				...this.werkvoorbereiding,
 				planningOpties: this.planningOpties
 			});
-			this.$store.dispatch("dataToFirebase", {
-				path: `alleWVB/${this.werkvoorbereiding.id}`,
-				data: this.werkvoorbereiding
-			});
+			this.$store.dispatch('wvbToFirebase');
 		},
 		previous() {
 			this.setData();
@@ -184,6 +181,4 @@ export default {
 };
 </script>
 
-
-<style scoped>
-</style>
+<style scoped></style>

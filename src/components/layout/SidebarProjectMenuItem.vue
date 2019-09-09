@@ -19,10 +19,10 @@ export default {
 			return this.$store.getters.sidebar;
 		},
 		canClick() {
+			if (this.pageToNum() === 1) return true;
 			if (this.werkvoorbereiding) {
 				return this.werkvoorbereiding.stap >= this.pageToNum() ? true : false;
 			}
-			if (this.pageToNum() === 1) return true;
 			return false;
 		},
 		icon() {

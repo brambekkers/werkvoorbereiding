@@ -230,13 +230,18 @@ export default {
 				this.setData();
 			},
 			deep: true
+		},
+		werkvoorbereiding: {
+			handler() {
+				this.updateGegevens();
+			},
+			deep: true
 		}
 	},
 	methods: {
 		updateGegevens() {
-			if (this.getMaten) {
-				this.maten = this.getMaten;
-			}
+			if (this.getMaten) this.maten = this.getMaten;
+			else this.maten = newWvb.maten;
 		},
 		newMaat() {
 			this.maten.push({
@@ -265,10 +270,7 @@ export default {
 				...this.werkvoorbereiding,
 				maten: this.maten
 			});
-			this.$store.dispatch('dataToFirebase', {
-				path: `alleWVB/${this.werkvoorbereiding.id}`,
-				data: this.werkvoorbereiding
-			});
+			this.$store.dispatch('wvbToFirebase');
 		}
 	},
 	mounted() {

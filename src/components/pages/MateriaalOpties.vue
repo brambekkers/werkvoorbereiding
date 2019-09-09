@@ -1,14 +1,11 @@
 <template>
 	<div class="content">
 		<div class="container-fluid">
-			<form
-				role="form"
-				@submit.prevent="previous()"
-			>
+			<form role="form" @submit.prevent="previous()">
 				<div class="row justify-content-center">
 					<div class="col-md-8 col-lg-6 col-xl-5">
 						<div class="card">
-							<CardHeader :text="{title: 'Optie: materialen', subtitle: 'Extra informatie over de materialen' }" />
+							<CardHeader :text="{ title: 'Optie: materialen', subtitle: 'Extra informatie over de materialen' }" />
 							<div class="card-body">
 								<h6 class="title"><strong>Massief hout</strong></h6>
 								<div class="row mb-2">
@@ -24,7 +21,7 @@
 											data-placement="top"
 											data-original-title="Hoeveel millimeter is één duims dik hout?"
 											v-model="materiaalOpties.maximaleDikteDuims"
-										>
+										/>
 										<div class="input-group-append">mm</div>
 									</div>
 								</div>
@@ -41,7 +38,7 @@
 											data-placement="top"
 											data-original-title="Hoeveel millimeter extra hout reken je voor de kopse kanten?"
 											v-model="materiaalOpties.overlengteKops"
-										>
+										/>
 										<div class="input-group-append">mm</div>
 									</div>
 								</div>
@@ -58,7 +55,7 @@
 											data-placement="top"
 											data-original-title="Hoeveel millimeter extra hout reken je voor de langs kanten?"
 											v-model="materiaalOpties.overlengteLangs"
-										>
+										/>
 										<div class="input-group-append">mm</div>
 									</div>
 								</div>
@@ -75,11 +72,11 @@
 											data-placement="top"
 											data-original-title="Wat is het percentage wat je extra rekent bij het gebruik van massief hout?"
 											v-model="materiaalOpties.opslagpercentageMassief"
-										>
-										<div class="input-group-append"> %</div>
+										/>
+										<div class="input-group-append">%</div>
 									</div>
 								</div>
-								<hr>
+								<hr />
 								<h6 class="title"><strong>Plaatmateriaal</strong></h6>
 								<div class="row mb-2">
 									<div class="col-md-8">
@@ -94,7 +91,7 @@
 											data-placement="top"
 											data-original-title="Hoeveel millimeter extra materiaal reken je voor de zijdes van het plaatmateriaal?"
 											v-model="materiaalOpties.overlengteZijdes"
-										>
+										/>
 										<div class="input-group-append">mm</div>
 									</div>
 								</div>
@@ -111,18 +108,15 @@
 											data-placement="top"
 											data-original-title="Wat is het percentage wat je extra rekent bij het gebruik van plaatmateriaal?"
 											v-model="materiaalOpties.opslagpercentagePlaat"
-										>
-										<div class="input-group-append"> %</div>
+										/>
+										<div class="input-group-append">%</div>
 									</div>
 								</div>
 							</div>
 						</div>
 						<div class="row">
 							<div class="col-md-12">
-								<button
-									type="submit"
-									class="btn btn-lg btn-block btn-danger btn-fill"
-								>
+								<button type="submit" class="btn btn-lg btn-block btn-danger btn-fill">
 									terug
 								</button>
 							</div>
@@ -135,11 +129,11 @@
 </template>
 
 <script>
-import CardHeader from "./attributes/Card-header.vue";
-import newWvb from "@/assets/config/newWvb.js";
+import CardHeader from './attributes/Card-header.vue';
+import newWvb from '@/assets/config/newWvb.js';
 
 export default {
-	name: "MateriaalOpties",
+	name: 'MateriaalOpties',
 	components: { CardHeader },
 	data() {
 		return {
@@ -152,6 +146,12 @@ export default {
 				this.setData();
 			},
 			deep: true
+		},
+		werkvoorbereiding: {
+			handler() {
+				this.updateGegevens();
+			},
+			deep: true
 		}
 	},
 	computed: {
@@ -159,27 +159,24 @@ export default {
 			return this.$store.getters.werkvoorbereiding;
 		},
 		getMateriaalOpties() {
-			return this.$store.getters.werkvoorbereidingsObject(
-				"materiaalOpties"
-			);
+			return this.$store.getters.werkvoorbereidingsObject('materiaalOpties');
 		}
 	},
 	methods: {
 		updateGegevens() {
-			if (this.getMateriaalOpties) {
-				this.materiaalOpties = this.getMateriaalOpties;
-			}
+			if (this.getMateriaalOpties) this.materiaalOpties = this.getMateriaalOpties;
+			else this.materiaalOpties = newWvb.materiaalOpties;
 		},
 		previous() {
 			this.setData();
 			this.$router.go(-1);
 		},
 		setData() {
-			this.$store.commit("werkvoorbereiding", {
+			this.$store.commit('werkvoorbereiding', {
 				...this.werkvoorbereiding,
 				materiaalOpties: this.materiaalOpties
 			});
-			this.$store.dispatch("dataToFirebase", {
+			this.$store.dispatch('wvbToFirebase', {
 				path: `alleWVB/${this.werkvoorbereiding.id}`,
 				data: this.werkvoorbereiding
 			});
@@ -194,6 +191,4 @@ export default {
 };
 </script>
 
-
-<style scoped>
-</style>
+<style scoped></style>

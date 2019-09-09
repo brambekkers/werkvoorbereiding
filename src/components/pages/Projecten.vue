@@ -1,31 +1,20 @@
 <template>
 	<div class="content">
 		<div class="container-fluid">
-			<div
-				class="row justify-content-center"
-				allewvb=""
-			>
+			<div class="row justify-content-center" allewvb="">
 				<div class="col-md-12">
 					<div class="card">
-						<CardHeader :text="{title: 'Projecten', subtitle: 'Kies een project waarmee je verder wilt gaan.' }" />
+						<CardHeader :text="{ title: 'Projecten', subtitle: 'Kies een project waarmee je verder wilt gaan.' }" />
 						<div class="row mt-3 mx-3 justify-content-center">
-							<div class="col-md-4 text-center"><button
-									class="btn btn-fill btn-block"
-									@click="newWvb()"
-								>Nieuw project</button></div>
+							<div class="col-md-4 text-center"><button class="btn btn-fill btn-block" @click="newWvb()">Nieuw project</button></div>
 							<div class="col-4 text-center"></div>
-							<div class="col-md-4 text-center"><button
-									class="btn btn-fill btn-danger btn-block"
-									@click="deleteWvb()"
-								>Verwijder
-									project</button></div>
+							<div class="col-md-4 text-center">
+								<button class="btn btn-fill btn-danger btn-block" @click="deleteWvb()">Verwijder project</button>
+							</div>
 						</div>
-						<hr class="mb-0">
+						<hr class="mb-0" />
 						<div class="card-body table-responsive">
-							<table
-								class="table table-hover table-striped"
-								v-if="projecten"
-							>
+							<table class="table table-hover table-striped" v-if="projecten" :class="{ 'table-dark': darkMode }">
 								<thead>
 									<tr>
 										<th style="width: 5%;">#</th>
@@ -43,12 +32,12 @@
 										@click="selectWvb(id)"
 										:class="selectedColor(id)"
 									>
-										<td>{{index+1}}</td>
-										<td>{{project.basisgegevens.project}}</td>
-										<td>{{aantalComponenten(id)}}</td>
-										<td>{{aantalOnderdelen(id)}}</td>
-										<td>{{aantalHandelingen(id)}}</td>
-										<td>{{project.laatsteBewerking}}</td>
+										<td>{{ index + 1 }}</td>
+										<td>{{ project.basisgegevens.project }}</td>
+										<td>{{ aantalComponenten(id) }}</td>
+										<td>{{ aantalOnderdelen(id) }}</td>
+										<td>{{ aantalHandelingen(id) }}</td>
+										<td>{{ project.laatsteBewerking }}</td>
 									</tr>
 								</tbody>
 							</table>
@@ -61,10 +50,10 @@
 </template>
 
 <script>
-import CardHeader from "./attributes/Card-header.vue";
+import CardHeader from './attributes/Card-header.vue';
 
 export default {
-	name: "Projecten",
+	name: 'Projecten',
 	components: { CardHeader },
 	computed: {
 		projecten() {
@@ -83,18 +72,21 @@ export default {
 			if (this.instellingen.kleur) {
 				return this.$store.state.appData.instellingen.kleur;
 			} else {
-				return "groen";
+				return 'groen';
 			}
+		},
+		darkMode() {
+			return this.$store.getters.instellingen.modus === 'licht' ? false : true;
 		}
 	},
 	methods: {
 		selectWvb(id) {
-			this.$store.commit("werkvoorbereiding", this.projecten[id]);
+			this.$store.commit('werkvoorbereiding', this.projecten[id]);
 		},
 		stringToDate(string) {
-			let str1 = string.replace(/-/g, " ");
-			let str2 = str1.replace(".", " ");
-			let res = str2.split(" ").map(Number);
+			let str1 = string.replace(/-/g, ' ');
+			let str2 = str1.replace('.', ' ');
+			let res = str2.split(' ').map(Number);
 			return new Date(res[2], res[1] - 1, res[0], res[3], res[4]);
 		},
 		aantalComponenten(i) {
@@ -125,36 +117,32 @@ export default {
 		deleteWvb() {
 			if (this.werkvoorbereiding) {
 				window.Swal.fire({
-					title: "Weet je het zeker?",
-					text:
-						"Wanneer je deze werkvoorbereiding verwijderd kun je het niet meer terughalen!",
-					confirmButtonColor: "#F33527",
-					confirmButtonText: "Ik weet het zeker!",
+					title: 'Weet je het zeker?',
+					text: 'Wanneer je deze werkvoorbereiding verwijderd kun je het niet meer terughalen!',
+					confirmButtonColor: '#F33527',
+					confirmButtonText: 'Ik weet het zeker!',
 					showCancelButton: true,
-					type: "warning"
+					type: 'warning'
 				}).then(result => {
 					if (result.value) {
 						window.Swal.fire({
-							text: "Poof! Je werkvoorbereiding is verwijderd!",
-							type: "success"
+							text: 'Poof! Je werkvoorbereiding is verwijderd!',
+							type: 'success'
 						});
-						this.$store.dispatch(
-							"deleteDataFirebase",
-							`alleWVB/${this.wvbId}`
-						);
-						this.$store.commit("werkvoorbereiding", null);
+						this.$store.dispatch('deleteDataFirebase', `alleWVB/${this.wvbId}`);
+						this.$store.commit('werkvoorbereiding', null);
 					}
 				});
 			} else {
 				window.Swal.fire({
-					text: "Er is geen werkvoorbereiding geselecteerd!",
-					type: "warning"
+					text: 'Er is geen werkvoorbereiding geselecteerd!',
+					type: 'warning'
 				});
 			}
 		},
 		newWvb() {
-			this.$store.commit("werkvoorbereiding", null);
-			this.$router.push("/");
+			this.$store.commit('werkvoorbereiding', null);
+			this.$router.push('/');
 		},
 		selectedColor(id) {
 			if (id === this.wvbId) {
@@ -165,7 +153,6 @@ export default {
 	mounted() {}
 };
 </script>
-
 
 <style scoped>
 .table thead tr th {
@@ -184,57 +171,43 @@ export default {
 .roze {
 	background-color: #e91e63;
 	background: linear-gradient(60deg, #d65a84, #e91e63);
-	-webkit-box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14),
-		0 7px 10px -5px rgba(233, 30, 99, 0.4);
-	box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14),
-		0 7px 10px -5px rgba(233, 30, 99, 0.4);
+	-webkit-box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 10px -5px rgba(233, 30, 99, 0.4);
+	box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 10px -5px rgba(233, 30, 99, 0.4);
 }
 
 .rood {
 	background: linear-gradient(60deg, #ef5350, #e53935);
-	-webkit-box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14),
-		0 7px 10px -5px rgba(244, 67, 54, 0.4);
-	box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14),
-		0 7px 10px -5px rgba(244, 67, 54, 0.4);
+	-webkit-box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 10px -5px rgba(244, 67, 54, 0.4);
+	box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 10px -5px rgba(244, 67, 54, 0.4);
 }
 
 .geel {
 	background: linear-gradient(60deg, #ffa726, #fb8c00);
-	-webkit-box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14),
-		0 7px 10px -5px rgba(255, 152, 0, 0.4);
-	box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14),
-		0 7px 10px -5px rgba(255, 152, 0, 0.4);
+	-webkit-box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 10px -5px rgba(255, 152, 0, 0.4);
+	box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 10px -5px rgba(255, 152, 0, 0.4);
 }
 
 .groen {
 	background: linear-gradient(60deg, #66bb6a, #43a047);
-	-webkit-box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14),
-		0 7px 10px -5px rgba(76, 175, 80, 0.4);
-	box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14),
-		0 7px 10px -5px rgba(76, 175, 80, 0.4);
+	-webkit-box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 10px -5px rgba(76, 175, 80, 0.4);
+	box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 10px -5px rgba(76, 175, 80, 0.4);
 }
 
 .blauw {
 	background: linear-gradient(60deg, #26c6da, #00acc1);
-	-webkit-box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14),
-		0 7px 10px -5px rgba(0, 188, 212, 0.4);
-	box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14),
-		0 7px 10px -5px rgba(0, 188, 212, 0.4);
+	-webkit-box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 10px -5px rgba(0, 188, 212, 0.4);
+	box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 10px -5px rgba(0, 188, 212, 0.4);
 }
 
 .paars {
 	background: linear-gradient(60deg, #ab47bc, #8e24aa);
-	-webkit-box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14),
-		0 7px 10px -5px rgba(156, 39, 176, 0.4);
-	box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14),
-		0 7px 10px -5px rgba(156, 39, 176, 0.4);
+	-webkit-box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 10px -5px rgba(156, 39, 176, 0.4);
+	box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 10px -5px rgba(156, 39, 176, 0.4);
 }
 
 .grijs {
 	background: linear-gradient(60deg, #858585, #575757);
-	-webkit-box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14),
-		0 7px 10px -5px rgba(163, 163, 163, 0.4);
-	box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14),
-		0 7px 10px -5px rgba(163, 163, 163, 0.4);
+	-webkit-box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 10px -5px rgba(163, 163, 163, 0.4);
+	box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 10px -5px rgba(163, 163, 163, 0.4);
 }
 </style>

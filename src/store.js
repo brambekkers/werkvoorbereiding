@@ -176,7 +176,7 @@ export default new Vuex.Store({
 				const userData = snapshot.val();
 				commit('userData', userData);
 				dispatch('userSettings');
-				dispatch('setFirstWvb');
+				dispatch('setLastEditWvb');
 			});
 		},
 		checkRole({ getters, commit }, userId) {
@@ -185,11 +185,24 @@ export default new Vuex.Store({
 				if (snapshot.val()) commit('admin', true);
 			});
 		},
-		setFirstWvb({ commit, getters }) {
-			const userData = getters.userData;
-			if (userData.alleWVB) {
-				if (!getters.werkvoorbereiding) commit('werkvoorbereiding', userData.alleWVB[Object.keys(userData.alleWVB)[0]]);
-			}
+		setLastEditWvb({ commit, getters }) {
+			const alleWVBArray = Object.values(getters.alleWerkvoorbereidingen);
+			alleWVBArray.sort((a, b) => {
+				const aArray = a.laatsteBewerking
+					.replace(/\W/g, ' ')
+					.split(' ')
+					.map(s => Number(s));
+				const bArray = b.laatsteBewerking
+					.replace(/\W/g, ' ')
+					.split(' ')
+					.map(s => Number(s));
+
+				return (
+					new Date(bArray[2], bArray[1], bArray[0], bArray[3], bArray[4]) - new Date(aArray[2], aArray[1], aArray[0], aArray[3], aArray[4])
+				);
+			});
+
+			if (!getters.werkvoorbereiding) commit('werkvoorbereiding', alleWVBArray[0]);
 		},
 		login({ getters }, { email, password }) {
 			return new Promise(async resolve => {
@@ -240,6 +253,14 @@ export default new Vuex.Store({
 					reject(error);
 				}
 			});
+		},
+		wvbToFirebase({ getters, dispatch }) {
+			if (getters.werkvoorbereiding.id) {
+				dispatch('dataToFirebase', {
+					path: `alleWVB/${getters.werkvoorbereiding.id}`,
+					data: getters.werkvoorbereiding
+				});
+			}
 		},
 		dataToFirebase({ getters }, { path, data }) {
 			if (getters.user) {

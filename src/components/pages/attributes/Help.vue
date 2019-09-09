@@ -9,7 +9,8 @@ export default {
 	name: 'Help',
 	computed: {
 		routeName() {
-			return this.$route.name.toLowerCase().replace(/\s+/g, '');
+			if (this.$route.name) return this.$route.name.toLowerCase().replace(/\s+/g, '');
+			return '';
 		},
 		hexColor() {
 			return this.$store.getters.hexColor;
@@ -51,6 +52,25 @@ export default {
 					}
 				];
 			}
+			if (this.routeName === 'materialen') {
+				return [
+					{
+						title: 'Welke materialen?',
+						html:
+							'Hier kun je de (hout) materialen invullen die je voor jouw project gaat gebruiken. Vul het massieve hout, plaatmateriaal en fineer in. Bij overige materialen kun je al je andere materialen verwerken. '
+					},
+					{
+						title: 'Kosten berekenen',
+						text:
+							'Om de kosten goed te kunnen berekenen moeten we de juiste waardes invullen voor de kosten. Massiefhout wordt berekend door prijs per m3. Plaatmateriaal en fineer gaat per m2.'
+					},
+					{
+						title: 'Materiaalopties',
+						text:
+							'Er zijn ook nog overige factoren waarmee we kunnen rekenen. Deze vindt je terug onder de "materiaal opties". Bekijk deze opties en pas ze aan op jouw project.s'
+					}
+				];
+			}
 			return [];
 		}
 	},
@@ -61,12 +81,6 @@ export default {
 				confirmButtonText: 'Volgende &rarr;',
 				confirmButtonColor: this.hexColor
 			}).queue(this.texts);
-
-			// window.$('.swal2-active-progress-step').css('background-color', this.hexColor);
-			// window
-			// 	.$('.swal2-progress-step-line')
-			// 	.css('background-color', this.hexColor)
-			// 	.css('opacity', 0.3);
 		}
 	}
 };

@@ -4,18 +4,11 @@
 			<div class="row justify-content-center">
 				<div class="col-md-8 col-lg-6 col-xl-5">
 					<div class="card">
-						<CardHeader :text="{title: 'Importeren', subtitle: 'Een opgeslagen WVB gebruiken' }" />
+						<CardHeader :text="{ title: 'Importeren', subtitle: 'Een opgeslagen WVB gebruiken' }" />
 						<div class="card-body">
 							<div class="row">
 								<div class="col-md-12">
-									<input
-										type="file"
-										class="form-control-file"
-										value="Import"
-										id="selectFiles"
-										accept='.json'
-										@change="getJson()"
-									>
+									<input type="file" class="form-control-file" value="Import" id="selectFiles" accept=".json" @change="getJson()" />
 								</div>
 								<div class="col-md-12 ">
 									<div class="form-group">
@@ -26,7 +19,7 @@
 											class="form-control h-75 mt-4 importResult"
 											v-model="wvbJson"
 										/>
-										</div>
+									</div>
 								</div>
 								<div class="col-md-12">
 									<button id="import" class="btn btn-block" @click="importeer()">Importeer</button>
@@ -41,10 +34,10 @@
 </template>
 
 <script>
-import CardHeader from "./attributes/Card-header.vue";
+import CardHeader from './attributes/Card-header.vue';
 
 export default {
-	name: "Importeren",
+	name: 'Importeren',
 	components: { CardHeader },
 	data() {
 		return {
@@ -58,7 +51,7 @@ export default {
 	},
 	methods: {
 		getJson() {
-			let el = document.getElementById("selectFiles");
+			let el = document.getElementById('selectFiles');
 			if (el.files[0]) {
 				let reader = new FileReader();
 
@@ -71,11 +64,9 @@ export default {
 		importeer() {
 			if (this.wvbJson) {
 				let obj = JSON.parse(this.wvbJson);
-				this.$store.commit("werkvoorbereiding", obj);
-				this.$store.dispatch("dataToFirebase", {
-					path: `alleWVB/${this.werkvoorbereiding.id}`,
-					data: this.werkvoorbereiding
-				});
+				this.$store.commit('werkvoorbereiding', obj);
+				this.$store.dispatch('wvbToFirebase');
+
 				this.succesMessage();
 			}
 		},
@@ -84,28 +75,26 @@ export default {
 		},
 		succesMessage() {
 			window.Swal.mixin({
-				type: "success",
-				title: "Data succesvol geimporteerd",
+				type: 'success',
+				title: 'Data succesvol geimporteerd',
 				toast: true,
-				position: "top-end",
+				position: 'top-end',
 				showConfirmButton: false,
 				timer: 3000
 			}).fire();
 		},
 		errorMessage() {
 			window.Swal.fire({
-				title: "Niet gevonden",
-				text:
-					"De werkvoorbereiding kon niet worden gevonden. Zorg dat je een geldig werkvoorbereidingsbestand selecteerd.",
-				confirmButtonColor: "#F33527",
-				confirmButtonText: "Ik begrijp het!",
-				type: "error"
+				title: 'Niet gevonden',
+				text: 'De werkvoorbereiding kon niet worden gevonden. Zorg dat je een geldig werkvoorbereidingsbestand selecteerd.',
+				confirmButtonColor: '#F33527',
+				confirmButtonText: 'Ik begrijp het!',
+				type: 'error'
 			});
 		}
 	}
 };
 </script>
-
 
 <style scoped>
 .importResult {

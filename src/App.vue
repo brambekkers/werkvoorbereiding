@@ -17,10 +17,10 @@
 			enter-active-class="bounceInLeft"
 			leave-active-class="bounceOutLeft"
 		>
-			<Sidebar data-html2canvas-ignore v-if="!landingPage" />
+			<Sidebar v-if="!landingPage" />
 		</transition>
 		<Main v-if="!landingPage" />
-		<Help data-html2canvas-ignore v-if="!landingPage" />
+		<Help v-if="!landingPage" />
 	</div>
 </template>
 
@@ -142,13 +142,18 @@ export default {
 		a,
 		input,
 		select,
-		h6, h5,
+		h6,
+		h5,
 		h4 {
 			color: white !important;
 		}
 
 		.stap {
 			background: rgba(0, 0, 0, 0.2);
+		}
+
+		.valutaSelect {
+			background-color: #555555;
 		}
 	}
 }

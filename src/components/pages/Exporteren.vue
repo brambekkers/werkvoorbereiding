@@ -123,21 +123,13 @@ export default {
 				let _this = this;
 				this.$store.commit('setWaitScreen', true);
 				this.$router.push('/dashboard');
-				// set to full width for screenshot
-				window.$('.main-panel').addClass('fullWidth');
-				window.$('.sidebar').addClass('hide');
 
 				// makes screenshot
 				setTimeout(async () => {
-					const canvas = await html2canvas(document.body, {
+					const el = document.getElementsByClassName('content')[0];
+					const canvas = await html2canvas(el, {
 						logging: false
 					});
-					// reset full width
-					window.$('.main-panel').removeClass('fullWidth');
-					window.$('.sidebar').removeClass('hide');
-
-					// window.$('.sidebar').show();
-					// window.$('.main-panel').css('width', 'calc(100% - 260px)');
 
 					this.$router.push('/exporteren');
 					this.$store.commit('setWaitScreen', false);

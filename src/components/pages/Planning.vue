@@ -1,18 +1,15 @@
 <template>
 	<div class="content">
 		<div class="container-fluid">
-			<form
-				role="form"
-				@submit.prevent="nextStep()"
-			>
+			<form role="form" @submit.prevent="nextStep()">
 				<div class="row justify-content-center">
 					<div class="col-xl-12">
 						<div class="card">
-							<CardHeader :text="{title: 'Planning', subtitle: 'Wanneer ga je het maken?' }" />
+							<CardHeader :text="{ title: 'Planning', subtitle: 'Wanneer ga je het maken?' }" />
 							<div class="card-body">
 								<draggable v-model="planning">
 									<div
-										v-bind:key="'Planning'+planningIndex"
+										v-bind:key="'Planning' + planningIndex"
 										v-for="(planning, planningIndex) in planning"
 										class="planning shadow-sm"
 									>
@@ -21,10 +18,7 @@
 											<div class="col-md-3 col-xl-2">
 												<div class="input-group mb-2">
 													<div class="input-group-prepend">
-														<span
-															id="basic-addon1"
-															class="input-group-text"
-														>
+														<span id="basic-addon1" class="input-group-text">
 															<i class="fas fa-list-ul grabbing"></i>
 														</span>
 													</div>
@@ -37,17 +31,11 @@
 														data-original-title="Voor welk component wil je een planning maken?"
 														v-model="planning.component"
 													>
-														<option
-															value=""
-															hidden
-															disabled
-															selected
-														>Kies component</option>
+														<option value="" hidden disabled selected>Kies component</option>
 														<option value="Gehele project">Gehele project</option>
-														<option
-															v-bind:key="index"
-															v-for="(component, index) in getComponenten"
-														>{{component.naam}}</option>
+														<option v-bind:key="index" v-for="(component, index) in getComponenten">{{
+															component.naam
+														}}</option>
 													</select>
 												</div>
 											</div>
@@ -63,38 +51,22 @@
 														data-original-title="Voor welk onderdeel?"
 														v-model="planning.onderdeel"
 													>
-														<option
-															value=""
-															hidden
-															disabled
-															selected
-															v-if="!planning.component"
-														>Kies eerst een component</option>
-														<option
-															value=""
-															hidden
-															disabled
-															selected
-															v-if="planning.component"
-														>Kies een onderdeel</option>
-														<option
-															value="Alle onderdelen"
-															v-if="planning.component"
-														>Alle onderdelen</option>
-														<option
-															v-bind:key="index"
-															v-for="(component, index) in onderdelen(planningIndex)"
-														>{{component.naam}}</option>
+														<option value="" hidden disabled selected v-if="!planning.component"
+															>Kies eerst een component</option
+														>
+														<option value="" hidden disabled selected v-if="planning.component"
+															>Kies een onderdeel</option
+														>
+														<option value="Alle onderdelen" v-if="planning.component">Alle onderdelen</option>
+														<option v-bind:key="index" v-for="(component, index) in onderdelen(planningIndex)">{{
+															component.naam
+														}}</option>
 													</select>
 												</div>
 											</div>
 											<div class="col-12 col-md-3 col-xl-2">
 												<div class="input-group">
-													<button
-														type="button"
-														class="btn btn-sm btn-block ml-auto"
-														@click="newStap(planningIndex)"
-													>
+													<button type="button" class="btn btn-sm btn-block ml-auto" @click="newStap(planningIndex)">
 														<i class="fa fa-plus mr-3"></i> Substap
 													</button>
 												</div>
@@ -112,19 +84,12 @@
 											</div>
 										</div>
 										<draggable v-model="planning.stappen">
-											<div
-												class="row stap shadow-sm ml-4"
-												v-bind:key="index"
-												v-for="(stap, index) in planning.stappen"
-											>
+											<div class="row stap shadow-sm ml-4" v-bind:key="index" v-for="(stap, index) in planning.stappen">
 												<!-- Stap -->
 												<div class="col-12 col-md-4 col-xl-2 pl-0">
 													<div class="input-group mb-2">
 														<div class="input-group-prepend">
-															<span
-																id="basic-addon1"
-																class="input-group-text"
-															>
+															<span id="basic-addon1" class="input-group-text">
 																<i class="far fa-hand-point-right grabbing"></i>
 															</span>
 														</div>
@@ -136,16 +101,8 @@
 															data-original-title="Welke stap ga je doen?"
 															v-model="stap.stap"
 														>
-															<option
-																value=""
-																hidden
-																selected
-																disabled
-															>Kies..</option>
-															<option
-																v-bind:key="index"
-																v-for="(stap, index) in onderdeelStappen"
-															>{{stap}}</option>
+															<option value="" hidden selected disabled>Kies..</option>
+															<option v-bind:key="index" v-for="(stap, index) in onderdeelStappen">{{ stap }}</option>
 														</select>
 													</div>
 												</div>
@@ -160,16 +117,12 @@
 															data-original-title="Voor welke werkzaamheid?"
 															v-model="stap.werkzaamheid"
 														>
-															<option
-																value=""
-																hidden
-																selected
-																disabled
-															>Kies..</option>
+															<option value="" hidden selected disabled>Kies..</option>
 															<option
 																v-bind:key="index"
 																v-for="(werkzaamheid, index) in onderdeelWerkzaamheid(stap.stap)"
-															>{{werkzaamheid}}</option>
+																>{{ werkzaamheid }}</option
+															>
 														</select>
 													</div>
 												</div>
@@ -184,16 +137,12 @@
 															data-original-title="Welke bewerking ga je uitvoeren?"
 															v-model="stap.bewerking"
 														>
-															<option
-																value=""
-																hidden
-																selected
-																disabled
-															>Kies..</option>
+															<option value="" hidden selected disabled>Kies..</option>
 															<option
 																v-bind:key="index"
 																v-for="(werkzaamheid, index) in onderdeelBewerking(stap.stap, stap.werkzaamheid)"
-															>{{werkzaamheid}}</option>
+																>{{ werkzaamheid }}</option
+															>
 														</select>
 													</div>
 												</div>
@@ -208,31 +157,24 @@
 															data-original-title="Heb je een gereedschap nodig?"
 															v-model="stap.gereedschap"
 														>
-															<option
-																value=""
-																hidden
-																selected
-																disabled
-															>Selecteer gereedschap</option>
-															<optgroup
-																label="Gereedschap"
-																v-if="gereedschappen"
-															>
+															<option value="" hidden selected disabled>Selecteer gereedschap</option>
+															<optgroup label="Gereedschap" v-if="gereedschappen.length">
 																<option
 																	:value="gereedschap"
 																	:key="index"
 																	v-for="(gereedschap, index) in gereedschappen"
-																>{{gereedschap}}</option>
+																	>{{ gereedschap }}</option
+																>
 															</optgroup>
-															<optgroup
-																label="Machines"
-																v-if="machines"
-															>
-																<option
-																	:value="gereedschap"
-																	:key="index"
-																	v-for="(gereedschap, index) in machines"
-																>{{gereedschap}}</option>
+															<optgroup label="Machines" v-if="machines.length">
+																<option :value="gereedschap" :key="index" v-for="(gereedschap, index) in machines">{{
+																	gereedschap
+																}}</option>
+															</optgroup>
+															<optgroup label="Zelf toegevoegd" v-if="userMade.length">
+																<option :value="gereedschap" :key="index" v-for="(gereedschap, index) in userMade">{{
+																	gereedschap
+																}}</option>
 															</optgroup>
 															<optgroup label="Overig">
 																<option value="Overig">Overig</option>
@@ -240,7 +182,8 @@
 																<option value="Handgereedschap">Handgereedschap</option>
 																<option value="Geen gereedschap">Geen gereedschap</option>
 															</optgroup>
-														</select></div>
+														</select>
+													</div>
 												</div>
 												<!-- Insteltijd -->
 												<div class="col-4 col-md-2 col-xl-1">
@@ -251,10 +194,11 @@
 															data-toggle="tooltip"
 															data-placement="top"
 															required="required"
+															min="0"
 															class="form-control"
 															data-original-title="Hoeveel minuten ben je bezig met instellen?"
 															v-model="stap.insteltijd"
-														>
+														/>
 													</div>
 												</div>
 												<!-- Bewerkingstijd -->
@@ -266,10 +210,11 @@
 															data-toggle="tooltip"
 															data-placement="top"
 															required="required"
+															min="1"
 															class="form-control"
 															data-original-title="Hoeveel minuten ben je bezig met één bewerking?"
 															v-model="stap.bewerkingstijd"
-														>
+														/>
 													</div>
 												</div>
 												<!-- Aantal -->
@@ -281,10 +226,11 @@
 															data-toggle="tooltip"
 															data-placement="top"
 															required="required"
+															min="1"
 															class="form-control"
 															data-original-title="Hoe vaak ga je dezelfde handeling uitvoeren?"
 															v-model="stap.aantal"
-														>
+														/>
 													</div>
 												</div>
 												<!-- Verwijderknop -->
@@ -304,24 +250,12 @@
 									</div>
 								</draggable>
 								<div class="d-flex justify-content-between">
-									<button
-										type="button"
-										class="btn"
-										@click="newOnderdeel()"
-									>
+									<button type="button" class="btn" @click="newOnderdeel()">
 										<i class="fa fa-plus mr-3"></i>
 										Nieuw onderdeel
 									</button>
-									<router-link
-										to="/planningOpties"
-										tag="button"
-										type="button"
-										class="btn"
-									>
-										<i
-											aria-hidden="true"
-											class="fas fa-edit mr-3"
-										></i>
+									<router-link to="/planningOpties" tag="button" type="button" class="btn">
+										<i aria-hidden="true" class="fas fa-edit mr-3"></i>
 										Planning en kosten instellingen
 									</router-link>
 								</div>
@@ -329,24 +263,15 @@
 						</div>
 						<div class="row">
 							<div class="col-md-6">
-								<button
-									type="button"
-									class="btn btn-lg btn-block btn-danger btn-fill"
-									@click="previousStep()"
-								>
+								<button type="button" class="btn btn-lg btn-block btn-danger btn-fill" @click="previousStep()">
 									<div class="row">
-										<div class="col-2"><i
-												aria-hidden="true"
-												class="fa fa-chevron-left"
-											></i></div>
+										<div class="col-2"><i aria-hidden="true" class="fa fa-chevron-left"></i></div>
 										<div class="col-10">Vorige stap</div>
 									</div>
-								</button></div>
+								</button>
+							</div>
 							<div class="col-md-6">
-								<button
-									type="submit"
-									class="btn btn-lg btn-block"
-								>
+								<button type="submit" class="btn btn-lg btn-block">
 									<div class="row">
 										<div class="col-12">Werkvoorbereiding afronden</div>
 									</div>
@@ -361,13 +286,13 @@
 </template>
 
 <script>
-import newWvb from "@/assets/config/newWvb.js";
-import draggable from "vuedraggable";
-import planningGegevens from "../../assets/config/planningGegevens.js";
-import CardHeader from "./attributes/Card-header.vue";
+import newWvb from '@/assets/config/newWvb.js';
+import draggable from 'vuedraggable';
+import planningGegevens from '../../assets/config/planningGegevens.js';
+import CardHeader from './attributes/Card-header.vue';
 
 export default {
-	name: "Planning",
+	name: 'Planning',
 	components: {
 		draggable,
 		CardHeader
@@ -383,6 +308,12 @@ export default {
 				this.setData();
 			},
 			deep: true
+		},
+		werkvoorbereiding: {
+			handler() {
+				this.updateGegevens();
+			},
+			deep: true
 		}
 	},
 	computed: {
@@ -390,38 +321,44 @@ export default {
 			return this.$store.getters.werkvoorbereiding;
 		},
 		getPlanning() {
-			return this.$store.getters.werkvoorbereidingsObject("planning");
+			return this.$store.getters.werkvoorbereidingsObject('planning');
 		},
 		getComponenten() {
-			return this.$store.getters.werkvoorbereidingsObject("componenten");
+			return this.$store.getters.werkvoorbereidingsObject('componenten');
 		},
 		getGereedschap() {
-			return this.$store.getters.werkvoorbereidingsObject("gereedschap");
+			return this.$store.getters.werkvoorbereidingsObject('gereedschap');
 		},
 		getMaten() {
-			return this.$store.getters.werkvoorbereidingsObject("maten");
+			return this.$store.getters.werkvoorbereidingsObject('maten');
 		},
 		gereedschappen() {
 			if (this.getGereedschap) {
 				const keys = Object.keys(this.getGereedschap.gereedschap);
 				if (keys) {
-					return keys.filter(
-						key => this.getGereedschap.gereedschap[key]
-					);
+					return keys.filter(key => this.getGereedschap.gereedschap[key]);
 				}
 			}
-			return []
+			return [];
 		},
 		machines() {
 			if (this.getGereedschap) {
 				const keys = Object.keys(this.getGereedschap.machines);
 				if (keys) {
-					return keys.filter(
-						key => this.getGereedschap.machines[key]
-					);
+					return keys.filter(key => this.getGereedschap.machines[key]);
 				}
 			}
-			return []
+			return [];
+		},
+		userMade() {
+			if (this.getGereedschap) {
+				if (!this.getGereedschap.userMade) return [];
+				const keys = Object.keys(this.getGereedschap.userMade);
+				if (keys) {
+					return keys.filter(key => this.getGereedschap.userMade[key]);
+				}
+			}
+			return [];
 		},
 		onderdeelStappen() {
 			return Object.keys(planningGegevens);
@@ -430,6 +367,7 @@ export default {
 	methods: {
 		updateGegevens() {
 			if (this.getPlanning) this.planning = this.getPlanning;
+			else this.planning = newWvb.planning;
 		},
 		onderdelen(i) {
 			if (this.getMaten && this.getPlanning) {
@@ -453,24 +391,24 @@ export default {
 		},
 		newOnderdeel() {
 			this.planning.push({
-				component: "",
-				onderdeel: "",
+				component: '',
+				onderdeel: '',
 				stappen: []
 			});
 			this.$forceUpdate();
 		},
 		newStap(i) {
 			if (!this.planning[i]) {
-				this.$set(this.planning[i], "stappen", []);
+				this.$set(this.planning[i], 'stappen', []);
 			}
 			this.planning[i].stappen.push({
-				aantal: "",
-				bewerking: "",
-				bewerkingstijd: "",
-				gereedschap: "",
-				insteltijd: "",
-				stap: "",
-				werkzaamheid: ""
+				aantal: '',
+				bewerking: '',
+				bewerkingstijd: '',
+				gereedschap: '',
+				insteltijd: '',
+				stap: '',
+				werkzaamheid: ''
 			});
 			this.$forceUpdate();
 		},
@@ -481,22 +419,19 @@ export default {
 			this.planning[planning].stappen.splice(i, 1);
 		},
 		previousStep() {
-			this.$router.push("/gereedschap");
+			this.$router.push('/gereedschap');
 		},
 		nextStep() {
 			this.setData();
-			this.$store.commit("verhoogStap", 7);
-			this.$router.push("/dashboard");
+			this.$store.commit('verhoogStap', 7);
+			this.$router.push('/dashboard');
 		},
 		setData() {
-			this.$store.commit("werkvoorbereiding", {
+			this.$store.commit('werkvoorbereiding', {
 				...this.werkvoorbereiding,
 				planning: this.planning
 			});
-			this.$store.dispatch("dataToFirebase", {
-				path: `alleWVB/${this.werkvoorbereiding.id}`,
-				data: this.werkvoorbereiding
-			});
+			this.$store.dispatch('wvbToFirebase');
 		}
 	},
 	mounted() {
@@ -507,7 +442,6 @@ export default {
 	}
 };
 </script>
-
 
 <style scoped>
 .planning {
