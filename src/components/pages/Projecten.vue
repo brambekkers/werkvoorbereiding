@@ -32,12 +32,14 @@
 										@click="selectWvb(id)"
 										:class="selectedColor(id)"
 									>
-										<td>{{ index + 1 }}</td>
-										<td>{{ project.basisgegevens.project }}</td>
-										<td>{{ aantalComponenten(id) }}</td>
-										<td>{{ aantalOnderdelen(id) }}</td>
-										<td>{{ aantalHandelingen(id) }}</td>
-										<td>{{ project.laatsteBewerking }}</td>
+										<template v-if="id != 'undefined'">
+											<td>{{ index + 1 }}</td>
+											<td>{{ project.basisgegevens.project }}</td>
+											<td>{{ aantalComponenten(id) }}</td>
+											<td>{{ aantalOnderdelen(id) }}</td>
+											<td>{{ aantalHandelingen(id) }}</td>
+											<td>{{ project.laatsteBewerking }}</td>
+										</template>
 									</tr>
 								</tbody>
 							</table>

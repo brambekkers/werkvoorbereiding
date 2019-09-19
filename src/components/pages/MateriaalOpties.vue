@@ -164,8 +164,8 @@ export default {
 	},
 	methods: {
 		updateGegevens() {
-			if (this.getMateriaalOpties) this.materiaalOpties = this.getMateriaalOpties;
-			else this.materiaalOpties = newWvb.materiaalOpties;
+			if (this.getMateriaalOpties) this.$set(this, 'materiaalOpties', this.getMateriaalOpties);
+			else this.$set(this, 'materiaalOpties', newWvb.materiaalOpties);
 		},
 		previous() {
 			this.setData();

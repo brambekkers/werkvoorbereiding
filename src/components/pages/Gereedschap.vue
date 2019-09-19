@@ -18,6 +18,8 @@
 									<hr class="mt-0" />
 									<GereedschapItem
 										v-for="(value, key) in gereedschap.gereedschap"
+										:value="{ data: value }"
+										@changetool="changeTool"
 										:key="key"
 										:toolKey="key"
 										:category="'gereedschap'"
@@ -27,14 +29,27 @@
 								<div :class="{ 'col-md-4 col-sm-6 border-right': gereedschap.userMade, 'col-sm-6': !gereedschap.userMade }">
 									<h5 class="title text-center"><strong>Machines</strong></h5>
 									<hr class="mt-0" />
-									<GereedschapItem v-for="(value, key) in gereedschap.machines" :key="key" :toolKey="key" :category="'machines'" />
+									<GereedschapItem
+										v-for="(value, key) in gereedschap.machines"
+										:key="key"
+										:value="{ data: value }"
+										@changetool="changeTool"
+										:toolKey="key"
+										:category="'machines'"
+									/>
 								</div>
 								<!-- userMade -->
 								<div class="col-md-4" v-if="gereedschap.userMade">
 									<h5 class="title text-center"><strong>Zelf toegevoegd</strong></h5>
 									<hr class="mt-0" />
 									<template v-for="(value, key) in gereedschap.userMade">
-										<GereedschapItem :key="key" :toolKey="key" :category="'userMade'" />
+										<GereedschapItem
+											:key="key"
+											:value="{ data: value }"
+											@changetool="changeTool"
+											:toolKey="key"
+											:category="'userMade'"
+										/>
 										<button
 											:key="`close_${key}`"
 											type="button"
@@ -123,8 +138,11 @@ export default {
 	},
 	methods: {
 		updateGegevens() {
-			if (this.getGereedschap) this.gereedschap = this.getGereedschap;
-			else this.gereedschap = newWvb.gereedschap;
+			if (this.getGereedschap) this.$set(this, 'gereedschap', this.getGereedschap);
+			else this.$set(this, 'gereedschap', newWvb.gereedschap);
+		},
+		changeTool(data) {
+			this.gereedschap[data.category][data.toolKey] = !this.gereedschap[data.category][data.toolKey];
 		},
 		previousStep() {
 			this.$router.push('/maten');

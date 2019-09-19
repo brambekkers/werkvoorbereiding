@@ -114,8 +114,8 @@ export default {
 	},
 	methods: {
 		updateGegevens() {
-			if (this.getBasisgegevens) this.basisgegevens = this.getBasisgegevens;
-			else this.basisgegevens = newWvb.basisgegevens;
+			if (this.getBasisgegevens) this.$set(this, 'basisgegevens', this.getBasisgegevens);
+			else this.$set(this, 'basisgegevens', newWvb.basisgegevens);
 		},
 		nextStep() {
 			this.setData();

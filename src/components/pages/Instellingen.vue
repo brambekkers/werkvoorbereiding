@@ -87,31 +87,31 @@ export default {
 
 <style scoped>
 .roze {
-	background-color: #e91e63;
+	background-color: #e91e63 !important;
 }
 
 .rood {
-	background-color: #e53935;
+	background-color: #e53935 !important;
 }
 
 .geel {
-	background-color: #ffa726;
+	background-color: #ffa726 !important;
 }
 
 .groen {
-	background-color: #43a047;
+	background-color: #43a047 !important;
 }
 
 .blauw {
-	background-color: #00acc1;
+	background-color: #00acc1 !important;
 }
 
 .paars {
-	background-color: #8e24aa;
+	background-color: #8e24aa !important;
 }
 
 .grijs {
-	background-color: #575757;
+	background-color: #575757 !important;
 }
 
 .donker {
@@ -121,7 +121,7 @@ export default {
 }
 
 .licht {
-	background-color: #fff;
+	background-color: #fff !important;
 	color: #555555;
 	padding-left: 1rem;
 }

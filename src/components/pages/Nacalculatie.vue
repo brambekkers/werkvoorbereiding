@@ -124,8 +124,8 @@
                 );
             },
             registrationAmount() {
-                if (this.nacalculatie) {
-                    return this.$store.state.werkvoorbereiding.nacalculatie.length
+                if (this.getNacalculatie) {
+                    return this.getNacalculatie.length
                 }
                 return 0
             },
@@ -142,8 +142,8 @@
         },
         methods: {
             updateGegevens() {
-                if (this.getNacalculatie) this.nacalculatie = this.getNacalculatie;
-                else this.nacalculatie = newWvb.nacalculatie;
+                if (this.getNacalculatie) this.$set(this, 'nacalculatie', this.getNacalculatie);
+                else this.$set(this, 'nacalculatie', newWvb.nacalculatie);
             },
             newRegistration() {
                 this.nacalculatie.push({

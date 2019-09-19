@@ -148,6 +148,12 @@ export default {
 			color: white !important;
 		}
 
+		select {
+			option {
+				background-color: #212121;
+			}
+		}
+
 		.stap {
 			background: rgba(0, 0, 0, 0.2);
 		}

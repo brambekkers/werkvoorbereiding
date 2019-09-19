@@ -160,8 +160,8 @@ export default {
 	},
 	methods: {
 		updateGegevens() {
-			if (this.getPlanningOpties) this.planningOpties = this.getPlanningOpties;
-			else this.planningOpties = newWvb.planningOpties;
+			if (this.getPlanningOpties) this.$set(this, 'planningOpties', this.getPlanningOpties);
+			else this.$set(this, 'planningOpties', newWvb.planningOpties);
 		},
 		setData() {
 			this.$store.commit('werkvoorbereiding', {

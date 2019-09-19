@@ -1,7 +1,7 @@
 <template>
 	<div class="form-group">
 		<div class="material-switch">
-			<input v-model="getGereedschap[category][toolKey]" :id="toolKey" type="checkbox" />
+			<input :id="toolKey" type="checkbox" v-model="value.data" @change="$emit('changetool', { toolKey, category })" />
 			<label v-bind:for="toolKey" :style="{ 'background-color': hexColor }"></label>
 		</div>
 		<label>{{ toolKey }}</label>
@@ -11,7 +11,7 @@
 <script>
 export default {
 	name: 'GereedschapItem',
-	props: ['toolKey', 'category'],
+	props: ['value', 'toolKey', 'category'],
 	computed: {
 		toolProps() {
 			return { category: this.category, toolKey: this.toolKey };

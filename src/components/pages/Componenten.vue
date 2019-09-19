@@ -119,8 +119,8 @@ export default {
 	},
 	methods: {
 		updateGegevens() {
-			if (this.getComponenten) this.componenten = this.getComponenten;
-			else this.componenten = newWvb.componenten;
+			if (this.getComponenten) this.$set(this, 'componenten', this.getComponenten);
+			else this.componenten = this.$set(this, 'componenten', newWvb.componenten);
 		},
 		newComponent() {
 			this.componenten.push({

@@ -257,8 +257,8 @@ export default {
 	},
 	methods: {
 		updateGegevens() {
-			if (this.getMaterialen) this.materialen = this.getMaterialen;
-			else this.materialen = newWvb.materialen;
+			if (this.getMaterialen) this.$set(this, 'materialen', this.getMaterialen);
+			else this.$set(this, 'materialen', newWvb.materialen);
 
 			if (this.valuta) this.money.prefix = `${this.valuta} `;
 		},

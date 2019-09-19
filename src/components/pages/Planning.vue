@@ -366,8 +366,8 @@ export default {
 	},
 	methods: {
 		updateGegevens() {
-			if (this.getPlanning) this.planning = this.getPlanning;
-			else this.planning = newWvb.planning;
+			if (this.getPlanning) this.$set(this, 'planning', this.getPlanning);
+			else this.$set(this, 'planning', newWvb.planning);
 		},
 		onderdelen(i) {
 			if (this.getMaten && this.getPlanning) {

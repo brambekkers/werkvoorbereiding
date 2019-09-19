@@ -134,8 +134,9 @@ export default {
 	},
 	methods: {
 		updateGegevens() {
-			if (this.getOverigeMaterialen) this.overigeMaterialen = this.getOverigeMaterialen;
-			else this.overigeMaterialen = newWvb.overigeMaterialen;
+			if (this.getOverigeMaterialen) this.$set(this, 'overigeMaterialen', this.getOverigeMaterialen);
+			else this.$set(this, 'overigeMaterialen', newWvb.overigeMaterialen);
+
 			if (this.valuta) this.money.prefix = `${this.valuta} `;
 		},
 		newMateriaal() {

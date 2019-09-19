@@ -79,6 +79,7 @@ export default new Vuex.Store({
 			state.werkvoorbereiding.laatsteBewerking = newDate;
 		},
 		verhoogStap(state, nextStap) {
+			if (!state.werkvoorbereiding.stap) state.werkvoorbereiding.stap = 1;
 			if (state.werkvoorbereiding.stap < nextStap) {
 				state.werkvoorbereiding.stap = nextStap;
 
@@ -188,18 +189,21 @@ export default new Vuex.Store({
 		setLastEditWvb({ commit, getters }) {
 			const alleWVBArray = Object.values(getters.alleWerkvoorbereidingen);
 			alleWVBArray.sort((a, b) => {
-				const aArray = a.laatsteBewerking
-					.replace(/\W/g, ' ')
-					.split(' ')
-					.map(s => Number(s));
-				const bArray = b.laatsteBewerking
-					.replace(/\W/g, ' ')
-					.split(' ')
-					.map(s => Number(s));
+				if (a.laatsteBewerking && b.laatsteBewerking) {
+					const aArray = a.laatsteBewerking
+						.replace(/\W/g, ' ')
+						.split(' ')
+						.map(s => Number(s));
+					const bArray = b.laatsteBewerking
+						.replace(/\W/g, ' ')
+						.split(' ')
+						.map(s => Number(s));
 
-				return (
-					new Date(bArray[2], bArray[1], bArray[0], bArray[3], bArray[4]) - new Date(aArray[2], aArray[1], aArray[0], aArray[3], aArray[4])
-				);
+					return (
+						new Date(bArray[2], bArray[1], bArray[0], bArray[3], bArray[4]) -
+						new Date(aArray[2], aArray[1], aArray[0], aArray[3], aArray[4])
+					);
+				}
 			});
 
 			if (!getters.werkvoorbereiding) commit('werkvoorbereiding', alleWVBArray[0]);

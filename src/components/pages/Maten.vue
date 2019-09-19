@@ -240,8 +240,8 @@ export default {
 	},
 	methods: {
 		updateGegevens() {
-			if (this.getMaten) this.maten = this.getMaten;
-			else this.maten = newWvb.maten;
+			if (this.getMaten) this.$set(this, 'maten', this.getMaten);
+			else this.$set(this, 'maten', newWvb.maten);
 		},
 		newMaat() {
 			this.maten.push({
