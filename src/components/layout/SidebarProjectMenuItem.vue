@@ -1,8 +1,10 @@
 <template>
 	<li class="nav-item pl-4">
-		<a class="nav-link" :class="{ pointer: canClick, 'text-light': darkMode }" @click.prevent="toPage()">
-			<i :class="icon"></i>
-			<p :class="{ 'text-light': darkMode }">{{ itemProps.page }}</p>
+		<a class="nav-link" :class="{ pointer: canClick, 'text-light': darkMode}" :style="{ 'background-color': hexColor }" @click.prevent="toPage()">
+			<p :class="{ 'text-light': darkMode, 'text-light': isBackground }">
+				<i :class="[icon, {'text-light': isBackground }]"></i>
+				{{ itemProps.page }}
+			</p>
 		</a>
 	</li>
 </template>
@@ -37,6 +39,15 @@ export default {
 		},
 		darkMode() {
 			return this.$store.getters.instellingen.modus === 'licht' ? false : true;
+		},
+		routeName() {
+			return this.$route.name.trim().toLowerCase();
+		},
+		isBackground(){
+			return this.itemProps.name === this.routeName || this.itemProps.page === this.routeName 
+		},
+		hexColor() {
+			return this.isBackground ? this.$store.getters.hexColor : null;
 		}
 	},
 	methods: {

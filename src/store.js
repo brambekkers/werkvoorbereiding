@@ -159,6 +159,9 @@ export default new Vuex.Store({
 			if (getters.instellingen.kleur === 'blauw') return '#00acc1';
 			if (getters.instellingen.kleur === 'paars') return '#8e24aa';
 			if (getters.instellingen.kleur === 'grijs') return '#575757';
+			else {
+				return '#999999';
+			}
 		}
 	},
 	actions: {

@@ -8,6 +8,7 @@
 					data-target="#filterCollapse"
 					aria-expanded="false"
 					aria-controls="filterCollapse"
+					:class="{ 'bg-secondary text-white': darkMode }"
 				>
 					<i class="fas fa-filter mr-2"></i>Filter
 				</button>
@@ -82,6 +83,9 @@ export default {
 		},
 		filter() {
 			return this.dashboard.filter;
+		},
+		darkMode() {
+			return this.$store.getters.instellingen.modus === 'licht' ? false : true;
 		}
 	}
 };

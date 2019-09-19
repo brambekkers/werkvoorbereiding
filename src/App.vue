@@ -92,6 +92,7 @@ export default {
 	}
 }
 
+// DARKMODE
 .darkmode {
 	background: #303030 !important;
 
@@ -133,6 +134,7 @@ export default {
 		}
 	}
 
+	// CARD
 	div.card {
 		background: #424242 !important;
 		-webkit-box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.5);
@@ -154,6 +156,11 @@ export default {
 			}
 		}
 
+		textarea {
+			background: #212121 !important;
+			border: black 2px solid;
+			border-radius: 5px;
+		}
 		.stap {
 			background: rgba(0, 0, 0, 0.2);
 		}

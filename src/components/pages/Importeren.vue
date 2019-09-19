@@ -16,7 +16,7 @@
 											rows="20"
 											disabled="disabled"
 											id="result"
-											class="form-control h-75 mt-4 importResult"
+											class="w-100 h-75 mt-4 importResult shadow"
 											v-model="wvbJson"
 										/>
 									</div>
@@ -102,7 +102,7 @@ export default {
 	color: #888888;
 	cursor: not-allowed;
 	border: 1px solid #e3e3e3;
-	border-bottom: 1px dotted #d2d2d2;
+	border-radius: 5px;
 	background-repeat: no-repeat;
 }
 </style>

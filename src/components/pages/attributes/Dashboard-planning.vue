@@ -67,7 +67,7 @@
 				</div>
 				<template v-if="stapBestaat">
 					<div class="planningBackground" v-bind:key="index" v-for="(dag, index) in planAgenda">
-						<div class="planningTitle pl-4 py-3">
+						<div class="bg-light pl-4 py-3 border-bottom" :class="{ 'bg-dark': darkMode }">
 							<h4>
 								<i class="far fa-calendar mr-3"></i>
 								Dag {{ index + 1 }}
@@ -76,10 +76,10 @@
 							<h4 class="float-right mr-5">Week {{ weekNummer(index + 1) }}</h4>
 						</div>
 						<div class="table-responsive">
-							<table class="table table-hover table-striped text-center table-sm">
+							<table class="table table-hover table-striped text-center table-sm mb-0" :class="{ 'table-dark darkHover': darkMode }">
 								<tbody>
 									<tr v-bind:key="index" v-for="(stap, index) in dag">
-										<th class="pl-3 text-left">{{ stap.tijd }} min</th>
+										<td class="pl-3 text-left font-weight-bold">{{ stap.tijd }} min</td>
 										<td>{{ stap.stap.component }}</td>
 										<td>{{ stap.stap.onderdeel }}</td>
 										<td>{{ stap.stap.stap }}</td>
@@ -185,6 +185,9 @@ export default {
 				return array;
 			}
 			return false;
+		},
+		darkMode() {
+			return this.$store.getters.instellingen.modus === 'licht' ? false : true;
 		}
 	},
 	methods: {
@@ -226,29 +229,20 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.darkHover tr:hover {
+	background-color: rgba(36, 36, 36, 0.75) !important;
+}
+
 .planningBackground {
-	background: #f7f7f7;
 	margin: 10px 0px;
+	border: solid 1px #d6d6d6;
 	border-radius: 0.2rem;
 }
 
-.planningTitle {
-	background: #dddddd;
-}
-
-.planningTitle h4 {
+.planningBackground div h4 {
 	display: inline-block;
 	margin-bottom: 0;
 	font-weight: 700;
-}
-
-.nacalculatie {
-	background-color: hsla(0, 0%, 100%, 0.2);
-	transition: background-color 0.3s 0.2s;
-}
-.nacalculatie:hover {
-	background-color: hsla(0, 0%, 100%, 0.4);
-	transition: background-color 0.3s 0.2s;
 }
 
 #filterList {

@@ -1,6 +1,13 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 
+// stop duplication error
+const originalPush = Router.prototype.push
+Router.prototype.push = function push(location, onResolve, onReject) {
+  if (onResolve || onReject) return originalPush.call(this, location, onResolve, onReject)
+  return originalPush.call(this, location).catch(err => err)
+}
+
 // project pages
 import Gegevens from './components/pages/Gegevens.vue';
 import Componenten from './components/pages/Componenten.vue';
@@ -40,71 +47,71 @@ export default new Router({
 	mode: 'history',
 	routes: [
 		// Pages
-		{ path: '*', name: 'Gegevens ', component: Gegevens },
+		{ path: '*', name: 'Gegevens', component: Gegevens },
 		{
 			path: '/Gegevens',
-			name: 'Gegevens ',
+			name: 'Gegevens',
 			component: Gegevens
 		},
 		{
 			path: '/Componenten',
-			name: 'Componenten ',
+			name: 'Componenten',
 			component: Componenten
 		},
 		{
 			path: '/Materialen',
-			name: 'Materialen ',
+			name: 'Materialen',
 			component: Materialen
 		},
 		{
 			path: '/OverigeMaterialen',
-			name: 'OverigeMaterialen ',
+			name: 'OverigeMaterialen',
 			component: OverigeMaterialen
 		},
 		{
 			path: '/Maten',
-			name: 'Maten ',
+			name: 'Maten',
 			component: Maten
 		},
 		{
 			path: '/Gereedschap',
-			name: 'Gereedschap ',
+			name: 'Gereedschap',
 			component: Gereedschap
 		},
 		{
 			path: '/Planning',
-			name: 'Planning ',
+			name: 'Planning',
 			component: Planning
 		},
 		{
 			path: '/Dashboard',
-			name: 'Dashboard ',
+			name: 'Dashboard',
 			component: Dashboard
 		},
 		{
 			path: '/NaCalculatie',
-			name: 'NaCalculatie ',
+			name: 'NaCalculatie',
 			component: NaCalculatie
 		},
 		// optie pages
 		{
 			path: '/MateriaalOpties',
-			name: 'MateriaalOpties ',
+			name: 'MateriaalOpties',
 			component: MateriaalOpties
 		},
 		{
 			path: '/PlanningOpties',
-			name: 'PlanningOpties ',
+			name: 'PlanningOpties',
 			component: PlanningOpties
 		},
 		{
 			path: '/Importeren',
-			name: 'Importeren ',
+			name: 'Importeren',
 			component: Importeren
 		},
 		{
 			path: '/Exporteren',
-			name: 'Exporteren ',
+			name: 'Exporteren',
 			component: Exporteren
 		},
 		// Profile pages
@@ -115,27 +122,27 @@ export default new Router({
 		},
 		{
 			path: '/register',
-			name: 'Register ',
+			name: 'Register',
 			component: Register
 		},
 		{
 			path: '/forgotPw',
-			name: 'ForgotPw ',
+			name: 'ForgotPw',
 			component: ForgotPw
 		},
 		{
 			path: '/account',
-			name: 'Profiel ',
+			name: 'Account',
 			component: Profiel
 		},
 		{
 			path: '/Projecten',
-			name: 'Projecten ',
+			name: 'Projecten',
 			component: Projecten
 		},
 		{
 			path: '/Statistieken',
-			name: 'Statistieken ',
+			name: 'Statistieken',
 			component: Statistieken
 		},
 		// Overige
@@ -146,22 +153,22 @@ export default new Router({
 		},
 		{
 			path: '/Over',
-			name: 'Over ',
+			name: 'Over',
 			component: Over
 		},
 		{
 			path: '/Privacy',
-			name: 'Privacy ',
+			name: 'Privacy',
 			component: Privacy
 		},
 		{
 			path: '/Admin',
-			name: 'Admin ',
+			name: 'Admin',
 			component: Admin
 		},
 		{
 			path: '/Licence',
-			name: 'Licence ',
+			name: 'Licence',
 			component: Licence
 		}
 	]

@@ -1,8 +1,10 @@
 <template>
 	<li class="nav-item">
-		<a class="nav-link" @click.prevent="changePage">
-			<i class="material-icons">{{ itemProps.icon }}</i>
-			<p>{{ linkName }}</p>
+		<a class="nav-link" @click.prevent="changePage" :style="{ 'background-color': hexColor }">
+			<p :class="{ 'text-light': isBackground }">
+				<i class="material-icons" :class="{ 'text-light': isBackground }">{{ itemProps.icon }}</i>
+				{{ linkName }}
+			</p>
 		</a>
 	</li>
 </template>
@@ -17,6 +19,15 @@ export default {
 		},
 		linkName() {
 			return this.itemProps.name ? this.itemProps.name : this.itemProps.page;
+		},
+		routeName() {
+			return this.$route.name.trim().toLowerCase();
+		},
+		isBackground(){
+			return this.itemProps.name === this.routeName || this.itemProps.page === this.routeName 
+		},
+		hexColor() {
+			return this.isBackground ? this.$store.getters.hexColor : null;
 		}
 	},
 	methods: {
