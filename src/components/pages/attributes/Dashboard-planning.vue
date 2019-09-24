@@ -20,49 +20,28 @@
 				</div>
 			</div>
 			<div class="card-body">
+				<!-- Planning filter options -->
 				<div class="collapse" id="filterPlanningCollapse">
-					<div class="card card-body  mt-1">
+					<div class="card card-body mt-1">
 						<h4>Filter opties</h4>
-						<h6>Category</h6>
-						<div id="filterList">
-							<div class="form-check pl-4" v-for="stap of filterStap" :key="stap">
-								<label class="form-check-label">
-									<input class="form-check-input" type="checkbox" />
-									{{ stap }}
-									<span class="form-check-sign">
-										<span class="check"></span>
-									</span>
-								</label>
+						<p>
+							Vink de opties aan die je zichtbaar wilt hebben in de planning. Alleen de planningsitems die aan jouw selectie voldoen
+							zullen zichtbaar zijn.
+						</p>
+						<div class="mt-2" v-for="(subObject, key1) in filterKeys" :key="key1">
+							<h6>{{ key1 }}</h6>
+							<div class="d-flex flex-wrap">
+								<div class="form-check pl-4" v-for="(val, key2) in subObject" :key="key2">
+									<label class="form-check-label">
+										<input class="form-check-input" type="checkbox" v-model="filterKeys[key1][key2]" />
+										{{ key2 }}
+										<span class="form-check-sign">
+											<span class="check"></span>
+										</span>
+									</label>
+								</div>
 							</div>
 						</div>
-
-						<h6>Handeling</h6>
-						<div class="d-flex flex-wrap">
-							<div class="form-check pl-4" v-for="bewerking of filterBewerking" :key="bewerking">
-								<label class="form-check-label">
-									<input class="form-check-input" type="checkbox" />
-									{{ bewerking }}
-									<span class="form-check-sign">
-										<span class="check"></span>
-									</span>
-								</label>
-							</div>
-						</div>
-
-						<h6>Machine</h6>
-						<div class="d-flex">
-							<div class="form-check pl-4" v-for="gereedschap of filterGereedschap" :key="gereedschap">
-								<label class="form-check-label">
-									<input class="form-check-input" type="checkbox" />
-									{{ gereedschap }}
-									<span class="form-check-sign">
-										<span class="check"></span>
-									</span>
-								</label>
-							</div>
-						</div>
-
-						<div id="filterList"></div>
 					</div>
 				</div>
 				<template v-if="stapBestaat">
@@ -78,14 +57,24 @@
 						<div class="table-responsive">
 							<table class="table table-hover table-striped text-center table-sm mb-0" :class="{ 'table-dark darkHover': darkMode }">
 								<tbody>
-									<tr v-bind:key="index" v-for="(stap, index) in dag">
-										<td class="pl-3 text-left font-weight-bold">{{ stap.tijd }} min</td>
-										<td>{{ stap.stap.component }}</td>
-										<td>{{ stap.stap.onderdeel }}</td>
-										<td>{{ stap.stap.stap }}</td>
-										<td>{{ stap.stap.bewerking }}</td>
-										<td>{{ stap.stap.gereedschap }}</td>
-									</tr>
+									<template v-for="(dagItem, index) in dag">
+										<tr
+											v-if="
+												allFilterOptionsOff ||
+													(filterKeys['stap'][dagItem.stap.stap] ||
+														filterKeys['bewerking'][dagItem.stap.bewerking] ||
+														filterKeys['gereedschap'][dagItem.stap.gereedschap])
+											"
+											:key="index"
+										>
+											<td class="pl-3 text-left font-weight-bold">{{ dagItem.tijd }} min</td>
+											<td>{{ dagItem.stap.component }}</td>
+											<td>{{ dagItem.stap.onderdeel }}</td>
+											<td>{{ dagItem.stap.stap }}</td>
+											<td>{{ dagItem.stap.bewerking }}</td>
+											<td>{{ dagItem.stap.gereedschap }}</td>
+										</tr>
+									</template>
 								</tbody>
 							</table>
 						</div>
@@ -103,7 +92,16 @@
 export default {
 	name: 'DashboardPlanning',
 	data() {
-		return {};
+		return {
+			filterKeys: {
+				stap: {},
+				bewerking: {},
+				gereedschap: {}
+			}
+		};
+	},
+	mounted() {
+		this.createFilterItems();
 	},
 	computed: {
 		minutenDag() {
@@ -139,10 +137,12 @@ export default {
 		},
 		planningStappenArray() {
 			let array = [];
-			for (const planning of this.getPlanning) {
-				if (planning.stappen) {
-					for (const stap of planning.stappen) {
-						array.push({ ...stap, component: planning.component, onderdeel: planning.onderdeel });
+			if (this.getPlanning) {
+				for (const planning of this.getPlanning) {
+					if (planning.stappen) {
+						for (const stap of planning.stappen) {
+							array.push({ ...stap, component: planning.component, onderdeel: planning.onderdeel });
+						}
 					}
 				}
 			}
@@ -186,6 +186,17 @@ export default {
 			}
 			return false;
 		},
+		allFilterOptionsOff() {
+			let allOff = true;
+			for (let [key, value] of Object.entries(this.filterKeys)) {
+				for (let [key, value] of Object.entries(value)) {
+					if (value) {
+						allOff = false;
+					}
+				}
+			}
+			return allOff;
+		},
 		darkMode() {
 			return this.$store.getters.instellingen.modus === 'licht' ? false : true;
 		}
@@ -223,6 +234,17 @@ export default {
 				}
 			}
 			return week;
+		},
+		createFilterItems() {
+			for (const stap of this.filterStap) {
+				this.$set(this.filterKeys.stap, stap, false);
+			}
+			for (const bewerking of this.filterBewerking) {
+				this.$set(this.filterKeys.bewerking, bewerking, false);
+			}
+			for (const gereedschap of this.filterGereedschap) {
+				this.$set(this.filterKeys.gereedschap, gereedschap, false);
+			}
 		}
 	}
 };

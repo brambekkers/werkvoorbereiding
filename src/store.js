@@ -59,16 +59,12 @@ export default new Vuex.Store({
 			state.appData.sidebar = boolean;
 		},
 		werkvoorbereiding(state, werkvoorbereiding) {
-			if (!state.werkvoorbereiding) {
-				state.werkvoorbereiding = {
-					id: `WVB_${uniqid()}`,
-					aangemaaktOp: this.getters.newDate,
-					stap: 1,
-					materiaalOpties: newWvb.materiaalOpties,
-					planningOpties: newWvb.planningOpties
-				};
-			}
+			// Make new wvb if wvb does not exist or there is no wvb.ID
+			if (!state.werkvoorbereiding) state.werkvoorbereiding = this.getters.newWVB;
+			else if (!state.werkvoorbereiding.id) state.werkvoorbereiding = this.getters.newWVB;
+			// If new WVB is null, set wvb in store to null
 			if (werkvoorbereiding === null) state.werkvoorbereiding = null;
+			// Merge data to store wvb
 			state.werkvoorbereiding = { ...state.werkvoorbereiding, ...werkvoorbereiding };
 			this.commit('laatsteBewerking');
 		},
@@ -82,7 +78,6 @@ export default new Vuex.Store({
 			if (!state.werkvoorbereiding.stap) state.werkvoorbereiding.stap = 1;
 			if (state.werkvoorbereiding.stap < nextStap) {
 				state.werkvoorbereiding.stap = nextStap;
-
 				this.dispatch('dataToFirebase', {
 					path: `alleWVB/${state.werkvoorbereiding.id}/stap`,
 					data: nextStap
@@ -128,6 +123,15 @@ export default new Vuex.Store({
 		},
 		sidebar(state) {
 			return state.appData.sidebar;
+		},
+		newWVB(state, getters) {
+			return {
+				id: `WVB_${uniqid()}`,
+				aangemaaktOp: getters.newDate,
+				stap: 1,
+				materiaalOpties: newWvb.materiaalOpties,
+				planningOpties: newWvb.planningOpties
+			};
 		},
 		alleWerkvoorbereidingen(state, getters) {
 			if (getters.userData) return getters.userData.alleWVB;
@@ -271,6 +275,8 @@ export default new Vuex.Store({
 		},
 		dataToFirebase({ getters }, { path, data }) {
 			if (getters.user) {
+				console.log(path);
+
 				const userId = getters.user.uid;
 				const ref = getters.fb.database().ref(`users/${userId}/${path}`);
 				ref.set(data);
