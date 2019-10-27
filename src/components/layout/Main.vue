@@ -1,6 +1,9 @@
 <template>
 	<main class="main-panel">
-		<Navbar data-html2canvas-ignore v-if="!landingPage" />
+		<Navbar
+			data-html2canvas-ignore
+			v-if="!landingPage && !isShare"
+		/>
 
 		<transition
 			name="bounce"
@@ -13,21 +16,27 @@
 		</transition>
 
 		<transition name="fade">
-			<div class="exitSidebarDiv" v-if="sidebar" @click="closeSidebar()" />
+			<div
+				class="exitSidebarDiv"
+				v-if="sidebar"
+				@click="closeSidebar()"
+			/>
 		</transition>
-		<WaitScreen data-html2canvas-ignore v-if="waitScreen" />
+		<WaitScreen
+			data-html2canvas-ignore
+			v-if="waitScreen"
+		/>
 		<Footer data-html2canvas-ignore />
 	</main>
 </template>
 
 <script>
-import Navbar from './Navbar';
-import Footer from './Footer';
-import WaitScreen from '../pages/attributes/WaitScreen.vue';
-// import Animate from "vue2-animate/dist/vue2-animate.min.css";
+import Navbar from "./Navbar";
+import Footer from "./Footer";
+import WaitScreen from "@/components/WaitScreen.vue";
 
 export default {
-	name: 'Main',
+	name: "Main",
 	created() {
 		this.closeSidebar();
 	},
@@ -43,6 +52,9 @@ export default {
 		},
 		waitScreen() {
 			return this.$store.state.appData.waitScreen;
+		},
+		isShare() {
+			return this.$route.name == "share";
 		}
 	},
 	components: {
@@ -53,9 +65,9 @@ export default {
 	methods: {
 		closeSidebar() {
 			if (this.sidebar) {
-				window.$('html').removeClass('nav-open');
-				window.$('.navbar-toggler').removeClass('toggled');
-				this.$store.commit('sidebar', false);
+				window.$("html").removeClass("nav-open");
+				window.$(".navbar-toggler").removeClass("toggled");
+				this.$store.commit("sidebar", false);
 			}
 		}
 	}

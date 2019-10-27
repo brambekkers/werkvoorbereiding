@@ -28,6 +28,7 @@ export default new Vuex.Store({
 			aantalUren: 0,
 			verkoopPrijsInclBtw: 0,
 			filter: {
+				gegevens: false,
 				verkoopprijs: true,
 				aantalWerkdagen: true,
 				aantalOnderdelen: true,
@@ -237,6 +238,16 @@ export default new Vuex.Store({
 				}
 			});
 		},
+		forgotPassword({ getters }, { email }) {
+			return new Promise(async resolve => {
+				try {
+					const forgotPw = await getters.fb.auth().sendPasswordResetEmail(email);
+					resolve(forgotPw);
+				} catch (error) {
+					resolve(error);
+				}
+			});
+		},
 		newUserFirebase({ getters }, userId) {
 			const userRef = getters.fb.database().ref(`users/${userId}/profiel`);
 			const currentUser = getters.user;
@@ -275,8 +286,6 @@ export default new Vuex.Store({
 		},
 		dataToFirebase({ getters }, { path, data }) {
 			if (getters.user) {
-				console.log(path);
-
 				const userId = getters.user.uid;
 				const ref = getters.fb.database().ref(`users/${userId}/${path}`);
 				ref.set(data);

@@ -144,7 +144,9 @@ export default {
 			}
 		},
 		loginMsg() {
-			window.Swal.fire("Je moet eerst inloggen om je statistieken te zien!");
+			window.Swal.fire(
+				"Je moet eerst inloggen om je statistieken te zien!"
+			);
 		}
 	}
 };

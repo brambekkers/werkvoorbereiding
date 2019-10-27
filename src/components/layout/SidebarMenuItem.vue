@@ -1,8 +1,15 @@
 <template>
 	<li class="nav-item">
-		<a class="nav-link" @click.prevent="changePage" :style="{ 'background-color': hexColor }">
+		<a
+			class="nav-link"
+			@click.prevent="changePage"
+			:style="{ 'background-color': hexColor }"
+		>
 			<p :class="{ 'text-light': isBackground }">
-				<i class="material-icons" :class="{ 'text-light': isBackground }">{{ itemProps.icon }}</i>
+				<i
+					class="material-icons"
+					:class="{ 'text-light': isBackground }"
+				>{{ itemProps.icon }}</i>
 				{{ linkName }}
 			</p>
 		</a>
@@ -11,20 +18,22 @@
 
 <script>
 export default {
-	name: 'SidebarMenuItem',
-	props: ['itemProps'],
+	name: "SidebarMenuItem",
+	props: ["itemProps"],
 	computed: {
 		sidebar() {
 			return this.$store.getters.sidebar;
 		},
 		linkName() {
-			return this.itemProps.name ? this.itemProps.name : this.itemProps.page;
+			return this.itemProps.name
+				? this.itemProps.name
+				: this.itemProps.page;
 		},
 		routeName() {
 			return this.$route.name.trim().toLowerCase();
 		},
-		isBackground(){
-			return this.itemProps.name === this.routeName || this.itemProps.page === this.routeName 
+		isBackground() {
+			return this.itemProps.name === this.routeName;
 		},
 		hexColor() {
 			return this.isBackground ? this.$store.getters.hexColor : null;
@@ -37,9 +46,9 @@ export default {
 		},
 		closeSidebar() {
 			if (this.sidebar) {
-				window.$('html').removeClass('nav-open');
-				window.$('.navbar-toggler').removeClass('toggled');
-				this.$store.commit('sidebar', false);
+				window.$("html").removeClass("nav-open");
+				window.$(".navbar-toggler").removeClass("toggled");
+				this.$store.commit("sidebar", false);
 			}
 		}
 	}

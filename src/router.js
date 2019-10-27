@@ -4,42 +4,43 @@ import Router from 'vue-router';
 // stop duplication error
 const originalPush = Router.prototype.push
 Router.prototype.push = function push(location, onResolve, onReject) {
-  if (onResolve || onReject) return originalPush.call(this, location, onResolve, onReject)
-  return originalPush.call(this, location).catch(err => err)
+	if (onResolve || onReject) return originalPush.call(this, location, onResolve, onReject)
+	return originalPush.call(this, location).catch(err => err)
 }
 
 // project pages
-import Gegevens from './components/pages/Gegevens.vue';
-import Componenten from './components/pages/Componenten.vue';
-import Materialen from './components/pages/Materialen.vue';
-import OverigeMaterialen from './components/pages/OverigeMaterialen.vue';
-import Maten from './components/pages/Maten.vue';
-import Gereedschap from './components/pages/Gereedschap.vue';
-import Planning from './components/pages/Planning.vue';
-import Dashboard from './components/pages/Dashboard.vue';
-import NaCalculatie from './components/pages/Nacalculatie.vue';
+import Gegevens from './pages/Gegevens.vue';
+import Componenten from './pages/Componenten.vue';
+import Materialen from './pages/Materialen.vue';
+import OverigeMaterialen from './pages/OverigeMaterialen.vue';
+import Maten from './pages/Maten.vue';
+import Gereedschap from './pages/Gereedschap.vue';
+import Planning from './pages/Planning.vue';
+import Dashboard from './pages/Dashboard.vue';
+import Share from './pages/Share.vue';
+import NaCalculatie from './pages/Nacalculatie.vue';
 
 // optie pages
-import MateriaalOpties from './components/pages/MateriaalOpties.vue';
-import PlanningOpties from './components/pages/PlanningOpties.vue';
+import MateriaalOpties from './pages/MateriaalOpties.vue';
+import PlanningOpties from './pages/PlanningOpties.vue';
 
-import Importeren from './components/pages/Importeren.vue';
-import Exporteren from './components/pages/Exporteren.vue';
+import Importeren from './pages/Importeren.vue';
+import Exporteren from './pages/Exporteren.vue';
 
 // Profile pages
-import Login from './components/pages/Login.vue';
-import Register from './components/pages/Register.vue';
-import ForgotPw from './components/pages/ForgotPw.vue';
-import Profiel from './components/pages/Profiel.vue';
-import Projecten from './components/pages/Projecten.vue';
-import Statistieken from './components/pages/Statistieken.vue';
+import Login from './pages/Login.vue';
+import Register from './pages/Register.vue';
+import ForgotPw from './pages/ForgotPw.vue';
+import Profiel from './pages/Profiel.vue';
+import Projecten from './pages/Projecten.vue';
+import Statistieken from './pages/Statistieken.vue';
 
 // Overige
-import Instellingen from './components/pages/Instellingen.vue';
-import Over from './components/pages/Over.vue';
-import Privacy from './components/pages/Privacy.vue';
-import Admin from './components/pages/Admin.vue';
-import Licence from './components/pages/Licence.vue';
+import Instellingen from './pages/Instellingen.vue';
+import Over from './pages/Over.vue';
+import Privacy from './pages/Privacy.vue';
+import Admin from './pages/Admin.vue';
+import Licence from './pages/Licence.vue';
 
 Vue.use(Router);
 
@@ -87,6 +88,11 @@ export default new Router({
 			path: '/Dashboard',
 			name: 'Dashboard',
 			component: Dashboard
+		},
+		{
+			path: '/share/:uid/:wvbid',
+			name: 'share',
+			component: Share
 		},
 		{
 			path: '/NaCalculatie',

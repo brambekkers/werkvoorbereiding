@@ -1,5 +1,9 @@
 <template>
-	<div id="app" class="wrapper" :class="{ darkmode: darkMode }">
+	<div
+		id="app"
+		class="wrapper"
+		:class="{ darkmode: darkMode }"
+	>
 		<transition
 			name="bounce"
 			mode="out-in"
@@ -17,7 +21,7 @@
 			enter-active-class="bounceInLeft"
 			leave-active-class="bounceOutLeft"
 		>
-			<Sidebar v-if="!landingPage" />
+			<Sidebar v-if="!landingPage && !isShare" />
 		</transition>
 		<Main v-if="!landingPage" />
 		<Help v-if="!landingPage" />
@@ -25,20 +29,20 @@
 </template>
 
 <script>
-import fb from 'firebase/app';
-import 'firebase/auth';
-import 'firebase/database';
+import fb from "firebase/app";
+import "firebase/auth";
+import "firebase/database";
 
-import 'vue2-animate/dist/vue2-animate.min.css';
-import './assets/css/material-dashboard.css';
+import "vue2-animate/dist/vue2-animate.min.css";
+import "./assets/css/material-dashboard.css";
 
-import Sidebar from './components/layout/Sidebar';
-import Main from './components/layout/Main';
-import Help from './components/pages/attributes/Help.vue';
-import Landing from './components/pages/Landing.vue';
+import Sidebar from "./components/layout/Sidebar";
+import Main from "./components/layout/Main";
+import Help from "./components/Help.vue";
+import Landing from "./pages/Landing.vue";
 
 export default {
-	name: 'app',
+	name: "app",
 	data() {
 		return {
 			fbConfig: {
@@ -58,7 +62,7 @@ export default {
 		Landing
 	},
 	created() {
-		this.$store.commit('initializeFbApp', fb.initializeApp(this.fbConfig));
+		this.$store.commit("initializeFbApp", fb.initializeApp(this.fbConfig));
 	},
 	computed: {
 		werkvoorbereiding() {
@@ -67,11 +71,13 @@ export default {
 		landingPage() {
 			return this.$store.getters.landingPage;
 		},
-		sidebar() {
-			return this.$store.getters.sidebar;
-		},
 		darkMode() {
-			return this.$store.getters.instellingen.modus === 'licht' ? false : true;
+			return this.$store.getters.instellingen.modus === "licht"
+				? false
+				: true;
+		},
+		isShare() {
+			return this.$route.name == "share";
 		}
 	}
 };
