@@ -35,6 +35,7 @@ export default new Vuex.Store({
 				favGereedschap: true,
 				materiaalKosten: true,
 				planningTijd: true,
+				materiaalstaat: false,
 				agenda: true
 			}
 		}
@@ -109,6 +110,7 @@ export default new Vuex.Store({
 					favGereedschap: true,
 					materiaalKosten: true,
 					planningTijd: true,
+					materiaalstaat: false,
 					agenda: true
 				}
 			};

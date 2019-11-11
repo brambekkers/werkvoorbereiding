@@ -12,10 +12,7 @@
 				<i class="fas fa-filter mr-2"></i>Filter
 			</button>
 		</div>
-		<div
-			class="collapse"
-			id="filterCollapse"
-		>
+		<div class="collapse" id="filterCollapse">
 			<div class="card card-body  mt-1">
 				<h4>Filter opties</h4>
 				<div id="filterList">
@@ -26,6 +23,7 @@
 					<FilterOptions :filterProps="{ name: 'Favoriet gereedschap', id: 'favGereedschap' }" />
 					<FilterOptions :filterProps="{ name: 'Materiaal kosten', id: 'materiaalKosten' }" />
 					<FilterOptions :filterProps="{ name: 'Plannings tijd', id: 'planningTijd' }" />
+					<FilterOptions :filterProps="{ name: 'Materiaalstaat', id: 'materiaalstaat' }" />
 					<FilterOptions :filterProps="{ name: 'Agenda', id: 'agenda' }" />
 				</div>
 			</div>
@@ -34,23 +32,20 @@
 </template>
 
 <script>
-import FilterOptions from "@/components/dashboard/Dashboard-filteroption.vue";
+import FilterOptions from '@/components/dashboard/Dashboard-filteroption.vue';
 
 export default {
-	name: "DashboardFilter",
+	name: 'DashboardFilter',
 	components: {
 		FilterOptions
 	},
 	computed: {
 		darkMode() {
-			return this.$store.getters.instellingen.modus === "licht"
-				? false
-				: true;
+			return this.$store.getters.instellingen.modus === 'licht' ? false : true;
 		}
 	}
 };
 </script>
-
 
 <style scoped lang="scss">
 #filter {

@@ -238,9 +238,4 @@ export default {
 	overflow: hidden;
 	color: #999;
 }
-
-.disabled {
-	opacity: 30%;
-	cursor: not-allowed;
-}
 </style>

@@ -270,6 +270,14 @@ button {
 	}
 }
 
+.socialIcon-small {
+	width: 30px !important;
+	height: 30px !important;
+	i {
+		font-size: 15px !important;
+	}
+}
+
 .mail {
 	background: #dd4b39;
 }
@@ -296,5 +304,10 @@ button {
 
 .microsoft {
 	background: #03a5f0;
+}
+
+.disabled {
+	opacity: 30%;
+	cursor: not-allowed;
 }
 </style>
