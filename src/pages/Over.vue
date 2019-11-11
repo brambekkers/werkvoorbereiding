@@ -45,7 +45,7 @@
 											<tbody>
 												<tr>
 													<th>Versie: </th>
-													<td>2.2.1</td>
+													<td>2.8.4</td>
 												</tr>
 												<tr>
 													<th>Laatst bijgewerkt: </th>

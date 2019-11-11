@@ -97,6 +97,21 @@ export default new Vuex.Store({
 				modus: 'licht',
 				valuta: '€'
 			};
+			state.dashboard = {
+				aantalWerkdagen: 0,
+				aantalUren: 0,
+				verkoopPrijsInclBtw: 0,
+				filter: {
+					gegevens: false,
+					verkoopprijs: true,
+					aantalWerkdagen: true,
+					aantalOnderdelen: true,
+					favGereedschap: true,
+					materiaalKosten: true,
+					planningTijd: true,
+					agenda: true
+				}
+			};
 			state.admin = false;
 		},
 		setWaitScreen(state, boolean) {
@@ -221,6 +236,22 @@ export default new Vuex.Store({
 				try {
 					const login = await getters.fb.auth().signInWithEmailAndPassword(email, password);
 					resolve(login);
+				} catch (error) {
+					resolve(error);
+				}
+			});
+		},
+		loginWithSocial({ getters }, provider) {
+			return new Promise(async resolve => {
+				try {
+					const login = await getters.fb.auth().signInWithPopup(provider)
+					const profileRef = this.$store.getters.fb.database().ref(`users/${register.user.uid}/profiel`);
+
+					// if new, register account in database
+					profileRef.on('value', profile => {
+						if (!profile.exists()) this.$store.dispatch('newUserFirebase', register.user.uid);
+					});
+					resolve(login)
 				} catch (error) {
 					resolve(error);
 				}

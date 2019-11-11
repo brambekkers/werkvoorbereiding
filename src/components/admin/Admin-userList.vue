@@ -95,23 +95,31 @@
 										class="avatar img-fluid"
 									/>
 								</div>
-								<div class="col-md-4">
+								<div class="col-md-5 profileInfo">
 									<h6>Profiel informatie</h6>
 									<p>
-										Naam:
-										<span v-if="user.profiel.voornaam">{{ user.profiel.voornaam }} {{ user.profiel.tussenvoegsel }} {{ user.profiel.achternaam }}</span>
+										<strong class="text-strong">Naam:</strong>
+										{{ user.profiel.voornaam }} {{ user.profiel.tussenvoegsel }} {{ user.profiel.achternaam }}
 									</p>
 									<p>
-										Klas: <span v-if="user.profiel.klas">{{ user.profiel.klas }}</span>
+										<strong>E-mail:</strong>
+										{{ user.profiel.email }}
 									</p>
 									<p>
-										Niveau: <span v-if="user.profiel.niveau">{{ user.profiel.niveau }}</span>
+										<strong>Klas:</strong>
+
+										{{ user.profiel.klas }}
 									</p>
 									<p>
-										id: <span v-if="user.profiel.id">{{ user.profiel.id }}</span>
+										<strong>Niveau:</strong>
+										{{ user.profiel.niveau }}
+									</p>
+									<p>
+										<strong>ID:</strong>
+										{{ user.profiel.id }}
 									</p>
 								</div>
-								<div class="col-md-6">
+								<div class="col-md-5">
 									<h6>Over Mij:</h6>
 									<p>{{ user.profiel.over }}</p>
 								</div>
@@ -131,7 +139,7 @@
 											v-for="(wvb, key, index) in user.alleWVB"
 											@click="copyWvb(wvb)"
 										>{{ index + 1 }}
-											<!-- - {{wvb.basisgegevens.project}} -->
+											- <span v-if="wvb.basisgegevens">{{ wvb.basisgegevens.project }}</span>
 										</a>
 									</div>
 								</div>
@@ -141,10 +149,10 @@
 				</div>
 			</div>
 		</div>
-		<nav aria-label="Page navigation example">
+		<div class="bottomNavBar">
 			<div
 				id="pageAmountContainer"
-				class="input-group mb-3 float-left w-25"
+				class="input-group mb-3"
 			>
 				<div class="input-group-prepend">
 					<label
@@ -165,14 +173,14 @@
 				</select>
 			</div>
 
-			<ul class="pagination justify-content-center mt-2">
+			<ul class="pagination d-flex justify-content-center mt-2">
 				<b-pagination
 					v-model="page"
 					:total-rows="userAmount"
 					:per-page="amount"
 				/>
 			</ul>
-		</nav>
+		</div>
 	</div>
 </template>
 
@@ -222,7 +230,23 @@ export default {
 		deleteUser(key) {},
 
 		copyWvb(wvb) {
-			this.$store.state.userData.alleWVB[wvb.basisgegevens.id] = wvb;
+			window.Swal.fire({
+				title: "Wil je deze wvb kopiëren?",
+				text:
+					"De werkvoorbereiding zal naar jouw account worden gekopieerd!",
+				confirmButtonColor: "#4caf50",
+				confirmButtonText: "Ja, doe dat!",
+				showCancelButton: true,
+				type: "info"
+			}).then(result => {
+				if (result.value) {
+					window.Swal.fire({
+						text: "Poof! Je hebt een kopie!",
+						type: "success"
+					});
+					this.$store.commit("werkvoorbereiding", wvb);
+				}
+			});
 		}
 	},
 	mounted() {
@@ -233,7 +257,15 @@ export default {
 };
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+.profileInfo {
+	p {
+		margin: 0;
+		font-size: 0.8rem;
+		line-height: 18px;
+	}
+}
+
 .cardlist {
 	cursor: pointer;
 	margin: 0;
@@ -282,7 +314,19 @@ export default {
 	background: #fff;
 }
 
-#pageAmountContainer {
-	position: absolute;
+.bottomNavBar {
+	margin: 10px 0;
+	display: flex;
+	flex-direction: row;
+
+	#pageAmountContainer {
+		width: 300px;
+	}
+
+	.pagination {
+		justify-content: center;
+		flex-grow: 1;
+		margin-left: -100px;
+	}
 }
 </style>

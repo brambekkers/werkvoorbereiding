@@ -4,6 +4,7 @@
 		class="sidebar"
 		data-color="green"
 	>
+		<div id="sidebarOverlay"></div>
 		<div class="logo">
 			<router-link
 				to="/"
@@ -14,7 +15,7 @@
 			<ul class="nav">
 				<SidebarMenuItem :itemProps="{ page: 'dashboard', name: 'dashboard',  icon: 'dashboard' }" />
 				<SidebarMenuItem :itemProps="{ page: user ? 'projecten' : 'login', name: 'projecten',  icon: 'content_paste' }" />
-				<SidebarMenuItem :itemProps="{ page: user ? 'profiel' : 'login', name: 'profiel', icon: 'person' }" />
+				<SidebarMenuItem :itemProps="{ page: user ? 'account' : 'login', name: 'profiel', icon: 'person' }" />
 				<hr />
 				<SidebarProjectMenuItem :itemProps="{ page: 'gegevens' }" />
 				<SidebarProjectMenuItem :itemProps="{ page: 'componenten' }" />
@@ -70,4 +71,21 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped lang="scss">
+.sidebar {
+	background-image: url("../../assets/img/standing.jpg");
+	background-position: center;
+	background-size: cover;
+	opacity: 0.93;
+
+	#sidebarOverlay {
+		position: absolute;
+		z-index: 3;
+		width: 100%;
+		height: 100%;
+		display: block;
+		background: #fff;
+		opacity: 0.93;
+	}
+}
+</style>

@@ -30,7 +30,8 @@ export default {
 		'Alle bewerkingen': ['Netto machineren', 'Bruto machineren']
 	},
 	Werkplaats: {
-		'Algemene bewerkingen': ['Freezen', 'Schroeven', 'Steken', 'Zagen', 'Schaven'],
+		Voorbereidingen: ['Afschrijven', 'Paren', 'Onderhoud', 'Opruimen'],
+		'Algemene bewerkingen': ['Afschrijven', 'Freezen', 'Schroeven', 'Steken', 'Zagen', 'Schaven'],
 		Verbindingen: ['Pen-gatverbinding', 'Tandverbinding', 'Zwaluwstaartverbinding', 'Lamello', 'Domino'],
 		Montage: ['Fineer plakken', 'Kantenband', 'Lijmen'],
 		Afmontage: ['Afhangen', 'Stellen'],

@@ -40,7 +40,7 @@ export default {
 	height: 100vh;
 	width: 100vw;
 	min-height: 100vh;
-	background: url("../assets/img/landing1.jpg");
+	background-image: url("../assets/img/landing.jpg");
 	background-repeat: no-repeat;
 	background-size: cover;
 	display: flex;

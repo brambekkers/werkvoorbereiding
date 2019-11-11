@@ -96,13 +96,23 @@
 														filterKeys['gereedschap'][dagItem.stap.gereedschap])
 											"
 											:key="index"
+											class="border-bottom "
 										>
-											<td class="pl-3 text-left font-weight-bold">{{ dagItem.tijd }} min</td>
-											<td>{{ dagItem.stap.component }}</td>
-											<td>{{ dagItem.stap.onderdeel }}</td>
-											<td>{{ dagItem.stap.stap }}</td>
-											<td>{{ dagItem.stap.bewerking }}</td>
-											<td>{{ dagItem.stap.gereedschap }}</td>
+											<div class="row m-0 p-2 bord ">
+												<div class="col-1 pl-3 text-left font-weight-bold">{{ dagItem.tijd }} min</div>
+												<div class="col-2">{{ dagItem.stap.component }}</div>
+												<div class="col-2">{{ dagItem.stap.onderdeel }}</div>
+												<div class="col-2">{{ dagItem.stap.stap }}</div>
+												<div class="col-2">{{ dagItem.stap.bewerking }}</div>
+												<div class="col-2">{{ dagItem.stap.gereedschap }}</div>
+
+												<div
+													class="col-12 pl-3 text-left"
+													v-if="dagItem.stap.extraInfo"
+												><span class="font-weight-bold">Extra: </span>{{dagItem.stap.extraInfo}}</div>
+
+											</div>
+
 										</tr>
 									</template>
 								</tbody>
