@@ -134,7 +134,7 @@ export default {
 			if (this.werkvoorbereiding) {
 				if (this.werkvoorbereiding.planning) return this.werkvoorbereiding.planning;
 			}
-			return false;
+			return [];
 		},
 		getPlanningOpties() {
 			if (this.werkvoorbereiding) {

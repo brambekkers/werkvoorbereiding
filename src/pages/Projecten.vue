@@ -58,6 +58,9 @@ export default {
 	name: 'Projecten',
 	components: { CardHeader },
 	computed: {
+		user() {
+			return this.$store.getters.user;
+		},
 		projecten() {
 			return this.$store.getters.alleWerkvoorbereidingen;
 		},
@@ -152,7 +155,9 @@ export default {
 			}
 		}
 	},
-	mounted() {}
+	mounted() {
+		if (this.user) this.$store.dispatch('FbDataDownload', this.user.uid);
+	}
 };
 </script>
 

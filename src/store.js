@@ -10,6 +10,7 @@ export default new Vuex.Store({
 		fb: null,
 		user: null,
 		admin: false,
+		canUpload: true,
 
 		appData: {
 			landingPage: true,
@@ -45,6 +46,9 @@ export default new Vuex.Store({
 			state.fb = fb;
 			this.dispatch('authStateChange');
 		},
+		canUpload(state, boolean) {
+			state.canUpload = boolean
+		},
 		user(state, user) {
 			state.user = user;
 		},
@@ -62,13 +66,27 @@ export default new Vuex.Store({
 		},
 		werkvoorbereiding(state, werkvoorbereiding) {
 			// Make new wvb if wvb does not exist or there is no wvb.ID
-			if (!state.werkvoorbereiding) state.werkvoorbereiding = this.getters.newWVB;
-			else if (!state.werkvoorbereiding.id) state.werkvoorbereiding = this.getters.newWVB;
+			if (!state.werkvoorbereiding) {
+				state.werkvoorbereiding = this.getters.newWVB;
+				this.commit('laatsteBewerking');
+				return
+			} else if (!state.werkvoorbereiding.id) {
+				state.werkvoorbereiding = this.getters.newWVB;
+				this.commit('laatsteBewerking');
+				return
+			}
+
 			// If new WVB is null, set wvb in store to null
-			if (werkvoorbereiding === null) state.werkvoorbereiding = null;
+			if (werkvoorbereiding === null) {
+				state.werkvoorbereiding = null
+				return
+			}
+
+			// Update the WVB
 			// Merge data to store wvb
-			state.werkvoorbereiding = { ...state.werkvoorbereiding, ...werkvoorbereiding };
+			state.werkvoorbereiding = werkvoorbereiding;
 			this.commit('laatsteBewerking');
+
 		},
 		laatsteBewerking(state) {
 			const d = new Date();
@@ -123,6 +141,9 @@ export default new Vuex.Store({
 	getters: {
 		fb(state) {
 			return state.fb;
+		},
+		canUpload(state) {
+			return state.canUpload
 		},
 		user(state) {
 			return state.user;
@@ -191,14 +212,15 @@ export default new Vuex.Store({
 			getters.fb.auth().onAuthStateChanged(user => {
 				commit('user', user ? user : null);
 				if (user) {
-					dispatch('FbDatabaseListner', user.uid);
+					dispatch('FbDataDownload', user.uid);
 					dispatch('checkRole', user.uid);
 				}
 			});
 		},
-		FbDatabaseListner({ getters, commit, dispatch }, userId) {
+		FbDataDownload({ getters, commit, dispatch }, userId) {
 			const userDatabaseRef = getters.fb.database().ref(`users/${userId}/`);
-			userDatabaseRef.on('value', snapshot => {
+			userDatabaseRef.once('value', snapshot => {
+				console.log('download')
 				const userData = snapshot.val();
 				commit('userData', userData);
 				dispatch('userSettings');
@@ -317,18 +339,26 @@ export default new Vuex.Store({
 				});
 			}
 		},
-		dataToFirebase({ getters }, { path, data }) {
-			if (getters.user) {
+		dataToFirebase({ getters, commit }, { path, data }) {
+			if (getters.user && getters.canUpload) {
+				console.log('upload')
 				const userId = getters.user.uid;
 				const ref = getters.fb.database().ref(`users/${userId}/${path}`);
 				ref.set(data);
+
+				// Set Timeout for upload
+				commit('canUpload', false);
+				setTimeout(() => commit('canUpload', true), 2000)
+
 			}
 		},
-		deleteDataFirebase({ getters }, path) {
+		deleteDataFirebase({ getters, dispatch }, path) {
 			if (getters.user) {
 				const userId = getters.user.uid;
 				const ref = getters.fb.database().ref(`users/${userId}/${path}`);
 				ref.remove();
+
+				dispatch('FbDataDownload', getters.user.uid);
 			}
 		},
 		userSettings({ getters, commit }) {

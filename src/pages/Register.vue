@@ -49,10 +49,10 @@
 										<div class="socialIcon google" @click="loginWithGoogle()">
 											<i class="fab fa-google"></i>
 										</div>
-										<div class="socialIcon facebook disabled">
+										<div class="socialIcon facebook disabledIcon">
 											<i class="fab fa-facebook"></i>
 										</div>
-										<div class="socialIcon microsoft disabled">
+										<div class="socialIcon microsoft disabledIcon">
 											<i class="fab fa-microsoft"></i>
 										</div>
 									</div>

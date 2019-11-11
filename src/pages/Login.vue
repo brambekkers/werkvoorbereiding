@@ -12,10 +12,10 @@
 										<div class="socialIcon socialIcon-small google" @click="loginWithGoogle()">
 											<i class="fab fa-google"></i>
 										</div>
-										<div class="socialIcon  socialIcon-small facebook disabled">
+										<div class="socialIcon  socialIcon-small facebook disabledIcon">
 											<i class="fab fa-facebook"></i>
 										</div>
-										<div class="socialIcon  socialIcon-small microsoft disabled">
+										<div class="socialIcon  socialIcon-small microsoft disabledIcon">
 											<i class="fab fa-microsoft"></i>
 										</div>
 									</div>

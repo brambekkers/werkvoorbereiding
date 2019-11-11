@@ -306,7 +306,7 @@ button {
 	background: #03a5f0;
 }
 
-.disabled {
+.disabledIcon {
 	opacity: 30%;
 	cursor: not-allowed;
 }

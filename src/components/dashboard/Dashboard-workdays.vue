@@ -30,7 +30,7 @@ export default {
 			return this.$store.getters.dashboard;
 		},
 		getPlanning() {
-			return this.werkvoorbereiding.planning ? this.werkvoorbereiding.planning : false;
+			return this.werkvoorbereiding.planning ? this.werkvoorbereiding.planning : [];
 		},
 		planningStappenArray() {
 			let array = [];
