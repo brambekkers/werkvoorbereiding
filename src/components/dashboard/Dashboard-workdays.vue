@@ -6,14 +6,15 @@
 					<i class="far fa-clock"></i>
 				</div>
 				<p class="card-category">Werkdagen</p>
-				<h4 class="card-title">{{dashboard.aantalWerkdagen}}
+				<h4 class="card-title">
+					{{ dashboard.aantalWerkdagen }}
 					<small>dagen</small>
 				</h4>
 			</div>
 			<div class="card-footer">
 				<div class="stats">
 					<i class="far fa-calendar-alt mr-2"></i>
-					<a><strong>Berekend over: </strong> {{aantalPlanningen}} stappen</a>
+					<a><strong>Berekend over: </strong> {{ aantalPlanningen }} stappen</a>
 				</div>
 			</div>
 		</div>
@@ -22,43 +23,29 @@
 
 <script>
 export default {
-	name: "DashboardWorkdays",
-	props: ["werkvoorbereiding"],
+	name: 'DashboardWorkdays',
+	props: ['werkvoorbereiding'],
 	computed: {
 		dashboard() {
 			return this.$store.getters.dashboard;
 		},
 		getPlanning() {
-			if (this.werkvoorbereiding) {
-				if (this.werkvoorbereiding.planning)
-					return this.werkvoorbereiding.planning;
-			}
-			return false;
+			return this.werkvoorbereiding.planning ? this.werkvoorbereiding.planning : false;
 		},
 		planningStappenArray() {
 			let array = [];
 			if (this.getPlanning) {
 				for (const planning of this.getPlanning) {
-					if (planning.stap) {
-						for (const stap of planning.stappen) {
-							array.push(stap);
-						}
-					}
+					if (planning.stappen) array = [...array, ...planning.stappen];
 				}
 			}
 			return array;
 		},
 		aantalPlanningen() {
-			if (this.getPlanning) {
-				return this.planningStappenArray.length;
-			} else {
-				return 0;
-			}
+			return this.getPlanning ? this.planningStappenArray.length : 0;
 		}
 	}
 };
 </script>
 
-
-<style scoped>
-</style>
+<style scoped></style>

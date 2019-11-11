@@ -11,12 +11,7 @@
 
 						<div class="align-self-center ml-auto pr-3">
 							<div class="dropdown">
-								<a
-									data-toggle="collapse"
-									data-target="#filterPlanningCollapse"
-									aria-expanded="false"
-									aria-controls="filterCollapse"
-								>
+								<a data-toggle="collapse" data-target="#filterPlanningCollapse" aria-expanded="false" aria-controls="filterCollapse">
 									<i class="fas fa-filter fa-lg pr-4"></i>
 								</a>
 							</div>
@@ -26,34 +21,19 @@
 			</div>
 			<div class="card-body">
 				<!-- Planning filter options -->
-				<div
-					class="collapse"
-					id="filterPlanningCollapse"
-				>
+				<div class="collapse" id="filterPlanningCollapse">
 					<div class="card card-body mt-1">
 						<h4>Filter opties</h4>
 						<p>
 							Vink de opties aan die je zichtbaar wilt hebben in de planning. Alleen de planningsitems die aan jouw selectie voldoen
 							zullen zichtbaar zijn.
 						</p>
-						<div
-							class="mt-2"
-							v-for="(subObject, key1) in filterKeys"
-							:key="key1"
-						>
+						<div class="mt-2" v-for="(subObject, key1) in filterKeys" :key="key1">
 							<h6>{{ key1 }}</h6>
 							<div class="d-flex flex-wrap">
-								<div
-									class="form-check pl-4"
-									v-for="(val, key2) in subObject"
-									:key="key2"
-								>
+								<div class="form-check pl-4" v-for="(val, key2) in subObject" :key="key2">
 									<label class="form-check-label">
-										<input
-											class="form-check-input"
-											type="checkbox"
-											v-model="filterKeys[key1][key2]"
-										/>
+										<input class="form-check-input" type="checkbox" v-model="filterKeys[key1][key2]" />
 										{{ key2 }}
 										<span class="form-check-sign">
 											<span class="check"></span>
@@ -65,15 +45,8 @@
 					</div>
 				</div>
 				<template v-if="stapBestaat">
-					<div
-						class="planningBackground"
-						v-bind:key="index"
-						v-for="(dag, index) in planAgenda"
-					>
-						<div
-							class="bg-light pl-4 py-3 border-bottom"
-							:class="{ 'bg-dark': darkMode }"
-						>
+					<div class="planningBackground" v-bind:key="index" v-for="(dag, index) in planAgenda">
+						<div class="bg-light pl-4 py-3 border-bottom" :class="{ 'bg-dark': darkMode }">
 							<h4>
 								<i class="far fa-calendar mr-3"></i>
 								Dag {{ index + 1 }}
@@ -82,10 +55,7 @@
 							<h4 class="float-right mr-5">Week {{ weekNummer(index + 1) }}</h4>
 						</div>
 						<div class="table-responsive">
-							<table
-								class="table table-hover table-striped text-center table-sm mb-0"
-								:class="{ 'table-dark darkHover': darkMode }"
-							>
+							<table class="table table-hover table-striped text-center table-sm mb-0" :class="{ 'table-dark darkHover': darkMode }">
 								<tbody>
 									<template v-for="(dagItem, index) in dag">
 										<tr
@@ -106,13 +76,10 @@
 												<div class="col-2">{{ dagItem.stap.bewerking }}</div>
 												<div class="col-2">{{ dagItem.stap.gereedschap }}</div>
 
-												<div
-													class="col-12 pl-3 text-left"
-													v-if="dagItem.stap.extraInfo"
-												><span class="font-weight-bold">Extra: </span>{{dagItem.stap.extraInfo}}</div>
-
+												<div class="col-12 pl-3 text-left" v-if="dagItem.stap.extraInfo">
+													<span class="font-weight-bold">Extra: </span>{{ dagItem.stap.extraInfo }}
+												</div>
 											</div>
-
 										</tr>
 									</template>
 								</tbody>
@@ -130,8 +97,8 @@
 
 <script>
 export default {
-	name: "DashboardPlanning",
-	props: ["werkvoorbereiding"],
+	name: 'DashboardPlanning',
+	props: ['werkvoorbereiding'],
 	data() {
 		return {
 			filterKeys: {
@@ -152,14 +119,10 @@ export default {
 			return new Set(this.planningStappenArray.map(stap => stap.stap));
 		},
 		filterBewerking() {
-			return new Set(
-				this.planningStappenArray.map(stap => stap.bewerking)
-			);
+			return new Set(this.planningStappenArray.map(stap => stap.bewerking));
 		},
 		filterGereedschap() {
-			return new Set(
-				this.planningStappenArray.map(stap => stap.gereedschap)
-			);
+			return new Set(this.planningStappenArray.map(stap => stap.gereedschap));
 		},
 		dagenWeek() {
 			return Number(this.getPlanningOpties.dagenWeek);
@@ -169,15 +132,13 @@ export default {
 		},
 		getPlanning() {
 			if (this.werkvoorbereiding) {
-				if (this.werkvoorbereiding.planning)
-					return this.werkvoorbereiding.planning;
+				if (this.werkvoorbereiding.planning) return this.werkvoorbereiding.planning;
 			}
 			return false;
 		},
 		getPlanningOpties() {
 			if (this.werkvoorbereiding) {
-				if (this.werkvoorbereiding.planningOpties)
-					return this.werkvoorbereiding.planningOpties;
+				if (this.werkvoorbereiding.planningOpties) return this.werkvoorbereiding.planningOpties;
 			}
 			return false;
 		},
@@ -214,10 +175,7 @@ export default {
 					let staptijd = this.staptijd(substap);
 
 					while (staptijd > 0) {
-						let berekenTijd = this.berekenStappenPerDag(
-							beschikbaretijd,
-							staptijd
-						);
+						let berekenTijd = this.berekenStappenPerDag(beschikbaretijd, staptijd);
 
 						if (berekenTijd.resttijd === 0) {
 							beschikbaretijd = berekenTijd.beschikbaretijd;
@@ -258,16 +216,12 @@ export default {
 			return allOff;
 		},
 		darkMode() {
-			return this.$store.getters.instellingen.modus === "licht"
-				? false
-				: true;
+			return this.$store.getters.instellingen.modus === 'licht' ? false : true;
 		}
 	},
 	methods: {
 		staptijd(stap) {
-			let tijd =
-				Number(stap.insteltijd) +
-				Number(stap.bewerkingstijd) * Number(stap.aantal);
+			let tijd = Number(stap.insteltijd) + Number(stap.bewerkingstijd) * Number(stap.aantal);
 			return tijd + (tijd / 100) * this.ineffectieveTijd;
 		},
 		berekenStappenPerDag(beschikbaretijd, staptijd) {
