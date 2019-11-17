@@ -64,6 +64,7 @@ export default {
 		importeer() {
 			if (this.wvbJson) {
 				let obj = JSON.parse(this.wvbJson);
+				console.log(obj);
 				this.$store.commit('werkvoorbereiding', obj);
 				this.$store.dispatch('wvbToFirebase');
 

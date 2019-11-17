@@ -6,14 +6,7 @@
 					<div class="card">
 						<CardHeader :text="{ title: 'Exporteren', subtitle: 'Je WVB extern opslaan' }" />
 						<div class="card-body">
-							<div class="row mb-2">
-								<div class="col-md-12">
-									<button type="button" class="btn btn-block btn-fill" @click="opslaanAlsJson()">
-										<i class="fas fa-save float-left"></i>
-										Opslaan
-									</button>
-								</div>
-							</div>
+							
 							<div class="row mb-2">
 								<div class="col-md-12">
 									<button
@@ -45,6 +38,14 @@
 											</div>
 										</div>
 									</div>
+								</div>
+							</div>
+							<div class="row mb-2">
+								<div class="col-md-12">
+									<button type="button" class="btn btn-block btn-fill" @click="opslaanAlsJson()">
+										<i class="fas fa-save float-left"></i>
+										Exporteren
+									</button>
 								</div>
 							</div>
 							<div class="row mb-2">

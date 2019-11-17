@@ -65,28 +65,22 @@ export default new Vuex.Store({
 			state.appData.sidebar = boolean;
 		},
 		werkvoorbereiding(state, werkvoorbereiding) {
-			// Make new wvb if wvb does not exist or there is no wvb.ID
-			if (!state.werkvoorbereiding) {
-				state.werkvoorbereiding = this.getters.newWVB;
-				this.commit('laatsteBewerking');
-				return
-			} else if (!state.werkvoorbereiding.id) {
-				state.werkvoorbereiding = this.getters.newWVB;
-				this.commit('laatsteBewerking');
-				return
-			}
-
 			// If new WVB is null, set wvb in store to null
 			if (werkvoorbereiding === null) {
 				state.werkvoorbereiding = null
 				return
+			} else {
+				// Make new wvb if wvb does not exist or there is no wvb.ID
+				if (!werkvoorbereiding.id) {
+					state.werkvoorbereiding = { ...this.getters.newWVB, ...werkvoorbereiding };
+					this.commit('laatsteBewerking');
+					return
+				}
+
+				// Update the WVB
+				state.werkvoorbereiding = werkvoorbereiding;
+				this.commit('laatsteBewerking');
 			}
-
-			// Update the WVB
-			// Merge data to store wvb
-			state.werkvoorbereiding = werkvoorbereiding;
-			this.commit('laatsteBewerking');
-
 		},
 		laatsteBewerking(state) {
 			const d = new Date();
