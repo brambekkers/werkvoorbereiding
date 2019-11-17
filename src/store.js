@@ -214,7 +214,6 @@ export default new Vuex.Store({
 		FbDataDownload({ getters, commit, dispatch }, userId) {
 			const userDatabaseRef = getters.fb.database().ref(`users/${userId}/`);
 			userDatabaseRef.once('value', snapshot => {
-				console.log('download')
 				const userData = snapshot.val();
 				commit('userData', userData);
 				dispatch('userSettings');
@@ -335,7 +334,6 @@ export default new Vuex.Store({
 		},
 		dataToFirebase({ getters, commit }, { path, data }) {
 			if (getters.user && getters.canUpload) {
-				console.log('upload')
 				const userId = getters.user.uid;
 				const ref = getters.fb.database().ref(`users/${userId}/${path}`);
 				ref.set(data);

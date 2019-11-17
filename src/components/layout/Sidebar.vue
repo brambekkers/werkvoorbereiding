@@ -240,6 +240,10 @@ export default {
 .projectMenuItems {
   display: flex;
 
+  div {
+    width: 100%;
+  }
+
   .projectMenuName {
     width: 100%;
     height: 100%;
