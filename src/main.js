@@ -5,6 +5,9 @@ import router from './router';
 import BootstrapVue from 'bootstrap-vue'
 import bootstrap from "bootstrap";
 
+import "bootstrap-vue/dist/bootstrap-vue.css";
+
+
 const SocialSharing = require('vue-social-sharing');
 window.$ = require('jquery')
 window.Swal = require('sweetalert2')

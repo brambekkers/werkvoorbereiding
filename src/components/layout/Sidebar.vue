@@ -232,6 +232,12 @@ export default {
   }
 }
 
+@media (max-width: 991px) {
+  .shrink .nav-link i {
+    visibility: hidden;
+  }
+}
+
 .smallSidebar {
   min-width: 80px;
   width: 80px;

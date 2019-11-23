@@ -1,215 +1,125 @@
 <template>
-	<div
-		class="accordion"
-		id="accordionAdmin"
-	>
-		<!-- Search -->
-		<form class="form-inline justify-content-end">
-			<input
-				class="form-control mr-sm-8 w-25"
-				type="search"
-				placeholder="Zoeken"
-				aria-label="Search"
-			/>
-			<button
-				class="btn btn-success my-2 my-sm-0"
-				type="submit"
-			>Zoeken</button>
-		</form>
-		<!-- Accordion -->
-		<div
-			class="card cardlist"
-			v-bind:key="userKeys[page * amount + index]"
-			v-for="(user, index) in paginatedData"
-		>
-			<div
-				class="card-header"
-				data-toggle="collapse"
-				:data-target="`#accordion${index}`"
-			>
-				<div class="row text-center">
-					<div class="col-md-1">
-						<strong>{{ (page - 1) * amount + index + 1 }}</strong>
-					</div>
-					<div class="col-md-3">
-						<p class="mb-0 idkey">{{ userKeys[page * amount + index] }}</p>
-					</div>
-					<div class="col-md-3">
-						<p
-							class="mb-0"
-							v-if="haveProfile(user.profiel)"
-						>
-							{{ user.profiel.voornaam }}
-							{{ user.profiel.tussenvoegsel }}
-							{{ user.profiel.achternaam }}
-						</p>
-					</div>
-					<div class="col-md-2">
-						<div
-							class="p-1 h-100 rounded"
-							:class="{ bglichtrood: !haveProfile(user.profiel), bglichtgroen: haveProfile(user.profiel) }"
-						>
-							Profiel
-						</div>
-					</div>
-					<div class="col-md-2">
-						<div
-							class="p-1 h-100 rounded"
-							:class="{ bglichtrood: haveWVB(user.alleWVB) < 1, bglichtgroen: haveWVB(user.alleWVB) > 0 }"
-						>
-							Projecten <strong>{{ haveWVB(user.alleWVB) }}</strong>
-						</div>
-					</div>
-					<div class="col-md-auto">
-						<button
-							type="button"
-							class="btn btn-danger btn-block btn-sm h-100 my-0"
-							@click="deleteUser(key)"
-						>X</button>
-					</div>
-				</div>
-			</div>
-
-			<div
-				:id="`accordion${index}`"
-				class="collapse"
-				data-parent="#accordionAdmin"
-			>
-				<div class="card-body">
-					<div class="row">
-						<div
-							class="col-md-8"
-							v-if="haveProfile(user.profiel)"
-						>
-							<div class="row">
-								<div class="col-md-2 card-user">
-									<h6>Foto:</h6>
-									<img
-										v-if="!user.profiel.foto"
-										src="../../assets/img/default-avatar.png"
-										class="avatar img-fluid rounded-circle"
-									/>
-									<img
-										v-if="user.profiel.foto"
-										:src="user.profiel.foto"
-										class="avatar img-fluid"
-									/>
-								</div>
-								<div class="col-md-5 profileInfo">
-									<h6>Profiel informatie</h6>
-									<p>
-										<strong class="text-strong">Naam:</strong>
-										{{ user.profiel.voornaam }} {{ user.profiel.tussenvoegsel }} {{ user.profiel.achternaam }}
-									</p>
-									<p>
-										<strong>E-mail:</strong>
-										{{ user.profiel.email }}
-									</p>
-									<p>
-										<strong>Klas:</strong>
-
-										{{ user.profiel.klas }}
-									</p>
-									<p>
-										<strong>Niveau:</strong>
-										{{ user.profiel.niveau }}
-									</p>
-									<p>
-										<strong>ID:</strong>
-										{{ user.profiel.id }}
-									</p>
-								</div>
-								<div class="col-md-5">
-									<h6>Over Mij:</h6>
-									<p>{{ user.profiel.over }}</p>
-								</div>
-							</div>
-						</div>
-						<div class="col-md-4">
-							<div class="row">
-								<div
-									class="col"
-									v-if="haveWVB(user.alleWVB) > 0"
-								>
-									<h6>Projecten</h6>
-									<div class="border">
-										<a
-											class="dropdown-item projectItem"
-											v-bind:key="key"
-											v-for="(wvb, key, index) in user.alleWVB"
-											@click="copyWvb(wvb)"
-										>{{ index + 1 }}
-											- <span v-if="wvb.basisgegevens">{{ wvb.basisgegevens.project }}</span>
-										</a>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="bottomNavBar">
-			<div
-				id="pageAmountContainer"
-				class="input-group mb-3"
-			>
-				<div class="input-group-prepend">
-					<label
-						class="input-group-text"
-						for="pageAmount"
-					>Users per pagina</label>
-				</div>
-				<select
-					v-model="amount"
-					class="custom-select"
-					id="pageAmount"
-				>
-					<option value="10">10</option>
-					<option value="20">20</option>
-					<option value="50">50</option>
-					<option value="100">100</option>
-					<option :value="userArray.length">Alles</option>
-				</select>
-			</div>
-
-			<ul class="pagination d-flex justify-content-center mt-2">
-				<b-pagination
-					v-model="page"
-					:total-rows="userAmount"
-					:per-page="amount"
+	<div class="col-12">
+		<template v-if="!selectedUser">
+			<!-- Search -->
+			<div class="form-inline justify-content-end mb-2 ">
+				<input
+					class="form-control mr-sm-8 w-25"
+					type="search"
+					placeholder="Zoeken"
+					aria-label="Search"
+					v-model="filter"
 				/>
-			</ul>
-		</div>
+			</div>
+			<!-- TABLE -->
+			<b-table
+				hover
+				striped
+				outlined
+				borderless
+				small
+				:items="userList"
+				:fields="tableFields"
+				:head-variant="'light'"
+				:per-page="perPage"
+				:current-page="currentPage"
+				responsive="sm"
+				class="table"
+				@row-clicked="setSelectedUser"
+				tdClass="tdClass"
+			>
+			</b-table>
+
+			<!-- Pagination -->
+			<div class="bottomNavBar">
+				<div id="pageAmountContainer" class="input-group mb-3">
+					<div class="input-group-prepend">
+						<label class="input-group-text" for="pageAmount"
+							>Users per pagina</label
+						>
+					</div>
+					<select v-model="perPage" class="custom-select" id="pageAmount">
+						<option value="10">10</option>
+						<option value="20">20</option>
+						<option value="50">50</option>
+						<option value="100">100</option>
+						<option :value="users.length">Alles</option>
+					</select>
+				</div>
+
+				<ul class="pagination d-flex justify-content-center mt-2">
+					<b-pagination
+						v-model="currentPage"
+						:total-rows="userList.length"
+						:per-page="perPage"
+					/>
+				</ul>
+			</div>
+		</template>
+		<AdminUserDetail :user="selectedUser" @closeDetail="closeDetail" v-else />
 	</div>
 </template>
 
 <script>
-import $ from "jquery";
+import AdminUserDetail from "@/components/admin/Admin-userDetail.vue";
 
 export default {
 	name: "AdminUserList",
 	props: ["users"],
+	components: {
+		AdminUserDetail
+	},
 	data() {
 		return {
-			page: 1,
-			amount: 10
+			tableFields: [
+				{
+					key: "id",
+					label: "ID",
+					sortable: false
+				},
+				{
+					key: "profiel.voornaam",
+					label: "Voornaam",
+					sortable: true
+				},
+				{
+					key: "profiel.tussenvoegsel",
+					label: " ",
+					sortable: true
+				},
+				{
+					key: "profiel.achternaam",
+					label: "Achternaam",
+					sortable: true
+				},
+				{
+					key: "profiel.email",
+					label: "Email",
+					sortable: true
+				}
+			],
+			filter: "",
+			perPage: 10,
+			currentPage: 1,
+			selectedUser: null
 		};
 	},
 	computed: {
-		userArray() {
-			return Object.values(this.users);
-		},
-		userKeys() {
-			return Object.keys(this.users);
+		userList() {
+			if (this.filter.length) {
+				return this.users.filter(user => {
+					if (user.profiel) {
+						if (user.profiel.voornaam.match(this.filter)) return user;
+						if (user.profiel.achternaam.match(this.filter)) return user;
+						if (user.profiel.email.match(this.filter)) return user;
+						if (user.profiel.id.match(this.filter)) return user;
+					}
+				});
+			}
+			return this.users;
 		},
 		userAmount() {
 			return Object.keys(this.users).length;
-		},
-		paginatedData() {
-			let start = (this.page - 1) * this.amount;
-			let end = start + this.amount;
-			return this.userArray.slice(start, end);
 		}
 	},
 	methods: {
@@ -227,91 +137,24 @@ export default {
 				return 0;
 			}
 		},
-		deleteUser(key) {},
-
-		copyWvb(wvb) {
-			window.Swal.fire({
-				title: "Wil je deze wvb kopiëren?",
-				text:
-					"De werkvoorbereiding zal naar jouw account worden gekopieerd!",
-				confirmButtonColor: "#4caf50",
-				confirmButtonText: "Ja, doe dat!",
-				showCancelButton: true,
-				type: "info"
-			}).then(result => {
-				if (result.value) {
-					window.Swal.fire({
-						text: "Poof! Je hebt een kopie!",
-						type: "success"
-					});
-					this.$store.commit("werkvoorbereiding", wvb);
-				}
-			});
+		setSelectedUser(data, num) {
+			this.selectedUser = data;
+		},
+		closeDetail() {
+			this.selectedUser = null;
 		}
-	},
-	mounted() {
-		$(".collapse").on("show.bs.collapse", function() {
-			$(".collapse.in").collapse("hide");
-		});
 	}
 };
 </script>
 
-<style scoped lang="scss">
-.profileInfo {
-	p {
-		margin: 0;
-		font-size: 0.8rem;
-		line-height: 18px;
-	}
+<style lang="scss">
+.table {
+	-webkit-box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.14);
+	box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.14);
 }
 
-.cardlist {
+.tdClass {
 	cursor: pointer;
-	margin: 0;
-	padding: 0;
-	border-radius: 0;
-}
-
-.cardlist:nth-child(even) {
-	background-color: #f2f2f2;
-}
-
-.cardlist:hover,
-.projectItem:hover {
-	background-color: #f2f2f2;
-}
-
-.projectItem {
-	cursor: pointer;
-}
-
-.projectItem:nth-child(odd) {
-	background-color: #fff;
-}
-
-.projectItem:nth-child(even) {
-	background-color: #f2f2f2;
-}
-
-.idkey {
-	font-size: 0.7rem;
-}
-
-.page-link {
-	cursor: pointer;
-}
-
-.bglichtgroen {
-	background: rgba(202, 243, 202, 0.5);
-}
-
-.bglichtrood {
-	background: rgba(248, 212, 209, 0.5);
-}
-
-.card-body {
-	background: #fff;
 }
 
 .bottomNavBar {

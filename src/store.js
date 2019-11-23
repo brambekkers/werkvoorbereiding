@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
+import router from './router'
 import uniqid from 'uniqid';
 import newWvb from '@/assets/config/newWvb.js';
 
@@ -248,25 +249,31 @@ export default new Vuex.Store({
 
 			if (!getters.werkvoorbereiding) commit('werkvoorbereiding', alleWVBArray[0]);
 		},
-		login({ getters }, { email, password }) {
+		login({ getters, dispatch }, { email, password }) {
 			return new Promise(async resolve => {
 				try {
 					const login = await getters.fb.auth().signInWithEmailAndPassword(email, password);
+					const profileRef = getters.fb.database().ref(`users/${login.user.uid}/profiel`);
+
+					// if new, register account in database
+					profileRef.on('value', profile => {
+						if (!profile.exists()) dispatch('newUserFirebase', login.user.uid);
+					});
 					resolve(login);
 				} catch (error) {
 					resolve(error);
 				}
 			});
 		},
-		loginWithSocial({ getters }, provider) {
+		loginWithSocial({ getters, dispatch }, provider) {
 			return new Promise(async resolve => {
 				try {
 					const login = await getters.fb.auth().signInWithPopup(provider)
-					const profileRef = this.$store.getters.fb.database().ref(`users/${register.user.uid}/profiel`);
+					const profileRef = getters.fb.database().ref(`users/${login.user.uid}/profiel`);
 
 					// if new, register account in database
 					profileRef.on('value', profile => {
-						if (!profile.exists()) this.$store.dispatch('newUserFirebase', register.user.uid);
+						if (!profile.exists()) dispatch('newUserFirebase', login.user.uid);
 					});
 					resolve(login)
 				} catch (error) {
@@ -318,6 +325,8 @@ export default new Vuex.Store({
 				try {
 					await getters.fb.auth().signOut();
 					commit('resetInstellingen');
+					commit('werkvoorbereiding', null);
+					router.push("/");
 					resolve(true);
 				} catch (error) {
 					reject(error);
@@ -352,6 +361,25 @@ export default new Vuex.Store({
 
 				dispatch('FbDataDownload', getters.user.uid);
 			}
+		},
+		deleteUser({ getters }, uid) {
+			// if UID is given, delete uid else delete own account
+			const user = getters.user
+			const id = uid ? uid : user.uid
+
+			// Delete data from the database
+			const ref = getters.fb.database().ref(`users/${id}`);
+			ref.remove();
+
+			// If its your own account, delete user from Auth
+			if (!uid) {
+				user.delete().then(() => {
+					console.log('account verwijderd')
+				}).catch(e => {
+					console.log('Error', e)
+				});
+			}
+
 		},
 		userSettings({ getters, commit }) {
 			if (getters.userData.profiel.instellingen) commit('instellingen', getters.userData.profiel.instellingen);
