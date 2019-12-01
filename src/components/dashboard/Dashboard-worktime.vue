@@ -1,8 +1,7 @@
 <template>
 	<div class="col-md-6">
 		<div class="card card-chart">
-			<div class="card-header card-header-info">
-				<router-link tag="i" class="fas fa-cog options" to="/planningOpties"></router-link>
+			<div class="card-header card-header-info" data-header-animation="true">
 				<Chart
 					v-if="getPlanning"
 					:height="150"
@@ -14,11 +13,25 @@
 					}"
 				/>
 				<p v-if="!getPlanning">
-					Voer op de <strong>'plannings'</strong> pagina de gegevens in van je project. Pas dan kunnen we de tijd (en daarmee kosten)
-					berekenen.
+					Voer op de <strong>'plannings'</strong> pagina de gegevens in van je
+					project. Pas dan kunnen we de tijd (en daarmee kosten) berekenen.
 				</p>
 			</div>
 			<div class="card-body">
+				<div class="card-actions">
+					<button type="button" class="btn btn-danger btn-link fix-broken-card">
+						<i class="material-icons">build</i> Fix Header!
+					</button>
+					<router-link
+						tag="button"
+						class="btn btn-default btn-link"
+						data-placement="bottom"
+						data-original-title="Planningsopties"
+						to="/planningOpties"
+					>
+						<i class="material-icons">edit</i> Planning opties
+					</router-link>
+				</div>
 				<hr />
 				<div class="d-flex">
 					<p class="d-inline mr-auto">Insteltijd:</p>
@@ -44,31 +57,35 @@
 				</div>
 			</div>
 			<div class="card-footer">
-				<div class="stats"><i class="material-icons">access_time</i> updated 4 minutes ago</div>
+				<div class="stats">
+					<i class="material-icons">access_time</i> updated 4 minutes ago
+				</div>
 			</div>
 		</div>
 	</div>
 </template>
 
 <script>
-import Chart from '@/components/chart/Chart-worktime';
+import Chart from "@/components/chart/Chart-worktime";
 
 export default {
-	name: 'DashboardWorktime',
-	props: ['werkvoorbereiding'],
+	name: "DashboardWorktime",
+	props: ["werkvoorbereiding"],
 	components: {
 		Chart
 	},
 	computed: {
 		getPlanning() {
 			if (this.werkvoorbereiding) {
-				if (this.werkvoorbereiding.planning) return this.werkvoorbereiding.planning;
+				if (this.werkvoorbereiding.planning)
+					return this.werkvoorbereiding.planning;
 			}
 			return false;
 		},
 		getPlanningOpties() {
 			if (this.werkvoorbereiding) {
-				if (this.werkvoorbereiding.planningOpties) return this.werkvoorbereiding.planningOpties;
+				if (this.werkvoorbereiding.planningOpties)
+					return this.werkvoorbereiding.planningOpties;
 			}
 			return false;
 		},
@@ -85,15 +102,27 @@ export default {
 			return array;
 		},
 		insteltijd() {
-			const min = this.planningStappenArray.reduce((a, b) => a + Number(b.insteltijd), 0);
+			const min = this.planningStappenArray.reduce(
+				(a, b) => a + Number(b.insteltijd),
+				0
+			);
 			return Number((min / 60).toFixed(1));
 		},
 		bewerkingstijd() {
-			const min = this.planningStappenArray.reduce((a, b) => a + Number(b.bewerkingstijd) * Number(b.aantal), 0);
+			const min = this.planningStappenArray.reduce(
+				(a, b) => a + Number(b.bewerkingstijd) * Number(b.aantal),
+				0
+			);
 			return Number((min / 60).toFixed(1));
 		},
 		tijdPerOnderwerp() {
-			let category = ['Voorbereiding', 'Machinale', 'Werkplaats', 'Plaatsen', 'Administratie'];
+			let category = [
+				"Voorbereiding",
+				"Machinale",
+				"Werkplaats",
+				"Plaatsen",
+				"Administratie"
+			];
 			let timeArray = [];
 
 			for (const cat of category) {
@@ -113,12 +142,16 @@ export default {
 			return this.insteltijd + this.bewerkingstijd;
 		},
 		totaletijdNetto() {
-			let aantalUren = Number((this.insteltijd + this.bewerkingstijd + this.ineffectieveTijd).toFixed(1));
+			let aantalUren = Number(
+				(this.insteltijd + this.bewerkingstijd + this.ineffectieveTijd).toFixed(
+					1
+				)
+			);
 
 			// Check if dashboard data is up-to-date and change if needed
 			if (this.dashboard.aantalUren != aantalUren) {
-				this.$store.commit('setDashboard', {
-					path: 'aantalUren',
+				this.$store.commit("setDashboard", {
+					path: "aantalUren",
 					value: aantalUren
 				});
 			}
@@ -127,13 +160,16 @@ export default {
 		totaletijdNettoWerkdagen() {
 			if (this.getPlanning) {
 				let aantalWerkdagen = Number(
-					((this.insteltijd + this.bewerkingstijd + this.ineffectieveTijd) / Number(this.getPlanningOpties.urenWerkdag)).toFixed(1)
+					(
+						(this.insteltijd + this.bewerkingstijd + this.ineffectieveTijd) /
+						Number(this.getPlanningOpties.urenWerkdag)
+					).toFixed(1)
 				);
 
 				// Check if dashboard data is up-to-date and change if needed
 				if (this.dashboard.aantalWerkdagen != aantalWerkdagen) {
-					this.$store.commit('setDashboard', {
-						path: 'aantalWerkdagen',
+					this.$store.commit("setDashboard", {
+						path: "aantalWerkdagen",
 						value: aantalWerkdagen
 					});
 				}
@@ -145,7 +181,12 @@ export default {
 		},
 		ineffectieveTijd() {
 			if (this.getPlanning) {
-				return Number(((this.totaletijdBrutto / 100) * Number(this.getPlanningOpties.ineffectieveTijd)).toFixed(1));
+				return Number(
+					(
+						(this.totaletijdBrutto / 100) *
+						Number(this.getPlanningOpties.ineffectieveTijd)
+					).toFixed(1)
+				);
 			} else {
 				return 0;
 			}

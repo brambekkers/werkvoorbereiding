@@ -13,17 +13,57 @@
 			</button>
 		</div>
 		<div class="collapse" id="filterCollapse">
-			<div class="card card-body  mt-1">
-				<h4>Filter opties</h4>
+			<div class="card card-body mt-1">
+				<h4 class="my-0">Filter opties</h4>
+				<div>
+					<button
+						class="btn btn-outline-secondary btn-sm mr-2"
+						:class="{ 'bg-secondary text-white': darkMode }"
+						@click="toggleAllFilters(true)"
+					>
+						Toon alles
+					</button>
+					<button
+						class="btn btn-outline-secondary btn-sm mr-2"
+						:class="{ 'bg-secondary text-white': darkMode }"
+						@click="toggleAllFilters(false)"
+					>
+						Toon niets
+					</button>
+				</div>
+				<div class="card-category border-bottom">Overzicht</div>
 				<div id="filterList">
 					<FilterOptions :filterProps="{ name: 'Gegevens', id: 'gegevens' }" />
-					<FilterOptions :filterProps="{ name: 'Verkoopprijs', id: 'verkoopprijs' }" />
-					<FilterOptions :filterProps="{ name: 'Werkdagen', id: 'aantalWerkdagen' }" />
-					<FilterOptions :filterProps="{ name: 'Aantal onderdelen', id: 'aantalOnderdelen' }" />
-					<FilterOptions :filterProps="{ name: 'Favoriet gereedschap', id: 'favGereedschap' }" />
-					<FilterOptions :filterProps="{ name: 'Materiaal kosten', id: 'materiaalKosten' }" />
-					<FilterOptions :filterProps="{ name: 'Plannings tijd', id: 'planningTijd' }" />
-					<FilterOptions :filterProps="{ name: 'Materiaalstaat', id: 'materiaalstaat' }" />
+					<FilterOptions
+						:filterProps="{ name: 'Verkoopprijs', id: 'verkoopprijs' }"
+					/>
+					<FilterOptions
+						:filterProps="{ name: 'Werkdagen', id: 'aantalWerkdagen' }"
+					/>
+					<FilterOptions
+						:filterProps="{ name: 'Aantal onderdelen', id: 'aantalOnderdelen' }"
+					/>
+					<FilterOptions
+						:filterProps="{
+							name: 'Favoriet gereedschap',
+							id: 'favGereedschap'
+						}"
+					/>
+				</div>
+				<div class="card-category border-bottom">Projectgegevens</div>
+				<div id="filterList">
+					<FilterOptions
+						:filterProps="{ name: 'Materiaal kosten', id: 'materiaalKosten' }"
+					/>
+					<FilterOptions
+						:filterProps="{ name: 'Plannings tijd', id: 'planningTijd' }"
+					/>
+				</div>
+				<div class="card-category border-bottom">Uitgebreide velden</div>
+				<div id="filterList">
+					<FilterOptions
+						:filterProps="{ name: 'Materiaalstaat', id: 'materiaalstaat' }"
+					/>
 					<FilterOptions :filterProps="{ name: 'Agenda', id: 'agenda' }" />
 				</div>
 			</div>
@@ -32,16 +72,21 @@
 </template>
 
 <script>
-import FilterOptions from '@/components/dashboard/Dashboard-filteroption.vue';
+import FilterOptions from "@/components/dashboard/Dashboard-filteroption.vue";
 
 export default {
-	name: 'DashboardFilter',
+	name: "DashboardFilter",
 	components: {
 		FilterOptions
 	},
 	computed: {
 		darkMode() {
-			return this.$store.getters.instellingen.modus === 'licht' ? false : true;
+			return this.$store.getters.instellingen.modus === "licht" ? false : true;
+		}
+	},
+	methods: {
+		toggleAllFilters(boolean) {
+			this.$store.commit("setAllFilterDashboard", boolean);
 		}
 	}
 };

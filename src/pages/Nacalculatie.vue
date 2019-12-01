@@ -19,7 +19,7 @@
 								>
 									<div class="col-12 col-sm-5 col-md-4 col-lg-4 col-xl-3">
 										<div class="input-group mb-2">
-											<div class="input-group-prepend">
+											<div class="form-group bmd-form-group is-filled">
 												<span
 													id="basic-addon1"
 													class="input-group-text grabbing"
@@ -33,8 +33,8 @@
 												data-toggle="tooltip"
 												data-placement="top"
 												required="required"
-												class="form-control"
-												data-original-title="Welk handeling heb je uitgevoerd?"
+												class="form-control datepicker"
+												data-original-title="Op welke datum heb je de handeling uitgevoerd?"
 												v-model="calculatie.date"
 											/>
 										</div>

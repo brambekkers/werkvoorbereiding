@@ -18,9 +18,10 @@
 				outlined
 				borderless
 				small
+				:dark="darkMode"
 				:items="userList"
 				:fields="tableFields"
-				:head-variant="'light'"
+				:head-variant="darkMode ? 'dark' : 'light'"
 				:per-page="perPage"
 				:current-page="currentPage"
 				responsive="sm"
@@ -120,6 +121,9 @@ export default {
 		},
 		userAmount() {
 			return Object.keys(this.users).length;
+		},
+		darkMode() {
+			return this.$store.getters.instellingen.modus === "licht" ? false : true;
 		}
 	},
 	methods: {

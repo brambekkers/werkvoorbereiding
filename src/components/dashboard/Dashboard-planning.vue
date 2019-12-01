@@ -5,13 +5,22 @@
 				<div class="row">
 					<div class="d-flex w-100">
 						<div class="pl-3">
-							<h3 class="card-title"><i class="fa fa-industry fa-lg pr-4"></i>Agenda</h3>
-							<p class="card-category">Jouw planning automatisch samengesteld</p>
+							<h3 class="card-title">
+								<i class="fa fa-industry fa-lg pr-4"></i>Agenda
+							</h3>
+							<p class="card-category">
+								Jouw planning automatisch samengesteld
+							</p>
 						</div>
 
-						<div class="align-self-center ml-auto pr-3">
+						<div id="filterIcon" class="align-self-center ml-auto mr-3">
 							<div class="dropdown">
-								<a data-toggle="collapse" data-target="#filterPlanningCollapse" aria-expanded="false" aria-controls="filterCollapse">
+								<a
+									data-toggle="collapse"
+									data-target="#filterPlanningCollapse"
+									aria-expanded="false"
+									aria-controls="filterCollapse"
+								>
 									<i class="fas fa-filter fa-lg pr-4"></i>
 								</a>
 							</div>
@@ -24,16 +33,37 @@
 				<div class="collapse" id="filterPlanningCollapse">
 					<div class="card card-body mt-1">
 						<h4>Filter opties</h4>
-						<p>
-							Vink de opties aan die je zichtbaar wilt hebben in de planning. Alleen de planningsitems die aan jouw selectie voldoen
-							zullen zichtbaar zijn.
+						<p class="mb-0">
+							Vink de opties aan die je zichtbaar wilt hebben in de planning.
+							Alleen de planningsitems die aan jouw selectie voldoen zullen
+							zichtbaar zijn.
 						</p>
-						<div class="mt-2" v-for="(subObject, key1) in filterKeys" :key="key1">
-							<h6>{{ key1 }}</h6>
+						<div
+							class="mt-2"
+							v-for="(subObject, key1) in filterKeys"
+							:key="key1"
+						>
+							<div
+								class="card-category border-bottom mb-2"
+								v-if="
+									Object.entries(subObject).length != 0 &&
+										subObject.constructor === Object
+								"
+							>
+								{{ key1 }}
+							</div>
 							<div class="d-flex flex-wrap">
-								<div class="form-check pl-4" v-for="(val, key2) in subObject" :key="key2">
+								<div
+									class="form-check pl-4"
+									v-for="(val, key2) in subObject"
+									:key="key2"
+								>
 									<label class="form-check-label">
-										<input class="form-check-input" type="checkbox" v-model="filterKeys[key1][key2]" />
+										<input
+											class="form-check-input"
+											type="checkbox"
+											v-model="filterKeys[key1][key2]"
+										/>
 										{{ key2 }}
 										<span class="form-check-sign">
 											<span class="check"></span>
@@ -45,8 +75,15 @@
 					</div>
 				</div>
 				<template v-if="stapBestaat">
-					<div class="planningBackground" v-bind:key="index" v-for="(dag, index) in planAgenda">
-						<div class="bg-light pl-4 py-3 border-bottom" :class="{ 'bg-dark': darkMode }">
+					<div
+						class="planningBackground"
+						v-bind:key="index"
+						v-for="(dag, index) in planAgenda"
+					>
+						<div
+							class="min-width-1000 bg-light pl-4 py-3 border-bottom"
+							:class="{ 'bg-dark': darkMode }"
+						>
 							<h4>
 								<i class="far fa-calendar mr-3"></i>
 								Dag {{ index + 1 }}
@@ -54,30 +91,39 @@
 
 							<h4 class="float-right mr-5">Week {{ weekNummer(index + 1) }}</h4>
 						</div>
-						<div class="table-responsive">
-							<table class="table table-hover table-striped text-center table-sm mb-0" :class="{ 'table-dark darkHover': darkMode }">
+						<div class="min-width-1000 table-responsive">
+							<table
+								class="table table-hover table-striped text-center table-sm mb-0"
+								:class="{ 'table-dark darkHover': darkMode }"
+							>
 								<tbody>
 									<template v-for="(dagItem, index) in dag">
 										<tr
 											v-if="
 												allFilterOptionsOff ||
-													(filterKeys['stap'][dagItem.stap.stap] ||
-														filterKeys['bewerking'][dagItem.stap.bewerking] ||
-														filterKeys['gereedschap'][dagItem.stap.gereedschap])
+													filterKeys['stap'][dagItem.stap.stap] ||
+													filterKeys['bewerking'][dagItem.stap.bewerking] ||
+													filterKeys['gereedschap'][dagItem.stap.gereedschap]
 											"
 											:key="index"
 											class="border-bottom "
 										>
 											<div class="row m-0 p-2 bord ">
-												<div class="col-1 pl-3 text-left font-weight-bold">{{ dagItem.tijd }} min</div>
+												<div class="col-1 pl-3 text-left font-weight-bold">
+													{{ dagItem.tijd }} min
+												</div>
 												<div class="col-2">{{ dagItem.stap.component }}</div>
 												<div class="col-2">{{ dagItem.stap.onderdeel }}</div>
 												<div class="col-2">{{ dagItem.stap.stap }}</div>
 												<div class="col-2">{{ dagItem.stap.bewerking }}</div>
 												<div class="col-2">{{ dagItem.stap.gereedschap }}</div>
 
-												<div class="col-12 pl-3 text-left" v-if="dagItem.stap.extraInfo">
-													<span class="font-weight-bold">Extra: </span>{{ dagItem.stap.extraInfo }}
+												<div
+													class="col-12 pl-3 text-left"
+													v-if="dagItem.stap.extraInfo"
+												>
+													<span class="font-weight-bold">Extra: </span
+													>{{ dagItem.stap.extraInfo }}
 												</div>
 											</div>
 										</tr>
@@ -97,8 +143,8 @@
 
 <script>
 export default {
-	name: 'DashboardPlanning',
-	props: ['werkvoorbereiding'],
+	name: "DashboardPlanning",
+	props: ["werkvoorbereiding"],
 	data() {
 		return {
 			filterKeys: {
@@ -132,13 +178,15 @@ export default {
 		},
 		getPlanning() {
 			if (this.werkvoorbereiding) {
-				if (this.werkvoorbereiding.planning) return this.werkvoorbereiding.planning;
+				if (this.werkvoorbereiding.planning)
+					return this.werkvoorbereiding.planning;
 			}
 			return [];
 		},
 		getPlanningOpties() {
 			if (this.werkvoorbereiding) {
-				if (this.werkvoorbereiding.planningOpties) return this.werkvoorbereiding.planningOpties;
+				if (this.werkvoorbereiding.planningOpties)
+					return this.werkvoorbereiding.planningOpties;
 			}
 			return false;
 		},
@@ -175,7 +223,10 @@ export default {
 					let staptijd = this.staptijd(substap);
 
 					while (staptijd > 0) {
-						let berekenTijd = this.berekenStappenPerDag(beschikbaretijd, staptijd);
+						let berekenTijd = this.berekenStappenPerDag(
+							beschikbaretijd,
+							staptijd
+						);
 
 						if (berekenTijd.resttijd === 0) {
 							beschikbaretijd = berekenTijd.beschikbaretijd;
@@ -216,12 +267,14 @@ export default {
 			return allOff;
 		},
 		darkMode() {
-			return this.$store.getters.instellingen.modus === 'licht' ? false : true;
+			return this.$store.getters.instellingen.modus === "licht" ? false : true;
 		}
 	},
 	methods: {
 		staptijd(stap) {
-			let tijd = Number(stap.insteltijd) + Number(stap.bewerkingstijd) * Number(stap.aantal);
+			let tijd =
+				Number(stap.insteltijd) +
+				Number(stap.bewerkingstijd) * Number(stap.aantal);
 			return tijd + (tijd / 100) * this.ineffectieveTijd;
 		},
 		berekenStappenPerDag(beschikbaretijd, staptijd) {
@@ -277,6 +330,7 @@ export default {
 	margin: 10px 0px;
 	border: solid 1px #d6d6d6;
 	border-radius: 0.2rem;
+	overflow-x: auto;
 }
 
 .planningBackground div h4 {
@@ -285,11 +339,18 @@ export default {
 	font-weight: 700;
 }
 
+#filterIcon {
+	cursor: pointer;
+}
+
 #filterList {
 	display: flex;
 
 	.filterItem {
 		margin: 0 10px;
 	}
+}
+.min-width-1000 {
+	min-width: 1000px;
 }
 </style>

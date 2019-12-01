@@ -12,10 +12,12 @@
 								}"
 							/>
 							<div class="card-body">
-								<h6 class="title"><strong>Layout</strong></h6>
-								<div class="row mb-2">
+								<h6 class="title col-form-label border-bottom my-1">
+									<strong>Layout</strong>
+								</h6>
+								<div class="row mb-2 d-flex">
 									<div class="col-md-8">
-										<p class="col-form-label">Basiskleur</p>
+										<label class="col-form-label text-left">Basiskleur</label>
 									</div>
 									<div class="col-md-4 input-group">
 										<select
@@ -33,7 +35,7 @@
 										</select>
 									</div>
 									<div class="col-md-8">
-										<p class="col-form-label">Kleurenmodus</p>
+										<label class="col-form-label text-left">Kleurenmodus</label>
 									</div>
 									<div class="col-md-4 input-group">
 										<select
@@ -46,11 +48,12 @@
 										</select>
 									</div>
 								</div>
-								<hr />
-								<h6 class="title"><strong>Financieel</strong></h6>
+								<h6 class="title col-form-label border-bottom mb-1">
+									<strong>Financieel</strong>
+								</h6>
 								<div class="row mb-2">
 									<div class="col-md-8">
-										<p class="col-form-label">Valuta</p>
+										<label class="col-form-label text-left">Valuta</label>
 									</div>
 									<div class="col-md-4 input-group">
 										<b-form-select
@@ -60,11 +63,14 @@
 										></b-form-select>
 									</div>
 								</div>
-								<hr />
-								<h6 class="title"><strong>Account</strong></h6>
+								<h6 class="title col-form-label border-bottom mb-1">
+									<strong>Account</strong>
+								</h6>
 								<div class="row mb-2">
 									<div class="col-md-8">
-										<p class="col-form-label">Account verwijderen</p>
+										<label class="col-form-label  text-left"
+											>Account verwijderen</label
+										>
 									</div>
 									<div class="col-md-4 input-group">
 										<a

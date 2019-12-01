@@ -5,12 +5,19 @@
 				<div class="row justify-content-center">
 					<div class="col-md-8 col-lg-6 col-xl-5">
 						<div class="card">
-							<CardHeader :text="{ title: 'Optie: planning en kosten', subtitle: 'Extra informatie over tijd en geld' }" />
+							<CardHeader
+								:text="{
+									title: 'Optie: planning en kosten',
+									subtitle: 'Extra informatie over tijd en geld'
+								}"
+							/>
 							<div class="card-body">
-								<h6 class="title"><strong>Planning</strong></h6>
+								<h6 class="title col-form-label border-bottom my-1">
+									<strong>Planning</strong>
+								</h6>
 								<div class="row mb-2">
 									<div class="col-md-8">
-										<p class="col-form-label">Werkdagen</p>
+										<label class="col-form-label text-left">Werkdagen</label>
 									</div>
 									<div class="col-md-4 input-group">
 										<input
@@ -24,7 +31,9 @@
 								</div>
 								<div class="row mb-2">
 									<div class="col-md-8">
-										<p class="col-form-label">Uren per werkdag</p>
+										<label class="col-form-label text-left"
+											>Uren per werkdag</label
+										>
 									</div>
 									<div class="col-md-4 input-group">
 										<input
@@ -38,7 +47,9 @@
 								</div>
 								<div class="row mb-2">
 									<div class="col-md-8">
-										<p class="col-form-label">Ineffectieve tijd</p>
+										<label class="col-form-label text-left"
+											>Ineffectieve tijd</label
+										>
 									</div>
 									<div class="col-md-4 input-group">
 										<input
@@ -50,11 +61,12 @@
 										<div class="input-group-append">%</div>
 									</div>
 								</div>
-								<hr />
-								<h6 class="title"><strong>Kosten</strong></h6>
+								<h6 class="title col-form-label border-bottom mb-1">
+									<strong>Kosten</strong>
+								</h6>
 								<div class="row mb-2">
 									<div class="col-md-8">
-										<p class="col-form-label">Uurtarief</p>
+										<label class="col-form-label text-left">Uurtarief</label>
 									</div>
 									<div class="col-md-4 input-group">
 										<input
@@ -63,12 +75,16 @@
 											class="form-control form-control-sm"
 											v-model="planningOpties.uurtarief"
 										/>
-										<div class="input-group-append">{{ $store.state.appData.instellingen.valuta }}</div>
+										<div class="input-group-append">
+											{{ $store.state.appData.instellingen.valuta }}
+										</div>
 									</div>
 								</div>
 								<div class="row mb-2">
 									<div class="col-md-8">
-										<p class="col-form-label">Indirecte kosten</p>
+										<label class="col-form-label text-left"
+											>Indirecte kosten</label
+										>
 									</div>
 									<div class="col-md-4 input-group">
 										<input
@@ -77,12 +93,14 @@
 											class="form-control form-control-sm"
 											v-model="planningOpties.indirecteKosten"
 										/>
-										<div class="input-group-append">{{ $store.state.appData.instellingen.valuta }}</div>
+										<div class="input-group-append">
+											{{ $store.state.appData.instellingen.valuta }}
+										</div>
 									</div>
 								</div>
 								<div class="row mb-2">
 									<div class="col-md-8">
-										<p class="col-form-label">Winstopslag</p>
+										<label class="col-form-label text-left">Winstopslag</label>
 									</div>
 									<div class="col-md-4 input-group">
 										<input
@@ -96,7 +114,7 @@
 								</div>
 								<div class="row mb-2">
 									<div class="col-md-8">
-										<p class="col-form-label">BTW-Tarief</p>
+										<label class="col-form-label text-left">BTW-Tarief</label>
 									</div>
 									<div class="col-md-4 input-group">
 										<input
@@ -112,7 +130,11 @@
 						</div>
 						<div class="row">
 							<div class="col-md-12">
-								<button type="button" class="btn btn-lg btn-block btn-danger btn-fill" @click.prevent="previous()">
+								<button
+									type="button"
+									class="btn btn-lg btn-block btn-danger btn-fill"
+									@click.prevent="previous()"
+								>
 									terug
 								</button>
 							</div>
@@ -125,11 +147,11 @@
 </template>
 
 <script>
-import CardHeader from '@/components/Card-header.vue';
-import newWvb from '@/assets/config/newWvb.js';
+import CardHeader from "@/components/Card-header.vue";
+import newWvb from "@/assets/config/newWvb.js";
 
 export default {
-	name: 'PlanningOpties',
+	name: "PlanningOpties",
 	components: { CardHeader },
 	data() {
 		return {
@@ -155,20 +177,21 @@ export default {
 			return this.$store.getters.werkvoorbereiding;
 		},
 		getPlanningOpties() {
-			return this.$store.getters.werkvoorbereidingsObject('planningOpties');
+			return this.$store.getters.werkvoorbereidingsObject("planningOpties");
 		}
 	},
 	methods: {
 		updateGegevens() {
-			if (this.getPlanningOpties) this.$set(this, 'planningOpties', this.getPlanningOpties);
-			else this.$set(this, 'planningOpties', newWvb.planningOpties);
+			if (this.getPlanningOpties)
+				this.$set(this, "planningOpties", this.getPlanningOpties);
+			else this.$set(this, "planningOpties", newWvb.planningOpties);
 		},
 		setData() {
-			this.$store.commit('werkvoorbereiding', {
+			this.$store.commit("werkvoorbereiding", {
 				...this.werkvoorbereiding,
 				planningOpties: this.planningOpties
 			});
-			this.$store.dispatch('wvbToFirebase');
+			this.$store.dispatch("wvbToFirebase");
 		},
 		previous() {
 			this.setData();

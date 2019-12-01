@@ -1,7 +1,7 @@
 <template>
 	<div class="content">
 		<div class="container-fluid">
-			<div class="row justify-content-center" allewvb="">
+			<div class="row justify-content-center">
 				<div class="col-md-12">
 					<div class="card">
 						<CardHeader
@@ -27,40 +27,44 @@
 							</div>
 						</div>
 						<hr class="mb-0" />
-						<div class="card-body table-responsive">
-							<table
-								class="table table-hover table-striped"
-								v-if="projecten"
-								:class="{ 'table-dark': darkMode }"
-							>
-								<thead>
-									<tr>
-										<th style="width: 5%;">#</th>
-										<th style="width: 30%;">Project naam</th>
-										<th style="width: 15%;">Aantal componenten</th>
-										<th style="width: 15%;">Aantal onderdelen</th>
-										<th style="width: 15%;">Aantal handelingen</th>
-										<th style="width: 30%;">Laatste wijziging</th>
-									</tr>
-								</thead>
-								<tbody>
-									<tr
-										v-bind:key="index"
-										v-for="(project, id, index) in projecten"
-										@click="selectWvb(id)"
-										:class="selectedColor(id)"
-									>
-										<template v-if="id != 'undefined' && project.basisgegevens">
-											<td>{{ index + 1 }}</td>
-											<td>{{ project.basisgegevens.project }}</td>
-											<td>{{ aantalComponenten(id) }}</td>
-											<td>{{ aantalOnderdelen(id) }}</td>
-											<td>{{ aantalHandelingen(id) }}</td>
-											<td>{{ project.laatsteBewerking }}</td>
-										</template>
-									</tr>
-								</tbody>
-							</table>
+						<div class="card-body">
+							<div class="table-responsive">
+								<table
+									class="table table-hover table-striped mb-0"
+									v-if="projecten"
+									:class="{ 'table-dark': darkMode }"
+								>
+									<thead class="bg-light" :class="{ 'bg-dark': darkMode }">
+										<tr>
+											<th style="width: 5%;">#</th>
+											<th style="width: 30%;">Project naam</th>
+											<th style="width: 15%;">Aantal componenten</th>
+											<th style="width: 15%;">Aantal onderdelen</th>
+											<th style="width: 15%;">Aantal handelingen</th>
+											<th style="width: 30%;">Laatste wijziging</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr
+											v-bind:key="index"
+											v-for="(project, id, index) in projecten"
+											@click="selectWvb(id)"
+											:class="selectedColor(id)"
+										>
+											<template
+												v-if="id != 'undefined' && project.basisgegevens"
+											>
+												<td>{{ index + 1 }}</td>
+												<td>{{ project.basisgegevens.project }}</td>
+												<td>{{ aantalComponenten(id) }}</td>
+												<td>{{ aantalOnderdelen(id) }}</td>
+												<td>{{ aantalHandelingen(id) }}</td>
+												<td>{{ project.laatsteBewerking }}</td>
+											</template>
+										</tr>
+									</tbody>
+								</table>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -180,14 +184,20 @@ export default {
 };
 </script>
 
-<style scoped>
-.table thead tr th {
-	font-size: 1em;
-	font-weight: 400;
-}
+<style scoped lang="scss">
+table {
+	border: solid 1px #d6d6d6;
 
-.table tbody tr {
-	cursor: pointer;
+	thead tr th {
+		font-size: 1em;
+		font-weight: 400;
+	}
+
+	td {
+		cursor: pointer;
+		padding-top: 8px !important;
+		padding-bottom: 8px !important;
+	}
 }
 
 .roze {

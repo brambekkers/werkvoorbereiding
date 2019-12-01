@@ -379,7 +379,7 @@
 										</draggable>
 									</div>
 								</draggable>
-								<div class="d-flex justify-content-between">
+								<div class="d-flex justify-content-between flex-wrap">
 									<button
 										type="button"
 										class="btn"

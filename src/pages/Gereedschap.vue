@@ -2,20 +2,32 @@
 	<div class="content">
 		<div class="container-fluid">
 			<div class="row justify-content-center">
-				<div :class="{
+				<div
+					:class="{
 						'col-xl-10 col-xxl-8 col-xxxl-6': gereedschap.userMade,
 						'col-lg-10 col-xl-8 col-xxl-6 col-xxxl-4': !gereedschap.userMade
-					}">
+					}"
+				>
 					<div class="card">
-						<CardHeader :text="{ title: 'Gereedschap', subtitle: 'Welke tools heb je tot je beschikking' }" />
+						<CardHeader
+							:text="{
+								title: 'Gereedschap',
+								subtitle: 'Welke tools heb je tot je beschikking'
+							}"
+						/>
 						<div class="card-body">
 							<div class="row">
 								<!-- Gereedschap -->
 								<div
 									class="border-right"
-									:class="{ 'col-md-4 col-sm-6': gereedschap.userMade, 'col-sm-6': !gereedschap.userMade }"
+									:class="{
+										'col-md-4 col-sm-6': gereedschap.userMade,
+										'col-sm-6': !gereedschap.userMade
+									}"
 								>
-									<h5 class="title text-center"><strong>Electrisch gereedschap</strong></h5>
+									<h5 class="title text-center">
+										<strong>Electrisch gereedschap</strong>
+									</h5>
 									<hr class="mt-0" />
 									<GereedschapItem
 										v-for="(value, key) in gereedschap.gereedschap"
@@ -27,7 +39,12 @@
 									/>
 								</div>
 								<!-- machines -->
-								<div :class="{ 'col-md-4 col-sm-6 border-right': gereedschap.userMade, 'col-sm-6': !gereedschap.userMade }">
+								<div
+									:class="{
+										'col-md-4 col-sm-6 border-right': gereedschap.userMade,
+										'col-sm-6': !gereedschap.userMade
+									}"
+								>
 									<h5 class="title text-center"><strong>Machines</strong></h5>
 									<hr class="mt-0" />
 									<GereedschapItem
@@ -40,11 +57,10 @@
 									/>
 								</div>
 								<!-- userMade -->
-								<div
-									class="col-md-4"
-									v-if="gereedschap.userMade"
-								>
-									<h5 class="title text-center"><strong>Zelf toegevoegd</strong></h5>
+								<div class="col-md-4" v-if="gereedschap.userMade">
+									<h5 class="title text-center">
+										<strong>Zelf toegevoegd</strong>
+									</h5>
 									<hr class="mt-0" />
 									<template v-for="(value, key) in gereedschap.userMade">
 										<GereedschapItem
@@ -68,14 +84,8 @@
 							</div>
 							<hr />
 							<div class="d-flex justify-content-between">
-								<button
-									class="btn"
-									@click="addUserTool"
-								>
-									<i
-										aria-hidden="true"
-										class="fas fa-plus mr-2"
-									></i>
+								<button class="btn" @click="addUserTool">
+									<i aria-hidden="true" class="fas fa-plus mr-2"></i>
 									Gereedschap toevoegen
 								</button>
 							</div>
@@ -89,25 +99,20 @@
 								@click="previousStep()"
 							>
 								<div class="row">
-									<div class="col-2"><i
-											aria-hidden="true"
-											class="fa fa-chevron-left"
-										></i></div>
+									<div class="col-2">
+										<i aria-hidden="true" class="fa fa-chevron-left"></i>
+									</div>
 									<div class="col-10">Vorige stap</div>
 								</div>
 							</button>
 						</div>
 						<div class="col-md-6">
-							<button
-								class="btn btn-lg btn-block"
-								@click="nextStep()"
-							>
+							<button class="btn btn-lg btn-block" @click="nextStep()">
 								<div class="row">
 									<div class="col-10">Volgende stap</div>
-									<div class="col-2"><i
-											aria-hidden="true"
-											class="fa fa-chevron-right"
-										></i></div>
+									<div class="col-2">
+										<i aria-hidden="true" class="fa fa-chevron-right"></i>
+									</div>
 								</div>
 							</button>
 						</div>
@@ -191,6 +196,14 @@ export default {
 				input: "text",
 				inputAttributes: {
 					autocapitalize: "off"
+				},
+				inputValidator: value => {
+					if (!value) {
+						return "Er is nog niets ingevuld!";
+					}
+					if (!/^[a-zA-Z0-9]+$/.test(value)) {
+						return `Speciale tekens zijn niet toegestaan.`;
+					}
 				},
 				showCancelButton: true,
 				confirmButtonText: "Voeg toe",

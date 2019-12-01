@@ -4,33 +4,53 @@
 			<div class="row">
 				<div class="col-md-8">
 					<div class="card mt-4">
-						<CardHeader :text="{ title: 'Bewerk je profiel', subtitle: 'Laat andere weten wie jij bent en wat je doet' }" />
+						<CardHeader
+							:text="{
+								title: 'Bewerk je profiel',
+								subtitle: 'Laat andere weten wie jij bent en wat je doet'
+							}"
+						/>
 						<div class="card-body">
 							<form v-if="profiel">
 								<div class="row">
 									<div class="col-md-5">
 										<div class="form-group">
 											<label>Voornaam</label>
-											<input type="text" placeholder="Voornaam" v-model="profiel.voornaam" class="form-control" />
+											<input
+												type="text"
+												placeholder="Voornaam"
+												v-model="profiel.voornaam"
+												class="form-control"
+											/>
 										</div>
 									</div>
 									<div class="col-md-2">
 										<div class="form-group">
 											<label>Tussenvoegsel</label>
-											<input type="text" placeholder="Tussenvoegsel" v-model="profiel.tussenvoegsel" class="form-control" />
+											<input
+												type="text"
+												placeholder="Tussenvoegsel"
+												v-model="profiel.tussenvoegsel"
+												class="form-control"
+											/>
 										</div>
 									</div>
 									<div class="col-md-5">
 										<div class="form-group">
 											<label>Achternaam</label>
-											<input type="text" placeholder="Achternaam" v-model="profiel.achternaam" class="form-control" />
+											<input
+												type="text"
+												placeholder="Achternaam"
+												v-model="profiel.achternaam"
+												class="form-control"
+											/>
 										</div>
 									</div>
 								</div>
 								<div class="row">
 									<div class="col-md-6">
 										<div class="form-group">
-											<label for="exampleInputEmail1">Email adres</label>
+											<label>Email adres</label>
 											<input
 												type="email"
 												placeholder="Email"
@@ -42,18 +62,26 @@
 									</div>
 									<div class="col-md-3">
 										<div class="form-group">
-											<label>Klas</label> <input type="text" placeholder="Klas" v-model="profiel.klas" class="form-control" />
+											<label>Klas</label>
+											<input
+												type="text"
+												placeholder="Klas"
+												v-model="profiel.klas"
+												class="form-control"
+											/>
 										</div>
 									</div>
-									<div class="col-md-3">
-										<div class="form-group">
-											<label>Niveau</label>
-											<select class="form-control" v-model="profiel.niveau">
-												<option>Niveau 2</option>
-												<option>Niveau 3</option>
-												<option>Niveau 4</option>
-											</select>
-										</div>
+									<div class="form-group col-md-3">
+										<label for="niveau">Niveau</label>
+										<select
+											id="niveau"
+											class="form-control"
+											v-model="profiel.niveau"
+										>
+											<option>Niveau 2</option>
+											<option>Niveau 3</option>
+											<option>Niveau 4</option>
+										</select>
 									</div>
 								</div>
 								<div class="row">
@@ -78,25 +106,47 @@
 					<div class="card card-user mt-4">
 						<div class="card-header card-header-secondary p-0">
 							<div class="card-image">
-								<a data-toggle="modal" data-target="#achtergrondFoto" class="pointer" v-if="profiel">
+								<a
+									data-toggle="modal"
+									data-target="#achtergrondFoto"
+									class="pointer"
+									v-if="profiel"
+								>
 									<img src="./../assets/img/hout.jpg" />
 								</a>
 							</div>
 						</div>
 						<div class="card-body" v-if="profiel">
 							<div class="author">
-								<a data-toggle="modal" data-target="#profielFoto" class="pointer">
-									<img v-if="!profielFoto" src="./../assets/img/default-avatar.png" class="avatar" />
+								<a
+									data-toggle="modal"
+									data-target="#profielFoto"
+									class="pointer"
+								>
+									<img
+										v-if="!profielFoto"
+										src="./../assets/img/default-avatar.png"
+										class="avatar"
+									/>
 									<img v-if="profielFoto" :src="profiel.foto" class="avatar" />
 								</a>
-								<h5 class="title">{{ profiel.voornaam }} {{ profiel.tussenvoegsel }} {{ profiel.achternaam }}</h5>
-								<p class="description">{{ profiel.klas }} <span class="mx-2"> | </span> {{ profiel.niveau }}</p>
+								<h5 class="title">
+									{{ profiel.voornaam }} {{ profiel.tussenvoegsel }}
+									{{ profiel.achternaam }}
+								</h5>
+								<p class="description">
+									{{ profiel.klas }} <span class="mx-2"> | </span>
+									{{ profiel.niveau }}
+								</p>
 							</div>
 							<p class="description text-center">{{ profiel.over }}</p>
 						</div>
 						<hr />
 						<div class="card-footer">
-							<div class="stats"><i class="fas fa-puzzle-piece mx-3"></i> Aantal projecten: {{ amountWvb }}</div>
+							<div class="stats">
+								<i class="fas fa-puzzle-piece mx-3"></i> Aantal projecten:
+								{{ amountWvb }}
+							</div>
 						</div>
 					</div>
 				</div>
@@ -112,9 +162,18 @@
 			>
 				<div class="modal-dialog">
 					<div class="modal-content" v-if="profiel">
-						<div class="modal-header justify-content-center">Profielfoto link</div>
+						<div class="modal-header justify-content-center">
+							Profielfoto link
+						</div>
 						<div class="modal-body text-center">
-							<div class="form-group"><input type="text" placeholder="http://" class="form-control" v-model="profiel.foto" /></div>
+							<div class="form-group">
+								<input
+									type="text"
+									placeholder="http://"
+									class="form-control"
+									v-model="profiel.foto"
+								/>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -130,9 +189,13 @@
 			>
 				<div class="modal-dialog">
 					<div class="modal-content" v-if="profiel">
-						<div class="modal-header justify-content-center">Achtergrondfoto profiel link</div>
+						<div class="modal-header justify-content-center">
+							Achtergrondfoto profiel link
+						</div>
 						<div class="modal-body text-center">
-							<div class="form-group"><input type="text" placeholder="http://" class="form-control" /></div>
+							<div class="form-group">
+								<input type="text" placeholder="http://" class="form-control" />
+							</div>
 						</div>
 					</div>
 				</div>
@@ -142,15 +205,15 @@
 </template>
 
 <script>
-import CardHeader from '@/components/Card-header.vue';
+import CardHeader from "@/components/Card-header.vue";
 
 export default {
-	name: 'Profiel',
+	name: "Profiel",
 	components: { CardHeader },
 	watch: {
 		profiel: {
 			handler() {
-				this.$store.dispatch('dataToFirebase', {
+				this.$store.dispatch("dataToFirebase", {
 					path: `profiel`,
 					data: this.profiel
 				});
@@ -176,7 +239,8 @@ export default {
 			}
 		},
 		amountWvb() {
-			if (this.alleWerkvoorbereidingen) return Object.keys(this.alleWerkvoorbereidingen).length;
+			if (this.alleWerkvoorbereidingen)
+				return Object.keys(this.alleWerkvoorbereidingen).length;
 
 			return 0;
 		}
@@ -223,14 +287,16 @@ export default {
 	position: relative;
 	z-index: 10;
 	margin-bottom: 15px;
-	box-shadow: 0 16px 38px -12px rgba(0, 0, 0, 0.56), 0 4px 25px 0px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.2);
+	box-shadow: 0 16px 38px -12px rgba(0, 0, 0, 0.56),
+		0 4px 25px 0px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.2);
 }
 
 .card .author {
 	text-transform: uppercase;
 }
 
-.card-header-secondary{
-	box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 10px -5px rgba(0, 0, 0, 0.4);
+.card-header-secondary {
+	box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14),
+		0 7px 10px -5px rgba(0, 0, 0, 0.4);
 }
 </style>

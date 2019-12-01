@@ -5,12 +5,21 @@
 				<div class="row justify-content-center">
 					<div class="col-md-8 col-lg-6 col-xl-5">
 						<div class="card">
-							<CardHeader :text="{ title: 'Optie: materialen', subtitle: 'Extra informatie over de materialen' }" />
+							<CardHeader
+								:text="{
+									title: 'Optie: materialen',
+									subtitle: 'Extra informatie over de materialen'
+								}"
+							/>
 							<div class="card-body">
-								<h6 class="title"><strong>Massief hout</strong></h6>
+								<h6 class="title col-form-label border-bottom my-1">
+									<strong>Massief hout</strong>
+								</h6>
 								<div class="row mb-2">
 									<div class="col-md-8">
-										<p class="col-form-label">Maximale dikte duims hout</p>
+										<label class="col-form-label text-left"
+											>Maximale dikte duims hout</label
+										>
 									</div>
 									<div class="col-md-4 input-group">
 										<input
@@ -27,7 +36,9 @@
 								</div>
 								<div class="row mb-2">
 									<div class="col-md-8">
-										<p class="col-form-label">Overlengte kopse kanten</p>
+										<label class="col-form-label text-left"
+											>Overlengte kopse kanten</label
+										>
 									</div>
 									<div class="col-md-4 input-group">
 										<input
@@ -44,7 +55,9 @@
 								</div>
 								<div class="row mb-2">
 									<div class="col-md-8">
-										<p class="col-form-label">Overlengte Langse kanten</p>
+										<label class="col-form-label text-left"
+											>Overlengte Langse kanten</label
+										>
 									</div>
 									<div class="col-md-4 input-group">
 										<input
@@ -61,7 +74,9 @@
 								</div>
 								<div class="row">
 									<div class="col-md-8">
-										<p class="col-form-label">Opslagpercentage</p>
+										<label class="col-form-label text-left"
+											>Opslagpercentage</label
+										>
 									</div>
 									<div class="col-md-4 input-group">
 										<input
@@ -76,11 +91,14 @@
 										<div class="input-group-append">%</div>
 									</div>
 								</div>
-								<hr />
-								<h6 class="title"><strong>Plaatmateriaal</strong></h6>
+								<h6 class="title col-form-label border-bottom mb-1">
+									<strong>Plaatmateriaal</strong>
+								</h6>
 								<div class="row mb-2">
 									<div class="col-md-8">
-										<p class="col-form-label">Overlengte zijdes</p>
+										<label class="col-form-label text-left"
+											>Overlengte zijdes</label
+										>
 									</div>
 									<div class="col-md-4 input-group">
 										<input
@@ -97,7 +115,9 @@
 								</div>
 								<div class="row">
 									<div class="col-md-8">
-										<p class="col-form-label">Opslagpercentage</p>
+										<label class="col-form-label text-left"
+											>Opslagpercentage</label
+										>
 									</div>
 									<div class="col-md-4 input-group">
 										<input
@@ -116,7 +136,10 @@
 						</div>
 						<div class="row">
 							<div class="col-md-12">
-								<button type="submit" class="btn btn-lg btn-block btn-danger btn-fill">
+								<button
+									type="submit"
+									class="btn btn-lg btn-block btn-danger btn-fill"
+								>
 									terug
 								</button>
 							</div>
@@ -129,11 +152,11 @@
 </template>
 
 <script>
-import CardHeader from '@/components/Card-header.vue';
-import newWvb from '@/assets/config/newWvb.js';
+import CardHeader from "@/components/Card-header.vue";
+import newWvb from "@/assets/config/newWvb.js";
 
 export default {
-	name: 'MateriaalOpties',
+	name: "MateriaalOpties",
 	components: { CardHeader },
 	data() {
 		return {
@@ -159,24 +182,25 @@ export default {
 			return this.$store.getters.werkvoorbereiding;
 		},
 		getMateriaalOpties() {
-			return this.$store.getters.werkvoorbereidingsObject('materiaalOpties');
+			return this.$store.getters.werkvoorbereidingsObject("materiaalOpties");
 		}
 	},
 	methods: {
 		updateGegevens() {
-			if (this.getMateriaalOpties) this.$set(this, 'materiaalOpties', this.getMateriaalOpties);
-			else this.$set(this, 'materiaalOpties', newWvb.materiaalOpties);
+			if (this.getMateriaalOpties)
+				this.$set(this, "materiaalOpties", this.getMateriaalOpties);
+			else this.$set(this, "materiaalOpties", newWvb.materiaalOpties);
 		},
 		previous() {
 			this.setData();
 			this.$router.go(-1);
 		},
 		setData() {
-			this.$store.commit('werkvoorbereiding', {
+			this.$store.commit("werkvoorbereiding", {
 				...this.werkvoorbereiding,
 				materiaalOpties: this.materiaalOpties
 			});
-			this.$store.dispatch('wvbToFirebase', {
+			this.$store.dispatch("wvbToFirebase", {
 				path: `alleWVB/${this.werkvoorbereiding.id}`,
 				data: this.werkvoorbereiding
 			});

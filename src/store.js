@@ -29,6 +29,7 @@ export default new Vuex.Store({
 			aantalWerkdagen: 0,
 			aantalUren: 0,
 			verkoopPrijsInclBtw: 0,
+			materiaalStaatType: 'netto',
 			filter: {
 				gegevens: false,
 				verkoopprijs: true,
@@ -105,6 +106,11 @@ export default new Vuex.Store({
 		setDashboard(state, { path, value }) {
 			state.dashboard[path] = value;
 		},
+		setAllFilterDashboard(state, boolean) {
+			for (const key in state.dashboard.filter) {
+				state.dashboard.filter[key] = boolean
+			}
+		},
 		resetInstellingen(state) {
 			state.appData.instellingen = {
 				kleur: 'groen',
@@ -115,6 +121,7 @@ export default new Vuex.Store({
 				aantalWerkdagen: 0,
 				aantalUren: 0,
 				verkoopPrijsInclBtw: 0,
+				materiaalStaatType: 'netto',
 				filter: {
 					gegevens: false,
 					verkoopprijs: true,

@@ -1,26 +1,39 @@
 <template>
-	<div class="col-lg-3 col-md-6 col-sm-6">
+	<div class="col-lg-6 col-md-6 col-sm-6">
 		<div class="card card-stats">
 			<div class="card-header card-header-danger card-header-icon">
 				<div class="card-icon">
 					<i class="fas fa-bug"></i>
 				</div>
-				<button
-					id="findError"
-					v-if="!totalErrors"
-					class="btn btn-outline-danger shadow-none"
-					@click="findErrors()"
-				>
-					Zoek errors
-				</button>
-				<button
-					id="findError"
-					v-if="totalErrors"
-					class="btn btn-outline-success shadow-none"
-					@click="fixErrors()"
-				>
-					Fix errors
-				</button>
+				<div class="row">
+					<div class="col-lg-8 pt-3">
+						<p
+							class="card-category my-0"
+							:key="key"
+							v-for="(error, key) in userErrors"
+						>
+							{{ error }}
+						</p>
+					</div>
+					<div class="col-lg-4">
+						<button
+							id="findError"
+							v-if="!totalErrors"
+							class="btn btn-outline-danger shadow-none"
+							@click="findErrors()"
+						>
+							Zoek errors
+						</button>
+						<button
+							id="findError"
+							v-if="totalErrors"
+							class="btn btn-outline-success shadow-none"
+							@click="fixErrors()"
+						>
+							Fix errors
+						</button>
+					</div>
+				</div>
 			</div>
 			<div class="card-footer">
 				<div class="stats">
@@ -44,22 +57,22 @@ export default {
 	computed: {
 		totalErrors() {
 			return Object.keys(this.errors).length;
+		},
+		userErrors() {
+			const noProfile = this.noProfile();
+			const IDNotTheSame = this.IDNotTheSame();
+			const noProjectInfo = this.noProjectInfo();
+			const noEmail = this.noEmail();
+
+			return [
+				`${noProfile.length} accounts zonder profiel`,
+				`${IDNotTheSame.length} accounts met verschillend ID`,
+				`${noEmail.length} accounts zonder email`,
+				`${noProjectInfo.length} accounts met wvb's zonder gegevens`
+			];
 		}
 	},
 	methods: {
-		findErrors() {
-			const noProfile = this.noProfile();
-			const IDNotTheSame = this.IDNotTheSame();
-			const noEmail = this.noEmail();
-
-			window.Swal.fire({
-				title: "Errors gevonden",
-				html: `${noProfile.length} accounts zonder profiel<br> ${IDNotTheSame.length} accounts met verschillend ID<br> ${noEmail.length} accounts zonder email<br>`,
-				confirmButtonColor: "#F33527",
-				confirmButtonText: "Ik begrijp het!",
-				type: "error"
-			});
-		},
 		fixErrors() {
 			this.fixNoProfile();
 			this.fixIDNotTheSame();
@@ -92,6 +105,23 @@ export default {
 				"ID in profiel matched niet met Auth ID"
 			);
 			return notTheSameID;
+		},
+		noProjectInfo() {
+			const noProjectInfo = this.users.filter(user => {
+				if (user.alleWVB) {
+					const wvbArray = Object.values(user.alleWVB);
+					const noProjectInfo = wvbArray.filter(wvb => {
+						if (!wvb.basisgegevens) return true;
+					});
+
+					if (noProjectInfo.length) return true;
+				}
+			});
+			this.errorToErrors(
+				noProjectInfo,
+				"Heeft een project zonder project info"
+			);
+			return noProjectInfo;
 		},
 		errorToErrors(array, error) {
 			for (const user of array) {

@@ -1,10 +1,10 @@
 <template>
-	<div class="card-body">
+	<div class="card pt-2">
 		<div class="card-header d-flex justify-content-between">
 			<h3 class="my-0">Profiel informatie</h3>
 			<div class="w-25">
 				<button
-					class="col-8 btn btn-sm bg-secondary text-white w-75 h-100"
+					class="col-8 btn btn-sm bg-secondary text-white mr-2 w-75 h-100"
 					@click="$emit('closeDetail')"
 				>
 					<i class="fas fa-chevron-left mr-2 "></i>Terug
@@ -69,20 +69,24 @@
 					</div>
 				</div>
 			</div>
-			<div class="col-md-12" v-if="haveWVB">
+			<div class="col-md-12 px-4 mt-2" v-if="haveWVB">
 				<h5 class="border-bottom mb-0"><strong>Projecten:</strong></h5>
-				<div>
-					<a
-						class="dropdown-item projectItem border-bottom "
-						v-bind:key="key"
-						v-for="(wvb, key, index) in user.alleWVB"
-						@click="copyWvb(wvb)"
-						>{{ index + 1 }} -
-						<span v-if="wvb.basisgegevens">{{
-							wvb.basisgegevens.project
-						}}</span>
-					</a>
-				</div>
+				<table
+					class="table table-hover table-striped"
+					:class="{ 'table-dark': darkMode }"
+				>
+					<tbody>
+						<tr
+							scope="row"
+							v-bind:key="key"
+							v-for="(wvb, key, index) in user.alleWVB"
+							@click="copyWvb(wvb)"
+						>
+							<td>{{ index + 1 }}</td>
+							<td v-if="wvb.basisgegevens">{{ wvb.basisgegevens.project }}</td>
+						</tr>
+					</tbody>
+				</table>
 			</div>
 		</div>
 	</div>
@@ -101,6 +105,9 @@ export default {
 				return Object.values(this.user.alleWVB).length > 0 ? true : false;
 			}
 			return false;
+		},
+		darkMode() {
+			return this.$store.getters.instellingen.modus === "licht" ? false : true;
 		}
 	},
 	methods: {
@@ -168,51 +175,7 @@ export default {
 	}
 }
 
-.cardlist {
+tr {
 	cursor: pointer;
-	margin: 0;
-	padding: 0;
-	border-radius: 0;
-}
-
-.cardlist:nth-child(even) {
-	background-color: #f2f2f2;
-}
-
-.cardlist:hover,
-.projectItem:hover {
-	background-color: #f2f2f2;
-}
-
-.projectItem {
-	cursor: pointer;
-}
-
-.projectItem:nth-child(odd) {
-	background-color: #fff;
-}
-
-.projectItem:nth-child(even) {
-	background-color: #f2f2f2;
-}
-
-.idkey {
-	font-size: 0.7rem;
-}
-
-.page-link {
-	cursor: pointer;
-}
-
-.bglichtgroen {
-	background: rgba(202, 243, 202, 0.5);
-}
-
-.bglichtrood {
-	background: rgba(248, 212, 209, 0.5);
-}
-
-.card-body {
-	background: #fff;
 }
 </style>
