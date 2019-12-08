@@ -64,6 +64,9 @@
 					<FilterOptions
 						:filterProps="{ name: 'Materiaalstaat', id: 'materiaalstaat' }"
 					/>
+					<FilterOptions
+						:filterProps="{ name: 'Zaagoptimalisatie', id: 'optimalisatie' }"
+					/>
 					<FilterOptions :filterProps="{ name: 'Agenda', id: 'agenda' }" />
 				</div>
 			</div>

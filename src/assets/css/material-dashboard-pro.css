@@ -1525,7 +1525,7 @@ pre code {
 
 .table-sm td,
 .table-sm th {
-    padding: .3rem
+    padding: .3rem !important
 }
 
 .table-bordered,

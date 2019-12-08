@@ -7,14 +7,14 @@
 				</div>
 				<p class="card-category">Verkoopprijs</p>
 				<h4 class="card-title">
-					<small>{{valuta}}</small>
-					{{verkoopprijs}}
+					<small>{{ valuta }}</small>
+					{{ verkoopprijs }}
 				</h4>
 			</div>
 			<div class="card-footer">
 				<div class="stats">
 					<i class="far fa-clock material-icons mr-2"></i>
-					<a><strong>Geüpdatet:</strong> {{laatsteWijziging}}</a>
+					<a><strong>Geüpdatet:</strong> {{ laatsteWijziging }}</a>
 				</div>
 			</div>
 		</div>
@@ -43,6 +43,4 @@ export default {
 };
 </script>
 
-
-<style scoped>
-</style>
+<style scoped></style>

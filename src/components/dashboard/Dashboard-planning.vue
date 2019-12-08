@@ -162,13 +162,16 @@ export default {
 			return Number(this.getPlanningOpties.urenWerkdag) * 60;
 		},
 		filterStap() {
-			return new Set(this.planningStappenArray.map(stap => stap.stap));
+			if (this.planningStappenArray)
+				return new Set(this.planningStappenArray.map(stap => stap.stap));
 		},
 		filterBewerking() {
-			return new Set(this.planningStappenArray.map(stap => stap.bewerking));
+			if (this.planningStappenArray)
+				return new Set(this.planningStappenArray.map(stap => stap.bewerking));
 		},
 		filterGereedschap() {
-			return new Set(this.planningStappenArray.map(stap => stap.gereedschap));
+			if (this.planningStappenArray)
+				return new Set(this.planningStappenArray.map(stap => stap.gereedschap));
 		},
 		dagenWeek() {
 			return Number(this.getPlanningOpties.dagenWeek);
@@ -192,8 +195,7 @@ export default {
 		},
 		stapBestaat() {
 			if (this.getPlanning) {
-				if (this.planningStappenArray) return true;
-				return false;
+				return this.planningStappenArray;
 			}
 			return false;
 		},
@@ -212,7 +214,7 @@ export default {
 					}
 				}
 			}
-			return array;
+			return array.length ? array : false;
 		},
 		planAgenda() {
 			if (this.planningStappenArray) {
@@ -307,14 +309,20 @@ export default {
 			return week;
 		},
 		createFilterItems() {
-			for (const stap of this.filterStap) {
-				this.$set(this.filterKeys.stap, stap, false);
+			if (this.filterStap) {
+				for (const stap of this.filterStap) {
+					this.$set(this.filterKeys.stap, stap, false);
+				}
 			}
-			for (const bewerking of this.filterBewerking) {
-				this.$set(this.filterKeys.bewerking, bewerking, false);
+			if (this.filterBewerking) {
+				for (const bewerking of this.filterBewerking) {
+					this.$set(this.filterKeys.bewerking, bewerking, false);
+				}
 			}
-			for (const gereedschap of this.filterGereedschap) {
-				this.$set(this.filterKeys.gereedschap, gereedschap, false);
+			if (this.filterGereedschap) {
+				for (const gereedschap of this.filterGereedschap) {
+					this.$set(this.filterKeys.gereedschap, gereedschap, false);
+				}
 			}
 		}
 	}

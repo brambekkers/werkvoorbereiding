@@ -9,8 +9,10 @@
 
 							<div class="card-body">
 								<!-- Massief hout -->
-								<h6 class="title mb-2"><strong>Massief hout</strong></h6>
-								<div class="row" v-bind:key="'massief' + index" v-for="(massief, index) in materialen.massief">
+								<h6 class="title col-form-label text-left border-bottom my-1"><strong>Massief hout</strong></h6>
+
+
+								<div class="row " v-bind:key="'massief' + index" v-for="(massief, index) in materialen.massief">
 									<div class="col-md-7">
 										<div class="input-group mb-2">
 											<div class="input-group-prepend">
@@ -47,7 +49,7 @@
 											</money>
 										</div>
 									</div>
-									<div class="col-2 col-md-2">
+									<div class="col-2">
 										<div class="input-group mb-2">
 											<button type="button" class="btn btn-danger btn-sm" @click="removeComponent('massief', index)">
 												<i class="fa fa-trash"></i>
@@ -61,65 +63,65 @@
 								<button type="button" class="btn" @click="newMaterial('massief')">
 									<i class="fa fa-plus mr-3"></i>Nieuw massief
 								</button>
-								<hr />
+								
 
 								<!-- Plaatmateriaal -->
-								<h6 class="title mb-2"><strong>Plaatmateriaal</strong></h6>
-								<div class="row" v-bind:key="'plaatmateriaal' + index" v-for="(plaatmateriaal, index) in materialen.plaatmateriaal">
-									<div class="col-md-7">
-										<div class="input-group mb-2">
-											<div class="input-group-prepend">
-												<span id="basic-addon1" class="input-group-text">
-													<i class="fa fa-square fa-fw"></i>
-												</span>
+									<h6 class="title col-form-label text-left border-bottom mb-1"><strong>Plaatmateriaal</strong></h6>
+									<div class="row" v-bind:key="'plaatmateriaal' + index" v-for="(plaatmateriaal, index) in materialen.plaatmateriaal">
+										<div class="col-md-7">
+											<div class="input-group mb-2">
+												<div class="input-group-prepend">
+													<span id="basic-addon1" class="input-group-text">
+														<i class="fa fa-square fa-fw"></i>
+													</span>
+												</div>
+												<input
+													type="text"
+													placeholder="Plaatmateriaal naam"
+													data-toggle="tooltip"
+													data-placement="top"
+													title=""
+													required="required"
+													class="form-control"
+													data-original-title="Naam van het plaatmateriaal incl de dikte? Bijv. MDF 12mm"
+													v-model="plaatmateriaal.naam"
+												/>
 											</div>
-											<input
-												type="text"
-												placeholder="Plaatmateriaal naam"
-												data-toggle="tooltip"
-												data-placement="top"
-												title=""
-												required="required"
-												class="form-control"
-												data-original-title="Naam van het plaatmateriaal incl de dikte? Bijv. MDF 12mm"
-												v-model="plaatmateriaal.naam"
-											/>
+										</div>
+										<div class="col-8 col-md-3">
+											<div class="input-group mb-2">
+												<money
+													placeholder="Prijs m2"
+													data-toggle="tooltip"
+													data-placement="top"
+													min="1"
+													required="required"
+													class="form-control"
+													data-original-title="Hoeveel kost dit plaatmateriaal per m2?"
+													v-model="plaatmateriaal.prijs"
+													v-bind="money"
+												>
+												</money>
+											</div>
+										</div>
+										<div class="col-2 col-md-2">
+											<div class="input-group mb-2">
+												<button type="button" class="btn btn-danger btn-sm" @click="removeComponent('plaatmateriaal', index)">
+													<i class="fa fa-trash"></i>
+												</button>
+											</div>
+										</div>
+										<div class="col-12 d-block d-md-none">
+											<hr />
 										</div>
 									</div>
-									<div class="col-8 col-md-3">
-										<div class="input-group mb-2">
-											<money
-												placeholder="Prijs m2"
-												data-toggle="tooltip"
-												data-placement="top"
-												min="1"
-												required="required"
-												class="form-control"
-												data-original-title="Hoeveel kost dit plaatmateriaal per m2?"
-												v-model="plaatmateriaal.prijs"
-												v-bind="money"
-											>
-											</money>
-										</div>
-									</div>
-									<div class="col-2 col-md-2">
-										<div class="input-group mb-2">
-											<button type="button" class="btn btn-danger btn-sm" @click="removeComponent('plaatmateriaal', index)">
-												<i class="fa fa-trash"></i>
-											</button>
-										</div>
-									</div>
-									<div class="col-12 d-block d-md-none">
-										<hr />
-									</div>
-								</div>
-								<button type="button" class="btn" @click="newMaterial('plaatmateriaal')">
-									<i class="fa fa-plus mr-3"></i>Nieuw plaatmateriaal
-								</button>
-								<hr />
+									<button type="button" class="btn" @click="newMaterial('plaatmateriaal')">
+										<i class="fa fa-plus mr-3"></i>Nieuw plaatmateriaal
+									</button>
+
 
 								<!-- Fineer -->
-								<h6 class="title"><strong>Fineer</strong></h6>
+								<h6 class="title col-form-label text-left border-bottom mb-1"><strong>Fineer</strong></h6>
 								<div class="row" v-bind:key="'fineer' + index" v-for="(fineer, index) in materialen.fineer">
 									<div class="col-md-7">
 										<div class="input-group mb-2">
@@ -169,9 +171,8 @@
 									</div>
 								</div>
 								<button type="button" class="btn" @click="newMaterial('fineer')"><i class="fa fa-plus mr-3"></i>Nieuw fineer</button>
-								<hr />
 
-								<div class="d-flex justify-content-between">
+								<div class="d-flex justify-content-between border-top mt-5">
 									<router-link tag="button" class="btn" to="/overigeMaterialen">
 										<i aria-hidden="true" class="far fa-clipboard mr-2"></i>
 										Overige materialen

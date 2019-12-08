@@ -20,9 +20,6 @@
 			</div>
 			<div class="card-body">
 				<div class="card-actions">
-					<button type="button" class="btn btn-danger btn-link fix-broken-card">
-						<i class="material-icons">build</i> Fix Header!
-					</button>
 					<router-link
 						tag="button"
 						class="btn btn-default btn-link"
@@ -335,13 +332,12 @@ export default {
 }
 
 .card-header {
-	min-height: 55px;
+	min-height: 200px;
 	display: flex;
 	align-items: center;
 
 	p {
 		margin-bottom: 0;
-		width: 90%;
 	}
 
 	i {

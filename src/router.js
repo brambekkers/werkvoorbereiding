@@ -19,6 +19,7 @@ import Planning from './pages/Planning.vue';
 import Dashboard from './pages/Dashboard.vue';
 import Share from './pages/Share.vue';
 import NaCalculatie from './pages/Nacalculatie.vue';
+import Optimalisatie from './pages/Optimalisatie.vue';
 
 // optie pages
 import MateriaalOpties from './pages/MateriaalOpties.vue';
@@ -109,6 +110,11 @@ export default new Router({
 			path: '/PlanningOpties',
 			name: 'PlanningOpties',
 			component: PlanningOpties
+		},
+		{
+			path: '/Optimalisatie',
+			name: 'Optimalisatie',
+			component: Optimalisatie
 		},
 		{
 			path: '/Importeren',
