@@ -55,6 +55,9 @@ export default {
 		};
 	},
 	computed: {
+		fbDB() {
+			return this.$store.getters.fb.database();
+		},
 		totalErrors() {
 			return Object.keys(this.errors).length;
 		},
@@ -74,8 +77,9 @@ export default {
 	},
 	methods: {
 		fixErrors() {
-			this.fixNoProfile();
-			this.fixIDNotTheSame();
+			// this.fixNoProfile();
+			// this.fixIDNotTheSame();
+			// this.fixNoProjectInfo();
 
 			this.errors = {};
 		},
@@ -134,10 +138,7 @@ export default {
 		fixNoProfile() {
 			for (const user of this.noProfile()) {
 				if (user.id) {
-					const userRef = this.$store.getters.fb
-						.database()
-						.ref(`users/${user.id}/profiel`);
-
+					const userRef = this.fbDB.ref(`users/${user.id}/profiel`);
 					userRef.set({
 						achtergrond: "",
 						achternaam: "",
@@ -156,11 +157,28 @@ export default {
 		fixIDNotTheSame() {
 			for (const user of this.IDNotTheSame()) {
 				if (user.id) {
-					const userRef = this.$store.getters.fb
-						.database()
-						.ref(`users/${user.id}/profiel/id`);
+					const userRef = this.fbDB.ref(`users/${user.id}/profiel/id`);
 
 					userRef.set(user.id);
+				}
+			}
+		},
+		fixNoProjectInfo() {
+			let count = 1;
+			const users = this.noProjectInfo();
+			for (const user of users) {
+				if (user.alleWVB) {
+					if (user.id) {
+						for (const key in user.alleWVB) {
+							if (user.alleWVB.hasOwnProperty(key)) {
+								const wvb = user.alleWVB[key];
+								if (!wvb.basisgegevens) {
+									const ref = this.fbDB.ref(`users/${user.id}/alleWVB/${key}`);
+									ref.remove();
+								}
+							}
+						}
+					}
 				}
 			}
 		}

@@ -20,16 +20,16 @@
 		<div class="row">
 			<div class="col-12" v-if="haveProfile">
 				<div class="row mt-2">
-					<div class="col-3 d-flex justify-content-center">
+					<div class="col-3 d-flex justify-content-center ">
 						<img
 							v-if="!user.profiel.foto"
 							src="../../assets/img/default-avatar.png"
-							class="img-fluid rounded-circle"
+							class="rounded-circle avatar"
 						/>
 						<img
 							v-if="user.profiel.foto"
 							:src="user.profiel.foto"
-							class="img-fluid rounded-circle"
+							class="rounded-circle avatar"
 						/>
 					</div>
 					<div class="col-5 profileInfo ">
@@ -167,6 +167,11 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.avatar {
+	height: 200px;
+	width: 200px;
+	object-fit: cover;
+}
 .profileInfo {
 	p {
 		margin: 0;

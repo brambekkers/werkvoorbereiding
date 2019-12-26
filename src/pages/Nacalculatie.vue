@@ -11,18 +11,18 @@
 							}"
 						/>
 						<div class="card-body">
-							<draggable v-model="$store.state.werkvoorbereiding.nacalculatie">
+							<draggable v-model="nacalculatie" handle=".handle">
 								<div
 									class="row area"
-									v-bind:key="index"
-									v-for="(calculatie, index) in nacalculatie"
+									v-bind:key="i"
+									v-for="(calculatie, i) in nacalculatie"
 								>
-									<div class="col-12 col-sm-5 col-md-4 col-lg-4 col-xl-3">
+									<div class="col-6 col-sm-4">
 										<div class="input-group mb-2">
 											<div class="form-group bmd-form-group is-filled">
 												<span
 													id="basic-addon1"
-													class="input-group-text grabbing"
+													class="input-group-text grabbing handle"
 												>
 													<i class="fab fa-slack-hash"></i>
 												</span>
@@ -39,7 +39,7 @@
 											/>
 										</div>
 									</div>
-									<div class="col-12 col-sm-3 col-md-4 col-lg-5 col-lg-6">
+									<div class="col-6 col-sm">
 										<div class="input-group mb-2">
 											<input
 												type="text"
@@ -53,7 +53,7 @@
 											/>
 										</div>
 									</div>
-									<div class="col-8 col-sm-2 col-md-3 col-lg-2">
+									<div class="col-8 col-sm-2">
 										<div class="input-group mb-2">
 											<input
 												type="number"
@@ -68,17 +68,9 @@
 											/>
 										</div>
 									</div>
-									<div class="col-4 col-sm-2 col-md-1">
-										<div class="input-group mb-2">
-											<button
-												type="button"
-												class="btn btn-danger btn-sm btn-block"
-												@click="removeRegistration(index)"
-											>
-												<i class="fa fa-trash"></i>
-											</button>
-										</div>
-									</div>
+
+									<DeleteButton @delete="removeRegistration(i)" />
+
 									<div class="col-12 d-block d-sm-none">
 										<hr class="mt-0" />
 									</div>
@@ -87,9 +79,10 @@
 							<hr />
 							<div class="row">
 								<div class="col-sm-6 col-md-8 col-xl-9">
-									<button type="button" class="btn" @click="newRegistration()">
-										<i class="fa fa-plus mr-3"></i>Nieuwe registratie
-									</button>
+									<AddButton
+										@add="newRegistration"
+										:text="'Voeg nieuwe registratie toe'"
+									/>
 								</div>
 								<div class="col-sm-6 col-md-3 col-xl-2">
 									<div class="d-flex">
@@ -126,12 +119,16 @@
 import CardHeader from "@/components/Card-header.vue";
 import draggable from "vuedraggable";
 import newWvb from "@/assets/config/newWvb.js";
+import AddButton from "@/components/Add-button.vue";
+import DeleteButton from "@/components/Delete-button.vue";
 
 export default {
 	name: "NaCalculatie",
 	components: {
 		CardHeader,
-		draggable
+		draggable,
+		AddButton,
+		DeleteButton
 	},
 	data() {
 		return {

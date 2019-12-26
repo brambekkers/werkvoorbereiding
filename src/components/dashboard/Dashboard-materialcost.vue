@@ -1,7 +1,10 @@
 <template>
 	<div class="col-md-6">
 		<div class="card card-chart">
-			<div class="card-header card-header-warning" data-header-animation="true">
+			<div
+				class="card-header card-header-warning"
+				:data-header-animation="optionsOn"
+			>
 				<Chart
 					v-if="getMaten"
 					:height="150"
@@ -83,7 +86,7 @@ import Chart from "@/components/chart/Chart-materialcost";
 
 export default {
 	name: "DashboardMaterialCost",
-	props: ["werkvoorbereiding"],
+	props: ["werkvoorbereiding", "optionsOn"],
 	components: {
 		Chart
 	},
@@ -92,19 +95,19 @@ export default {
 			return this.$store.getters.dashboard;
 		},
 		getMaterialen() {
-			return this.$store.getters.werkvoorbereidingsObject("materialen");
+			return this.werkvoorbereiding.materialen;
 		},
 		getOverigeMaterialen() {
-			return this.$store.getters.werkvoorbereidingsObject("overigeMaterialen");
+			return this.werkvoorbereiding.overigeMaterialen;
 		},
 		getMaten() {
-			return this.$store.getters.werkvoorbereidingsObject("maten");
+			return this.werkvoorbereiding.maten;
 		},
 		getPlanningOpties() {
-			return this.$store.getters.werkvoorbereidingsObject("planningOpties");
+			return this.werkvoorbereiding.planningOpties;
 		},
 		getMateriaalOpties() {
-			return this.$store.getters.werkvoorbereidingsObject("materiaalOpties");
+			return this.werkvoorbereiding.materiaalOpties;
 		},
 		opslagpercentageMassief() {
 			return this.getMateriaalOpties
@@ -332,7 +335,7 @@ export default {
 }
 
 .card-header {
-	min-height: 200px;
+	min-height: 100px;
 	display: flex;
 	align-items: center;
 

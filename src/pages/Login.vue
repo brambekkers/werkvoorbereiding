@@ -1,7 +1,7 @@
 <template>
 	<div class="content py-auto">
 		<div class="container-fluid">
-			<div class="col-12 col-sm-10 col-md-8 col-lg-6 col-xl-4 mx-auto">
+			<div class="col-12 col-sm-10 col-md-8 col-lg-6 col-xl-5 mx-auto">
 				<form role="form" @submit.prevent="login()">
 					<div class="card">
 						<CardHeader

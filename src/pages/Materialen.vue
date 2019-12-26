@@ -5,18 +5,28 @@
 				<div class="row justify-content-center">
 					<div class="col-md-10 col-lg-8 col-xl-7 col-xxl-6 col-xxxl-4">
 						<div class="card">
-							<CardHeader :text="{ title: 'Materialen', subtitle: 'Waar ga je het van maken' }" />
+							<CardHeader
+								:text="{
+									title: 'Materialen',
+									subtitle: 'Waar ga je het van maken'
+								}"
+							/>
 
 							<div class="card-body">
 								<!-- Massief hout -->
-								<h6 class="title col-form-label text-left border-bottom my-1"><strong>Massief hout</strong></h6>
+								<h6 class="title col-form-label text-left border-bottom my-1">
+									<strong>Massief hout</strong>
+								</h6>
 
-
-								<div class="row " v-bind:key="'massief' + index" v-for="(massief, index) in materialen.massief">
-									<div class="col-md-7">
+								<div
+									class="row "
+									v-bind:key="'massief' + i"
+									v-for="(massief, i) in materialen.massief"
+								>
+									<div class="col">
 										<div class="input-group mb-2">
 											<div class="input-group-prepend">
-												<span id="basic-addon1" class="input-group-text">
+												<span id="basic-addon1" class="input-group-text pl-0">
 													<i class="fa fa-leaf fa-fw"></i>
 												</span>
 											</div>
@@ -33,7 +43,7 @@
 											/>
 										</div>
 									</div>
-									<div class="col-8 col-md-3">
+									<div class="col-3">
 										<div class="input-group mb-2">
 											<money
 												placeholder="Prijs m3"
@@ -44,89 +54,86 @@
 												class="form-control"
 												data-original-title="Hoeveel kost deze houtsoort per m3? Bijv. 1800 euro"
 												v-model="massief.prijs"
-												v-bind="money"
+												v-bind="moneyMassief"
 											>
 											</money>
 										</div>
 									</div>
-									<div class="col-2">
-										<div class="input-group mb-2">
-											<button type="button" class="btn btn-danger btn-sm" @click="removeComponent('massief', index)">
-												<i class="fa fa-trash"></i>
-											</button>
-										</div>
-									</div>
-									<div class="col-12 d-block d-md-none">
-										<hr />
-									</div>
+
+									<DeleteButton @delete="removeComponent(i, 'massief')" />
 								</div>
-								<button type="button" class="btn" @click="newMaterial('massief')">
-									<i class="fa fa-plus mr-3"></i>Nieuw massief
-								</button>
-								
+								<AddButton
+									@add="newMaterial('massief')"
+									:text="'Voeg massief hout toe'"
+								/>
 
 								<!-- Plaatmateriaal -->
-									<h6 class="title col-form-label text-left border-bottom mb-1"><strong>Plaatmateriaal</strong></h6>
-									<div class="row" v-bind:key="'plaatmateriaal' + index" v-for="(plaatmateriaal, index) in materialen.plaatmateriaal">
-										<div class="col-md-7">
-											<div class="input-group mb-2">
-												<div class="input-group-prepend">
-													<span id="basic-addon1" class="input-group-text">
-														<i class="fa fa-square fa-fw"></i>
-													</span>
-												</div>
-												<input
-													type="text"
-													placeholder="Plaatmateriaal naam"
-													data-toggle="tooltip"
-													data-placement="top"
-													title=""
-													required="required"
-													class="form-control"
-													data-original-title="Naam van het plaatmateriaal incl de dikte? Bijv. MDF 12mm"
-													v-model="plaatmateriaal.naam"
-												/>
-											</div>
-										</div>
-										<div class="col-8 col-md-3">
-											<div class="input-group mb-2">
-												<money
-													placeholder="Prijs m2"
-													data-toggle="tooltip"
-													data-placement="top"
-													min="1"
-													required="required"
-													class="form-control"
-													data-original-title="Hoeveel kost dit plaatmateriaal per m2?"
-													v-model="plaatmateriaal.prijs"
-													v-bind="money"
-												>
-												</money>
-											</div>
-										</div>
-										<div class="col-2 col-md-2">
-											<div class="input-group mb-2">
-												<button type="button" class="btn btn-danger btn-sm" @click="removeComponent('plaatmateriaal', index)">
-													<i class="fa fa-trash"></i>
-												</button>
-											</div>
-										</div>
-										<div class="col-12 d-block d-md-none">
-											<hr />
-										</div>
-									</div>
-									<button type="button" class="btn" @click="newMaterial('plaatmateriaal')">
-										<i class="fa fa-plus mr-3"></i>Nieuw plaatmateriaal
-									</button>
-
-
-								<!-- Fineer -->
-								<h6 class="title col-form-label text-left border-bottom mb-1"><strong>Fineer</strong></h6>
-								<div class="row" v-bind:key="'fineer' + index" v-for="(fineer, index) in materialen.fineer">
-									<div class="col-md-7">
+								<h6 class="title col-form-label text-left border-bottom mb-1">
+									<strong>Plaatmateriaal</strong>
+								</h6>
+								<div
+									class="row"
+									v-bind:key="'plaatmateriaal' + i"
+									v-for="(plaatmateriaal, i) in materialen.plaatmateriaal"
+								>
+									<div class="col">
 										<div class="input-group mb-2">
 											<div class="input-group-prepend">
-												<span id="basic-addon1" class="input-group-text">
+												<span id="basic-addon1" class="input-group-text pl-0">
+													<i class="fa fa-square fa-fw"></i>
+												</span>
+											</div>
+											<input
+												type="text"
+												placeholder="Plaatmateriaal naam"
+												data-toggle="tooltip"
+												data-placement="top"
+												title=""
+												required="required"
+												class="form-control"
+												data-original-title="Naam van het plaatmateriaal incl de dikte? Bijv. MDF 12mm"
+												v-model="plaatmateriaal.naam"
+											/>
+										</div>
+									</div>
+									<div class="col-3">
+										<div class="input-group mb-2">
+											<money
+												placeholder="Prijs m2"
+												data-toggle="tooltip"
+												data-placement="top"
+												min="1"
+												required="required"
+												class="form-control"
+												data-original-title="Hoeveel kost dit plaatmateriaal per m2?"
+												v-model="plaatmateriaal.prijs"
+												v-bind="moneyPlaat"
+											>
+											</money>
+										</div>
+									</div>
+									<DeleteButton
+										@delete="removeComponent(i, 'plaatmateriaal')"
+									/>
+								</div>
+								<AddButton
+									@add="newMaterial('plaatmateriaal')"
+									:text="'Voeg plaatmateriaal toe'"
+								/>
+
+								<!-- Fineer -->
+								<h6 class="title col-form-label text-left border-bottom mb-1">
+									<strong>Fineer</strong>
+								</h6>
+								<div
+									class="row"
+									v-bind:key="'fineer' + i"
+									v-for="(fineer, i) in materialen.fineer"
+								>
+									<div class="col">
+										<div class="input-group mb-2">
+											<div class="input-group-prepend">
+												<span id="basic-addon1" class="input-group-text pl-0">
 													<i class="fa fa-tag fa-fw"></i>
 												</span>
 											</div>
@@ -143,7 +150,7 @@
 											/>
 										</div>
 									</div>
-									<div class="col-8 col-md-3">
+									<div class="col-3">
 										<div class="input-group mb-2">
 											<money
 												placeholder="Prijs m2"
@@ -154,25 +161,22 @@
 												class="form-control"
 												data-original-title="Hoeveel euro kost dit fineer per m2?"
 												v-model="fineer.prijs"
-												v-bind="money"
+												v-bind="moneyPlaat"
 											>
 											</money>
 										</div>
 									</div>
-									<div class="col-2 col-md-2">
-										<div class="input-group mb-2">
-											<button type="button" class="btn btn-danger btn-sm" @click="removeComponent('fineer', index)">
-												<i class="fa fa-trash"></i>
-											</button>
-										</div>
-									</div>
-									<div class="col-12 d-block d-md-none">
-										<hr />
-									</div>
-								</div>
-								<button type="button" class="btn" @click="newMaterial('fineer')"><i class="fa fa-plus mr-3"></i>Nieuw fineer</button>
 
-								<div class="d-flex justify-content-between border-top mt-5">
+									<DeleteButton @delete="removeComponent(i, 'fineer')" />
+								</div>
+								<AddButton
+									@add="newMaterial('fineer')"
+									:text="'Voeg fineer toe'"
+								/>
+
+								<div
+									class="d-flex justify-content-between border-top mt-5 flex-wrap"
+								>
 									<router-link tag="button" class="btn" to="/overigeMaterialen">
 										<i aria-hidden="true" class="far fa-clipboard mr-2"></i>
 										Overige materialen
@@ -184,25 +188,7 @@
 								</div>
 							</div>
 						</div>
-
-						<div class="row">
-							<div class="col-md-6">
-								<button type="button" class="btn btn-lg btn-block btn-danger btn-fill" @click="previousStep()">
-									<div class="row">
-										<div class="col-2"><i aria-hidden="true" class="fa fa-chevron-left"></i></div>
-										<div class="col-10">Vorige stap</div>
-									</div>
-								</button>
-							</div>
-							<div class="col-md-6">
-								<button type="submit" class="btn btn-lg btn-block">
-									<div class="row">
-										<div class="col-10">Volgende stap</div>
-										<div class="col-2"><i aria-hidden="true" class="fa fa-chevron-right"></i></div>
-									</div>
-								</button>
-							</div>
-						</div>
+						<PreviousNextButton :previous="'componenten'" />
 					</div>
 				</div>
 			</form>
@@ -211,22 +197,39 @@
 </template>
 
 <script>
-import { Money } from 'v-money';
-import newWvb from '@/assets/config/newWvb.js';
-import CardHeader from '@/components/Card-header.vue';
+import { Money } from "v-money";
+import newWvb from "@/assets/config/newWvb.js";
+import CardHeader from "@/components/Card-header.vue";
+import AddButton from "@/components/Add-button.vue";
+import DeleteButton from "@/components/Delete-button.vue";
+import PreviousNextButton from "@/components/Previous-next-button.vue";
 
 export default {
-	name: 'Materialen',
-	components: { Money, CardHeader },
+	name: "Materialen",
+	components: {
+		Money,
+		CardHeader,
+		AddButton,
+		DeleteButton,
+		PreviousNextButton
+	},
 	data() {
 		return {
 			materialen: newWvb.materialen,
-			money: {
-				decimal: '.',
-				thousands: '',
+			moneyMassief: {
+				decimal: ",",
+				thousands: "",
 				prefix: `€ `,
-				suffix: '',
+				suffix: "",
 				precision: 0,
+				masked: false
+			},
+			moneyPlaat: {
+				decimal: ",",
+				thousands: "",
+				prefix: `€ `,
+				suffix: "",
+				precision: 2,
 				masked: false
 			}
 		};
@@ -250,7 +253,7 @@ export default {
 			return this.$store.getters.werkvoorbereiding;
 		},
 		getMaterialen() {
-			return this.$store.getters.werkvoorbereidingsObject('materialen');
+			return this.$store.getters.werkvoorbereidingsObject("materialen");
 		},
 		valuta() {
 			return this.$store.getters.valuta;
@@ -258,36 +261,36 @@ export default {
 	},
 	methods: {
 		updateGegevens() {
-			if (this.getMaterialen) this.$set(this, 'materialen', this.getMaterialen);
-			else this.$set(this, 'materialen', newWvb.materialen);
+			if (this.getMaterialen) this.$set(this, "materialen", this.getMaterialen);
+			else this.$set(this, "materialen", newWvb.materialen);
 
-			if (this.valuta) this.money.prefix = `${this.valuta} `;
+			if (this.valuta) {
+				this.moneyMassief.prefix = `${this.valuta} `;
+				this.moneyPlaat.prefix = `${this.valuta} `;
+			}
 		},
 		newMaterial(naam) {
 			if (!this.materialen[naam]) this.$set(this.materialen, naam, []);
 
 			this.materialen[naam].push({
-				naam: '',
-				prijs: ''
+				naam: "",
+				prijs: ""
 			});
 		},
-		removeComponent(naam, i) {
+		removeComponent(i, naam) {
 			this.materialen[naam].splice(i, 1);
-		},
-		previousStep() {
-			this.$router.push('/componenten');
 		},
 		nextStep() {
 			this.setData();
-			this.$store.commit('verhoogStap', 4);
-			this.$router.push('/maten');
+			this.$store.commit("verhoogStap", 4);
+			this.$router.push("/maten");
 		},
 		setData() {
-			this.$store.commit('werkvoorbereiding', {
+			this.$store.commit("werkvoorbereiding", {
 				...this.werkvoorbereiding,
 				materialen: this.materialen
 			});
-			this.$store.dispatch('wvbToFirebase');
+			this.$store.dispatch("wvbToFirebase");
 		}
 	},
 	mounted() {

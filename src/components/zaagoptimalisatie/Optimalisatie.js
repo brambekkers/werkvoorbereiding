@@ -32,12 +32,12 @@ export default class Optimalisatie {
             x: node.x,
             y: node.y + h + this.sawThickness,
             w: node.w,
-            h: node.h - h
+            h: node.h - (h + this.sawThickness)
         };
         node.right = {
             x: node.x + w + this.sawThickness,
             y: node.y,
-            w: node.w - w,
+            w: node.w - (w + this.sawThickness),
             h: h
         };
         return node;

@@ -11,6 +11,7 @@
     "postinstall": "electron-builder install-app-deps",
     "postuninstall": "electron-builder install-app-deps"
   },
+  "main": "background.js",
   "dependencies": {
     "@vue/eslint-config-prettier": "^4.0.1",
     "bootstrap": "^4.3.1",
@@ -23,6 +24,7 @@
     "jquery": "^3.4.1",
     "jspdf": "^1.5.3",
     "popper.js": "^1.15.0",
+    "register-service-worker": "^1.6.2",
     "sweetalert2": "^8.16.3",
     "uniqid": "^5.0.3",
     "v-money": "^0.8.1",
@@ -37,6 +39,7 @@
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.11.0",
     "@vue/cli-plugin-eslint": "^3.11.0",
+    "@vue/cli-plugin-pwa": "^4.1.1",
     "@vue/cli-service": "^3.11.0",
     "babel-eslint": "^10.0.3",
     "electron": "^4.2.9",
@@ -70,6 +73,5 @@
     "> 1%",
     "last 2 versions",
     "not ie <= 8"
-  ],
-  "main": "background.js"
+  ]
 }

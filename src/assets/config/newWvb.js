@@ -68,7 +68,8 @@ export default {
 		opslagpercentagePlaat: 25,
 		overlengteKops: 10,
 		overlengteLangs: 10,
-		overlengteZijdes: 6
+		overlengteZijdes: 6,
+		dikteZaagsnede: 3,
 	},
 	materialen: {
 		fineer: [
@@ -127,8 +128,8 @@ export default {
 		winstOpslag: 5
 	},
 	nacalculatie: [{
-                    naam: "",
-                    date: null,
-                    min: null,
-                }]
+		naam: "",
+		date: null,
+		min: null,
+	}]
 };

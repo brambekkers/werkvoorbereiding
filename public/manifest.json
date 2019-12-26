@@ -1,16 +1,17 @@
 {
+	"name": "De werkvoorbereider",
 	"short_name": "WVB",
-	"name": "deWerkvoorbereider",
-	"icons": [
-	  {
-		"src": "/img/werkvoorbereiding192.png",
-		"type": "image/png",
-		"sizes": "192x192"
-	  }
-	],
 	"start_url": "/",
-	"background_color": "#fff",
+	"icons": [
+		{
+			"src": "/img/werkvoorbereiding192.png",
+			"type": "image/png",
+			"sizes": "192x192"
+		}
+	],
+	"theme_color": "#65BA69",
+	"background_color": "#FFFFFF",
 	"display": "standalone",
 	"scope": "/",
-	"theme_color": "#65BA69"
-  }
+	"orientation": "landscape"
+}

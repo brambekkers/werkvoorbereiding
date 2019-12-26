@@ -1,12 +1,12 @@
 <template>
 	<div class="content">
 		<div class="container-fluid" v-if="werkvoorbereiding">
-			<div class="card">
+			<div class="card  card-stats">
 				<div class="card-header card-header-success card-header-icon">
 					<div class="card-icon">
 						<i class="fas fa-list-alt fa-2x"></i>
 					</div>
-					<h4 class="card-title">Zaagoptimalisatie data</h4>
+					<h4 class="card-title text-left">Zaagoptimalisatie data</h4>
 				</div>
 				<div class="card-body">
 					<div class="row">

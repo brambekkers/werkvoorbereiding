@@ -1,24 +1,28 @@
 <template>
 	<div class="content">
 		<div class="container-fluid">
-			<form
-				role="form"
-				@submit.prevent="nextStep()"
-			>
+			<form role="form" @submit.prevent="nextStep()">
 				<div class="row justify-content-center">
 					<div class="col-md-10 col-lg-8 col-xl-7 col-xxl-6 col-xxxl-4 ">
 						<div class="card">
-							<CardHeader :text="{ title: 'Componenten', subtitle: 'Deel je werk op in stukken' }" />
+							<CardHeader
+								:text="{
+									title: 'Componenten',
+									subtitle: 'Deel je werk op in stukken'
+								}"
+							/>
 							<div class="card-body">
 								<div
 									class="row"
-									v-bind:key="index"
-									v-for="(component, index) in componenten"
+									v-bind:key="i"
+									v-for="(component, i) in componenten"
 								>
-									<div class="col-md-7">
+									<div class="col">
 										<div class="input-group mb-2">
-											<div class="input-group-prepend">
-												<span class="input-group-text"><i class="fa fa-tag fa-fw"></i></span>
+											<div class="input-group-prepend ">
+												<span class="input-group-text pl-0"
+													><i class="fa fa-tag fa-fw"></i
+												></span>
 											</div>
 											<input
 												type="text"
@@ -33,7 +37,7 @@
 											/>
 										</div>
 									</div>
-									<div class="col-8 col-md-3">
+									<div class="col-3">
 										<div class="input-group mb-2">
 											<input
 												type="number"
@@ -49,60 +53,13 @@
 											/>
 										</div>
 									</div>
-									<div class="col-2 col-md-2">
-										<div class="input-group mb-2">
-											<button
-												type="button"
-												class="btn btn-sm btn-danger"
-												@click="removeComponent(index)"
-											>
-												<i class="fa fa-trash"></i>
-											</button>
-										</div>
-									</div>
-									<div class="col-12 d-block d-md-none">
-										<hr />
-									</div>
+
+									<DeleteButton @delete="removeComponent(i)" />
 								</div>
-								<hr />
-								<button
-									type="button"
-									class="btn"
-									@click="newComponent()"
-								><i class="fa fa-plus mr-3"></i>Nieuw component</button>
+								<AddButton @add="newComponent" :text="'Voeg component toe'" />
 							</div>
 						</div>
-						<div class="row">
-							<div class="col-md-6">
-								<button
-									type="button"
-									class="btn btn-lg btn-block btn-danger btn-fill"
-									@click="previousStep()"
-								>
-									<div class="row">
-										<div class="col-2"><i
-												aria-hidden="true"
-												class="fa fa-chevron-left"
-											></i></div>
-										<div class="col-10">Vorige stap</div>
-									</div>
-								</button>
-							</div>
-							<div class="col-md-6">
-								<button
-									type="submit"
-									class="btn btn-lg btn-block"
-								>
-									<div class="row">
-										<div class="col-10">Volgende stap</div>
-										<div class="col-2"><i
-												aria-hidden="true"
-												class="fa fa-chevron-right"
-											></i></div>
-									</div>
-								</button>
-							</div>
-						</div>
+						<PreviousNextButton :previous="'gegevens'" />
 					</div>
 				</div>
 			</form>
@@ -114,10 +71,13 @@
 import newWvb from "@/assets/config/newWvb.js";
 
 import CardHeader from "@/components/Card-header.vue";
+import AddButton from "@/components/Add-button.vue";
+import DeleteButton from "@/components/Delete-button.vue";
+import PreviousNextButton from "@/components/Previous-next-button.vue";
 
 export default {
 	name: "Componenten",
-	components: { CardHeader },
+	components: { CardHeader, DeleteButton, AddButton, PreviousNextButton },
 	data() {
 		return {
 			componenten: newWvb.componenten
@@ -150,11 +110,7 @@ export default {
 			if (this.getComponenten)
 				this.$set(this, "componenten", this.getComponenten);
 			else
-				this.componenten = this.$set(
-					this,
-					"componenten",
-					newWvb.componenten
-				);
+				this.componenten = this.$set(this, "componenten", newWvb.componenten);
 		},
 		newComponent() {
 			this.componenten.push({
@@ -164,9 +120,6 @@ export default {
 		},
 		removeComponent(i) {
 			this.componenten.splice(i, 1);
-		},
-		previousStep() {
-			this.$router.push("/gegevens");
 		},
 		nextStep() {
 			this.setData();
@@ -189,5 +142,3 @@ export default {
 	}
 };
 </script>
-
-<style scoped></style>

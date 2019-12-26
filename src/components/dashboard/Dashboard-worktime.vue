@@ -1,7 +1,10 @@
 <template>
 	<div class="col-md-6">
 		<div class="card card-chart">
-			<div class="card-header card-header-info" data-header-animation="true">
+			<div
+				class="card-header card-header-info"
+				:data-header-animation="optionsOn"
+			>
 				<Chart
 					v-if="getPlanning"
 					:height="150"
@@ -67,7 +70,7 @@ import Chart from "@/components/chart/Chart-worktime";
 
 export default {
 	name: "DashboardWorktime",
-	props: ["werkvoorbereiding"],
+	props: ["werkvoorbereiding", "optionsOn"],
 	components: {
 		Chart
 	},

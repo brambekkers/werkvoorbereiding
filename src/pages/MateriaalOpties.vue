@@ -15,7 +15,7 @@
 								<h6 class="title col-form-label border-bottom my-1">
 									<strong>Massief hout</strong>
 								</h6>
-								<div class="row mb-2">
+								<div class="row">
 									<div class="col-md-8">
 										<label class="col-form-label text-left"
 											>Maximale dikte duims hout</label
@@ -34,7 +34,7 @@
 										<div class="input-group-append">mm</div>
 									</div>
 								</div>
-								<div class="row mb-2">
+								<div class="row">
 									<div class="col-md-8">
 										<label class="col-form-label text-left"
 											>Overlengte kopse kanten</label
@@ -53,7 +53,7 @@
 										<div class="input-group-append">mm</div>
 									</div>
 								</div>
-								<div class="row mb-2">
+								<div class="row">
 									<div class="col-md-8">
 										<label class="col-form-label text-left"
 											>Overlengte Langse kanten</label
@@ -94,7 +94,7 @@
 								<h6 class="title col-form-label border-bottom mb-1">
 									<strong>Plaatmateriaal</strong>
 								</h6>
-								<div class="row mb-2">
+								<div class="row">
 									<div class="col-md-8">
 										<label class="col-form-label text-left"
 											>Overlengte zijdes</label
@@ -109,6 +109,26 @@
 											data-placement="top"
 											data-original-title="Hoeveel millimeter extra materiaal reken je voor de zijdes van het plaatmateriaal?"
 											v-model="materiaalOpties.overlengteZijdes"
+										/>
+										<div class="input-group-append">mm</div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-md-8">
+										<label class="col-form-label text-left"
+											>Dikte zaagsnede</label
+										>
+									</div>
+									<div class="col-md-4 input-group">
+										<input
+											type="number"
+											required="required"
+											class="form-control form-control-sm"
+											data-toggle="tooltip"
+											data-placement="top"
+											min="0"
+											data-original-title="Hoe dik is de zaagsnede die je gebruikt bij plaatmateriaal?"
+											v-model="materiaalOpties.dikteZaagsnede"
 										/>
 										<div class="input-group-append">mm</div>
 									</div>

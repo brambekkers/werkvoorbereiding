@@ -1,6 +1,9 @@
 <template>
 	<div class="content">
-		<DashboardContainer :werkvoorbereiding="werkvoorbereiding" />
+		<DashboardContainer
+			:werkvoorbereiding="werkvoorbereiding"
+			:optionsOn="true"
+		/>
 		<div class="noWvb text-center" v-if="!werkvoorbereiding">
 			<i class="far fa-surprise"></i>
 			<h3>Je hebt nog geen werkvoorbereiding gemaakt</h3>

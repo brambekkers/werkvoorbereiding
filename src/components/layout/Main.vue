@@ -1,9 +1,6 @@
 <template>
 	<main class="main-panel">
-		<Navbar
-			data-html2canvas-ignore
-			v-if="!landingPage && !isShare"
-		/>
+		<Navbar data-html2canvas-ignore v-if="!landingPage && !isShare" />
 
 		<transition
 			name="bounce"
@@ -16,16 +13,9 @@
 		</transition>
 
 		<transition name="fade">
-			<div
-				class="exitSidebarDiv"
-				v-if="sidebar"
-				@click="closeSidebar()"
-			/>
+			<div class="exitSidebarDiv" v-if="sidebar" @click="closeSidebar()" />
 		</transition>
-		<WaitScreen
-			data-html2canvas-ignore
-			v-if="waitScreen"
-		/>
+		<WaitScreen data-html2canvas-ignore v-if="waitScreen" />
 		<Footer data-html2canvas-ignore />
 	</main>
 </template>

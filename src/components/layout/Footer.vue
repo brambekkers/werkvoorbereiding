@@ -1,5 +1,5 @@
 <template>
-	<footer class="footer">
+	<footer class="footer d-none d-sm-block">
 		<div class="container-fluid">
 			<nav class="float-left" :class="{ 'text-light': darkMode }">
 				<ul>
@@ -21,10 +21,10 @@
 
 <script>
 export default {
-	name: 'Footer',
+	name: "Footer",
 	computed: {
 		darkMode() {
-			return this.$store.getters.instellingen.modus === 'licht' ? false : true;
+			return this.$store.getters.instellingen.modus === "licht" ? false : true;
 		}
 	}
 };

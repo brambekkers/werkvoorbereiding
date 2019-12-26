@@ -12,7 +12,10 @@
 			<i class="fas fa-chevron-left mr-2"></i>Terug
 		</button>
 
-		<DashboardContainer :werkvoorbereiding="werkvoorbereiding" />
+		<DashboardContainer
+			:werkvoorbereiding="werkvoorbereiding"
+			:optionsOn="false"
+		/>
 
 		<div class="noWvb" v-if="!werkvoorbereiding && loading">
 			<i class="loading fas fa-spinner"></i>
@@ -85,6 +88,11 @@ export default {
 	},
 	methods: {
 		getWVB() {
+			if (this.uid === "print") {
+				this.werkvoorbereiding = this.$store.getters.werkvoorbereiding;
+				return;
+			}
+
 			const wvbRef = this.fb
 				.database()
 				.ref(`users/${this.uid}/alleWVB/${this.wvbid}`);

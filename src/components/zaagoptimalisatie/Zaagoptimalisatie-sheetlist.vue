@@ -1,38 +1,39 @@
 <template>
-	<div class="col-md-6 border-right">
+	<div class="col-md-4 ">
 		<div class="table-responsive">
-			<h6 data-v-ce3b1120="" class="title col-form-label border-bottom my-1">
-				<strong data-v-ce3b1120="">Plaatmateriaal</strong>
+			<h6 class="title col-form-label my-1">
+				<strong>Plaatmateriaal</strong>
 			</h6>
+			<div class="table-responsive">
+				<table class="table table-striped">
+					<tbody>
+						<tr v-bind:key="index" v-for="(sheet, index) in sheets">
+							<td nowrap>{{ sheet.naam }}</td>
+							<td>
+								<input
+									type="number"
+									v-model="sheet.lengte"
+									class="form-control text-right"
+									placeholder="Lengte"
+								/>
+							</td>
+							<td>
+								x
+							</td>
+							<td>
+								<input
+									type="number"
+									v-model="sheet.breedte"
+									class="form-control"
+									placeholder="breedte"
+								/>
+							</td>
 
-			<table class="table">
-				<tbody>
-					<tr v-bind:key="index" v-for="(sheet, index) in sheets">
-						<td>{{ sheet.naam }}</td>
-						<td>
-							<input
-								type="number"
-								v-model="sheet.lengte"
-								class="form-control text-right"
-								placeholder="Lengte"
-							/>
-						</td>
-						<td>
-							x
-						</td>
-						<td>
-							<input
-								type="number"
-								v-model="sheet.breedte"
-								class="form-control"
-								placeholder="breedte"
-							/>
-						</td>
-
-						<td><i class="fas fa-arrows-alt-h"></i></td>
-					</tr>
-				</tbody>
-			</table>
+							<!-- <td><i class="fas fa-arrows-alt-h"></i></td> -->
+						</tr>
+					</tbody>
+				</table>
+			</div>
 		</div>
 	</div>
 </template>
@@ -47,6 +48,7 @@ export default {
 <style scoped lang="scss">
 table {
 	box-shadow: none;
+	border: solid 1px #d6d6d6;
 }
 .form-control {
 	background-image: none !important;

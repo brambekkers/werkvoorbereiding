@@ -15,6 +15,7 @@
 						<router-link
 							to="optimalisatie"
 							class=" align-self-center ml-auto mr-3"
+							v-if="optionsOn"
 						>
 							<i class="fas fa-cog fa-lg pr-4 text-white"></i>
 						</router-link>
@@ -38,10 +39,10 @@
 									- {{ sheet.material.lengte }}x{{ sheet.material.breedte }}
 								</h6>
 							</div>
-							<div class="col-8">
+							<div class="col-xl-8">
 								<canvas
 									:id="`sheet${index}_${panelIndex}`"
-									class="sheetCanvas"
+									class="sheetCanvas shadow-lg "
 									:width="sheet.material.lengte"
 									:height="sheet.material.breedte"
 									:style="{
@@ -49,14 +50,14 @@
 									}"
 								></canvas>
 							</div>
-							<div class="col-4">
+							<div class="col-xl-4">
 								<table class="table table-striped table-sm">
 									<tbody>
 										<tr
 											:key="`part${partIndex}`"
 											v-for="(part, partIndex) in panel"
 										>
-											<td>{{ partIndex + 1 }}</td>
+											<td class="text-center">{{ partIndex + 1 }}</td>
 											<td>{{ part.name }}</td>
 											<td>{{ part.w }} x {{ part.h }}</td>
 										</tr>
@@ -81,14 +82,11 @@
 </template>
 
 <script>
-import ZaagoptimalistiePartList from "@/components/zaagoptimalisatie/Zaagoptimalisatie-partlist.vue";
-import ZaagoptimalistieSheetList from "@/components/zaagoptimalisatie/Zaagoptimalisatie-sheetlist.vue";
 import Optimalisatie from "@/components/zaagoptimalisatie/Optimalisatie.js";
 
 export default {
 	name: "Zaagoptimalisatie",
-	components: { ZaagoptimalistiePartList, ZaagoptimalistieSheetList },
-	props: ["werkvoorbereiding"],
+	props: ["werkvoorbereiding", "optionsOn"],
 	data() {
 		return {
 			sheets: []
@@ -117,6 +115,18 @@ export default {
 				? this.werkvoorbereiding.materialen
 				: [];
 		},
+		materiaalOpties() {
+			return this.werkvoorbereiding.materiaalOpties
+				? this.werkvoorbereiding.materiaalOpties
+				: false;
+		},
+		dikteZaag() {
+			if (this.materiaalOpties)
+				return this.materiaalOpties.dikteZaagsnede
+					? Number(this.materiaalOpties.dikteZaagsnede)
+					: 3;
+			return 3;
+		},
 		maten() {
 			return this.werkvoorbereiding.maten ? this.werkvoorbereiding.maten : [];
 		},
@@ -138,6 +148,7 @@ export default {
 					if (pm) return pm.filter(gm => gm.naam === m.materiaal).length;
 				});
 			}
+			return [];
 		},
 		materialAndParts() {
 			return this.plaatmateriaal.map(material => {
@@ -213,13 +224,17 @@ export default {
 
 				// create a bin packing panel
 				// fit the parts in the array into the panel
-				let packer = new Optimalisatie(material.lengte, material.breedte, 3);
+				let packer = new Optimalisatie(
+					material.lengte - this.dikteZaag,
+					material.breedte - this.dikteZaag,
+					this.dikteZaag
+				);
 				packer.fit(partArray);
 
 				// decide if the part fits the panel
 				// add to appropriate array
-				for (var i = 0; i < partArray.length; i++) {
-					var block = partArray[i];
+				for (let i = 0; i < partArray.length; i++) {
+					let block = partArray[i];
 					if (block.fit) {
 						removeBlockArray.push(i);
 						blockArray.push({
@@ -236,7 +251,7 @@ export default {
 				if (blockArray.length) panels.push(blockArray);
 
 				// remove the fitted parts from the pool of parts to be fit
-				for (var i = removeBlockArray.length - 1; i >= 0; i--) {
+				for (let i = removeBlockArray.length - 1; i >= 0; i--) {
 					partArray.splice(removeBlockArray[i], 1);
 				}
 
@@ -283,26 +298,29 @@ export default {
 						if (c) {
 							const ctx = c.getContext("2d");
 							for (const [partIndex, part] of panel.entries()) {
-								this.drawBox(ctx, part);
-								this.drawText(ctx, part, partIndex + 1);
+								this.drawBox(ctx, sheet, part);
+								this.drawText(ctx, sheet, part, partIndex + 1);
 							}
 						}
 					}
 				}
 			}
 		},
-		drawBox(ctx, part) {
+		drawBox(ctx, sheet, part) {
 			ctx.beginPath();
-			ctx.lineWidth = 1;
-			ctx.rect(part.fitX, part.fitY, part.w, part.h);
-			ctx.stroke();
+			ctx.lineWidth = 3;
+			ctx.strokeStyle = "#999";
+			ctx.strokeRect(part.fitX, part.fitY, part.w, part.h);
+			// ctx.stroke();
 		},
-		drawText(ctx, part, num) {
-			ctx.font = "30px Arial";
+		drawText(ctx, sheet, part, num) {
+			// const size = sheet.material.lengte / (this.getMaxLength / 100);
+			ctx.font = "40px arial, sans-serif";
+			ctx.fillStyle = "#333";
 			ctx.textAlign = "center";
 			ctx.textBaseline = "middle";
 			ctx.fillText(
-				`${num} - ${part.w} x ${part.h}`,
+				` ${part.w}x${part.h}`,
 				part.fitX + part.w / 2,
 				part.fitY + part.h / 2
 			);
@@ -317,9 +335,14 @@ export default {
 <style scoped lang="scss">
 table {
 	box-shadow: none;
+	border: solid 1px #d6d6d6;
 }
 
 .sheetCanvas {
-	border: solid black 2px;
+	border: solid #aaa 2px;
+	-webkit-box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14),
+		0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+	box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2),
+		0 1px 5px 0 rgba(0, 0, 0, 0.12);
 }
 </style>

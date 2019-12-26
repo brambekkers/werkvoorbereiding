@@ -5,15 +5,24 @@
 				<div class="row justify-content-center">
 					<div class="col-xl-12">
 						<div class="card">
-							<CardHeader :text="{ title: 'Maten', subtitle: 'Hoe groot zijn je onderdelen' }" />
+							<CardHeader
+								:text="{
+									title: 'Maten',
+									subtitle: 'Hoe groot zijn je onderdelen'
+								}"
+							/>
 							<div class="card-body">
-								<draggable v-model="maten">
-									<div class="row maten" v-bind:key="index" v-for="(maat, index) in maten">
-										<div class="col-8 col-md-4 col-xl-3 pl-0">
+								<draggable v-model="maten" handle=".handle">
+									<div
+										class="row maten"
+										v-bind:key="i"
+										v-for="(maat, i) in maten"
+									>
+										<div class="col-8 col-md-4 col-xl pl-0">
 											<div class="input-group mb-2">
 												<div class="input-group-prepend">
 													<span id="basic-addon1" class="input-group-text">
-														<i class="fab fa-slack-hash"></i>
+														<i class="fab fa-slack-hash handle"></i>
 													</span>
 												</div>
 												<input
@@ -53,14 +62,18 @@
 													data-original-title="Welk component?"
 													v-model="maat.component"
 												>
-													<option value="" selected disabled hidden>Kies een component</option>
-													<option v-bind:key="index" v-for="(component, index) in getComponenten">{{
-														component.naam
-													}}</option>
+													<option value="" selected disabled hidden
+														>Kies een component</option
+													>
+													<option
+														v-bind:key="index"
+														v-for="(component, index) in getComponenten"
+														>{{ component.naam }}</option
+													>
 												</select>
 											</div>
 										</div>
-										<div class="col-6 col-md-4 col-xl-2">
+										<div class="col-6 col-md col-xl-2">
 											<div class="input-group mb-2">
 												<select
 													data-toggle="tooltip"
@@ -70,22 +83,51 @@
 													data-original-title="Welk materiaal?"
 													v-model="maat.materiaal"
 												>
-													<option value="" selected disabled hidden>Kies een materiaal</option>
-													<optgroup label="Massiefhout" v-if="massief && massief.length">
-														<option v-bind:key="index" v-for="(materiaal, index) in massief">{{ materiaal.naam }}</option>
+													<option value="" selected disabled hidden
+														>Kies een materiaal</option
+													>
+													<optgroup
+														label="Massiefhout"
+														v-if="massief && massief.length"
+													>
+														<option
+															v-bind:key="i"
+															v-for="(materiaal, i) in massief"
+															>{{ materiaal.naam }}</option
+														>
 													</optgroup>
-													<optgroup label="Plaatmateriaal" v-if="plaatmateriaal && plaatmateriaal.length">
-														<option v-bind:key="index" v-for="(materiaal, index) in plaatmateriaal">{{
-															materiaal.naam
-														}}</option>
+													<optgroup
+														label="Plaatmateriaal"
+														v-if="plaatmateriaal && plaatmateriaal.length"
+													>
+														<option
+															v-bind:key="i"
+															v-for="(materiaal, i) in plaatmateriaal"
+															>{{ materiaal.naam }}</option
+														>
 													</optgroup>
-													<optgroup label="Fineer" v-if="fineer && fineer.length">
-														<option v-bind:key="index" v-for="(materiaal, index) in fineer">{{ materiaal.naam }}</option>
+													<optgroup
+														label="Fineer"
+														v-if="fineer && fineer.length"
+													>
+														<option
+															v-bind:key="i"
+															v-for="(materiaal, i) in fineer"
+															>{{ materiaal.naam }}</option
+														>
 													</optgroup>
-													<optgroup label="Overige materialen" v-if="getOverigeMaterialen && getOverigeMaterialen.length">
-														<option v-bind:key="index" v-for="(materiaal, index) in getOverigeMaterialen">{{
-															materiaal.naam
-														}}</option>
+													<optgroup
+														label="Overige materialen"
+														v-if="
+															getOverigeMaterialen &&
+																getOverigeMaterialen.length
+														"
+													>
+														<option
+															v-bind:key="i"
+															v-for="(materiaal, i) in getOverigeMaterialen"
+															>{{ materiaal.naam }}</option
+														>
 													</optgroup>
 												</select>
 											</div>
@@ -120,7 +162,7 @@
 												/>
 											</div>
 										</div>
-										<div class="col-4 col-md-2 col-xl-1">
+										<div class="col-2 col-md-2 col-xl-1">
 											<div class="input-group mb-2">
 												<input
 													type="number"
@@ -135,40 +177,14 @@
 												/>
 											</div>
 										</div>
-										<div class="col-12 col-md-2 col-xl-1">
-											<div class="input-group mb-2">
-												<button type="button" class="btn btn-danger btn-sm btn-block" @click="removeMaten(index)">
-													<i class="fa fa-trash"></i>
-												</button>
-											</div>
-										</div>
-										<div class="col-12 d-block d-xl-none">
-											<hr class="mt-0" />
-										</div>
+										<DeleteButton @delete="removeMaten(i)" />
 									</div>
 								</draggable>
 								<hr />
-								<button type="button" class="btn" @click="newMaat()"><i class="fa fa-plus mr-3"></i>Nieuw onderdeel</button>
+								<AddButton @add="newMaat" :text="'Voeg onderdeel toe'" />
 							</div>
 						</div>
-						<div class="row">
-							<div class="col-md-6">
-								<button type="button" class="btn btn-lg btn-block btn-danger btn-fill" @click="previousStep()">
-									<div class="row">
-										<div class="col-2"><i aria-hidden="true" class="fa fa-chevron-left"></i></div>
-										<div class="col-10">Vorige stap</div>
-									</div>
-								</button>
-							</div>
-							<div class="col-md-6">
-								<button type="submit" class="btn btn-lg btn-block">
-									<div class="row">
-										<div class="col-10">Volgende stap</div>
-										<div class="col-2"><i aria-hidden="true" class="fa fa-chevron-right"></i></div>
-									</div>
-								</button>
-							</div>
-						</div>
+						<PreviousNextButton :previous="'materialen'" />
 					</div>
 				</div>
 			</form>
@@ -177,33 +193,42 @@
 </template>
 
 <script>
-import newWvb from '@/assets/config/newWvb.js';
-import CardHeader from '@/components/Card-header.vue';
-import draggable from 'vuedraggable';
+import newWvb from "@/assets/config/newWvb.js";
+import CardHeader from "@/components/Card-header.vue";
+import draggable from "vuedraggable";
+import AddButton from "@/components/Add-button.vue";
+import DeleteButton from "@/components/Delete-button.vue";
+import PreviousNextButton from "@/components/Previous-next-button.vue";
 
 export default {
-	name: 'Maten',
+	name: "Maten",
 	data() {
 		return {
 			maten: newWvb.maten
 		};
 	},
-	components: { CardHeader, draggable },
+	components: {
+		CardHeader,
+		draggable,
+		AddButton,
+		DeleteButton,
+		PreviousNextButton
+	},
 	computed: {
 		werkvoorbereiding() {
 			return this.$store.getters.werkvoorbereiding;
 		},
 		getMaten() {
-			return this.$store.getters.werkvoorbereidingsObject('maten');
+			return this.$store.getters.werkvoorbereidingsObject("maten");
 		},
 		getComponenten() {
-			return this.$store.getters.werkvoorbereidingsObject('componenten');
+			return this.$store.getters.werkvoorbereidingsObject("componenten");
 		},
 		getMaterialen() {
-			return this.$store.getters.werkvoorbereidingsObject('materialen');
+			return this.$store.getters.werkvoorbereidingsObject("materialen");
 		},
 		getOverigeMaterialen() {
-			return this.$store.getters.werkvoorbereidingsObject('overigeMaterialen');
+			return this.$store.getters.werkvoorbereidingsObject("overigeMaterialen");
 		},
 		massief() {
 			if (this.getMaterialen) {
@@ -240,37 +265,34 @@ export default {
 	},
 	methods: {
 		updateGegevens() {
-			if (this.getMaten) this.$set(this, 'maten', this.getMaten);
-			else this.$set(this, 'maten', newWvb.maten);
+			if (this.getMaten) this.$set(this, "maten", this.getMaten);
+			else this.$set(this, "maten", newWvb.maten);
 		},
 		newMaat() {
 			this.maten.push({
-				naam: '',
-				aantal: '',
-				breedte: '',
-				component: '',
-				dikte: '',
-				lengte: '',
-				materiaal: ''
+				naam: "",
+				aantal: "",
+				breedte: "",
+				component: "",
+				dikte: "",
+				lengte: "",
+				materiaal: ""
 			});
 		},
 		removeMaten(i) {
 			this.maten.splice(i, 1);
 		},
-		previousStep() {
-			this.$router.go(-1);
-		},
 		nextStep() {
 			this.setData();
-			this.$store.commit('verhoogStap', 5);
-			this.$router.push('/gereedschap');
+			this.$store.commit("verhoogStap", 5);
+			this.$router.push("/gereedschap");
 		},
 		setData() {
-			this.$store.commit('werkvoorbereiding', {
+			this.$store.commit("werkvoorbereiding", {
 				...this.werkvoorbereiding,
 				maten: this.maten
 			});
-			this.$store.dispatch('wvbToFirebase');
+			this.$store.dispatch("wvbToFirebase");
 		}
 	},
 	mounted() {

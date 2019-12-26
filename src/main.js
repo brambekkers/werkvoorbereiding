@@ -6,6 +6,7 @@ import BootstrapVue from 'bootstrap-vue'
 import bootstrap from "bootstrap";
 
 import "bootstrap-vue/dist/bootstrap-vue.css";
+import './registerServiceWorker'
 
 
 const SocialSharing = require('vue-social-sharing');

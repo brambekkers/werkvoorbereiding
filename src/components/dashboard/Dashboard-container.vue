@@ -29,10 +29,12 @@
 			<DashboardMaterialCost
 				v-if="filter.materiaalKosten"
 				:werkvoorbereiding="werkvoorbereiding"
+				:optionsOn="optionsOn"
 			/>
 			<DashboardWorktime
 				v-if="filter.planningTijd"
 				:werkvoorbereiding="werkvoorbereiding"
+				:optionsOn="optionsOn"
 			/>
 		</div>
 		<div class="row">
@@ -45,6 +47,7 @@
 			<DashboardOptimalisatie
 				v-if="filter.optimalisatie"
 				:werkvoorbereiding="werkvoorbereiding"
+				:optionsOn="optionsOn"
 			/>
 		</div>
 		<div class="row">
@@ -71,7 +74,7 @@ import DashboardPlanning from "@/components/dashboard/Dashboard-planning.vue";
 
 export default {
 	name: "Dashboard-container",
-	props: ["werkvoorbereiding"],
+	props: ["werkvoorbereiding", "optionsOn"],
 	components: {
 		DashboardName,
 		DashboardPrice,

@@ -98,8 +98,8 @@ export default {
 	box-sizing: content-box;
 
 	.content {
-		padding: 30px 15px;
-		margin-top: 10px;
+		padding: 4vh 15px;
+		margin-top: 1vh;
 		min-height: calc(100vh - 155px);
 	}
 }

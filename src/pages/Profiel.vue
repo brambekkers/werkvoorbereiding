@@ -130,16 +130,16 @@
 									/>
 									<img v-if="profielFoto" :src="profiel.foto" class="avatar" />
 								</a>
-								<h5 class="title">
+								<h5 class="card-title">
 									{{ profiel.voornaam }} {{ profiel.tussenvoegsel }}
 									{{ profiel.achternaam }}
 								</h5>
-								<p class="description">
+								<p class="card-category text-gray">
 									{{ profiel.klas }} <span class="mx-2"> | </span>
 									{{ profiel.niveau }}
 								</p>
 							</div>
-							<p class="description text-center">{{ profiel.over }}</p>
+							<p class="card-description text-center">{{ profiel.over }}</p>
 						</div>
 						<hr />
 						<div class="card-footer">
