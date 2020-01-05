@@ -268,6 +268,7 @@ export default new Vuex.Store({
 					profileRef.on('value', profile => {
 						if (!profile.exists()) dispatch('newUserFirebase', login.user.uid);
 					});
+					dispatch('updateUserMetadata');
 					resolve(login);
 				} catch (error) {
 					resolve(error);
@@ -284,9 +285,20 @@ export default new Vuex.Store({
 					profileRef.on('value', profile => {
 						if (!profile.exists()) dispatch('newUserFirebase', login.user.uid);
 					});
+					dispatch('updateUserMetadata');
 					resolve(login)
 				} catch (error) {
 					resolve(error);
+				}
+			});
+		},
+		updateUserMetadata({ getters, dispatch }) {
+			const user = getters.user;
+			dispatch('dataToFirebase', {
+				path: `metadata`,
+				data: {
+					creationTime: user.metadata.creationTime,
+					lastSignInTime: user.metadata.creationTime
 				}
 			});
 		},

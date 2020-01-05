@@ -80,14 +80,12 @@ export default {
 			return 0;
 		},
 		huidigeProjectNaam() {
-			if (this.werkvoorbereiding) {
-				return this.werkvoorbereiding.basisgegevens.project;
-			}
+			return this.werkvoorbereiding
+				? this.werkvoorbereiding.basisgegevens.project
+				: null;
 		},
 		huidigeProjectId() {
-			if (this.werkvoorbereiding) {
-				return this.werkvoorbereiding.id;
-			}
+			return this.werkvoorbereiding ? this.werkvoorbereiding.id : null;
 		},
 		alleWerkvoorbereidingen() {
 			return this.$store.getters.alleWerkvoorbereidingen;

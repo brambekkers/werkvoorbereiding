@@ -10,15 +10,7 @@
 			<Landing v-if="landingPage" />
 		</transition>
 
-		<transition
-			name="bounce"
-			mode="out-in"
-			:duration="{ enter: 1000, leave: 1000 }"
-			enter-active-class="bounceInLeft"
-			leave-active-class="bounceOutLeft"
-		>
-			<Sidebar v-if="!landingPage && !isShare" />
-		</transition>
+		<Sidebar v-if="!landingPage && !isShare" />
 		<Main v-if="!landingPage" />
 		<Help v-if="!landingPage" />
 	</div>
@@ -28,9 +20,10 @@
 import fb from "firebase/app";
 import "firebase/auth";
 import "firebase/database";
+// import "firebase/functions";
 
 import "vue2-animate/dist/vue2-animate.min.css";
-import "./assets/css/material-dashboard-pro.css";
+import "./assets/css/material-dashboard.css";
 
 import Sidebar from "./components/layout/Sidebar";
 import Main from "./components/layout/Main";
@@ -75,6 +68,9 @@ export default {
 	computed: {
 		werkvoorbereiding() {
 			return this.$store.getters.werkvoorbereiding;
+		},
+		sidebar() {
+			return this.$store.getters.sidebar;
 		},
 		landingPage() {
 			return this.$store.getters.landingPage;

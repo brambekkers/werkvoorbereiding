@@ -97,6 +97,11 @@ export default {
 					key: "profiel.email",
 					label: "Email",
 					sortable: true
+				},
+				{
+					key: "metadata.lastSignInTime",
+					label: "Laatst ingelogd",
+					sortable: true
 				}
 			],
 			filter: "",

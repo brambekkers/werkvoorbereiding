@@ -1,39 +1,17 @@
 <template>
-	<div class="col-lg-6 col-md-6 col-sm-6">
+	<div class="col-sm-6">
 		<div class="card card-stats">
 			<div class="card-header card-header-danger card-header-icon">
 				<div class="card-icon">
 					<i class="fas fa-bug"></i>
 				</div>
-				<div class="row">
-					<div class="col-lg-8 pt-3">
-						<p
-							class="card-category my-0"
-							:key="key"
-							v-for="(error, key) in userErrors"
-						>
-							{{ error }}
-						</p>
-					</div>
-					<div class="col-lg-4">
-						<button
-							id="findError"
-							v-if="!totalErrors"
-							class="btn btn-outline-danger shadow-none"
-							@click="findErrors()"
-						>
-							Zoek errors
-						</button>
-						<button
-							id="findError"
-							v-if="totalErrors"
-							class="btn btn-outline-success shadow-none"
-							@click="fixErrors()"
-						>
-							Fix errors
-						</button>
-					</div>
-				</div>
+				<p
+					class="card-category my-0 error"
+					:key="key"
+					v-for="(error, key) in userErrors"
+				>
+					{{ error }}
+				</p>
 			</div>
 			<div class="card-footer">
 				<div class="stats">
@@ -76,13 +54,6 @@ export default {
 		}
 	},
 	methods: {
-		fixErrors() {
-			// this.fixNoProfile();
-			// this.fixIDNotTheSame();
-			// this.fixNoProjectInfo();
-
-			this.errors = {};
-		},
 		// Check of er een profile aanwezig in de user Object.
 		noProfile() {
 			const noEProfile = this.users.filter(user => {
@@ -134,53 +105,6 @@ export default {
 				}
 				this.errors[user.id].push(error);
 			}
-		},
-		fixNoProfile() {
-			for (const user of this.noProfile()) {
-				if (user.id) {
-					const userRef = this.fbDB.ref(`users/${user.id}/profiel`);
-					userRef.set({
-						achtergrond: "",
-						achternaam: "",
-						email: "",
-						foto: "",
-						id: user.id,
-						klas: "",
-						niveau: "",
-						over: "",
-						tussenvoegsel: "",
-						voornaam: ""
-					});
-				}
-			}
-		},
-		fixIDNotTheSame() {
-			for (const user of this.IDNotTheSame()) {
-				if (user.id) {
-					const userRef = this.fbDB.ref(`users/${user.id}/profiel/id`);
-
-					userRef.set(user.id);
-				}
-			}
-		},
-		fixNoProjectInfo() {
-			let count = 1;
-			const users = this.noProjectInfo();
-			for (const user of users) {
-				if (user.alleWVB) {
-					if (user.id) {
-						for (const key in user.alleWVB) {
-							if (user.alleWVB.hasOwnProperty(key)) {
-								const wvb = user.alleWVB[key];
-								if (!wvb.basisgegevens) {
-									const ref = this.fbDB.ref(`users/${user.id}/alleWVB/${key}`);
-									ref.remove();
-								}
-							}
-						}
-					}
-				}
-			}
 		}
 	}
 };
@@ -190,5 +114,10 @@ export default {
 #findError {
 	margin: 25px auto 0 auto;
 	display: block;
+}
+
+.error {
+	font-size: 0.8rem !important;
+	line-height: 16px !important;
 }
 </style>

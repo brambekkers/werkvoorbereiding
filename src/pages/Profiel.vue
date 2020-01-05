@@ -71,17 +71,19 @@
 											/>
 										</div>
 									</div>
-									<div class="form-group col-md-3">
-										<label for="niveau">Niveau</label>
-										<select
-											id="niveau"
-											class="form-control"
-											v-model="profiel.niveau"
-										>
-											<option>Niveau 2</option>
-											<option>Niveau 3</option>
-											<option>Niveau 4</option>
-										</select>
+									<div class="col-md-3">
+										<div class="form-group">
+											<label for="niveau">Niveau</label>
+											<select
+												id="niveau"
+												class="form-control"
+												v-model="profiel.niveau"
+											>
+												<option>Niveau 2</option>
+												<option>Niveau 3</option>
+												<option>Niveau 4</option>
+											</select>
+										</div>
 									</div>
 								</div>
 								<div class="row">
@@ -213,6 +215,7 @@ export default {
 	watch: {
 		profiel: {
 			handler() {
+				this.$store.commit("canUpload", true);
 				this.$store.dispatch("dataToFirebase", {
 					path: `profiel`,
 					data: this.profiel

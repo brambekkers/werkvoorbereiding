@@ -29,7 +29,8 @@ export default {
 	},
 	data() {
 		return {
-			users: {}
+			users: {},
+			admin: null
 		};
 	},
 	computed: {
@@ -76,7 +77,7 @@ export default {
 			}
 		}
 	},
-	created() {
+	async created() {
 		this.getUsers();
 	}
 };

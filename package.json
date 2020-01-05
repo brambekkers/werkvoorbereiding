@@ -1,77 +1,71 @@
 {
-  "name": "deWerkvoorbereider",
-  "version": "0.1.0",
-  "private": true,
-  "scripts": {
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint",
-    "electron:build": "vue-cli-service electron:build",
-    "electron:serve": "vue-cli-service electron:serve",
-    "postinstall": "electron-builder install-app-deps",
-    "postuninstall": "electron-builder install-app-deps"
-  },
-  "main": "background.js",
-  "dependencies": {
-    "@vue/eslint-config-prettier": "^4.0.1",
-    "bootstrap": "^4.3.1",
-    "bootstrap-vue": "^2.0.0-rc.28",
-    "chart.js": "^2.8.0",
-    "file-saver": "^2.0.2",
-    "firebase": "^5.11.1",
-    "html2canvas": "^1.0.0-rc.3",
-    "is-electron": "^2.2.0",
-    "jquery": "^3.4.1",
-    "jspdf": "^1.5.3",
-    "popper.js": "^1.15.0",
-    "register-service-worker": "^1.6.2",
-    "sweetalert2": "^8.16.3",
-    "uniqid": "^5.0.3",
-    "v-money": "^0.8.1",
-    "vue": "^2.6.10",
-    "vue-chartjs": "^3.4.2",
-    "vue-router": "^3.1.2",
-    "vue-social-sharing": "^2.4.6",
-    "vue2-animate": "^2.1.2",
-    "vuedraggable": "^2.23.0",
-    "vuex": "^3.1.1"
-  },
-  "devDependencies": {
-    "@vue/cli-plugin-babel": "^3.11.0",
-    "@vue/cli-plugin-eslint": "^3.11.0",
-    "@vue/cli-plugin-pwa": "^4.1.1",
-    "@vue/cli-service": "^3.11.0",
-    "babel-eslint": "^10.0.3",
-    "electron": "^4.2.9",
-    "eslint": "^5.16.0",
-    "eslint-plugin-vue": "^5.2.3",
-    "sass": "^1.22.10",
-    "sass-loader": "^7.3.1",
-    "vue-cli-plugin-electron-builder": "^1.4.0",
-    "vue-template-compiler": "^2.6.10"
-  },
-  "eslintConfig": {
-    "root": true,
-    "env": {
-      "node": true
-    },
-    "extends": [
-      "plugin:vue/essential",
-      "eslint:recommended"
-    ],
-    "rules": {},
-    "parserOptions": {
-      "parser": "babel-eslint"
-    }
-  },
-  "postcss": {
-    "plugins": {
-      "autoprefixer": {}
-    }
-  },
-  "browserslist": [
-    "> 1%",
-    "last 2 versions",
-    "not ie <= 8"
-  ]
+	"name": "deWerkvoorbereider",
+	"version": "0.1.0",
+	"private": true,
+	"scripts": {
+		"serve": "vue-cli-service serve",
+		"build": "vue-cli-service build",
+		"lint": "vue-cli-service lint"
+	},
+	"main": "background.js",
+	"dependencies": {
+		"@vue/eslint-config-prettier": "^4.0.1",
+		"bootstrap": "^4.3.1",
+		"bootstrap-vue": "^2.0.0-rc.28",
+		"chart.js": "^2.8.0",
+		"file-saver": "^2.0.2",
+		"firebase": "^5.11.1",
+		"html2canvas": "^1.0.0-rc.3",
+		"is-electron": "^2.2.0",
+		"jquery": "^3.4.1",
+		"jspdf": "^1.5.3",
+		"popper.js": "^1.15.0",
+		"register-service-worker": "^1.6.2",
+		"sweetalert2": "^8.16.3",
+		"uniqid": "^5.0.3",
+		"v-money": "^0.8.1",
+		"vue": "^2.6.10",
+		"vue-chartjs": "^3.4.2",
+		"vue-router": "^3.1.2",
+		"vue-social-sharing": "^2.4.6",
+		"vue2-animate": "^2.1.2",
+		"vuedraggable": "^2.23.0",
+		"vuex": "^3.1.1"
+	},
+	"devDependencies": {
+		"@vue/cli-plugin-babel": "^3.11.0",
+		"@vue/cli-plugin-eslint": "^3.11.0",
+		"@vue/cli-plugin-pwa": "^4.1.2",
+		"@vue/cli-service": "^3.11.0",
+		"babel-eslint": "^10.0.3",
+		"eslint": "^5.16.0",
+		"eslint-plugin-vue": "^5.2.3",
+		"sass": "^1.22.10",
+		"sass-loader": "^7.3.1",
+		"vue-template-compiler": "^2.6.10"
+	},
+	"eslintConfig": {
+		"root": true,
+		"env": {
+			"node": true
+		},
+		"extends": [
+			"plugin:vue/essential",
+			"eslint:recommended"
+		],
+		"rules": {},
+		"parserOptions": {
+			"parser": "babel-eslint"
+		}
+	},
+	"postcss": {
+		"plugins": {
+			"autoprefixer": {}
+		}
+	},
+	"browserslist": [
+		"> 1%",
+		"last 2 versions",
+		"not ie <= 8"
+	]
 }

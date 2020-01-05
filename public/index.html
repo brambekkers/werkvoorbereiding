@@ -25,14 +25,37 @@
 			integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/"
 			crossorigin="anonymous"
 		/>
+
+		<!-- Global site tag (gtag.js) - Google Analytics -->
+		<script
+			async
+			src="https://www.googletagmanager.com/gtag/js?id=UA-29420033-9"
+		></script>
+		<script>
+			window.dataLayer = window.dataLayer || [];
+			function gtag() {
+				dataLayer.push(arguments);
+			}
+			gtag("js", new Date());
+
+			gtag("config", "UA-29420033-9");
+		</script>
 	</head>
 
 	<body>
-		<noscript>
-			<strong
-				>We're sorry but deWerkvoorbereider doesn't work properly without
-				JavaScript enabled. Please enable it to continue.</strong
-			>
+		<noscript
+			style="font-family: Arial, Helvetica, sans-serif; text-align: center;"
+		>
+			<i
+				class="far fa-surprise"
+				style="display: block; margin: auto; font-size: 30vh; margin-top: 20vh;"
+			></i>
+			<h3>Je hebt JavaScript uitstaan</h3>
+
+			<p>
+				Sorry, helaas werkt de werkvoorbereider niet zonder dat JavaScript is
+				ingeschakeld.</br>Zorg dat je JavaScript ingschakeld voordat je verder gaat.
+			</p>
 		</noscript>
 		<div id="app"></div>
 		<!-- built files will be auto injected -->
