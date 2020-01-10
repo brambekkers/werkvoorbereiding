@@ -51,11 +51,13 @@
 											@click="selectWvb(id)"
 											:class="selectedColor(id)"
 										>
-											<template
-												v-if="id != 'undefined' && project.basisgegevens"
-											>
+											<template v-if="id != 'undefined'">
 												<td>{{ index + 1 }}</td>
-												<td>{{ project.basisgegevens.project }}</td>
+												<td>
+													<span v-if="project.basisgegevens">{{
+														project.basisgegevens.project
+													}}</span>
+												</td>
 												<td>{{ aantalComponenten(id) }}</td>
 												<td>{{ aantalOnderdelen(id) }}</td>
 												<td>{{ aantalHandelingen(id) }}</td>

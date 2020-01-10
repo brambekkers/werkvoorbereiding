@@ -36,11 +36,6 @@ export default {
 		ZaagoptimalistieSheetList,
 		DashboardOptimalisatie
 	},
-	data() {
-		return {
-			sheets: []
-		};
-	},
 	computed: {
 		werkvoorbereiding() {
 			return this.$store.getters.werkvoorbereiding;

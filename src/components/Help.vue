@@ -21,7 +21,7 @@ export default {
 					{
 						title: 'Welkom bij de werkvoorbereiding!',
 						html:
-							'We gaan samen stap voor stap jouw project bestuderen om tot een goede werkvoorbereiding te komen. Denk goed na over je project en vul zo veel mogelijk in! Hoe meer data, hoe beter het resultaat. <br/><br/> Mocht je er niet uitkomen, <strong> geen probleem</strong>, per stap kun je altijd op het ? drukken voor meer informatie.'
+							'We gaan samen stap voor stap jouw project bestuderen om tot een goede werkvoorbereiding te komen. Denk goed na over je project en vul zo veel mogelijk in! Hoe meer data, hoe beter het resultaat. <br/><br/> Mocht je er niet uitkomen, <strong> geen probleem</strong>, per stap kun je altijd op het <strong>?</strong> drukken voor meer informatie.'
 					},
 					{
 						title: 'Gegevens',
@@ -29,8 +29,8 @@ export default {
 							'Op de gegevens pagina vul je de gegevens is van het project. Dit doe je zodat je later gemakkelijk je project kan terugvinden.'
 					},
 					{
-						title: 'Zit je niet op school?',
-						text: 'Mocht je geen klas of docent hebben kun je deze velden leeg laten of voor iets anders gebruiken.'
+						title: 'Werk of school?',
+						text: 'Gebruik je dit formulier voor werk, privé of voor school? <br><br>Zet de velden aan die voor jou van toepassing zijn. Gebruik het <strong>+ icoon</strong> om velden aan of uit te zetten.'
 					}
 				];
 			}

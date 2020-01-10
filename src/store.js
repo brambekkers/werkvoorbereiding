@@ -298,7 +298,7 @@ export default new Vuex.Store({
 				path: `metadata`,
 				data: {
 					creationTime: user.metadata.creationTime,
-					lastSignInTime: user.metadata.creationTime
+					lastSignInTime: user.metadata.lastSignInTime
 				}
 			});
 		},

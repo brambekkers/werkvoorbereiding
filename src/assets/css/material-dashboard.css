@@ -17127,11 +17127,11 @@ a .material-icons {
 
 .main-panel {
     /* position: relative;
-    float: right;
-    width: calc(100% - 260px); */
+    float: right; */
+    width: calc(100% - 260px);
 
     /* new style flex */
-  flex-grow: 1;
+    flex-grow: 1;
     transition: .33s, cubic-bezier(.685, .0473, .346, 1)
 }
 

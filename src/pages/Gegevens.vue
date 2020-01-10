@@ -3,81 +3,78 @@
 		<div class="container-fluid">
 			<div class="row justify-content-center">
 				<div class="col-md-8 col-lg-6 col-xl-5">
-					<form
-						role="form"
-						@submit.prevent="nextStep()"
-					>
+					<form role="form" @submit.prevent="nextStep()">
 						<div class="card">
-							<CardHeader :text="{ title: 'Basisgegevens', subtitle: 'De eerste stap...' }" />
+							<CardHeader
+								:text="{
+									title: 'Basisgegevens',
+									subtitle: 'De eerste stap...'
+								}"
+							/>
 							<div class="card-body">
-								<div class="input-group mb-2">
-									<div class="input-group-prepend">
-										<span class="input-group-text"><i class="fa fa-tag fa-fw"></i></span>
+								<template v-for="input of inputs">
+									<div
+										class="input-group mb-2"
+										:key="input.model"
+										v-if="input.active"
+									>
+										<div class="input-group-prepend">
+											<span class="input-group-text"
+												><i :class="input.icon"></i
+											></span>
+										</div>
+										<input
+											type="text"
+											:id="input.model"
+											:placeholder="input.placeholder"
+											data-toggle="tooltip"
+											data-placement="right"
+											required="required"
+											class="form-control"
+											v-model="basisgegevens[input.model]"
+										/>
+										<b-tooltip
+											:target="input.model"
+											triggers="hover"
+											placement="right"
+										>
+											{{ input.tooltip }}
+										</b-tooltip>
 									</div>
-									<input
-										type="text"
-										placeholder="Project"
-										data-toggle="tooltip"
-										data-placement="right"
-										required="required"
-										class="form-control"
-										data-original-title="Wat is de naam van je project?"
-										v-model="basisgegevens.project"
-									/>
-								</div>
-								<hr />
-								<div class="input-group mb-2">
-									<div class="input-group-prepend">
-										<span class="input-group-text"><i class="fa fa-user fa-fw"></i></span>
+								</template>
+								<!-- Filter -->
+								<div id="dd-inputs">
+									<button
+										type="button"
+										class="btn btn-sm btn-fab pulse-button"
+										data-toggle="dropdown"
+										aria-haspopup="true"
+										aria-expanded="false"
+									>
+										<i class="material-icons fas fa-plus "></i>
+									</button>
+									<div class="dropdown-menu dropdown-menu-inputs px-3 pt-3" ref="uniqueName">
+										<div
+											:key="input.model"
+											v-for="input of inputs"
+										>
+											<div class="material-switch mr-1" v-if="!input.fixed" @click="changeInput(input)" >
+												<input type="checkbox" v-model="input.active" />
+												<label
+													:for="'label' + input.model"
+													class="small"
+													:style="{ 'background-color': hexColor }"
+												></label>
+											</div>
+											<small v-if="!input.fixed">{{ input.placeholder }}</small>
+										</div>
 									</div>
-									<input
-										type="text"
-										placeholder="Voor en achternaam"
-										data-toggle="tooltip"
-										data-placement="right"
-										required="required"
-										class="form-control"
-										data-original-title="Vul hier jouw eigen naam in"
-										v-model="basisgegevens.naam"
-									/>
-								</div>
-								<div class="input-group mb-2">
-									<div class="input-group-prepend">
-										<span class="input-group-text"><i class="fa fa-graduation-cap fa-fw"></i></span>
-									</div>
-									<input
-										type="text"
-										placeholder="Klas"
-										data-toggle="tooltip"
-										data-placement="right"
-										required="required"
-										class="form-control"
-										data-original-title="In welke klas zit je?"
-										v-model="basisgegevens.klas"
-									/>
-								</div>
-								<div class="input-group mb-2">
-									<div class="input-group-prepend">
-										<span class="input-group-text"><i class="fa fa-university fa-fw"></i></span>
-									</div>
-									<input
-										type="text"
-										placeholder="Docent"
-										data-toggle="tooltip"
-										data-placement="right"
-										required="required"
-										class="form-control"
-										data-original-title="Van wie krijg je les?"
-										v-model="basisgegevens.docent"
-									/>
 								</div>
 							</div>
 						</div>
-						<button
-							tag="button"
-							type="submit"
-							class="btn btn-lg btn-block"
-						>Start de werkvoorbereiding</button>
+						<button tag="button" type="submit" class="btn btn-lg btn-block">
+							Start de werkvoorbereiding
+						</button>
 					</form>
 				</div>
 			</div>
@@ -94,7 +91,62 @@ export default {
 	components: { CardHeader },
 	data() {
 		return {
-			basisgegevens: newWvb.basisgegevens
+			basisgegevens: newWvb.basisgegevens,
+			fieldsUpdated: false,
+			inputs: {
+				project: {
+					active: true,
+					fixed: true,
+					model: "project",
+					icon: "fa fa-tag fa-fw",
+					placeholder: "Project",
+					tooltip: "Wat is de naam van je project?"
+				},
+				naam: {
+					active: true,
+					fixed: true,
+					model: "naam",
+					icon: "fa fa-user fa-fw",
+					placeholder: "Voor en achternaam",
+					tooltip: "Vul hier jouw eigen naam in."
+				},
+				klas: {
+					active: false,
+					model: "klas",
+					icon: "fa fa-graduation-cap fa-fw",
+					placeholder: "Klas",
+					tooltip: "In welke klas zit je?"
+				},
+				docent: {
+					active: false,
+					model: "docent",
+					icon: "fa fa-university fa-fw",
+					placeholder: "Docent",
+					tooltip: "Van wie krijg je les?"
+				},
+
+				klant: {
+					active: false,
+					model: "klant",
+					icon: "fa fa-user-tie fa-fw",
+					placeholder: "Klant",
+					tooltip: "Wie is de klant van het project?"
+				},
+				orderNummer: {
+					active: false,
+					model: "orderNummer",
+					icon: "fa fa-file-excel fa-fw",
+					placeholder: "Ordernummer",
+					tooltip: "Wat is het ordernummer van de opdracht?"
+				},
+				bedrijf: {
+					active: false,
+					model: "bedrijf",
+					icon: "fa fa-building fa-fw",
+					placeholder: "Bedrijf",
+					tooltip: "Wat is de bedrijfsnaam?"
+				}
+			}
 		};
 	},
 	watch: {
@@ -104,9 +156,11 @@ export default {
 			},
 			deep: true
 		},
+			
 		werkvoorbereiding: {
+	
 			handler() {
-				this.updateGegevens();
+				if (!this.fieldsUpdated) this.updateGegevens();
 			},
 			deep: true
 		}
@@ -116,16 +170,25 @@ export default {
 			return this.$store.getters.werkvoorbereiding;
 		},
 		getBasisgegevens() {
-			return this.$store.getters.werkvoorbereidingsObject(
-				"basisgegevens"
-			);
+			return this.$store.getters.werkvoorbereidingsObject("basisgegevens");
+		},
+		hexColor() {
+			return this.$store.getters.hexColor;
 		}
 	},
 	methods: {
 		updateGegevens() {
-			if (this.getBasisgegevens)
+			const bg = this.getBasisgegevens;
+			if (bg) {
 				this.$set(this, "basisgegevens", this.getBasisgegevens);
-			else this.$set(this, "basisgegevens", newWvb.basisgegevens);
+				const i = this.inputs;
+				i.klas.active = bg.klas ? true : false;
+				i.docent.active = bg.docent ? true : false;
+				i.bedrijf.active = bg.bedrijf ? true : false;
+				i.klant.active = bg.klant ? true : false;
+			} else this.$set(this, "basisgegevens", newWvb.basisgegevens);
+
+			this.fieldsUpdated = true;
 		},
 		nextStep() {
 			this.setData();
@@ -138,15 +201,36 @@ export default {
 				basisgegevens: this.basisgegevens
 			});
 			this.$store.dispatch("wvbToFirebase");
+		},
+		changeInput(input){
+			input.active = !input.active
 		}
 	},
 	mounted() {
-		window.$('[data-toggle="tooltip"]').tooltip({
-			delay: { show: 500, hide: 0 }
-		});
 		this.updateGegevens();
+			window.$('#dd-inputs').on('hide.bs.dropdown', (e) => {				
+				if (e.clickEvent) {
+					e.preventDefault();
+				}
+			})
 	}
 };
 </script>
 
-<style scoped></style>
+<style scoped lang="scss">
+.pulse-button {
+	-webkit-animation: pulse 1.5s infinite;
+	&:hover {
+		-webkit-animation: none;
+	}
+
+	@-webkit-keyframes pulse {
+		70% {
+			box-shadow: 0 0 0 50px rgba(90, 153, 212, 0);
+		}
+		100% {
+			box-shadow: 0 0 0 0 rgba(90, 153, 212, 0);
+		}
+	}
+}
+</style>

@@ -12,7 +12,7 @@
 							<td>
 								<input
 									type="number"
-									v-model="sheet.lengte"
+									v-model.lazy="sheet.lengte"
 									class="form-control text-right"
 									placeholder="Lengte"
 								/>
@@ -23,7 +23,7 @@
 							<td>
 								<input
 									type="number"
-									v-model="sheet.breedte"
+									v-model.lazy="sheet.breedte"
 									class="form-control"
 									placeholder="breedte"
 								/>

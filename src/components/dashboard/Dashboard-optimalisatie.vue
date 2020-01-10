@@ -105,8 +105,7 @@ export default {
 		materialAndParts: {
 			handler() {
 				this.calculateSheets();
-			},
-			deep: true
+			}
 		}
 	},
 	computed: {
@@ -169,16 +168,17 @@ export default {
 		async calculateSheets() {
 			this.sheets = [];
 			for (const material of this.materialAndParts) {
-				const sheets = await this.cutSheet(material);
-				this.sheets.push(sheets);
+				const sheet = await this.cutSheet(material);
+				this.sheets.push(sheet);
 			}
+
 			// Wacht een seconde omdat vue eerst de divs moet laden
 			await this.waitASec(500);
 			this.drawOnCanvas();
 		},
 
 		cutSheet(material) {
-			return new Promise(async (resolve, reject) => {
+			return new Promise(async resolve => {
 				const partArray = await this.addToPartArray(material.parts);
 				const panels = await this.optimize(partArray, [], material);
 
@@ -192,7 +192,7 @@ export default {
 
 		// builds an array of parts
 		addToPartArray(parts) {
-			return new Promise(async (resolve, reject) => {
+			return new Promise(async resolve => {
 				const array = [];
 				for (const part of parts) {
 					for (let i = 0; i < Number(part.aantal); i++) {
@@ -218,7 +218,7 @@ export default {
 		// recursively processes the provided array of parts
 		// fits parts into panel dimensions
 		optimize(partArray, panels, material) {
-			return new Promise(async (resolve, reject) => {
+			return new Promise(async resolve => {
 				let removeBlockArray = [];
 				let blockArray = [];
 
@@ -313,7 +313,7 @@ export default {
 			ctx.strokeRect(part.fitX, part.fitY, part.w, part.h);
 			// ctx.stroke();
 		},
-		drawText(ctx, sheet, part, num) {
+		drawText(ctx, sheet, part) {
 			// const size = sheet.material.lengte / (this.getMaxLength / 100);
 			ctx.font = "40px arial, sans-serif";
 			ctx.fillStyle = "#333";

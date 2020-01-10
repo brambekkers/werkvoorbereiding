@@ -13,169 +13,73 @@
 							/>
 
 							<div class="card-body">
-								<!-- Massief hout -->
-								<h6 class="title col-form-label text-left border-bottom my-1">
-									<strong>Massief hout</strong>
-								</h6>
+								<div class="mb-3" :key="key" v-for="(input, key) in inputs">
+									<!-- Massief hout -->
+									<h6 class="title col-form-label text-left border-bottom my-1">
+										<strong>{{ input.title }}</strong>
+									</h6>
 
-								<div
-									class="row "
-									v-bind:key="'massief' + i"
-									v-for="(massief, i) in materialen.massief"
-								>
-									<div class="col">
-										<div class="input-group mb-2">
-											<div class="input-group-prepend">
-												<span id="basic-addon1" class="input-group-text pl-0">
-													<i class="fa fa-leaf fa-fw"></i>
-												</span>
+									<div
+										class="row "
+										v-bind:key="'massief' + i"
+										v-for="(materiaal, i) in materialen[key]"
+									>
+										<div class="col">
+											<div class="input-group mb-2">
+												<div class="input-group-prepend">
+													<span id="basic-addon1" class="input-group-text pl-0">
+														<i :class="input.icon"></i>
+													</span>
+												</div>
+												<input
+													type="text"
+													:placeholder="input.placeholder_naam"
+													:id="`${key}_naam_${i}`"
+													required="required"
+													class="form-control"
+													v-model="materiaal.naam"
+												/>
+												<b-tooltip
+													:target="`${key}_naam_${i}`"
+													triggers="hover"
+													placement="top"
+												>
+													{{ input.tooltip_naam }}
+												</b-tooltip>
 											</div>
-											<input
-												type="text"
-												placeholder="Massief houtsoort"
-												data-toggle="tooltip"
-												data-placement="top"
-												title=""
-												required="required"
-												class="form-control"
-												data-original-title="Wat is de naam van de houtsoort?"
-												v-model="massief.naam"
-											/>
 										</div>
-									</div>
-									<div class="col-3">
-										<div class="input-group mb-2">
-											<money
-												placeholder="Prijs m3"
-												data-toggle="tooltip"
-												data-placement="top"
-												min="1"
-												required="required"
-												class="form-control"
-												data-original-title="Hoeveel kost deze houtsoort per m3? Bijv. 1800 euro"
-												v-model="massief.prijs"
-												v-bind="moneyMassief"
-											>
-											</money>
-										</div>
-									</div>
-
-									<DeleteButton @delete="removeComponent(i, 'massief')" />
-								</div>
-								<AddButton
-									@add="newMaterial('massief')"
-									:text="'Voeg massief hout toe'"
-								/>
-
-								<!-- Plaatmateriaal -->
-								<h6 class="title col-form-label text-left border-bottom mb-1">
-									<strong>Plaatmateriaal</strong>
-								</h6>
-								<div
-									class="row"
-									v-bind:key="'plaatmateriaal' + i"
-									v-for="(plaatmateriaal, i) in materialen.plaatmateriaal"
-								>
-									<div class="col">
-										<div class="input-group mb-2">
-											<div class="input-group-prepend">
-												<span id="basic-addon1" class="input-group-text pl-0">
-													<i class="fa fa-square fa-fw"></i>
-												</span>
+										<div class="col-3">
+											<div class="input-group mb-2">
+												<money
+													:placeholder="input.placeholder_prijs"
+													:id="`${key}_prijs_${i}`"
+													min="1"
+													required="required"
+													class="form-control"
+													v-model="materiaal.prijs"
+													v-bind="key === 'massief' ? moneyMassief : moneyPlaat"
+												>
+												</money>
+												<b-tooltip
+													:target="`${key}_prijs_${i}`"
+													triggers="hover"
+													placement="top"
+												>
+													{{ input.tooltip_naam }}
+												</b-tooltip>
 											</div>
-											<input
-												type="text"
-												placeholder="Plaatmateriaal naam"
-												data-toggle="tooltip"
-												data-placement="top"
-												title=""
-												required="required"
-												class="form-control"
-												data-original-title="Naam van het plaatmateriaal incl de dikte? Bijv. MDF 12mm"
-												v-model="plaatmateriaal.naam"
-											/>
 										</div>
+
+										<DeleteButton @delete="removeComponent(i, key)" />
 									</div>
-									<div class="col-3">
-										<div class="input-group mb-2">
-											<money
-												placeholder="Prijs m2"
-												data-toggle="tooltip"
-												data-placement="top"
-												min="1"
-												required="required"
-												class="form-control"
-												data-original-title="Hoeveel kost dit plaatmateriaal per m2?"
-												v-model="plaatmateriaal.prijs"
-												v-bind="moneyPlaat"
-											>
-											</money>
-										</div>
-									</div>
-									<DeleteButton
-										@delete="removeComponent(i, 'plaatmateriaal')"
+									<AddButton
+										@add="newMaterial(key)"
+										:text="`Voeg ${input.title} toe`"
 									/>
 								</div>
-								<AddButton
-									@add="newMaterial('plaatmateriaal')"
-									:text="'Voeg plaatmateriaal toe'"
-								/>
-
-								<!-- Fineer -->
-								<h6 class="title col-form-label text-left border-bottom mb-1">
-									<strong>Fineer</strong>
-								</h6>
-								<div
-									class="row"
-									v-bind:key="'fineer' + i"
-									v-for="(fineer, i) in materialen.fineer"
-								>
-									<div class="col">
-										<div class="input-group mb-2">
-											<div class="input-group-prepend">
-												<span id="basic-addon1" class="input-group-text pl-0">
-													<i class="fa fa-tag fa-fw"></i>
-												</span>
-											</div>
-											<input
-												type="text"
-												placeholder="Fineer soort"
-												data-toggle="tooltip"
-												data-placement="top"
-												title=""
-												required="required"
-												class="form-control"
-												data-original-title="Wat voor fineer is het?"
-												v-model="fineer.naam"
-											/>
-										</div>
-									</div>
-									<div class="col-3">
-										<div class="input-group mb-2">
-											<money
-												placeholder="Prijs m2"
-												data-toggle="tooltip"
-												data-placement="top"
-												min="1"
-												required="required"
-												class="form-control"
-												data-original-title="Hoeveel euro kost dit fineer per m2?"
-												v-model="fineer.prijs"
-												v-bind="moneyPlaat"
-											>
-											</money>
-										</div>
-									</div>
-
-									<DeleteButton @delete="removeComponent(i, 'fineer')" />
-								</div>
-								<AddButton
-									@add="newMaterial('fineer')"
-									:text="'Voeg fineer toe'"
-								/>
 
 								<div
-									class="d-flex justify-content-between border-top mt-5 flex-wrap"
+									class="d-flex justify-content-between border-top mt-4 flex-wrap"
 								>
 									<router-link tag="button" class="btn" to="/overigeMaterialen">
 										<i aria-hidden="true" class="far fa-clipboard mr-2"></i>
@@ -231,6 +135,33 @@ export default {
 				suffix: "",
 				precision: 2,
 				masked: false
+			},
+			inputs: {
+				massief: {
+					title: "Massief hout",
+					icon: "fa fa-leaf fa-fw",
+					placeholder_naam: "Massief houtsoort",
+					placeholder_prijs: "Prijs m3",
+					tooltip_naam: "Wat is de naam van de houtsoort?",
+					tooltip_prijs: "Hoeveel kost deze houtsoort per m3? Bijv. 1800 euro"
+				},
+				plaatmateriaal: {
+					title: "Plaatmateriaal",
+					icon: "fa fa-square fa-fw",
+					placeholder_naam: "Plaatmateriaal naam",
+					placeholder_prijs: "Prijs m2",
+					tooltip_naam:
+						"Naam van het plaatmateriaal incl de dikte? Bijv. MDF 12mm",
+					tooltip_prijs: "Hoeveel kost dit plaatmateriaal per m2?"
+				},
+				fineer: {
+					title: "Fineer",
+					icon: "fa fa-tag fa-fw",
+					placeholder_naam: "Fineer soort",
+					placeholder_prijs: "Prijs m2",
+					tooltip_naam: "Wat voor fineer is het?",
+					tooltip_prijs: "Hoeveel euro kost dit fineer per m2?"
+				}
 			}
 		};
 	},
