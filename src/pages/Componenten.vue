@@ -33,7 +33,7 @@
 												required="required"
 												class="form-control"
 												data-original-title="Wat is de naam van het component?"
-												v-model="component.naam"
+												v-model.trim="component.naam"
 											/>
 										</div>
 									</div>
@@ -49,7 +49,7 @@
 												required="required"
 												class="form-control"
 												data-original-title="Hoe vaak komt dit component voor in het project?"
-												v-model="component.aantal"
+												v-model.number="component.aantal"
 											/>
 										</div>
 									</div>

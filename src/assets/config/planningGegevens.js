@@ -16,7 +16,7 @@ export default {
 			'Van breedte',
 			'Machinaal schuren'
 		],
-		'Specialistische bewerkingen': ['Draaien', 'Freezen', 'Langgatboor', 'Pennenbank', 'CNC', 'Lasersnijder'],
+		'Specialistische bewerkingen': ['Draaien', 'Frezen', 'Langgatboor', 'Pennenbank', 'CNC', 'Lasersnijder'],
 		Profileren: [
 			'Groef frezen',
 			'Sponning frezen',
@@ -31,7 +31,7 @@ export default {
 	},
 	Werkplaats: {
 		Voorbereidingen: ['Afschrijven', 'Paren', 'Onderhoud', 'Opruimen'],
-		'Algemene bewerkingen': ['Afschrijven', 'Freezen', 'Schroeven', 'Steken', 'Zagen', 'Schaven'],
+		'Algemene bewerkingen': ['Afschrijven', 'Frezen', 'Schroeven', 'Steken', 'Zagen', 'Schaven'],
 		Verbindingen: ['Pen-gatverbinding', 'Tandverbinding', 'Zwaluwstaartverbinding', 'Lamello', 'Domino'],
 		Montage: ['Fineer plakken', 'Kantenband', 'Lijmen'],
 		Afmontage: ['Afhangen', 'Stellen'],

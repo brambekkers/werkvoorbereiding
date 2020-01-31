@@ -31,7 +31,7 @@
 											data-placement="right"
 											required="required"
 											class="form-control"
-											v-model="basisgegevens[input.model]"
+											v-model.trim="basisgegevens[input.model]"
 										/>
 										<b-tooltip
 											:target="input.model"
@@ -43,33 +43,38 @@
 									</div>
 								</template>
 								<!-- Filter -->
-								<div id="dd-inputs">
-									<button
-										type="button"
-										class="btn btn-sm btn-fab pulse-button"
-										data-toggle="dropdown"
-										aria-haspopup="true"
-										aria-expanded="false"
-									>
-										<i class="material-icons fas fa-plus "></i>
-									</button>
-									<div class="dropdown-menu dropdown-menu-inputs px-3 pt-3" ref="uniqueName">
+								<b-dropdown
+									size="sm"
+									variant="link"
+									toggle-class="text-decoration-none bg-white p-0 pl-2"
+									no-caret
+								>
+									<template v-slot:button-content>
+										<button class="btn btn-sm btn-fab pulse-button">
+											<i class="material-icons fas fa-plus "></i>
+										</button>
+									</template>
+
+									<div :key="input.model" v-for="input of inputs" class="mx-3">
 										<div
-											:key="input.model"
-											v-for="input of inputs"
+											class="material-switch mr-1"
+											v-if="!input.fixed"
+											@click="changeInput(input)"
 										>
-											<div class="material-switch mr-1" v-if="!input.fixed" @click="changeInput(input)" >
-												<input type="checkbox" v-model="input.active" />
-												<label
-													:for="'label' + input.model"
-													class="small"
-													:style="{ 'background-color': hexColor }"
-												></label>
-											</div>
-											<small v-if="!input.fixed">{{ input.placeholder }}</small>
+											<input type="checkbox" v-model="input.active" />
+											<label
+												:for="'label' + input.model"
+												class="small"
+												:style="{ 'background-color': hexColor }"
+											></label>
 										</div>
+										<small v-if="!input.fixed">{{ input.placeholder }}</small>
 									</div>
-								</div>
+								</b-dropdown>
+								<div
+									class="dropdown-menu dropdown-menu-inputs px-3 pt-3"
+									ref="uniqueName"
+								></div>
 							</div>
 						</div>
 						<button tag="button" type="submit" class="btn btn-lg btn-block">
@@ -92,7 +97,6 @@ export default {
 	data() {
 		return {
 			basisgegevens: newWvb.basisgegevens,
-			fieldsUpdated: false,
 			inputs: {
 				project: {
 					active: true,
@@ -156,11 +160,9 @@ export default {
 			},
 			deep: true
 		},
-			
 		werkvoorbereiding: {
-	
 			handler() {
-				if (!this.fieldsUpdated) this.updateGegevens();
+				this.updateGegevens();
 			},
 			deep: true
 		}
@@ -187,8 +189,6 @@ export default {
 				i.bedrijf.active = bg.bedrijf ? true : false;
 				i.klant.active = bg.klant ? true : false;
 			} else this.$set(this, "basisgegevens", newWvb.basisgegevens);
-
-			this.fieldsUpdated = true;
 		},
 		nextStep() {
 			this.setData();
@@ -202,17 +202,17 @@ export default {
 			});
 			this.$store.dispatch("wvbToFirebase");
 		},
-		changeInput(input){
-			input.active = !input.active
+		changeInput(input) {
+			input.active = !input.active;
 		}
 	},
 	mounted() {
 		this.updateGegevens();
-			window.$('#dd-inputs').on('hide.bs.dropdown', (e) => {				
-				if (e.clickEvent) {
-					e.preventDefault();
-				}
-			})
+		window.$("#dd-inputs").on("hide.bs.dropdown", e => {
+			if (e.clickEvent) {
+				e.preventDefault();
+			}
+		});
 	}
 };
 </script>

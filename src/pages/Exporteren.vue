@@ -182,30 +182,38 @@ export default {
 				this.noAccount();
 			}
 		},
-		opslaanAlsCanvas(type) {
+		async opslaanAlsCanvas(type) {
 			if (this.werkvoorbereiding) {
 				this.$store.commit("setWaitScreen", true);
 				this.$router.push(`/share/print/${this.wvbid}`);
 
-				// makes screenshot
-				setTimeout(async () => {
-					const el = document.getElementsByClassName("content")[0];
-					const canvas = await html2canvas(el, {
-						logging: false
-					});
+				// makes screenshot and create canvas
+				const canvas = await this.createScreenShot(5000);
 
-					this.$router.push("/exporteren");
-					this.$store.commit("setWaitScreen", false);
-					this.$store.state.appData.waitScreen = false;
+				// CREATE image
+				if (type === "image") this.createImage(canvas);
+				// CREATE pdf
+				if (type === "pdf") this.createPDF(canvas);
 
-					// CREATE image
-					if (type === "image") this.createImage(canvas);
-					// CREATE pdf
-					if (type === "pdf") this.createPDF(canvas);
-				}, 5000);
+				// Reset
+				this.$router.push("/exporteren");
+				this.$store.commit("setWaitScreen", false);
 			} else {
 				this.noAccount();
 			}
+		},
+		createScreenShot(timeout) {
+			return new Promise(resolve => {
+				setTimeout(async () => {
+					const el = document.getElementsByClassName("content")[0];
+					resolve(
+						await html2canvas(el, {
+							logging: false,
+							allowTaint: true
+						})
+					);
+				}, timeout);
+			});
 		},
 		createImage(canvas) {
 			let _this = this;

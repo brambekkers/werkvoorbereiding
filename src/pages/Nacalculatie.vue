@@ -49,7 +49,7 @@
 												required="required"
 												class="form-control"
 												data-original-title="Welk handeling heb je uitgevoerd?"
-												v-model="calculatie.naam"
+												v-model.trim="calculatie.naam"
 											/>
 										</div>
 									</div>

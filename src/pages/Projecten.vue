@@ -181,7 +181,7 @@ export default {
 		}
 	},
 	mounted() {
-		if (this.user) this.$store.dispatch("FbDataDownload", this.user.uid);
+		if (this.user) this.$store.dispatch("updateUserData");
 	}
 };
 </script>

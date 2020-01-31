@@ -13,7 +13,7 @@
 								<input
 									type="number"
 									v-model.lazy="sheet.lengte"
-									class="form-control text-right"
+									class="sheetInput form-control"
 									placeholder="Lengte"
 								/>
 							</td>
@@ -24,7 +24,7 @@
 								<input
 									type="number"
 									v-model.lazy="sheet.breedte"
-									class="form-control"
+									class="sheetInput form-control"
 									placeholder="breedte"
 								/>
 							</td>
@@ -60,5 +60,11 @@ input[type="number"]::-webkit-inner-spin-button,
 input[type="number"]::-webkit-outer-spin-button {
 	-webkit-appearance: none;
 	margin: 0;
+}
+
+.sheetInput {
+	background-color: #e0e0e0;
+	padding: 5px !important;
+	text-align: center;
 }
 </style>

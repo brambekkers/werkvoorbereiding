@@ -33,7 +33,7 @@
 													required="required"
 													class="form-control"
 													data-original-title="Welk onderdeel ga je bematen?"
-													v-model="maat.naam"
+													v-model.trim="maat.naam"
 												/>
 											</div>
 										</div>
@@ -48,7 +48,7 @@
 													required="required"
 													class="form-control"
 													data-original-title="Hoeveel stuks heb je van dit onderdeel?"
-													v-model="maat.aantal"
+													v-model.number="maat.aantal"
 												/>
 											</div>
 										</div>
@@ -143,7 +143,7 @@
 													required="required"
 													class="form-control"
 													data-original-title="Wat is de lengte in mm?"
-													v-model="maat.lengte"
+													v-model.number="maat.lengte"
 												/>
 											</div>
 										</div>
@@ -158,7 +158,7 @@
 													required="required"
 													class="form-control"
 													data-original-title="Wat is de breedte in mm?"
-													v-model="maat.breedte"
+													v-model.number="maat.breedte"
 												/>
 											</div>
 										</div>
@@ -173,7 +173,7 @@
 													required="required"
 													class="form-control"
 													data-original-title="Wat is de dikte in mm?"
-													v-model="maat.dikte"
+													v-model.number="maat.dikte"
 												/>
 											</div>
 										</div>

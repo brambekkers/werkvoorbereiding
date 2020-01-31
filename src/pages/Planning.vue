@@ -95,15 +95,24 @@
 											</div>
 											<div class="col">
 												<div class="row">
-													<AddButtonInline @add="newStap(planningIndex)" class="mr-1" />
-													<DeleteButton @delete="removePlanning(planningIndex)" />
+													<AddButtonInline
+														@add="newStap(planningIndex)"
+														class="mr-1"
+													/>
+													<DeleteButton
+														@delete="removePlanning(planningIndex)"
+													/>
 												</div>
 											</div>
 										</div>
 										<!-- //////////////////////////////////////////////// -->
 										<!-- //////////////////// SUBSTAP /////////////////// -->
 										<!-- //////////////////////////////////////////////// -->
-										<draggable v-model="planning.stappen" handle=".handle">
+										<draggable
+											handle=".handle"
+											:list="planning.stappen"
+											group="substap"
+										>
 											<div
 												class="row stap shadow-sm ml-2 p-0"
 												v-bind:key="index"
@@ -114,7 +123,9 @@
 													<div class="input-group mb-2">
 														<div class="input-group-prepend">
 															<span id="basic-addon1" class="input-group-text">
-																<i class="far fa-hand-point-right grabbing handle"></i>
+																<i
+																	class="far fa-hand-point-right grabbing handle"
+																></i>
 															</span>
 														</div>
 														<select
@@ -262,7 +273,7 @@
 															min="0"
 															class="form-control"
 															data-original-title="Hoeveel minuten ben je bezig met instellen?"
-															v-model="stap.insteltijd"
+															v-model.number="stap.insteltijd"
 														/>
 													</div>
 												</div>
@@ -278,7 +289,7 @@
 															min="1"
 															class="form-control"
 															data-original-title="Hoeveel minuten ben je bezig met één bewerking?"
-															v-model="stap.bewerkingstijd"
+															v-model.number="stap.bewerkingstijd"
 														/>
 													</div>
 												</div>
@@ -294,22 +305,51 @@
 															min="1"
 															class="form-control"
 															data-original-title="Hoe vaak ga je dezelfde handeling uitvoeren?"
-															v-model="stap.aantal"
+															v-model.number="stap.aantal"
 														/>
 													</div>
 												</div>
 												<!-- Knoppen -->
-												<div class="col">
-													<div class="row">
-														<InfoButton
-															:firstIndex="planningIndex"
-															:secondIndex="index"
-															class="mr-1"
-														/>
-														<DeleteButton
-															@delete="removeStap(planningIndex, index)"
-														/>
-													</div>
+												<div class="col d-flex justify-content-center">
+														<b-dropdown
+															size="sm"
+															text="Small"
+															variant="link"
+															toggle-class="text-decoration-none bg-white p-0 "
+															class="optionsDropdown"
+															no-caret
+														>
+															<template v-slot:button-content>
+																<button class="btn btn-sm btn-fab">
+																	<i class="material-icons fas fa-caret-down"></i>
+																</button>
+															</template>
+															<div class="d-flex mt-1">
+																<!-- Info button -->
+																<InfoButton
+																	:firstIndex="planningIndex"
+																	:secondIndex="index"
+																	class="mr-1"
+																/>
+																<!-- Copy button -->
+																<div class="mr-1 col-2 col-md-1 col-lg-2 col-xl-1">
+																	<div class="input-group mb-2">
+																		<button
+																			type="button"
+																			class="btn btn-sm btn-fab btn-block"
+																			@click="newStap(planningIndex, stap)"
+																		>
+																			<i class="material-icons fas fa-copy fa-xs"></i>
+																		</button>
+																	</div>
+																</div>
+																<!-- Delete Button -->
+																<DeleteButton
+																	@delete="removeStap(planningIndex, index)"
+																/>
+															</div>
+															
+														</b-dropdown>
 												</div>
 												<div
 													class="collapse col-12 p-0"
@@ -481,11 +521,11 @@ export default {
 			});
 			this.$forceUpdate();
 		},
-		newStap(i) {
+		newStap(i, copy) {
 			if (!this.planning[i]) {
 				this.$set(this.planning[i], "stappen", []);
 			}
-			this.planning[i].stappen.push({
+			const empty = {
 				aantal: "",
 				bewerking: "",
 				bewerkingstijd: "",
@@ -493,7 +533,8 @@ export default {
 				insteltijd: "",
 				stap: "",
 				werkzaamheid: ""
-			});
+			}
+			this.planning[i].stappen.push(copy ? {...copy} : empty);
 			this.$forceUpdate();
 		},
 		removePlanning(i) {
@@ -527,7 +568,7 @@ export default {
 };
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
 .planning {
 	background: rgba(0, 0, 0, 0.05);
 	margin: 10px 0px;
@@ -562,13 +603,10 @@ export default {
 	cursor: -webkit-grabbing;
 }
 
-.button {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-
-	i {
-		font-size: 1rem !important;
+.optionsDropdown{
+	.dropdown-menu{
+		min-width: 125px !important;
+		width: 125px !important;
 	}
 }
 </style>

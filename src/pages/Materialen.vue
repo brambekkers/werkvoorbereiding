@@ -37,7 +37,7 @@
 													:id="`${key}_naam_${i}`"
 													required="required"
 													class="form-control"
-													v-model="materiaal.naam"
+													v-model.trim="materiaal.naam"
 												/>
 												<b-tooltip
 													:target="`${key}_naam_${i}`"
@@ -56,7 +56,7 @@
 													min="1"
 													required="required"
 													class="form-control"
-													v-model="materiaal.prijs"
+													v-model.number="materiaal.prijs"
 													v-bind="key === 'massief' ? moneyMassief : moneyPlaat"
 												>
 												</money>
