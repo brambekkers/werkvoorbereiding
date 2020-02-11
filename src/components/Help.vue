@@ -6,68 +6,104 @@
 
 <script>
 export default {
-	name: 'Help',
+	name: "Help",
 	computed: {
 		routeName() {
-			if (this.$route.name) return this.$route.name.toLowerCase().replace(/\s+/g, '');
-			return '';
+			if (this.$route.name)
+				return this.$route.name.toLowerCase().replace(/\s+/g, "");
+			return "";
 		},
 		hexColor() {
 			return this.$store.getters.hexColor;
 		},
 		texts() {
-			if (this.routeName === 'gegevens') {
+			if (this.routeName === "gegevens") {
 				return [
 					{
-						title: 'Welkom bij de werkvoorbereiding!',
+						title: "Welkom bij de werkvoorbereiding!",
 						html:
-							'We gaan samen stap voor stap jouw project bestuderen om tot een goede werkvoorbereiding te komen. Denk goed na over je project en vul zo veel mogelijk in! Hoe meer data, hoe beter het resultaat. <br/><br/> Mocht je er niet uitkomen, <strong> geen probleem</strong>, per stap kun je altijd op het <strong>?</strong> drukken voor meer informatie.'
+							`We gaan samen stap voor stap jouw project bestuderen om tot een goede werkvoorbereiding te komen. 
+							Denk goed na over je project en vul zo veel mogelijk in! Hoe meer data, hoe beter het resultaat. <br/><br/> 
+							
+							Mocht je er niet uitkomen, <strong> geen probleem</strong>, per stap kun je altijd op het <strong>?</strong> drukken voor meer informatie.`
 					},
 					{
-						title: 'Gegevens',
+						title: "Gegevens",
 						text:
-							'Op de gegevens pagina vul je de gegevens is van het project. Dit doe je zodat je later gemakkelijk je project kan terugvinden.'
+							"Op de gegevens pagina vul je de gegevens is van het project. Dit doe je zodat je later gemakkelijk je project kan terugvinden."
 					},
 					{
-						title: 'Werk of school?',
-						text: 'Gebruik je dit formulier voor werk, privé of voor school? <br><br>Zet de velden aan die voor jou van toepassing zijn. Gebruik het <strong>+ icoon</strong> om velden aan of uit te zetten.'
+						title: "Werk of school?",
+						html:
+							"Gebruik je dit formulier voor werk, privé of voor school? <br><br>Zet de velden aan die voor jou van toepassing zijn. Gebruik het <strong>+ icoon</strong> om velden aan of uit te zetten."
 					}
 				];
 			}
-			if (this.routeName === 'componenten') {
+			if (this.routeName === "componenten") {
 				return [
 					{
-						title: 'Wat zijn componenten?',
+						title: "Wat zijn componenten?",
 						html:
-							'Om ervoor te zorgen dat we het project goed kunnen bekijken vragen we je het project in kleinere subgroepjes te verdelen. Componenten zijn logische behapbare groepen van onderdelen.'
+							"Om ervoor te zorgen dat we het project goed kunnen bekijken vragen we je het project in kleinere subgroepjes te verdelen. Componenten zijn logische behapbare groepen van onderdelen."
 					},
 					{
-						title: 'Een voorbeeld',
+						title: "Een voorbeeld",
 						text:
-							'Bij een kast kun je bijv denken aan de componenten: romp, lade en onderstel. Deze componenten bestaan vaak uit meerdere onderdelen en materialen.'
+							"Bij een kast kun je bijv denken aan de componenten: romp, lade en onderstel. Deze componenten bestaan vaak uit meerdere onderdelen en materialen."
 					},
 					{
-						title: 'Meerdere componenten',
-						text: 'Mocht je nou meerdere componeten hebben (bijv meerdere lades) dan vul je een groter aantal in. '
+						title: "Meerdere componenten",
+						text:
+							"Mocht je nou meerdere van dezelfde componenten hebben (bijv meerdere lades) dan vul je een groter aantal in."
 					}
 				];
 			}
-			if (this.routeName === 'materialen') {
+			if (this.routeName === "materialen") {
 				return [
 					{
-						title: 'Welke materialen?',
+						title: "Welke materialen?",
 						html:
-							'Hier kun je de (hout) materialen invullen die je voor jouw project gaat gebruiken. Vul het massieve hout, plaatmateriaal en fineer in. Bij overige materialen kun je al je andere materialen verwerken. '
+							"Hier kun je de (hout) materialen invullen die je voor jouw project gaat gebruiken. Vul het massieve hout, plaatmateriaal en fineer in. Bij overige materialen kun je al je andere materialen verwerken. "
 					},
 					{
-						title: 'Kosten berekenen',
+						title: "Kosten berekenen",
 						text:
-							'Om de kosten goed te kunnen berekenen moeten we de juiste waardes invullen voor de kosten. Massiefhout wordt berekend door prijs per m3. Plaatmateriaal en fineer gaat per m2.'
+							"Om de kosten goed te kunnen berekenen moeten we de juiste waardes invullen voor de kosten. Massiefhout wordt berekend door prijs per m3. Plaatmateriaal en fineer gaat per m2."
 					},
 					{
-						title: 'Materiaalopties',
+						title: "Materiaalopties",
 						text:
-							'Er zijn ook nog overige factoren waarmee we kunnen rekenen. Deze vindt je terug onder de "materiaal opties". Bekijk deze opties en pas ze aan op jouw project.s'
+							'Er zijn ook nog overige factoren waarmee we kunnen rekenen. Deze vindt je terug onder de "materiaal opties". Bekijk deze opties en pas ze aan op jouw project.'
+					}
+				];
+			}
+			if (this.routeName === "maten") {
+				return [
+					{
+						title: "Welke maten?",
+						html:
+							`Hier kun je de maten invullen van de onderdelen die je gaat maken. Denk bijvoorbeeld aan een regel van een tafel. <br><br> 
+							Je beschrijft de onderdelen en bij welk component deze horen. Vervolgens geef je het materiaal, aantal en de afmetingen op.`
+					},
+					{
+						title: "Maateenheid",
+						text:
+							"Om de kosten goed te kunnen berekenen moeten we alle informatie hebben. Alle maten worden ingevoerd in millimeters. Deze maten keer het aantal worden meegenomen in de berekening."
+					}
+				];
+			}
+			if (this.routeName === "gereedschap") {
+				return [
+					{
+						title: "Gereedschappen",
+						html:
+							`Om straks een goede planning te kunnen maken is het handig om aan te geven welke gereedschappen je nodig denkt te hebben. Deze gereedschappen kun je in de volgende stap selecteren tijdens de planning.
+							 <br><br> <strong>Let op:</strong> Teveel gereedschappen selecteren kan leiden tot een enorme lange keuzenlijst.`
+					},
+					{
+						title: "Zelf toevoegen",
+						html:
+							"Mocht jouw gereedschap er niet tussen staan dan kun je deze handmatig toevoegen. Klik op het <strong>+ icoon </strong> om een gereedschap toe te voegen."
 					}
 				];
 			}
@@ -78,7 +114,7 @@ export default {
 		showHelp() {
 			window.Swal.mixin({
 				progressSteps: [...Array(this.texts.length).keys()].map(n => n + 1),
-				confirmButtonText: 'Volgende &rarr;',
+				confirmButtonText: "Volgende &rarr;",
 				confirmButtonColor: this.hexColor
 			}).queue(this.texts);
 		}
