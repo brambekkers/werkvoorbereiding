@@ -1,19 +1,24 @@
 <template>
 	<div class="content">
 		<div class="container-fluid">
-			<form role="form" @submit.prevent="nextStep()">
+			<form
+				role="form"
+				@submit.prevent="nextStep()"
+			>
 				<div class="row justify-content-center">
 					<div class="col-md-10 col-lg-8 col-xl-7 col-xxl-6 col-xxxl-4">
 						<div class="card">
-							<CardHeader
-								:text="{
+							<CardHeader :text="{
 									title: 'Materialen',
 									subtitle: 'Waar ga je het van maken'
-								}"
-							/>
+								}" />
 
 							<div class="card-body">
-								<div class="mb-3" :key="key" v-for="(input, key) in inputs">
+								<div
+									class="mb-3"
+									:key="key"
+									v-for="(input, key) in inputs"
+								>
 									<!-- Massief hout -->
 									<h6 class="title col-form-label text-left border-bottom my-1">
 										<strong>{{ input.title }}</strong>
@@ -27,7 +32,10 @@
 										<div class="col">
 											<div class="input-group mb-2">
 												<div class="input-group-prepend">
-													<span id="basic-addon1" class="input-group-text pl-0">
+													<span
+														id="basic-addon1"
+														class="input-group-text pl-0"
+													>
 														<i :class="input.icon"></i>
 													</span>
 												</div>
@@ -78,15 +86,27 @@
 									/>
 								</div>
 
-								<div
-									class="d-flex justify-content-between border-top mt-4 flex-wrap"
-								>
-									<router-link tag="button" class="btn" to="/overigeMaterialen">
-										<i aria-hidden="true" class="far fa-clipboard mr-2"></i>
+								<div class="d-flex justify-content-between border-top mt-4 flex-wrap">
+									<router-link
+										tag="button"
+										class="btn"
+										to="/overigeMaterialen"
+									>
+										<i
+											aria-hidden="true"
+											class="far fa-clipboard mr-2"
+										></i>
 										Overige materialen
 									</router-link>
-									<router-link tag="button" class="btn" to="/materiaalOpties">
-										<i aria-hidden="true" class="fas fa-edit mr-2"></i>
+									<router-link
+										tag="button"
+										class="btn"
+										to="/materiaalOpties"
+									>
+										<i
+											aria-hidden="true"
+											class="fas fa-edit mr-2"
+										></i>
 										Materiaal opties
 									</router-link>
 								</div>
@@ -143,7 +163,8 @@ export default {
 					placeholder_naam: "Massief houtsoort",
 					placeholder_prijs: "Prijs m3",
 					tooltip_naam: "Wat is de naam van de houtsoort?",
-					tooltip_prijs: "Hoeveel kost deze houtsoort per m3? Bijv. 1800 euro"
+					tooltip_prijs:
+						"Hoeveel kost deze houtsoort per m3? Bijv. 1800 euro"
 				},
 				plaatmateriaal: {
 					title: "Plaatmateriaal",
@@ -192,7 +213,8 @@ export default {
 	},
 	methods: {
 		updateGegevens() {
-			if (this.getMaterialen) this.$set(this, "materialen", this.getMaterialen);
+			if (this.getMaterialen)
+				this.$set(this, "materialen", this.getMaterialen);
 			else this.$set(this, "materialen", newWvb.materialen);
 
 			if (this.valuta) {
@@ -213,11 +235,11 @@ export default {
 		},
 		nextStep() {
 			this.setData();
-			this.$store.commit("verhoogStap", 4);
+			this.$store.dispatch("verhoogStap", 4);
 			this.$router.push("/maten");
 		},
 		setData() {
-			this.$store.commit("werkvoorbereiding", {
+			this.$store.dispatch("werkvoorbereiding", {
 				...this.werkvoorbereiding,
 				materialen: this.materialen
 			});

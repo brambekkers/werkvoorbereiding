@@ -3,14 +3,15 @@
 		<div class="container-fluid">
 			<div class="row justify-content-center">
 				<div class="col-md-8 col-lg-6 col-xl-5">
-					<form role="form" @submit.prevent="nextStep()">
+					<form
+						role="form"
+						@submit.prevent="nextStep()"
+					>
 						<div class="card">
-							<CardHeader
-								:text="{
+							<CardHeader :text="{
 									title: 'Basisgegevens',
 									subtitle: 'De eerste stap...'
-								}"
-							/>
+								}" />
 							<div class="card-body">
 								<template v-for="input of inputs">
 									<div
@@ -19,9 +20,7 @@
 										v-if="input.active"
 									>
 										<div class="input-group-prepend">
-											<span class="input-group-text"
-												><i :class="input.icon"></i
-											></span>
+											<span class="input-group-text"><i :class="input.icon"></i></span>
 										</div>
 										<input
 											type="text"
@@ -55,13 +54,20 @@
 										</button>
 									</template>
 
-									<div :key="input.model" v-for="input of inputs" class="mx-3">
+									<div
+										:key="input.model"
+										v-for="input of inputs"
+										class="mx-3"
+									>
 										<div
 											class="material-switch mr-1"
 											v-if="!input.fixed"
 											@click="changeInput(input)"
 										>
-											<input type="checkbox" v-model="input.active" />
+											<input
+												type="checkbox"
+												v-model="input.active"
+											/>
 											<label
 												:for="'label' + input.model"
 												class="small"
@@ -77,7 +83,11 @@
 								></div>
 							</div>
 						</div>
-						<button tag="button" type="submit" class="btn btn-lg btn-block">
+						<button
+							tag="button"
+							type="submit"
+							class="btn btn-lg btn-block"
+						>
 							Start de werkvoorbereiding
 						</button>
 					</form>
@@ -172,7 +182,9 @@ export default {
 			return this.$store.getters.werkvoorbereiding;
 		},
 		getBasisgegevens() {
-			return this.$store.getters.werkvoorbereidingsObject("basisgegevens");
+			return this.$store.getters.werkvoorbereidingsObject(
+				"basisgegevens"
+			);
 		},
 		hexColor() {
 			return this.$store.getters.hexColor;
@@ -192,11 +204,11 @@ export default {
 		},
 		nextStep() {
 			this.setData();
-			this.$store.commit("verhoogStap", 2);
+			this.$store.dispatch("verhoogStap", 2);
 			this.$router.push("/componenten");
 		},
 		setData() {
-			this.$store.commit("werkvoorbereiding", {
+			this.$store.dispatch("werkvoorbereiding", {
 				...this.werkvoorbereiding,
 				basisgegevens: this.basisgegevens
 			});
@@ -218,19 +230,19 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.pulse-button {
-	-webkit-animation: pulse 1.5s infinite;
-	&:hover {
-		-webkit-animation: none;
-	}
+	.pulse-button {
+		-webkit-animation: pulse 1.5s infinite;
+		&:hover {
+			-webkit-animation: none;
+		}
 
-	@-webkit-keyframes pulse {
-		70% {
-			box-shadow: 0 0 0 50px rgba(90, 153, 212, 0);
-		}
-		100% {
-			box-shadow: 0 0 0 0 rgba(90, 153, 212, 0);
+		@-webkit-keyframes pulse {
+			70% {
+				box-shadow: 0 0 0 50px rgba(90, 153, 212, 0);
+			}
+			100% {
+				box-shadow: 0 0 0 0 rgba(90, 153, 212, 0);
+			}
 		}
 	}
-}
 </style>

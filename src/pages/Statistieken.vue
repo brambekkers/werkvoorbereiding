@@ -4,12 +4,10 @@
 			<div class="row justify-content-center">
 				<div class="col-xl-7 col-xxl-6 col-xxxl-4">
 					<div class="card">
-						<CardHeader
-							:text="{
+						<CardHeader :text="{
 								title: 'Statistieken',
 								subtitle: 'Alle informatie over jouw account'
-							}"
-						/>
+							}" />
 						<div class="card-body">
 							<h6 class="title col-form-label border-bottom mb-1">
 								<strong>Werkvoorbereiding</strong>
@@ -40,7 +38,7 @@
 								<div class="row mb-4">
 									<!-- firebase id -->
 									<div class="col-12 d-flex justify-content-between">
-										<p>ID</p>
+										<p>Gebruikers ID</p>
 										<p class="font-weight-bold">{{ currentUser.uid }}</p>
 									</div>
 									<!-- Lid sinds -->

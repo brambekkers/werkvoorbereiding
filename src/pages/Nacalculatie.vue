@@ -4,14 +4,15 @@
 			<div class="row justify-content-center">
 				<div class="col-xl-12">
 					<div class="card">
-						<CardHeader
-							:text="{
+						<CardHeader :text="{
 								title: 'Nacalculatie',
 								subtitle: 'Wat heb je daadwerkelijk gedaan?'
-							}"
-						/>
+							}" />
 						<div class="card-body">
-							<draggable v-model="nacalculatie" handle=".handle">
+							<draggable
+								v-model="nacalculatie"
+								handle=".handle"
+							>
 								<div
 									class="row area"
 									v-bind:key="i"
@@ -190,7 +191,7 @@ export default {
 			this.nacalculatie.splice(i, 1);
 		},
 		setData() {
-			this.$store.commit("werkvoorbereiding", {
+			this.$store.dispatch("werkvoorbereiding", {
 				...this.werkvoorbereiding,
 				nacalculatie: this.nacalculatie
 			});
@@ -207,18 +208,18 @@ export default {
 </script>
 
 <style scoped>
-.grabbing {
-	cursor: move;
-	/* fallback if grab cursor is unsupported */
-	cursor: grab;
-	cursor: -moz-grab;
-	cursor: -webkit-grab;
-}
+	.grabbing {
+		cursor: move;
+		/* fallback if grab cursor is unsupported */
+		cursor: grab;
+		cursor: -moz-grab;
+		cursor: -webkit-grab;
+	}
 
-/* (Optional) Apply a "closed-hand" cursor during drag operation. */
-.grabbing:active {
-	cursor: grabbing;
-	cursor: -moz-grabbing;
-	cursor: -webkit-grabbing;
-}
+	/* (Optional) Apply a "closed-hand" cursor during drag operation. */
+	.grabbing:active {
+		cursor: grabbing;
+		cursor: -moz-grabbing;
+		cursor: -webkit-grabbing;
+	}
 </style>

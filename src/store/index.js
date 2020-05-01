@@ -1,7 +1,6 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 
-
 // Modules
 import Firebase from '@/store/modules/firebase'
 import User from '@/store/modules/user'
@@ -44,7 +43,6 @@ export default new Vuex.Store({
         }
     },
     mutations: {
-
         landingPage(state, boolean) {
             state.appData.landingPage = boolean;
         },

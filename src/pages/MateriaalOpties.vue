@@ -1,25 +1,24 @@
 <template>
 	<div class="content">
 		<div class="container-fluid">
-			<form role="form" @submit.prevent="previous()">
+			<form
+				role="form"
+				@submit.prevent="previous()"
+			>
 				<div class="row justify-content-center">
 					<div class="col-md-8 col-lg-6 col-xl-5">
 						<div class="card">
-							<CardHeader
-								:text="{
+							<CardHeader :text="{
 									title: 'Optie: materialen',
 									subtitle: 'Extra informatie over de materialen'
-								}"
-							/>
+								}" />
 							<div class="card-body">
 								<h6 class="title col-form-label border-bottom my-1">
 									<strong>Massief hout</strong>
 								</h6>
 								<div class="row">
 									<div class="col-md-8">
-										<label class="col-form-label text-left"
-											>Maximale dikte duims hout</label
-										>
+										<label class="col-form-label text-left">Maximale dikte duims hout</label>
 									</div>
 									<div class="col-md-4 input-group">
 										<input
@@ -36,9 +35,7 @@
 								</div>
 								<div class="row">
 									<div class="col-md-8">
-										<label class="col-form-label text-left"
-											>Overlengte kopse kanten</label
-										>
+										<label class="col-form-label text-left">Overlengte kopse kanten</label>
 									</div>
 									<div class="col-md-4 input-group">
 										<input
@@ -55,9 +52,7 @@
 								</div>
 								<div class="row">
 									<div class="col-md-8">
-										<label class="col-form-label text-left"
-											>Overlengte Langse kanten</label
-										>
+										<label class="col-form-label text-left">Overlengte Langse kanten</label>
 									</div>
 									<div class="col-md-4 input-group">
 										<input
@@ -74,9 +69,7 @@
 								</div>
 								<div class="row">
 									<div class="col-md-8">
-										<label class="col-form-label text-left"
-											>Opslagpercentage</label
-										>
+										<label class="col-form-label text-left">Opslagpercentage</label>
 									</div>
 									<div class="col-md-4 input-group">
 										<input
@@ -96,9 +89,7 @@
 								</h6>
 								<div class="row">
 									<div class="col-md-8">
-										<label class="col-form-label text-left"
-											>Overlengte zijdes</label
-										>
+										<label class="col-form-label text-left">Overlengte zijdes</label>
 									</div>
 									<div class="col-md-4 input-group">
 										<input
@@ -115,9 +106,7 @@
 								</div>
 								<div class="row">
 									<div class="col-md-8">
-										<label class="col-form-label text-left"
-											>Dikte zaagsnede</label
-										>
+										<label class="col-form-label text-left">Dikte zaagsnede</label>
 									</div>
 									<div class="col-md-4 input-group">
 										<input
@@ -135,9 +124,7 @@
 								</div>
 								<div class="row">
 									<div class="col-md-8">
-										<label class="col-form-label text-left"
-											>Opslagpercentage</label
-										>
+										<label class="col-form-label text-left">Opslagpercentage</label>
 									</div>
 									<div class="col-md-4 input-group">
 										<input
@@ -202,7 +189,9 @@ export default {
 			return this.$store.getters.werkvoorbereiding;
 		},
 		getMateriaalOpties() {
-			return this.$store.getters.werkvoorbereidingsObject("materiaalOpties");
+			return this.$store.getters.werkvoorbereidingsObject(
+				"materiaalOpties"
+			);
 		}
 	},
 	methods: {
@@ -216,7 +205,7 @@ export default {
 			this.$router.go(-1);
 		},
 		setData() {
-			this.$store.commit("werkvoorbereiding", {
+			this.$store.dispatch("werkvoorbereiding", {
 				...this.werkvoorbereiding,
 				materiaalOpties: this.materiaalOpties
 			});

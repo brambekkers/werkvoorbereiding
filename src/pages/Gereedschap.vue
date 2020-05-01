@@ -1,21 +1,20 @@
 <template>
 	<div class="content">
 		<div class="container-fluid">
-			<form role="form" @submit.prevent="nextStep()">
+			<form
+				role="form"
+				@submit.prevent="nextStep()"
+			>
 				<div class="row justify-content-center">
-					<div
-						:class="{
+					<div :class="{
 							'col-xl-10 col-xxl-8 col-xxxl-6': gereedschap.userMade,
 							'col-lg-10 col-xl-8 col-xxl-6 col-xxxl-4': !gereedschap.userMade
-						}"
-					>
+						}">
 						<div class="card">
-							<CardHeader
-								:text="{
+							<CardHeader :text="{
 									title: 'Gereedschap',
 									subtitle: 'Welke tools heb je tot je beschikking'
-								}"
-							/>
+								}" />
 							<div class="card-body">
 								<div class="row">
 									<!-- Gereedschap -->
@@ -40,12 +39,10 @@
 										/>
 									</div>
 									<!-- machines -->
-									<div
-										:class="{
+									<div :class="{
 											'col-md-4 col-sm-6 border-right': hasUserTools,
 											'col-sm-6': !hasUserTools
-										}"
-									>
+										}">
 										<h5 class="title text-center"><strong>Machines</strong></h5>
 										<hr class="mt-0" />
 										<GereedschapItem
@@ -58,7 +55,10 @@
 										/>
 									</div>
 									<!-- userMade -->
-									<div class="col-md-4" v-if="hasUserTools">
+									<div
+										class="col-md-4"
+										v-if="hasUserTools"
+									>
 										<h5 class="title text-center">
 											<strong>Zelf toegevoegd</strong>
 										</h5>
@@ -84,7 +84,10 @@
 									</div>
 								</div>
 								<hr />
-								<AddButton @add="addUserTool" :text="'Voeg gereedschap toe'" />
+								<AddButton
+									@add="addUserTool"
+									:text="'Voeg gereedschap toe'"
+								/>
 							</div>
 						</div>
 						<PreviousNextButton :previous="'maten'" />
@@ -161,11 +164,11 @@ export default {
 		},
 		nextStep() {
 			this.setData();
-			this.$store.commit("verhoogStap", 6);
+			this.$store.dispatch("verhoogStap", 6);
 			this.$router.push("/planning");
 		},
 		setData() {
-			this.$store.commit("werkvoorbereiding", {
+			this.$store.dispatch("werkvoorbereiding", {
 				...this.werkvoorbereiding,
 				gereedschap: this.gereedschap
 			});
@@ -211,7 +214,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.userMadeCloseButton {
-	transform: translateY(-175%);
-}
+	.userMadeCloseButton {
+		transform: translateY(-175%);
+	}
 </style>

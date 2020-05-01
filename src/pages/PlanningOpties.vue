@@ -5,12 +5,10 @@
 				<div class="row justify-content-center">
 					<div class="col-md-8 col-lg-6 col-xl-5">
 						<div class="card">
-							<CardHeader
-								:text="{
+							<CardHeader :text="{
 									title: 'Optie: planning en kosten',
 									subtitle: 'Extra informatie over tijd en geld'
-								}"
-							/>
+								}" />
 							<div class="card-body">
 								<h6 class="title col-form-label border-bottom my-1">
 									<strong>Planning</strong>
@@ -31,9 +29,7 @@
 								</div>
 								<div class="row mb-2">
 									<div class="col-md-8">
-										<label class="col-form-label text-left"
-											>Uren per werkdag</label
-										>
+										<label class="col-form-label text-left">Uren per werkdag</label>
 									</div>
 									<div class="col-md-4 input-group">
 										<input
@@ -47,9 +43,7 @@
 								</div>
 								<div class="row mb-2">
 									<div class="col-md-8">
-										<label class="col-form-label text-left"
-											>Ineffectieve tijd</label
-										>
+										<label class="col-form-label text-left">Ineffectieve tijd</label>
 									</div>
 									<div class="col-md-4 input-group">
 										<input
@@ -82,9 +76,7 @@
 								</div>
 								<div class="row mb-2">
 									<div class="col-md-8">
-										<label class="col-form-label text-left"
-											>Indirecte kosten</label
-										>
+										<label class="col-form-label text-left">Indirecte kosten</label>
 									</div>
 									<div class="col-md-4 input-group">
 										<input
@@ -177,7 +169,9 @@ export default {
 			return this.$store.getters.werkvoorbereiding;
 		},
 		getPlanningOpties() {
-			return this.$store.getters.werkvoorbereidingsObject("planningOpties");
+			return this.$store.getters.werkvoorbereidingsObject(
+				"planningOpties"
+			);
 		}
 	},
 	methods: {
@@ -187,7 +181,7 @@ export default {
 			else this.$set(this, "planningOpties", newWvb.planningOpties);
 		},
 		setData() {
-			this.$store.commit("werkvoorbereiding", {
+			this.$store.dispatch("werkvoorbereiding", {
 				...this.werkvoorbereiding,
 				planningOpties: this.planningOpties
 			});

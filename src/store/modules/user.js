@@ -79,7 +79,6 @@ export default {
                 const userDatabaseRef = getters.fb.database().ref(`users/${userId}/`);
                 userDatabaseRef.once('value', snapshot => {
                     resolve(snapshot.val())
-
                 });
             });
         },

@@ -5,12 +5,10 @@
 				<div class="row justify-content-center">
 					<div class="col-md-8 col-lg-6 col-xl-5">
 						<div class="card">
-							<CardHeader
-								:text="{
+							<CardHeader :text="{
 									title: 'Instellingen',
 									subtitle: 'De algemene instellingen'
-								}"
-							/>
+								}" />
 							<div class="card-body">
 								<h6 class="title col-form-label border-bottom my-1">
 									<strong>Layout</strong>
@@ -25,13 +23,34 @@
 											v-model="instellingen.kleur"
 											:class="instellingen.kleur"
 										>
-											<option value="blauw" class="blauw"></option>
-											<option value="grijs" class="grijs"></option>
-											<option value="roze" class="roze"></option>
-											<option value="paars" class="paars"></option>
-											<option value="groen" class="groen"></option>
-											<option value="geel" class="geel"></option>
-											<option value="rood" class="rood"></option>
+											<option
+												value="blauw"
+												class="blauw"
+											></option>
+											<option
+												value="grijs"
+												class="grijs"
+											></option>
+											<option
+												value="roze"
+												class="roze"
+											></option>
+											<option
+												value="paars"
+												class="paars"
+											></option>
+											<option
+												value="groen"
+												class="groen"
+											></option>
+											<option
+												value="geel"
+												class="geel"
+											></option>
+											<option
+												value="rood"
+												class="rood"
+											></option>
 										</select>
 									</div>
 									<div class="col-md-8">
@@ -43,8 +62,14 @@
 											v-model="instellingen.modus"
 											:class="instellingen.modus"
 										>
-											<option value="licht" class="licht">Licht</option>
-											<option value="donker" class="donker">Donker</option>
+											<option
+												value="licht"
+												class="licht"
+											>Licht</option>
+											<option
+												value="donker"
+												class="donker"
+											>Donker</option>
 										</select>
 									</div>
 								</div>
@@ -68,9 +93,7 @@
 								</h6>
 								<div class="row mb-2">
 									<div class="col-md-8">
-										<label class="col-form-label  text-left"
-											>Account verwijderen</label
-										>
+										<label class="col-form-label  text-left">Account verwijderen</label>
 									</div>
 									<div class="col-md-4 input-group">
 										<a
@@ -149,12 +172,13 @@ export default {
 					}).then(result => {
 						if (result.value) {
 							window.Swal.fire({
-								text: "Poof! Je hebt de gebruiker is verwijderd!",
+								text:
+									"Poof! Je hebt de gebruiker is verwijderd!",
 								type: "error"
 							});
 							this.$store.dispatch("deleteUser");
 							this.$store.commit("resetInstellingen");
-							this.$store.commit("werkvoorbereiding", null);
+							this.$store.dispatch("werkvoorbereiding", null);
 							this.$router.push("/");
 						}
 					});
@@ -166,49 +190,49 @@ export default {
 </script>
 
 <style scoped>
-.roze {
-	background-color: #e91e63 !important;
-}
+	.roze {
+		background-color: #e91e63 !important;
+	}
 
-.rood {
-	background-color: #e53935 !important;
-}
+	.rood {
+		background-color: #e53935 !important;
+	}
 
-.geel {
-	background-color: #ffa726 !important;
-}
+	.geel {
+		background-color: #ffa726 !important;
+	}
 
-.groen {
-	background-color: #43a047 !important;
-}
+	.groen {
+		background-color: #43a047 !important;
+	}
 
-.blauw {
-	background-color: #00acc1 !important;
-}
+	.blauw {
+		background-color: #00acc1 !important;
+	}
 
-.paars {
-	background-color: #8e24aa !important;
-}
+	.paars {
+		background-color: #8e24aa !important;
+	}
 
-.grijs {
-	background-color: #575757 !important;
-}
+	.grijs {
+		background-color: #575757 !important;
+	}
 
-.donker {
-	background-color: #555555;
-	color: #fff;
-	padding-left: 1rem;
-}
+	.donker {
+		background-color: #555555;
+		color: #fff;
+		padding-left: 1rem;
+	}
 
-.licht {
-	background-color: #fff !important;
-	color: #555555;
-	padding-left: 1rem;
-}
+	.licht {
+		background-color: #fff !important;
+		color: #555555;
+		padding-left: 1rem;
+	}
 
-#delete {
-	cursor: pointer;
-	width: 100%;
-	text-align: right;
-}
+	#delete {
+		cursor: pointer;
+		width: 100%;
+		text-align: right;
+	}
 </style>

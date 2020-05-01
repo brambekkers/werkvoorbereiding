@@ -4,15 +4,16 @@
 			<div class="row justify-content-center">
 				<div class="col-md-12">
 					<div class="card">
-						<CardHeader
-							:text="{
+						<CardHeader :text="{
 								title: 'Projecten',
 								subtitle: 'Kies een project waarmee je verder wilt gaan.'
-							}"
-						/>
+							}" />
 						<div class="row mt-3 mx-3 justify-content-center">
 							<div class="col-md-4 text-center">
-								<button class="btn btn-fill btn-block" @click="newWvb()">
+								<button
+									class="btn btn-fill btn-block"
+									@click="newWvb()"
+								>
 									Nieuw project
 								</button>
 							</div>
@@ -34,7 +35,10 @@
 									v-if="projecten"
 									:class="{ 'table-dark': darkMode }"
 								>
-									<thead class="bg-light" :class="{ 'bg-dark': darkMode }">
+									<thead
+										class="bg-light"
+										:class="{ 'bg-dark': darkMode }"
+									>
 										<tr>
 											<th style="width: 5%;">#</th>
 											<th style="width: 30%;">Project naam</th>
@@ -105,12 +109,14 @@ export default {
 			}
 		},
 		darkMode() {
-			return this.$store.getters.instellingen.modus === "licht" ? false : true;
+			return this.$store.getters.instellingen.modus === "licht"
+				? false
+				: true;
 		}
 	},
 	methods: {
 		selectWvb(id) {
-			this.$store.commit("werkvoorbereiding", this.projecten[id]);
+			this.$store.commit("currentWvb", id);
 		},
 		stringToDate(string) {
 			let str1 = string.replace(/-/g, " ");
@@ -159,8 +165,11 @@ export default {
 							text: "Poof! Je werkvoorbereiding is verwijderd!",
 							type: "success"
 						});
-						this.$store.dispatch("deleteDataFirebase", `alleWVB/${this.wvbId}`);
-						this.$store.commit("werkvoorbereiding", null);
+						this.$store.dispatch(
+							"deleteDataFirebase",
+							`alleWVB/${this.wvbId}`
+						);
+						this.$store.dispatch("werkvoorbereiding", null);
 					}
 				});
 			} else {
@@ -171,7 +180,7 @@ export default {
 			}
 		},
 		newWvb() {
-			this.$store.commit("werkvoorbereiding", null);
+			this.$store.commit("currentWvb", null);
 			this.$router.push("/");
 		},
 		selectedColor(id) {
@@ -187,90 +196,90 @@ export default {
 </script>
 
 <style scoped lang="scss">
-table {
-	border: solid 1px #d6d6d6;
+	table {
+		border: solid 1px #d6d6d6;
 
-	thead tr th {
-		font-size: 1em;
-		font-weight: 400;
+		thead tr th {
+			font-size: 1em;
+			font-weight: 400;
+		}
+
+		td {
+			cursor: pointer;
+			padding-top: 8px !important;
+			padding-bottom: 8px !important;
+		}
 	}
 
-	td {
-		cursor: pointer;
-		padding-top: 8px !important;
-		padding-bottom: 8px !important;
+	.roze {
+		background-color: #e91e63;
+		background: linear-gradient(60deg, #d65a84, #e91e63);
+		-webkit-box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14),
+			0 7px 10px -5px rgba(233, 30, 99, 0.4);
+		box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14),
+			0 7px 10px -5px rgba(233, 30, 99, 0.4);
+		background-repeat: no-repeat;
+		background-attachment: fixed;
 	}
-}
 
-.roze {
-	background-color: #e91e63;
-	background: linear-gradient(60deg, #d65a84, #e91e63);
-	-webkit-box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14),
-		0 7px 10px -5px rgba(233, 30, 99, 0.4);
-	box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14),
-		0 7px 10px -5px rgba(233, 30, 99, 0.4);
-	background-repeat: no-repeat;
-	background-attachment: fixed;
-}
+	.rood {
+		background: linear-gradient(60deg, #ef5350, #e53935);
+		-webkit-box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14),
+			0 7px 10px -5px rgba(244, 67, 54, 0.4);
+		box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14),
+			0 7px 10px -5px rgba(244, 67, 54, 0.4);
+		background-repeat: no-repeat;
+		background-attachment: fixed;
+	}
 
-.rood {
-	background: linear-gradient(60deg, #ef5350, #e53935);
-	-webkit-box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14),
-		0 7px 10px -5px rgba(244, 67, 54, 0.4);
-	box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14),
-		0 7px 10px -5px rgba(244, 67, 54, 0.4);
-	background-repeat: no-repeat;
-	background-attachment: fixed;
-}
+	.geel {
+		background: linear-gradient(60deg, #ffa726, #fb8c00);
+		-webkit-box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14),
+			0 7px 10px -5px rgba(255, 152, 0, 0.4);
+		box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14),
+			0 7px 10px -5px rgba(255, 152, 0, 0.4);
+		background-repeat: no-repeat;
+		background-attachment: fixed;
+	}
 
-.geel {
-	background: linear-gradient(60deg, #ffa726, #fb8c00);
-	-webkit-box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14),
-		0 7px 10px -5px rgba(255, 152, 0, 0.4);
-	box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14),
-		0 7px 10px -5px rgba(255, 152, 0, 0.4);
-	background-repeat: no-repeat;
-	background-attachment: fixed;
-}
+	.groen {
+		background: linear-gradient(60deg, #66bb6a, #43a047);
+		-webkit-box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14),
+			0 7px 10px -5px rgba(76, 175, 80, 0.4);
+		box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14),
+			0 7px 10px -5px rgba(76, 175, 80, 0.4);
+		background-repeat: no-repeat;
+		background-attachment: fixed;
+	}
 
-.groen {
-	background: linear-gradient(60deg, #66bb6a, #43a047);
-	-webkit-box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14),
-		0 7px 10px -5px rgba(76, 175, 80, 0.4);
-	box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14),
-		0 7px 10px -5px rgba(76, 175, 80, 0.4);
-	background-repeat: no-repeat;
-	background-attachment: fixed;
-}
+	.blauw {
+		background: linear-gradient(60deg, #26c6da, #00acc1);
+		-webkit-box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14),
+			0 7px 10px -5px rgba(0, 188, 212, 0.4);
+		box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14),
+			0 7px 10px -5px rgba(0, 188, 212, 0.4);
+		background-repeat: no-repeat;
+		background-attachment: fixed;
+	}
 
-.blauw {
-	background: linear-gradient(60deg, #26c6da, #00acc1);
-	-webkit-box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14),
-		0 7px 10px -5px rgba(0, 188, 212, 0.4);
-	box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14),
-		0 7px 10px -5px rgba(0, 188, 212, 0.4);
-	background-repeat: no-repeat;
-	background-attachment: fixed;
-}
+	.paars {
+		background: linear-gradient(60deg, #ab47bc, #8e24aa);
+		-webkit-box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14),
+			0 7px 10px -5px rgba(156, 39, 176, 0.4);
+		box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14),
+			0 7px 10px -5px rgba(156, 39, 176, 0.4);
+		background-repeat: no-repeat;
+		background-attachment: fixed;
+	}
 
-.paars {
-	background: linear-gradient(60deg, #ab47bc, #8e24aa);
-	-webkit-box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14),
-		0 7px 10px -5px rgba(156, 39, 176, 0.4);
-	box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14),
-		0 7px 10px -5px rgba(156, 39, 176, 0.4);
-	background-repeat: no-repeat;
-	background-attachment: fixed;
-}
-
-.grijs {
-	background: linear-gradient(60deg, #858585, #575757);
-	-webkit-box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14),
-		0 7px 10px -5px rgba(163, 163, 163, 0.4);
-	box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14),
-		0 7px 10px -5px rgba(163, 163, 163, 0.4);
-	background-repeat: no-repeat;
-	background-attachment: fixed;
-	color: white;
-}
+	.grijs {
+		background: linear-gradient(60deg, #858585, #575757);
+		-webkit-box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14),
+			0 7px 10px -5px rgba(163, 163, 163, 0.4);
+		box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14),
+			0 7px 10px -5px rgba(163, 163, 163, 0.4);
+		background-repeat: no-repeat;
+		background-attachment: fixed;
+		color: white;
+	}
 </style>

@@ -1,18 +1,22 @@
 <template>
 	<div class="content">
 		<div class="container-fluid">
-			<form role="form" @submit.prevent="nextStep()">
+			<form
+				role="form"
+				@submit.prevent="nextStep()"
+			>
 				<div class="row justify-content-center">
 					<div class="col-xl-12">
 						<div class="card">
-							<CardHeader
-								:text="{
+							<CardHeader :text="{
 									title: 'Planning',
 									subtitle: 'Wanneer ga je het maken?'
-								}"
-							/>
+								}" />
 							<div class="card-body">
-								<draggable v-model="planning" handle=".handle">
+								<draggable
+									v-model="planning"
+									handle=".handle"
+								>
 									<div
 										v-bind:key="'Planning' + planningIndex"
 										v-for="(planning, planningIndex) in planning"
@@ -23,7 +27,10 @@
 											<div class="col-5 col-md-3 col-xl-3">
 												<div class="input-group mb-2">
 													<div class="input-group-prepend">
-														<span id="basic-addon1" class="input-group-text">
+														<span
+															id="basic-addon1"
+															class="input-group-text"
+														>
 															<i class="fas fa-list-ul grabbing handle"></i>
 														</span>
 													</div>
@@ -36,17 +43,17 @@
 														data-original-title="Voor welk component wil je een planning maken?"
 														v-model="planning.component"
 													>
-														<option value="" hidden disabled selected
-															>Kies component</option
-														>
-														<option value="Gehele project"
-															>Gehele project</option
-														>
+														<option
+															value=""
+															hidden
+															disabled
+															selected
+														>Kies component</option>
+														<option value="Gehele project">Gehele project</option>
 														<option
 															v-bind:key="index"
 															v-for="(component, index) in getComponenten"
-															>{{ component.naam }}</option
-														>
+														>{{ component.naam }}</option>
 													</select>
 												</div>
 											</div>
@@ -68,28 +75,24 @@
 															disabled
 															selected
 															v-if="!planning.component"
-															>Kies eerst een component</option
-														>
+														>Kies eerst een component</option>
 														<option
 															value=""
 															hidden
 															disabled
 															selected
 															v-if="planning.component"
-															>Kies een onderdeel</option
-														>
+														>Kies een onderdeel</option>
 														<option
 															value="Alle onderdelen"
 															v-if="planning.component"
-															>Alle onderdelen</option
-														>
+														>Alle onderdelen</option>
 														<option
 															v-bind:key="index"
 															v-for="(component, index) in onderdelen(
 																planningIndex
 															)"
-															>{{ component.naam }}</option
-														>
+														>{{ component.naam }}</option>
 													</select>
 												</div>
 											</div>
@@ -99,9 +102,7 @@
 														@add="newStap(planningIndex)"
 														class="mr-1"
 													/>
-													<DeleteButton
-														@delete="removePlanning(planningIndex)"
-													/>
+													<DeleteButton @delete="removePlanning(planningIndex)" />
 												</div>
 											</div>
 										</div>
@@ -122,10 +123,11 @@
 												<div class="col-6 col-sm-4 col-xl-3">
 													<div class="input-group mb-2">
 														<div class="input-group-prepend">
-															<span id="basic-addon1" class="input-group-text">
-																<i
-																	class="far fa-hand-point-right grabbing handle"
-																></i>
+															<span
+																id="basic-addon1"
+																class="input-group-text"
+															>
+																<i class="far fa-hand-point-right grabbing handle"></i>
 															</span>
 														</div>
 														<select
@@ -137,14 +139,16 @@
 															v-model="stap.stap"
 														>
 															<optgroup label="Stap">
-																<option value="" hidden selected disabled
-																	>Kies..</option
-																>
+																<option
+																	value=""
+																	hidden
+																	selected
+																	disabled
+																>Kies..</option>
 																<option
 																	v-bind:key="index"
 																	v-for="(stap, index) in onderdeelStappen"
-																	>{{ stap }}</option
-																>
+																>{{ stap }}</option>
 															</optgroup>
 														</select>
 													</div>
@@ -161,15 +165,17 @@
 															v-model="stap.werkzaamheid"
 														>
 															<optgroup label="Werkzaamheid">
-																<option value="" hidden selected disabled
-																	>Kies..</option
-																>
+																<option
+																	value=""
+																	hidden
+																	selected
+																	disabled
+																>Kies..</option>
 																<option
 																	v-bind:key="index"
 																	v-for="(werkzaamheid,
 																	index) in onderdeelWerkzaamheid(stap.stap)"
-																	>{{ werkzaamheid }}</option
-																>
+																>{{ werkzaamheid }}</option>
 															</optgroup>
 														</select>
 													</div>
@@ -186,9 +192,12 @@
 															v-model="stap.bewerking"
 														>
 															<optgroup label="Bewerking">
-																<option value="" hidden selected disabled
-																	>Kies..</option
-																>
+																<option
+																	value=""
+																	hidden
+																	selected
+																	disabled
+																>Kies..</option>
 																<option
 																	v-bind:key="index"
 																	v-for="(werkzaamheid,
@@ -196,8 +205,7 @@
 																		stap.stap,
 																		stap.werkzaamheid
 																	)"
-																	>{{ werkzaamheid }}</option
-																>
+																>{{ werkzaamheid }}</option>
 															</optgroup>
 														</select>
 													</div>
@@ -213,9 +221,12 @@
 															data-original-title="Heb je een gereedschap nodig?"
 															v-model="stap.gereedschap"
 														>
-															<option value="" hidden selected disabled
-																>Selecteer gereedschap</option
-															>
+															<option
+																value=""
+																hidden
+																selected
+																disabled
+															>Selecteer gereedschap</option>
 															<optgroup
 																label="Gereedschap"
 																v-if="gereedschappen.length"
@@ -224,16 +235,17 @@
 																	:value="gereedschap"
 																	:key="index"
 																	v-for="(gereedschap, index) in gereedschappen"
-																	>{{ gereedschap }}</option
-																>
+																>{{ gereedschap }}</option>
 															</optgroup>
-															<optgroup label="Machines" v-if="machines.length">
+															<optgroup
+																label="Machines"
+																v-if="machines.length"
+															>
 																<option
 																	:value="gereedschap"
 																	:key="index"
 																	v-for="(gereedschap, index) in machines"
-																	>{{ gereedschap }}</option
-																>
+																>{{ gereedschap }}</option>
 															</optgroup>
 															<optgroup
 																label="Zelf toegevoegd"
@@ -243,20 +255,13 @@
 																	:value="gereedschap"
 																	:key="index"
 																	v-for="(gereedschap, index) in userMade"
-																	>{{ gereedschap }}</option
-																>
+																>{{ gereedschap }}</option>
 															</optgroup>
 															<optgroup label="Overig">
 																<option value="Overig">Overig</option>
-																<option value="Meerdere machines"
-																	>Meerdere machines</option
-																>
-																<option value="Handgereedschap"
-																	>Handgereedschap</option
-																>
-																<option value="Geen gereedschap"
-																	>Geen gereedschap</option
-																>
+																<option value="Meerdere machines">Meerdere machines</option>
+																<option value="Handgereedschap">Handgereedschap</option>
+																<option value="Geen gereedschap">Geen gereedschap</option>
 															</optgroup>
 														</select>
 													</div>
@@ -311,45 +316,43 @@
 												</div>
 												<!-- Knoppen -->
 												<div class="col d-flex justify-content-center">
-														<b-dropdown
-															size="sm"
-															text="Small"
-															variant="link"
-															toggle-class="text-decoration-none bg-white p-0 "
-															class="optionsDropdown"
-															no-caret
-														>
-															<template v-slot:button-content>
-																<button class="btn btn-sm btn-fab">
-																	<i class="material-icons fas fa-caret-down"></i>
-																</button>
-															</template>
-															<div class="d-flex mt-1">
-																<!-- Info button -->
-																<InfoButton
-																	:firstIndex="planningIndex"
-																	:secondIndex="index"
-																	class="mr-1"
-																/>
-																<!-- Copy button -->
-																<div class="mr-1 col-2 col-md-1 col-lg-2 col-xl-1">
-																	<div class="input-group mb-2">
-																		<button
-																			type="button"
-																			class="btn btn-sm btn-fab btn-block"
-																			@click="newStap(planningIndex, stap)"
-																		>
-																			<i class="material-icons fas fa-copy fa-xs"></i>
-																		</button>
-																	</div>
+													<b-dropdown
+														size="sm"
+														text="Small"
+														variant="link"
+														toggle-class="text-decoration-none bg-white p-0 "
+														class="optionsDropdown"
+														no-caret
+													>
+														<template v-slot:button-content>
+															<button class="btn btn-sm btn-fab">
+																<i class="material-icons fas fa-caret-down"></i>
+															</button>
+														</template>
+														<div class="d-flex mt-1">
+															<!-- Info button -->
+															<InfoButton
+																:firstIndex="planningIndex"
+																:secondIndex="index"
+																class="mr-1"
+															/>
+															<!-- Copy button -->
+															<div class="mr-1 col-2 col-md-1 col-lg-2 col-xl-1">
+																<div class="input-group mb-2">
+																	<button
+																		type="button"
+																		class="btn btn-sm btn-fab btn-block"
+																		@click="newStap(planningIndex, stap)"
+																	>
+																		<i class="material-icons fas fa-copy fa-xs"></i>
+																	</button>
 																</div>
-																<!-- Delete Button -->
-																<DeleteButton
-																	@delete="removeStap(planningIndex, index)"
-																/>
 															</div>
-															
-														</b-dropdown>
+															<!-- Delete Button -->
+															<DeleteButton @delete="removeStap(planningIndex, index)" />
+														</div>
+
+													</b-dropdown>
 												</div>
 												<div
 													class="collapse col-12 p-0"
@@ -385,7 +388,10 @@
 										type="button"
 										class="btn"
 									>
-										<i aria-hidden="true" class="fas fa-edit mr-3"></i>
+										<i
+											aria-hidden="true"
+											class="fas fa-edit mr-3"
+										></i>
 										Planning en kosten instellingen
 									</router-link>
 								</div>
@@ -460,7 +466,9 @@ export default {
 			if (this.getGereedschap) {
 				const keys = Object.keys(this.getGereedschap.gereedschap);
 				if (keys) {
-					return keys.filter(key => this.getGereedschap.gereedschap[key]);
+					return keys.filter(
+						key => this.getGereedschap.gereedschap[key]
+					);
 				}
 			}
 			return [];
@@ -469,7 +477,9 @@ export default {
 			if (this.getGereedschap) {
 				const keys = Object.keys(this.getGereedschap.machines);
 				if (keys) {
-					return keys.filter(key => this.getGereedschap.machines[key]);
+					return keys.filter(
+						key => this.getGereedschap.machines[key]
+					);
 				}
 			}
 			return [];
@@ -479,7 +489,9 @@ export default {
 				if (!this.getGereedschap.userMade) return [];
 				const keys = Object.keys(this.getGereedschap.userMade);
 				if (keys) {
-					return keys.filter(key => this.getGereedschap.userMade[key]);
+					return keys.filter(
+						key => this.getGereedschap.userMade[key]
+					);
 				}
 			}
 			return [];
@@ -533,8 +545,8 @@ export default {
 				insteltijd: "",
 				stap: "",
 				werkzaamheid: ""
-			}
-			this.planning[i].stappen.push(copy ? {...copy} : empty);
+			};
+			this.planning[i].stappen.push(copy ? { ...copy } : empty);
 			this.$forceUpdate();
 		},
 		removePlanning(i) {
@@ -548,11 +560,11 @@ export default {
 		},
 		nextStep() {
 			this.setData();
-			this.$store.commit("verhoogStap", 7);
+			this.$store.dispatch("verhoogStap", 7);
 			this.$router.push("/dashboard");
 		},
 		setData() {
-			this.$store.commit("werkvoorbereiding", {
+			this.$store.dispatch("werkvoorbereiding", {
 				...this.werkvoorbereiding,
 				planning: this.planning
 			});
@@ -569,44 +581,44 @@ export default {
 </script>
 
 <style lang="scss">
-.planning {
-	background: rgba(0, 0, 0, 0.05);
-	margin: 10px 0px;
-	padding: 0 1rem;
-	padding-top: 0.5rem;
-	padding-bottom: 0.2rem;
-	border-radius: 0.2rem;
-	border: solid 1px #d6d6d6;
-}
-
-.stap {
-	background: rgba(255, 255, 255, 1);
-	padding: 0 1rem;
-	margin: 10px 0px;
-	padding-top: 0.3rem;
-	border-radius: 0.2rem;
-	border: solid 1px #e8e5e5;
-}
-
-.grabbing {
-	cursor: move;
-	/* fallback if grab cursor is unsupported */
-	cursor: grab;
-	cursor: -moz-grab;
-	cursor: -webkit-grab;
-}
-
-/* (Optional) Apply a "closed-hand" cursor during drag operation. */
-.grabbing:active {
-	cursor: grabbing;
-	cursor: -moz-grabbing;
-	cursor: -webkit-grabbing;
-}
-
-.optionsDropdown{
-	.dropdown-menu{
-		min-width: 125px !important;
-		width: 125px !important;
+	.planning {
+		background: rgba(0, 0, 0, 0.05);
+		margin: 10px 0px;
+		padding: 0 1rem;
+		padding-top: 0.5rem;
+		padding-bottom: 0.2rem;
+		border-radius: 0.2rem;
+		border: solid 1px #d6d6d6;
 	}
-}
+
+	.stap {
+		background: rgba(255, 255, 255, 1);
+		padding: 0 1rem;
+		margin: 10px 0px;
+		padding-top: 0.3rem;
+		border-radius: 0.2rem;
+		border: solid 1px #e8e5e5;
+	}
+
+	.grabbing {
+		cursor: move;
+		/* fallback if grab cursor is unsupported */
+		cursor: grab;
+		cursor: -moz-grab;
+		cursor: -webkit-grab;
+	}
+
+	/* (Optional) Apply a "closed-hand" cursor during drag operation. */
+	.grabbing:active {
+		cursor: grabbing;
+		cursor: -moz-grabbing;
+		cursor: -webkit-grabbing;
+	}
+
+	.optionsDropdown {
+		.dropdown-menu {
+			min-width: 125px !important;
+			width: 125px !important;
+		}
+	}
 </style>

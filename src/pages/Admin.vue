@@ -25,12 +25,12 @@ export default {
 		AdminAmount,
 		AdminProjects,
 		AdminUserList,
-		AdminFindErrors
+		AdminFindErrors,
 	},
 	data() {
 		return {
 			users: {},
-			admin: null
+			admin: null,
 		};
 	},
 	computed: {
@@ -60,12 +60,12 @@ export default {
 				return amount;
 			}
 			return 0;
-		}
+		},
 	},
 	methods: {
 		getUsers() {
 			let userDatabase = this.$store.getters.fb.database().ref(`users`);
-			userDatabase.once("value", snapshot => {
+			userDatabase.once("value", (snapshot) => {
 				this.users = snapshot.val();
 			});
 		},
@@ -75,11 +75,11 @@ export default {
 			} else {
 				return 0;
 			}
-		}
+		},
 	},
 	async created() {
 		this.getUsers();
-	}
+	},
 };
 </script>
 

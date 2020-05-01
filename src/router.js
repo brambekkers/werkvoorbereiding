@@ -41,6 +41,7 @@ import Instellingen from './pages/Instellingen.vue';
 import Over from './pages/Over.vue';
 import Privacy from './pages/Privacy.vue';
 import Admin from './pages/Admin.vue';
+import AdminEdit from './pages/AdminEdit.vue';
 import Licence from './pages/Licence.vue';
 
 Vue.use(Router);
@@ -177,6 +178,11 @@ export default new Router({
 			path: '/Admin',
 			name: 'Admin',
 			component: Admin
+		},
+		{
+			path: '/Admin/edit',
+			name: 'AdminEdit',
+			component: AdminEdit
 		},
 		{
 			path: '/Licence',

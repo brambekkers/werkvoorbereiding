@@ -1,18 +1,22 @@
 <template>
 	<div class="content">
 		<div class="container-fluid">
-			<form role="form" @submit.prevent="nextStep()">
+			<form
+				role="form"
+				@submit.prevent="nextStep()"
+			>
 				<div class="row justify-content-center">
 					<div class="col-xl-12">
 						<div class="card">
-							<CardHeader
-								:text="{
+							<CardHeader :text="{
 									title: 'Maten',
 									subtitle: 'Hoe groot zijn je onderdelen'
-								}"
-							/>
+								}" />
 							<div class="card-body">
-								<draggable v-model="maten" handle=".handle">
+								<draggable
+									v-model="maten"
+									handle=".handle"
+								>
 									<div
 										class="row maten"
 										v-bind:key="i"
@@ -21,7 +25,10 @@
 										<div class="col-8 col-md-4 col-xl pl-0">
 											<div class="input-group mb-2">
 												<div class="input-group-prepend">
-													<span id="basic-addon1" class="input-group-text">
+													<span
+														id="basic-addon1"
+														class="input-group-text"
+													>
 														<i class="fab fa-slack-hash handle"></i>
 													</span>
 												</div>
@@ -62,14 +69,16 @@
 													data-original-title="Welk component?"
 													v-model="maat.component"
 												>
-													<option value="" selected disabled hidden
-														>Kies een component</option
-													>
+													<option
+														value=""
+														selected
+														disabled
+														hidden
+													>Kies een component</option>
 													<option
 														v-bind:key="index"
 														v-for="(component, index) in getComponenten"
-														>{{ component.naam }}</option
-													>
+													>{{ component.naam }}</option>
 												</select>
 											</div>
 										</div>
@@ -83,9 +92,12 @@
 													data-original-title="Welk materiaal?"
 													v-model="maat.materiaal"
 												>
-													<option value="" selected disabled hidden
-														>Kies een materiaal</option
-													>
+													<option
+														value=""
+														selected
+														disabled
+														hidden
+													>Kies een materiaal</option>
 													<optgroup
 														label="Massiefhout"
 														v-if="massief && massief.length"
@@ -93,8 +105,7 @@
 														<option
 															v-bind:key="i"
 															v-for="(materiaal, i) in massief"
-															>{{ materiaal.naam }}</option
-														>
+														>{{ materiaal.naam }}</option>
 													</optgroup>
 													<optgroup
 														label="Plaatmateriaal"
@@ -103,8 +114,7 @@
 														<option
 															v-bind:key="i"
 															v-for="(materiaal, i) in plaatmateriaal"
-															>{{ materiaal.naam }}</option
-														>
+														>{{ materiaal.naam }}</option>
 													</optgroup>
 													<optgroup
 														label="Fineer"
@@ -113,8 +123,7 @@
 														<option
 															v-bind:key="i"
 															v-for="(materiaal, i) in fineer"
-															>{{ materiaal.naam }}</option
-														>
+														>{{ materiaal.naam }}</option>
 													</optgroup>
 													<optgroup
 														label="Overige materialen"
@@ -126,8 +135,7 @@
 														<option
 															v-bind:key="i"
 															v-for="(materiaal, i) in getOverigeMaterialen"
-															>{{ materiaal.naam }}</option
-														>
+														>{{ materiaal.naam }}</option>
 													</optgroup>
 												</select>
 											</div>
@@ -181,7 +189,10 @@
 									</div>
 								</draggable>
 								<hr />
-								<AddButton @add="newMaat" :text="'Voeg onderdeel toe'" />
+								<AddButton
+									@add="newMaat"
+									:text="'Voeg onderdeel toe'"
+								/>
 							</div>
 						</div>
 						<PreviousNextButton :previous="'materialen'" />
@@ -228,7 +239,9 @@ export default {
 			return this.$store.getters.werkvoorbereidingsObject("materialen");
 		},
 		getOverigeMaterialen() {
-			return this.$store.getters.werkvoorbereidingsObject("overigeMaterialen");
+			return this.$store.getters.werkvoorbereidingsObject(
+				"overigeMaterialen"
+			);
 		},
 		massief() {
 			if (this.getMaterialen) {
@@ -284,11 +297,11 @@ export default {
 		},
 		nextStep() {
 			this.setData();
-			this.$store.commit("verhoogStap", 5);
+			this.$store.dispatch("verhoogStap", 5);
 			this.$router.push("/gereedschap");
 		},
 		setData() {
-			this.$store.commit("werkvoorbereiding", {
+			this.$store.dispatch("werkvoorbereiding", {
 				...this.werkvoorbereiding,
 				maten: this.maten
 			});
@@ -305,40 +318,40 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.card-body {
-	.maten {
-		padding-top: 0.4rem;
-		margin: 0 10px;
-		border-radius: 0.2rem;
+	.card-body {
+		.maten {
+			padding-top: 0.4rem;
+			margin: 0 10px;
+			border-radius: 0.2rem;
 
-		i {
-			cursor: move; /* fallback if grab cursor is unsupported */
-			cursor: -webkit-grab;
-			cursor: grab;
+			i {
+				cursor: move; /* fallback if grab cursor is unsupported */
+				cursor: -webkit-grab;
+				cursor: grab;
+			}
+
+			i:active {
+				cursor: -webkit-grabbing;
+				cursor: grabbing;
+			}
 		}
-
-		i:active {
-			cursor: -webkit-grabbing;
-			cursor: grabbing;
+		.maten:nth-child(odd) {
+			background: rgba(0, 0, 0, 0.1);
 		}
 	}
-	.maten:nth-child(odd) {
-		background: rgba(0, 0, 0, 0.1);
+
+	.grabbing {
+		cursor: move;
+		/* fallback if grab cursor is unsupported */
+		cursor: grab;
+		cursor: -moz-grab;
+		cursor: -webkit-grab;
 	}
-}
 
-.grabbing {
-	cursor: move;
-	/* fallback if grab cursor is unsupported */
-	cursor: grab;
-	cursor: -moz-grab;
-	cursor: -webkit-grab;
-}
-
-/* (Optional) Apply a "closed-hand" cursor during drag operation. */
-.grabbing:active {
-	cursor: grabbing;
-	cursor: -moz-grabbing;
-	cursor: -webkit-grabbing;
-}
+	/* (Optional) Apply a "closed-hand" cursor during drag operation. */
+	.grabbing:active {
+		cursor: grabbing;
+		cursor: -moz-grabbing;
+		cursor: -webkit-grabbing;
+	}
 </style>
