@@ -4,9 +4,7 @@
 			<div class="row justify-content-center">
 				<div class="col-md-8 col-lg-6 col-xl-5">
 					<div class="card">
-						<CardHeader
-							:text="{ title: 'Exporteren', subtitle: 'Je WVB extern opslaan' }"
-						/>
+						<CardHeader :text="{ title: 'Exporteren', subtitle: 'Je WVB extern opslaan' }" />
 						<div class="card-body">
 							<div class="row mb-2">
 								<div class="col-md-12">
@@ -28,22 +26,17 @@
 												downloaden als een afbeelding of PDF.
 											</p>
 											<p>
-												<strong>Let op: </strong>Dit bestand kun je later
+												<strong>Let op:</strong>Dit bestand kun je later
 												<u>niet</u> opnieuw inlezen in dit programma. Gebruik
-												daar de <u>opslaan</u> knop voor.
+												daar de
+												<u>opslaan</u> knop voor.
 											</p>
 
 											<div class="socialIcons">
-												<div
-													class="socialIcon facebook"
-													@click="opslaanAlsCanvas('image')"
-												>
+												<div class="socialIcon facebook" @click="opslaanAlsCanvas('image')">
 													<i class="far fa-image"></i>
 												</div>
-												<div
-													class="socialIcon mail"
-													@click="opslaanAlsCanvas('pdf')"
-												>
+												<div class="socialIcon mail" @click="opslaanAlsCanvas('pdf')">
 													<i class="far fa-file-pdf"></i>
 												</div>
 											</div>
@@ -53,11 +46,7 @@
 							</div>
 							<div class="row mb-2">
 								<div class="col-md-12">
-									<button
-										type="button"
-										class="btn btn-block btn-fill"
-										@click="opslaanAlsJson()"
-									>
+									<button type="button" class="btn btn-block btn-fill" @click="opslaanAlsJson()">
 										<i class="fas fa-save float-left"></i>
 										Exporteren
 									</button>
@@ -80,14 +69,14 @@
 									<div class="collapse" id="shareButtons">
 										<div class="card card-body my-0">
 											<p v-if="!wvbid && !userid">
-												<strong>Let op: </strong> Eerst inloggen!
+												<strong>Let op:</strong> Eerst inloggen!
 											</p>
 											<p>
 												Deze functies werken alleen als je bent ingelogd en een
 												werkvoorbereiding hebt geselecteerd.
 											</p>
 											<p v-if="!wvbid && userid">
-												<strong>Let op: </strong> Je hebt geen werkvoorbereiding
+												<strong>Let op:</strong> Je hebt geen werkvoorbereiding
 												geselecteerd om te delen
 											</p>
 
@@ -143,206 +132,226 @@
 </template>
 
 <script>
-import * as FileSaver from "file-saver";
-import * as jsPDF from "jspdf";
-import html2canvas from "html2canvas";
-import CardHeader from "@/components/Card-header.vue";
+	import * as FileSaver from "file-saver";
+	import * as jsPDF from "jspdf";
+	import html2canvas from "html2canvas";
+	import CardHeader from "@/components/Card-header.vue";
 
-export default {
-	name: "Exporteren",
-	components: { CardHeader },
-	computed: {
-		werkvoorbereiding() {
-			return this.$store.getters.werkvoorbereiding;
-		},
-		wvbJson() {
-			return JSON.stringify(this.werkvoorbereiding, null, "\t");
-		},
-		userid() {
-			const user = this.$store.getters.user;
-			if (user) return this.$store.getters.user.uid;
-			return false;
-		},
-		wvbid() {
-			if (this.werkvoorbereiding) return this.werkvoorbereiding.id;
-			return false;
-		}
-	},
-	methods: {
-		opslaanAlsJson() {
-			if (this.werkvoorbereiding) {
-				var blob = new Blob([this.wvbJson], {
-					type: "text/plain;charset=utf-8"
-				});
-				FileSaver.saveAs(
-					blob,
-					`Werkvoorbereiding_${this.werkvoorbereiding.basisgegevens.naam}_${this.werkvoorbereiding.basisgegevens.project}.json`
-				);
-			} else {
-				this.noAccount();
+	export default {
+		name: "Exporteren",
+		components: { CardHeader },
+		computed: {
+			werkvoorbereiding() {
+				return this.$store.getters.werkvoorbereiding;
+			},
+			wvbJson() {
+				return JSON.stringify(this.werkvoorbereiding, null, "\t");
+			},
+			userid() {
+				const user = this.$store.getters.user;
+				if (user) return this.$store.getters.user.uid;
+				return false;
+			},
+			wvbid() {
+				if (this.werkvoorbereiding) return this.werkvoorbereiding.id;
+				return false;
 			}
 		},
-		async opslaanAlsCanvas(type) {
-			if (this.werkvoorbereiding) {
-				this.$store.commit("setWaitScreen", true);
-				this.$router.push(`/share/print/${this.wvbid}`);
-
-				// makes screenshot and create canvas
-				const canvas = await this.createScreenShot(5000);
-
-				// CREATE image
-				if (type === "image") this.createImage(canvas);
-				// CREATE pdf
-				if (type === "pdf") this.createPDF(canvas);
-
-				// Reset
-				this.$router.push("/exporteren");
-				this.$store.commit("setWaitScreen", false);
-			} else {
-				this.noAccount();
-			}
-		},
-		createScreenShot(timeout) {
-			return new Promise(resolve => {
-				setTimeout(async () => {
-					const el = document.getElementsByClassName("content")[0];
-					resolve(
-						await html2canvas(el, {
-							logging: false,
-							allowTaint: true
-						})
+		methods: {
+			opslaanAlsJson() {
+				if (this.werkvoorbereiding) {
+					var blob = new Blob([this.wvbJson], {
+						type: "text/plain;charset=utf-8"
+					});
+					FileSaver.saveAs(
+						blob,
+						`Werkvoorbereiding_${this.werkvoorbereiding.basisgegevens.naam}_${this.werkvoorbereiding.basisgegevens.project}.json`
 					);
-				}, timeout);
-			});
-		},
-		createImage(canvas) {
-			let _this = this;
-			// CREATE PNG
-			canvas.toBlob(blob => {
-				// Generate file download
-				FileSaver.saveAs(
-					blob,
-					`Werkvoorbereiding_${_this.werkvoorbereiding.basisgegevens.naam}_${_this.werkvoorbereiding.basisgegevens.project}.png`
-				);
-			});
-		},
-		createPDF(canvas) {
-			const imgData = canvas.toDataURL("image/png");
-			const imgWidth = 210;
-			const pageHeight = 295;
-			const imgHeight = (canvas.height * imgWidth) / canvas.width;
-			const doc = new jsPDF("p", "mm");
+					this.succesMessage();
+				} else {
+					this.noAccount();
+				}
+			},
+			async opslaanAlsCanvas(type) {
+				if (this.werkvoorbereiding) {
+					this.$store.commit("setWaitScreen", true);
+					this.$router.push(`/share/print/${this.wvbid}`);
 
-			let heightLeft = imgHeight;
-			let position = 0; // give some top padding to first page
+					// makes screenshot and create canvas
+					const canvas = await this.createScreenShot(5000);
 
-			doc.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight + 10);
-			heightLeft -= pageHeight;
+					// CREATE image
+					if (type === "image") this.createImage(canvas);
+					// CREATE pdf
+					if (type === "pdf") this.createPDF(canvas);
 
-			while (heightLeft >= 0) {
-				position = heightLeft - imgHeight;
-				doc.addPage();
+					// Reset
+					this.$router.push("/exporteren");
+					this.$store.commit("setWaitScreen", false);
+				} else {
+					this.noAccount();
+				}
+			},
+			createScreenShot(timeout) {
+				return new Promise(resolve => {
+					setTimeout(async () => {
+						const el = document.getElementsByClassName("content")[0];
+						resolve(
+							await html2canvas(el, {
+								logging: false,
+								allowTaint: true
+							})
+						);
+					}, timeout);
+				});
+			},
+			createImage(canvas) {
+				let _this = this;
+				// CREATE PNG
+				canvas.toBlob(blob => {
+					// Generate file download
+					FileSaver.saveAs(
+						blob,
+						`Werkvoorbereiding_${_this.werkvoorbereiding.basisgegevens.naam}_${_this.werkvoorbereiding.basisgegevens.project}.png`
+					);
+				});
+				this.succesMessage();
+			},
+			createPDF(canvas) {
+				const imgData = canvas.toDataURL("image/png");
+				const imgWidth = 210;
+				const pageHeight = 295;
+				const imgHeight = (canvas.height * imgWidth) / canvas.width;
+				const doc = new jsPDF("p", "mm");
+
+				let heightLeft = imgHeight;
+				let position = 0; // give some top padding to first page
+
 				doc.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight + 10);
 				heightLeft -= pageHeight;
-			}
 
-			doc.save(
-				`Werkvoorbereiding_${this.werkvoorbereiding.basisgegevens.naam}_${this.werkvoorbereiding.basisgegevens.project}.pdf`
-			);
-		},
-		noAccount() {
-			window.Swal.fire({
-				title: "Geen werkvoorbereiding",
-				text:
-					"Er is geen werkvoorbereiding in gebruik. Selecteer een werkvoorbereiding of maak een nieuwe aan.",
-				confirmButtonColor: "#F33527",
-				confirmButtonText: "Ik begrijp het!",
-				type: "error"
-			});
+				while (heightLeft >= 0) {
+					position = heightLeft - imgHeight;
+					doc.addPage();
+					doc.addImage(
+						imgData,
+						"PNG",
+						0,
+						position,
+						imgWidth,
+						imgHeight + 10
+					);
+					heightLeft -= pageHeight;
+				}
+
+				doc.save(
+					`Werkvoorbereiding_${this.werkvoorbereiding.basisgegevens.naam}_${this.werkvoorbereiding.basisgegevens.project}.pdf`
+				);
+				this.succesMessage();
+			},
+			succesMessage() {
+				window.Swal.mixin({
+					type: "success",
+					title: "Data succesvol geëxporteerd",
+					toast: true,
+					position: "top-end",
+					showConfirmButton: false,
+					timer: 3000
+				}).fire();
+			},
+			noAccount() {
+				window.Swal.fire({
+					title: "Geen werkvoorbereiding",
+					text:
+						"Er is geen werkvoorbereiding in gebruik. Selecteer een werkvoorbereiding of maak een nieuwe aan.",
+					confirmButtonColor: "#F33527",
+					confirmButtonText: "Ik begrijp het!",
+					type: "error"
+				});
+			}
 		}
-	}
-};
+	};
 </script>
 
 <style lang="scss">
-button {
-	i {
-		font-size: 1rem;
+	button {
+		i {
+			font-size: 1rem;
+		}
 	}
-}
 
-.fullWidth {
-	width: 100%;
-}
-
-.hide {
-	display: none;
-}
-
-.socialIcons {
-	display: flex;
-	width: 100%;
-	justify-content: center;
-
-	p {
+	.fullWidth {
 		width: 100%;
 	}
-}
 
-.socialIcon {
-	margin: 5px;
-	width: 50px;
-	height: 50px;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	border-radius: 5px;
-	cursor: pointer;
-
-	i {
-		font-size: 30px;
-		color: white;
+	.hide {
+		display: none;
 	}
-}
 
-.socialIcon-small {
-	width: 30px !important;
-	height: 30px !important;
-	i {
-		font-size: 15px !important;
+	.socialIcons {
+		display: flex;
+		width: 100%;
+		justify-content: center;
+
+		p {
+			width: 100%;
+		}
 	}
-}
 
-.mail {
-	background: #dd4b39;
-}
+	.socialIcon {
+		margin: 5px;
+		width: 50px;
+		height: 50px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		border-radius: 5px;
+		cursor: pointer;
 
-.facebook {
-	background: #3b5998;
-}
+		i {
+			font-size: 30px;
+			color: white;
+		}
+	}
 
-.twitter {
-	background: #55acee;
-}
+	.socialIcon-small {
+		width: 30px !important;
+		height: 30px !important;
+		i {
+			font-size: 15px !important;
+		}
+	}
 
-.linkedin {
-	background: #0077b5;
-}
+	.mail {
+		background: #dd4b39;
+	}
 
-.whatsapp {
-	background: #25d366;
-}
+	.facebook {
+		background: #3b5998;
+	}
 
-.google {
-	background: #ea4335;
-}
+	.twitter {
+		background: #55acee;
+	}
 
-.microsoft {
-	background: #03a5f0;
-}
+	.linkedin {
+		background: #0077b5;
+	}
 
-.disabledIcon {
-	opacity: 30%;
-	cursor: not-allowed;
-}
+	.whatsapp {
+		background: #25d366;
+	}
+
+	.google {
+		background: #ea4335;
+	}
+
+	.microsoft {
+		background: #03a5f0;
+	}
+
+	.disabledIcon {
+		opacity: 30%;
+		cursor: not-allowed;
+	}
 </style>

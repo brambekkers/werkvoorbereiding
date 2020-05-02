@@ -2,7 +2,7 @@
 	<div class="col-md-4">
 		<div class="card card-stats mb-1">
 			<div
-				class="card-header card-header-icon "
+				class="card-header card-header-icon"
 				:class="[status ? 'card-header-success' : 'card-header-rose']"
 			>
 				<div class="card-icon p-0">
@@ -22,10 +22,10 @@
 </template>
 
 <script>
-export default {
-	name: "HelloWorld",
-	props: ["text", "status", "time"],
-};
+	export default {
+		name: "Status",
+		props: ["text", "status", "time"]
+	};
 </script>
 
 <style scoped lang="scss"></style>
