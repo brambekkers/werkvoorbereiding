@@ -3,7 +3,9 @@ import router from '@/router'
 export default {
     state: {
         user: null,
-        userData: {},
+        userData: {
+            alleWVB: [],
+        },
     },
     getters: {
         user(state) {
@@ -123,7 +125,7 @@ export default {
                 try {
                     await getters.fb.auth().signOut();
                     commit('resetInstellingen');
-                    commit('werkvoorbereiding', null);
+                    commit('userData', { alleWVB: [] });
                     router.push("/");
                     resolve(true);
                 } catch (error) {

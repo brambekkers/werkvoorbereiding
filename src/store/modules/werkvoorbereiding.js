@@ -69,6 +69,9 @@ export default {
                 state.currentWvb = null
                 return
             }
+
+            if (!rootState.User.userData.alleWVB) rootState.User.userData.alleWVB = []
+
             // Totaly new WVB becouse there is no ID given
             // Make new wvb if wvb does not exist or there is no wvb.ID
             else if (!werkvoorbereiding.id) {
