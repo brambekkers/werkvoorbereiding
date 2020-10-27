@@ -2,7 +2,7 @@ export default {
 	Voorbereiding: {
 		Ontwerp: ['Maten opnemen', 'Maten opzoeken', 'Ontwerpen'],
 		Tekenen: ['Tekening maken', 'CAM programmeren', 'Schetsen', 'Uitslag maken'],
-		Werkvoobereiding: ['Materiaal inkopen', 'Offertes opvragen', 'Werkvoorbereiding maken']
+		Werkvoorbereiding: ['Materiaal inkopen', 'Offertes opvragen', 'Werkvoorbereiding maken']
 	},
 	Machinale: {
 		'Algemene bewerkingen': [
@@ -32,7 +32,7 @@ export default {
 	Werkplaats: {
 		Voorbereidingen: ['Afschrijven', 'Paren', 'Onderhoud', 'Opruimen'],
 		'Algemene bewerkingen': ['Afschrijven', 'Frezen', 'Schroeven', 'Steken', 'Zagen', 'Schaven'],
-		Verbindingen: ['Pen-gatverbinding', 'Tandverbinding', 'Zwaluwstaartverbinding', 'Lamello', 'Domino'],
+		Verbindingen: ['Pen-gatverbinding', 'Tandverbinding', 'Zwaluwstaartverbinding', 'Lamello', 'Domino', 'Deuvel'],
 		Montage: ['Fineer plakken', 'Kantenband', 'Lijmen'],
 		Afmontage: ['Afhangen', 'Stellen'],
 		Afwerken: ['Schuren', 'Olieen', 'Lakken', 'In was zetten', 'Kanten breken']

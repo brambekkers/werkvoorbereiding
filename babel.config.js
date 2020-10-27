@@ -1,5 +1,10 @@
 module.exports = {
   presets: [
-    '@vue/app'
+    ['@vue/app', {
+      polyfills: [
+        'es.promise',
+        'es.symbol'
+      ]
+    }]
   ]
 }

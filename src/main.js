@@ -8,12 +8,12 @@ import bootstrap from "bootstrap";
 import "bootstrap-vue/dist/bootstrap-vue.css";
 import './registerServiceWorker'
 
+import VueSocialSharing from 'vue-social-sharing'
+Vue.use(VueSocialSharing);
 
-const SocialSharing = require('vue-social-sharing');
 window.$ = require('jquery')
 window.Swal = require('sweetalert2')
 
-Vue.use(SocialSharing);
 Vue.use(BootstrapVue)
 
 Vue.config.productionTip = true
