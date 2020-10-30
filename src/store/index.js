@@ -49,7 +49,6 @@ export default new Vuex.Store({
         sidebar(state, boolean) {
             state.appData.sidebar = boolean;
         },
-
         instellingen(state, instellingen) {
             state.appData.instellingen = instellingen;
         },
@@ -107,7 +106,6 @@ export default new Vuex.Store({
         dashboard(state) {
             return state.dashboard;
         },
-
         hexColor(state, getters) {
             if (getters.instellingen.kleur === 'roze') return '#e91e63';
             if (getters.instellingen.kleur === 'rood') return '#e53935';

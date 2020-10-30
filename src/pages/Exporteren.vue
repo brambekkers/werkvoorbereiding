@@ -42,7 +42,7 @@
 													<i class="far fa-image"></i>
 												</div>
 												<div
-													class="socialIcon mail"
+													class="socialIcon email"
 													@click="opslaanAlsCanvas('pdf')"
 												>
 													<i class="far fa-file-pdf"></i>
@@ -129,7 +129,7 @@
 
 <script>
 import * as FileSaver from "file-saver";
-import * as jsPDF from "jspdf";
+import { jsPDF } from "jspdf";
 import html2canvas from "html2canvas";
 import CardHeader from "@/components/Card-header.vue";
 
@@ -138,7 +138,7 @@ export default {
 	data() {
 		return {
 			shares: [
-				{ network: "email", icon: "fab fa-envelope" },
+				{ network: "email", icon: "fas fa-envelope" },
 				{ network: "whatsapp", icon: "fab fa-whatsapp" },
 				{ network: "twitter", icon: "fab fa-twitter" },
 				{ network: "linkedin", icon: "fab fa-linkedin" },
