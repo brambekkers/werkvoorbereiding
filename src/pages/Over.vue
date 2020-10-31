@@ -52,11 +52,11 @@
 										<tbody>
 											<tr>
 												<th>Versie:</th>
-												<td>2.9.3</td>
+												<td>2.9.8</td>
 											</tr>
 											<tr>
 												<th>Laatst bijgewerkt:</th>
-												<td>8-12-2019</td>
+												<td>30-10-2020</td>
 											</tr>
 											<tr>
 												<th>Gebouwd met:</th>

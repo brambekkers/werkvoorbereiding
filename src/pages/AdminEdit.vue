@@ -33,10 +33,16 @@
 						<h4 class="card-title">Acties</h4>
 					</div>
 					<div class="card-body">
-						<button class="btn btn-sm btn-block" @click="findProblems()">
+						<button
+							class="btn btn-sm btn-block"
+							@click="findProblems()"
+						>
 							Find Problems
 						</button>
-						<button class="btn btn-sm btn-block" @click="FixProblems()">
+						<button
+							class="btn btn-sm btn-block"
+							@click="fixProblems()"
+						>
 							Fix Problems
 						</button>
 					</div>
@@ -155,7 +161,9 @@ export default {
 		findProblems() {
 			this.getRequest("findErrors", "problems");
 		},
-		fixProblems() {},
+		fixProblems() {
+			this.getRequest("fixErrors", "problems");
+		},
 		getRequest(link, key) {
 			const isServices =
 				key === "server" || key === "auth" || key === "database";
@@ -179,8 +187,9 @@ export default {
 		},
 		getCurrentTime() {
 			const today = new Date();
-			const date = `${today.getDate()}-${today.getMonth() +
-				1}-${today.getFullYear()}`;
+			const date = `${today.getDate()}-${
+				today.getMonth() + 1
+			}-${today.getFullYear()}`;
 			const time = `${today.getHours()}:${today.getMinutes()}:${today.getSeconds()}`;
 			return `${date} ${time}`;
 		},
