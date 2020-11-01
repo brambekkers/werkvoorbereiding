@@ -1,19 +1,10 @@
 <template>
     <div class="col-12">
-        <WaitScreen
-            v-if="!selectedUser && users.length === 0"
-            :msg="'De userdata wordt opgehaald...'"
-        />
+        <WaitScreen v-if="!selectedUser && users.length === 0" :msg="'De userdata wordt opgehaald...'" />
         <template v-else-if="!selectedUser && users.length > 0">
             <!-- Search -->
             <div class="form-inline justify-content-end mb-2">
-                <input
-                    class="form-control mr-sm-8 w-25"
-                    type="search"
-                    placeholder="Zoeken"
-                    aria-label="Search"
-                    v-model="filter"
-                />
+                <input class="form-control mr-sm-8 w-25" type="search" placeholder="Zoeken" aria-label="Search" v-model="filter" />
             </div>
             <!-- TABLE -->
             <b-table
@@ -38,15 +29,9 @@
             <div class="bottomNavBar">
                 <div id="pageAmountContainer" class="input-group mb-3">
                     <div class="input-group-prepend">
-                        <label class="input-group-text" for="pageAmount"
-                            >Users per pagina</label
-                        >
+                        <label class="input-group-text" for="pageAmount">Users per pagina</label>
                     </div>
-                    <select
-                        v-model="perPage"
-                        class="custom-select"
-                        id="pageAmount"
-                    >
+                    <select v-model="perPage" class="custom-select" id="pageAmount">
                         <option value="10">10</option>
                         <option value="20">20</option>
                         <option value="50">50</option>
@@ -56,19 +41,11 @@
                 </div>
 
                 <ul class="pagination d-flex justify-content-center mt-2">
-                    <b-pagination
-                        v-model="currentPage"
-                        :total-rows="userList.length"
-                        :per-page="perPage"
-                    />
+                    <b-pagination v-model="currentPage" :total-rows="userList.length" :per-page="perPage" />
                 </ul>
             </div>
         </template>
-        <AdminUserDetail
-            :user="selectedUser"
-            @closeDetail="closeDetail"
-            v-else
-        />
+        <AdminUserDetail :user="selectedUser" @closeDetail="closeDetail" v-else />
     </div>
 </template>
 
@@ -128,19 +105,10 @@ export default {
             if (this.filter.length) {
                 return this.users.filter((user) => {
                     if (user.profiel) {
-                        const checks = [
-                            "voornaam",
-                            "achternaam",
-                            "id",
-                            "email"
-                        ];
+                        const checks = ["voornaam", "achternaam", "id", "email"];
 
                         for (const check of checks) {
-                            if (
-                                user.profiel[check] &&
-                                user.profiel[check].match(this.filter)
-                            )
-                                return user;
+                            if (user.profiel[check] && user.profiel[check].match(this.filter)) return user;
                         }
                     }
                 });
@@ -151,9 +119,7 @@ export default {
             return Object.keys(this.users).length;
         },
         darkMode() {
-            return this.$store.getters.instellingen.modus === "licht"
-                ? false
-                : true;
+            return this.$store.getters.instellingen.modus === "licht" ? false : true;
         }
     },
     methods: {
@@ -167,7 +133,7 @@ export default {
                 return 0;
             }
         },
-        setSelectedUser(data, num) {
+        setSelectedUser(data) {
             this.selectedUser = data;
         },
         closeDetail() {

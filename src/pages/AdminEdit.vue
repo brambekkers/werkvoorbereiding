@@ -1,5 +1,5 @@
 <template>
-	<div class="content">
+	<div class="content my-0">
 		<!-- Status -->
 		<div class="row">
 			<Status

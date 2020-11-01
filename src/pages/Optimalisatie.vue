@@ -1,7 +1,7 @@
 <template>
 	<div class="content">
 		<div class="container-fluid" v-if="werkvoorbereiding">
-			<div class="card  card-stats">
+			<div class="card card-stats">
 				<div class="card-header card-header-success card-header-icon">
 					<div class="card-icon">
 						<i class="fas fa-list-alt fa-2x"></i>
@@ -24,49 +24,49 @@
 </template>
 
 <script>
-import ZaagoptimalistiePartList from "@/components/zaagoptimalisatie/Zaagoptimalisatie-partlist.vue";
-import ZaagoptimalistieSheetList from "@/components/zaagoptimalisatie/Zaagoptimalisatie-sheetlist.vue";
-import DashboardOptimalisatie from "@/components/dashboard/Dashboard-optimalisatie.vue";
-import Optimalisatie from "@/components/zaagoptimalisatie/Optimalisatie.js";
+	import ZaagoptimalistiePartList from "@/components/zaagoptimalisatie/Zaagoptimalisatie-partlist.vue";
+	import ZaagoptimalistieSheetList from "@/components/zaagoptimalisatie/Zaagoptimalisatie-sheetlist.vue";
+	import DashboardOptimalisatie from "@/components/dashboard/Dashboard-optimalisatie.vue";
 
-export default {
-	name: "Zaagoptimalisatie",
-	components: {
-		ZaagoptimalistiePartList,
-		ZaagoptimalistieSheetList,
-		DashboardOptimalisatie
-	},
-	computed: {
-		werkvoorbereiding() {
-			return this.$store.getters.werkvoorbereiding;
+	export default {
+		name: "Zaagoptimalisatie",
+		components: {
+			ZaagoptimalistiePartList,
+			ZaagoptimalistieSheetList,
+			DashboardOptimalisatie
 		},
-		getMaterialen() {
-			return this.$store.getters.werkvoorbereidingsObject("materialen");
-		},
-		getMaten() {
-			return this.$store.getters.werkvoorbereidingsObject("maten");
-		},
-		getPlaatmateriaal() {
-			return this.getMaterialen.plaatmateriaal;
-		},
-		getPlaatmateriaalParts() {
-			if (this.getMaten) {
-				const pm = this.getPlaatmateriaal;
-				return this.getMaten.filter(m => {
-					if (pm) return pm.filter(gm => gm.naam === m.materiaal).length;
-				});
+		computed: {
+			werkvoorbereiding() {
+				return this.$store.getters.werkvoorbereiding;
+			},
+			getMaterialen() {
+				return this.$store.getters.werkvoorbereidingsObject("materialen");
+			},
+			getMaten() {
+				return this.$store.getters.werkvoorbereidingsObject("maten");
+			},
+			getPlaatmateriaal() {
+				return this.getMaterialen.plaatmateriaal;
+			},
+			getPlaatmateriaalParts() {
+				if (this.getMaten) {
+					const pm = this.getPlaatmateriaal;
+					return this.getMaten.filter(m => {
+						if (pm)
+							return pm.filter(gm => gm.naam === m.materiaal).length;
+					});
+				}
 			}
 		}
-	}
-};
+	};
 </script>
 
 <style scoped lang="scss">
-table {
-	box-shadow: none;
-}
+	table {
+		box-shadow: none;
+	}
 
-.sheetCanvas {
-	border: solid black 2px;
-}
+	.sheetCanvas {
+		border: solid black 2px;
+	}
 </style>
