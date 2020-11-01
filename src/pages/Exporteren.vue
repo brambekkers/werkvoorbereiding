@@ -198,6 +198,16 @@
 					this.noAccount();
 				}
 			},
+			succesMessage() {
+				window.Swal.mixin({
+					type: "success",
+					title: "Data succesvol geëxporteerd",
+					toast: true,
+					position: "top-end",
+					showConfirmButton: false,
+					timer: 3000,
+				}).fire();
+			},
 			async opslaanAlsCanvas(type) {
 				if (this.werkvoorbereiding) {
 					this.$store.commit("setWaitScreen", true);
