@@ -73,7 +73,7 @@
 													triggers="hover"
 													placement="top"
 												>
-													{{ input.tooltip_naam }}
+													{{ input.tooltip_prijs }}
 												</b-tooltip>
 											</div>
 										</div>
@@ -135,7 +135,7 @@ export default {
 		CardHeader,
 		AddButton,
 		DeleteButton,
-		PreviousNextButton
+		PreviousNextButton,
 	},
 	data() {
 		return {
@@ -146,7 +146,7 @@ export default {
 				prefix: `€ `,
 				suffix: "",
 				precision: 0,
-				masked: false
+				masked: false,
 			},
 			moneyPlaat: {
 				decimal: ",",
@@ -154,7 +154,7 @@ export default {
 				prefix: `€ `,
 				suffix: "",
 				precision: 2,
-				masked: false
+				masked: false,
 			},
 			inputs: {
 				massief: {
@@ -163,8 +163,7 @@ export default {
 					placeholder_naam: "Massief houtsoort",
 					placeholder_prijs: "Prijs m3",
 					tooltip_naam: "Wat is de naam van de houtsoort?",
-					tooltip_prijs:
-						"Hoeveel kost deze houtsoort per m3? Bijv. 1800 euro"
+					tooltip_prijs: "Hoeveel kost deze houtsoort per m3? Bijv. 1800 euro",
 				},
 				plaatmateriaal: {
 					title: "Plaatmateriaal",
@@ -173,7 +172,7 @@ export default {
 					placeholder_prijs: "Prijs m2",
 					tooltip_naam:
 						"Naam van het plaatmateriaal incl de dikte? Bijv. MDF 12mm",
-					tooltip_prijs: "Hoeveel kost dit plaatmateriaal per m2?"
+					tooltip_prijs: "Hoeveel kost dit plaatmateriaal per m2?",
 				},
 				fineer: {
 					title: "Fineer",
@@ -181,9 +180,9 @@ export default {
 					placeholder_naam: "Fineer soort",
 					placeholder_prijs: "Prijs m2",
 					tooltip_naam: "Wat voor fineer is het?",
-					tooltip_prijs: "Hoeveel euro kost dit fineer per m2?"
-				}
-			}
+					tooltip_prijs: "Hoeveel euro kost dit fineer per m2?",
+				},
+			},
 		};
 	},
 	watch: {
@@ -191,14 +190,14 @@ export default {
 			handler() {
 				this.setData();
 			},
-			deep: true
+			deep: true,
 		},
 		werkvoorbereiding: {
 			handler() {
 				this.updateGegevens();
 			},
-			deep: true
-		}
+			deep: true,
+		},
 	},
 	computed: {
 		werkvoorbereiding() {
@@ -209,12 +208,11 @@ export default {
 		},
 		valuta() {
 			return this.$store.getters.valuta;
-		}
+		},
 	},
 	methods: {
 		updateGegevens() {
-			if (this.getMaterialen)
-				this.$set(this, "materialen", this.getMaterialen);
+			if (this.getMaterialen) this.$set(this, "materialen", this.getMaterialen);
 			else this.$set(this, "materialen", newWvb.materialen);
 
 			if (this.valuta) {
@@ -227,7 +225,7 @@ export default {
 
 			this.materialen[naam].push({
 				naam: "",
-				prijs: ""
+				prijs: "",
 			});
 		},
 		removeComponent(i, naam) {
@@ -241,17 +239,17 @@ export default {
 		setData() {
 			this.$store.dispatch("werkvoorbereiding", {
 				...this.werkvoorbereiding,
-				materialen: this.materialen
+				materialen: this.materialen,
 			});
 			this.$store.dispatch("wvbToFirebase");
-		}
+		},
 	},
 	mounted() {
 		window.$('[data-toggle="tooltip"]').tooltip({
-			delay: { show: 500, hide: 0 }
+			delay: { show: 500, hide: 0 },
 		});
 		this.updateGegevens();
-	}
+	},
 };
 </script>
 

@@ -1,5 +1,7 @@
 import uniqid from 'uniqid';
 import newWvb from '@/assets/config/newWvb.js';
+import Vue from 'vue'
+
 
 export default {
     state: {
@@ -69,11 +71,19 @@ export default {
                 state.currentWvb = null
                 return
             }
+
+            if (!rootState.User.userData.alleWVB) {
+                const userData = rootState.User.userData = []
+                Vue.set(userData, alleWVB, [])
+            }
+
             // Totaly new WVB becouse there is no ID given
             // Make new wvb if wvb does not exist or there is no wvb.ID
             else if (!werkvoorbereiding.id) {
+                const wvb = rootState.User.userData.alleWVB
                 const newWVB = { ...this.getters.newWVB, ...werkvoorbereiding }
-                rootState.User.userData.alleWVB[newWVB.id] = newWVB;
+                Vue.set(wvb, newWVB.id, newWVB)
+
                 state.currentWvb = newWVB.id
                 this.dispatch('laatsteBewerking');
                 return
@@ -89,14 +99,15 @@ export default {
         laatsteBewerking({ state, rootState }) {
             const d = new Date();
             const newDate = `${d.getDate()}-${d.getMonth() + 1}-${d.getFullYear()} ${d.getHours()}.${d.getMinutes()}`;
+            const wvb = rootState.User.userData.alleWVB[state.currentWvb]
 
-            rootState.User.userData.alleWVB[state.currentWvb].laatsteBewerking = newDate;
+            Vue.set(wvb, 'laatsteBewerking', newDate)
         },
         verhoogStap({ state, rootState }, nextStap) {
             const wvb = rootState.User.userData.alleWVB[state.currentWvb]
             if (!wvb.stap) wvb.stap = 1;
             if (wvb.stap < nextStap) {
-                wvb.stap = nextStap;
+                Vue.set(wvb, 'stap', nextStap)
                 this.dispatch('dataToFirebase', {
                     path: `alleWVB/${wvb.id}/stap`,
                     data: nextStap

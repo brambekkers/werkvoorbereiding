@@ -114,7 +114,7 @@ export default {
 					model: "project",
 					icon: "fa fa-tag fa-fw",
 					placeholder: "Project",
-					tooltip: "Wat is de naam van je project?"
+					tooltip: "Wat is de naam van je project?",
 				},
 				naam: {
 					active: true,
@@ -122,21 +122,21 @@ export default {
 					model: "naam",
 					icon: "fa fa-user fa-fw",
 					placeholder: "Voor en achternaam",
-					tooltip: "Vul hier jouw eigen naam in."
+					tooltip: "Vul hier jouw eigen naam in.",
 				},
 				klas: {
 					active: false,
 					model: "klas",
 					icon: "fa fa-graduation-cap fa-fw",
 					placeholder: "Klas",
-					tooltip: "In welke klas zit je?"
+					tooltip: "In welke klas zit je?",
 				},
 				docent: {
 					active: false,
 					model: "docent",
 					icon: "fa fa-university fa-fw",
 					placeholder: "Docent",
-					tooltip: "Van wie krijg je les?"
+					tooltip: "Van wie krijg je les?",
 				},
 
 				klant: {
@@ -144,23 +144,23 @@ export default {
 					model: "klant",
 					icon: "fa fa-user-tie fa-fw",
 					placeholder: "Klant",
-					tooltip: "Wie is de klant van het project?"
+					tooltip: "Wie is de klant van het project?",
 				},
 				orderNummer: {
 					active: false,
 					model: "orderNummer",
 					icon: "fa fa-file-excel fa-fw",
 					placeholder: "Ordernummer",
-					tooltip: "Wat is het ordernummer van de opdracht?"
+					tooltip: "Wat is het ordernummer van de opdracht?",
 				},
 				bedrijf: {
 					active: false,
 					model: "bedrijf",
 					icon: "fa fa-building fa-fw",
 					placeholder: "Bedrijf",
-					tooltip: "Wat is de bedrijfsnaam?"
-				}
-			}
+					tooltip: "Wat is de bedrijfsnaam?",
+				},
+			},
 		};
 	},
 	watch: {
@@ -168,27 +168,25 @@ export default {
 			handler() {
 				this.setData();
 			},
-			deep: true
+			deep: true,
 		},
 		werkvoorbereiding: {
 			handler() {
 				this.updateGegevens();
 			},
-			deep: true
-		}
+			deep: true,
+		},
 	},
 	computed: {
 		werkvoorbereiding() {
 			return this.$store.getters.werkvoorbereiding;
 		},
 		getBasisgegevens() {
-			return this.$store.getters.werkvoorbereidingsObject(
-				"basisgegevens"
-			);
+			return this.$store.getters.werkvoorbereidingsObject("basisgegevens");
 		},
 		hexColor() {
 			return this.$store.getters.hexColor;
-		}
+		},
 	},
 	methods: {
 		updateGegevens() {
@@ -210,22 +208,22 @@ export default {
 		setData() {
 			this.$store.dispatch("werkvoorbereiding", {
 				...this.werkvoorbereiding,
-				basisgegevens: this.basisgegevens
+				basisgegevens: this.basisgegevens,
 			});
 			this.$store.dispatch("wvbToFirebase");
 		},
 		changeInput(input) {
 			input.active = !input.active;
-		}
+		},
 	},
 	mounted() {
 		this.updateGegevens();
-		window.$("#dd-inputs").on("hide.bs.dropdown", e => {
+		window.$("#dd-inputs").on("hide.bs.dropdown", (e) => {
 			if (e.clickEvent) {
 				e.preventDefault();
 			}
 		});
-	}
+	},
 };
 </script>
 

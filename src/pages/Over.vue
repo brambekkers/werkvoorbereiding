@@ -4,9 +4,7 @@
 			<div class="row justify-content-center">
 				<div class="col-xl-8">
 					<div class="card">
-						<CardHeader
-							:text="{ title: 'Over', subtitle: 'Wat, wie en hoe' }"
-						/>
+						<CardHeader :text="{ title: 'Over', subtitle: 'Wat, wie en hoe' }" />
 						<div class="card-body">
 							<div class="row">
 								<div class="col-12">
@@ -14,7 +12,7 @@
 									<p>
 										De werkvoorbereider.nl is een online rekenprogramma ten
 										behoeve van de werkvoorbereiding. Met deze tool kun je
-										gemakkelijk de tijd en kosten bereken voor het maken van een
+										gemakkelijk de tijd en kosten berekenen voor het maken van een
 										product. Je krijgt grafisch een mooi inzicht in de kosten en
 										tijd per onderwerp. Dit alles is gemakkelijk te exporteren
 										en te printen.
@@ -54,11 +52,11 @@
 										<tbody>
 											<tr>
 												<th>Versie:</th>
-												<td>2.9.3</td>
+												<td>2.9.8</td>
 											</tr>
 											<tr>
 												<th>Laatst bijgewerkt:</th>
-												<td>8-12-2019</td>
+												<td>30-10-2020</td>
 											</tr>
 											<tr>
 												<th>Gebouwd met:</th>
@@ -86,7 +84,7 @@ import CardHeader from "@/components/Card-header.vue";
 export default {
 	name: "Over",
 	components: { CardHeader },
-	computed: {}
+	computed: {},
 };
 </script>
 
