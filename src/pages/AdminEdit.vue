@@ -130,8 +130,12 @@
 					this.disconnect();
 				}
 			},
-			checkServerStatus() {
-				this.getRequest("", "server");
+			AxiosConfig: {
+				headers: { "Access-Control-Allow-Origin": "*" },
+				proxy: {
+					host: "http://localhost:3000/",
+					port: 3000,
+				},
 			},
 			getUsersFromAuth() {
 				this.getRequest("getUsersFromAuth", "auth");
@@ -186,4 +190,3 @@
 	};
 </script>
 
-<style scoped></style>
