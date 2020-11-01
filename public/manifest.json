@@ -1,0 +1,16 @@
+{
+	"name": "De werkvoorbereider",
+	"short_name": "WVB",
+	"start_url": "/",
+	"icons": [
+		{
+			"src": "/img/werkvoorbereiding192.png",
+			"type": "image/png",
+			"sizes": "192x192"
+		}
+	],
+	"theme_color": "#65BA69",
+	"background_color": "#FFFFFF",
+	"display": "fullscreen",
+	"scope": "/"
+}
