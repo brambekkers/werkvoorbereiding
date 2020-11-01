@@ -28,6 +28,7 @@
         "v-money": "^0.8.1",
         "vue": "^2.6.12",
         "vue-chartjs": "^3.5.1",
+        "vue-json-component": "^0.4.1",
         "vue-router": "^3.4.8",
         "vue-social-sharing": "^3.0.3",
         "vue2-animate": "^2.1.4",

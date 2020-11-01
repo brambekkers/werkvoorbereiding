@@ -6,10 +6,10 @@
 				v-for="(item, key) in services"
 				:key="`card_${key}`"
 				:status="
-                    typeof item.data === 'boolean'
-                        ? item.data
-                        : item.data.length
-                "
+					typeof item.data === 'boolean'
+						? item.data
+						: item.data.length
+				"
 				:text="item.text"
 				:time="item.time"
 			/>
@@ -81,7 +81,7 @@
 						btnColorOnConnect: "btn-rose",
 						btnColorOnDisconnect: "btn-success",
 						btnTextOnConnect: "Disconnect",
-						btnTextOnDisconnect: "Connect"
+						btnTextOnDisconnect: "Connect",
 					},
 					auth: {
 						loading: false,
@@ -92,7 +92,7 @@
 						btnColorOnConnect: "",
 						btnColorOnDisconnect: "btn-success",
 						btnTextOnConnect: "Reload user data",
-						btnTextOnDisconnect: "Get user data"
+						btnTextOnDisconnect: "Get user data",
 					},
 					database: {
 						loading: false,
@@ -103,17 +103,17 @@
 						btnColorOnConnect: "",
 						btnColorOnDisconnect: "btn-success",
 						btnTextOnConnect: "Reload database data",
-						btnTextOnDisconnect: "Get database data"
-					}
+						btnTextOnDisconnect: "Get database data",
+					},
 				},
 				AxiosConfig: {
 					headers: { "Access-Control-Allow-Origin": "*" },
 					proxy: {
 						host: "http://localhost:3000/",
-						port: 3000
-					}
+						port: 3000,
+					},
 				},
-				problems: { data: [], time: null }
+				problems: { data: [], time: null },
 			};
 		},
 		methods: {
@@ -133,78 +133,56 @@
 			checkServerStatus() {
 				this.getRequest("", "server");
 			},
-			problems: { data: [], time: null },
-		};
-	},
-	methods: {
-		toggleServer() {
-			console.log("toggle server");
-			if (!this.services.server.data) {
-				console.log("connect to server");
-				this.services.server.interval = setInterval(
-					this.checkServerStatus,
-					5000
-				);
-			} else {
-				console.log("disconnect server");
-				this.disconnect();
-			}
-		},
-		checkServerStatus() {
-			this.getRequest("", "server");
-		},
-		getUsersFromAuth() {
-			this.getRequest("getUsersFromAuth", "auth");
-		},
-		getUsersFromDB() {
-			this.getRequest("getUsersFromDB", "database");
-		},
-		findProblems() {
-			this.getRequest("findErrors", "problems");
-		},
-		fixProblems() {
-			this.getRequest("fixErrors", "problems");
-		},
-		getRequest(link, key) {
-			const isServices =
-				key === "server" || key === "auth" || key === "database";
-			const data = isServices ? this.services : this;
+			getUsersFromAuth() {
+				this.getRequest("getUsersFromAuth", "auth");
+			},
+			getUsersFromDB() {
+				this.getRequest("getUsersFromDB", "database");
+			},
+			findProblems() {
+				this.getRequest("findErrors", "problems");
+			},
+			fixProblems() {
+				this.getRequest("fixErrors", "problems");
+			},
+			getRequest(link, key) {
+				const isServices =
+					key === "server" || key === "auth" || key === "database";
+				const data = isServices ? this.services : this;
 
 				data[key].loading = true;
 
-			// Make a request
-			axios
-				.get(`http://localhost:3000/${link}`, this.AxiosConfig)
-				.then((response) => {
-					data[key].loading = false;
-					data[key].data = response.data;
-					data[key].time = this.getCurrentTime();
-				})
-				.catch((error) => {
-					data[key].loading = false;
-					data[key].data = [];
-					data[key].time = null;
-				});
-		},
-		getCurrentTime() {
-			const today = new Date();
-			const date = `${today.getDate()}-${
-				today.getMonth() + 1
-			}-${today.getFullYear()}`;
-			const time = `${today.getHours()}:${today.getMinutes()}:${today.getSeconds()}`;
-			return `${date} ${time}`;
-		},
-		disconnect() {
-			clearInterval(this.services.server.interval);
+				// Make a request
+				axios
+					.get(`http://localhost:3000/${link}`, this.AxiosConfig)
+					.then((response) => {
+						data[key].loading = false;
+						data[key].data = response.data;
+						data[key].time = this.getCurrentTime();
+					})
+					.catch((error) => {
+						data[key].loading = false;
+						data[key].data = [];
+						data[key].time = null;
+					});
+			},
+			getCurrentTime() {
+				const today = new Date();
+				const date = `${today.getDate()}-${
+					today.getMonth() + 1
+				}-${today.getFullYear()}`;
+				const time = `${today.getHours()}:${today.getMinutes()}:${today.getSeconds()}`;
+				return `${date} ${time}`;
+			},
+			disconnect() {
+				clearInterval(this.services.server.interval);
 
 				for (const key in this.services) {
 					this.services[key].data = false;
 					this.services[key].time = null;
 				}
-			}
+			},
 		},
-
-		async mounted() {}
 	};
 </script>
 
