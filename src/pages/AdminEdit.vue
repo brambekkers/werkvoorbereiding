@@ -116,7 +116,6 @@ export default {
 			problems: { data: [], time: null },
 		};
 	},
-
 	methods: {
 		toggleServer() {
 			console.log("toggle server");

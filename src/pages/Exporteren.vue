@@ -165,7 +165,6 @@ export default {
 			return false;
 		},
 	},
-
 	methods: {
 		opslaanAlsJson() {
 			if (this.werkvoorbereiding) {
