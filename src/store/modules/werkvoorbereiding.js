@@ -74,7 +74,7 @@ export default {
 
             if (!rootState.User.userData.alleWVB) {
                 const userData = rootState.User.userData = []
-                Vue.set(userData, alleWVB, [])
+                Vue.set(userData, 'alleWVB', [])
             }
 
             // Totaly new WVB becouse there is no ID given
