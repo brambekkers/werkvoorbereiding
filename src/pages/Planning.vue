@@ -425,11 +425,11 @@ export default {
 		AddButtonInline,
 		DeleteButton,
 		InfoButton,
-		PreviousNextButton
+		PreviousNextButton,
 	},
 	data() {
 		return {
-			planning: newWvb.planning
+			planning: newWvb.planning,
 		};
 	},
 	watch: {
@@ -437,14 +437,14 @@ export default {
 			handler() {
 				this.setData();
 			},
-			deep: true
+			deep: true,
 		},
 		werkvoorbereiding: {
 			handler() {
 				this.updateGegevens();
 			},
-			deep: true
-		}
+			deep: true,
+		},
 	},
 	computed: {
 		werkvoorbereiding() {
@@ -466,9 +466,7 @@ export default {
 			if (this.getGereedschap) {
 				const keys = Object.keys(this.getGereedschap.gereedschap);
 				if (keys) {
-					return keys.filter(
-						key => this.getGereedschap.gereedschap[key]
-					);
+					return keys.filter((key) => this.getGereedschap.gereedschap[key]);
 				}
 			}
 			return [];
@@ -477,9 +475,7 @@ export default {
 			if (this.getGereedschap) {
 				const keys = Object.keys(this.getGereedschap.machines);
 				if (keys) {
-					return keys.filter(
-						key => this.getGereedschap.machines[key]
-					);
+					return keys.filter((key) => this.getGereedschap.machines[key]);
 				}
 			}
 			return [];
@@ -489,16 +485,14 @@ export default {
 				if (!this.getGereedschap.userMade) return [];
 				const keys = Object.keys(this.getGereedschap.userMade);
 				if (keys) {
-					return keys.filter(
-						key => this.getGereedschap.userMade[key]
-					);
+					return keys.filter((key) => this.getGereedschap.userMade[key]);
 				}
 			}
 			return [];
 		},
 		onderdeelStappen() {
 			return Object.keys(planningGegevens);
-		}
+		},
 	},
 	methods: {
 		updateGegevens() {
@@ -507,7 +501,7 @@ export default {
 		},
 		onderdelen(i) {
 			if (this.getMaten && this.getPlanning) {
-				let onderdelen = this.getMaten.filter(maten => {
+				let onderdelen = this.getMaten.filter((maten) => {
 					if (maten.component === this.getPlanning[i].component) {
 						return maten.naam;
 					}
@@ -529,7 +523,7 @@ export default {
 			this.planning.push({
 				component: "",
 				onderdeel: "",
-				stappen: []
+				stappen: [],
 			});
 			this.$forceUpdate();
 		},
@@ -544,7 +538,7 @@ export default {
 				gereedschap: "",
 				insteltijd: "",
 				stap: "",
-				werkzaamheid: ""
+				werkzaamheid: "",
 			};
 			this.planning[i].stappen.push(copy ? { ...copy } : empty);
 			this.$forceUpdate();
@@ -566,17 +560,17 @@ export default {
 		setData() {
 			this.$store.dispatch("werkvoorbereiding", {
 				...this.werkvoorbereiding,
-				planning: this.planning
+				planning: this.planning,
 			});
 			this.$store.dispatch("wvbToFirebase");
-		}
+		},
 	},
 	mounted() {
 		window.$('[data-toggle="tooltip"]').tooltip({
-			delay: { show: 500, hide: 0 }
+			delay: { show: 500, hide: 0 },
 		});
 		this.updateGegevens();
-	}
+	},
 };
 </script>
 
